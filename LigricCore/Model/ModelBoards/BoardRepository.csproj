@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JsonWebToken.KeyVault" Version="1.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Abstraction\ModelAbstractions\AbstractionBitZlatoRequests\AbstractionBitZlatoRequests.csproj" />
+    <ProjectReference Include="..\..\Abstraction\ModelAbstractions\AbstractionBoardRepository\AbstractionBoardRepository.csproj" />
+  </ItemGroup>
+
+</Project>
