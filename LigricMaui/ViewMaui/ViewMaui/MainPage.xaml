@@ -2,7 +2,7 @@
 
 
     <Grid BackgroundColor="#1E1D2C">
-        <CollectionView ItemsSource="10">
+        <CollectionView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>

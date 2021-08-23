@@ -1,9 +1,6 @@
 ﻿using AbstractionBitZlatoRequests;
 using AbstractionBitZlatoRequests.DtoTypes;
 using AbstractionRequestSender;
-using JsonWebToken;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Web;
 
 namespace BoardRepository.BitZlato.API

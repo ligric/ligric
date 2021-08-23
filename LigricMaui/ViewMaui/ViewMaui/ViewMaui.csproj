@@ -21,11 +21,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiImage
-			Include="Resources\appicon.svg"
-			ForegroundFile="Resources\appiconfg.svg"
-			IsAppIcon="true"
-			Color="#512BD4" />
+		<MauiImage Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" IsAppIcon="true" Color="#512BD4" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
@@ -35,6 +31,14 @@
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\LigricCore\AbstractionRepository\AbstractionRepository.csproj" />
+	  <ProjectReference Include="..\..\..\LigricCore\Abstraction\ModelAbstractions\AbstractionBitZlatoRequests\AbstractionBitZlatoRequests.csproj" />
+	  <ProjectReference Include="..\..\..\LigricCore\Abstraction\ModelAbstractions\AbstractionBoardRepository\AbstractionBoardRepository.csproj" />
+	  <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
+	  <ProjectReference Include="..\..\..\LigricCore\Model\ModelBoards\BoardRepository.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup>

@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{4BA4CF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractionBoardRepository", "..\LigricCore\Abstraction\ModelAbstractions\AbstractionBoardRepository\AbstractionBoardRepository.csproj", "{FDEEFC64-0BB0-433B-990E-EA0403C38AD4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractionBitZlatoRequests", "..\LigricCore\Abstraction\ModelAbstractions\AbstractionBitZlatoRequests\AbstractionBitZlatoRequests.csproj", "{FDC2916E-E9F0-423B-9CE4-E01D196CB9C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractionRepository", "..\LigricCore\AbstractionRepository\AbstractionRepository.csproj", "{79C2493D-CFFD-43BD-A226-6DFEBC381FCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +66,14 @@ Global
 		{FDEEFC64-0BB0-433B-990E-EA0403C38AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDEEFC64-0BB0-433B-990E-EA0403C38AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDEEFC64-0BB0-433B-990E-EA0403C38AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC2916E-E9F0-423B-9CE4-E01D196CB9C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC2916E-E9F0-423B-9CE4-E01D196CB9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC2916E-E9F0-423B-9CE4-E01D196CB9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC2916E-E9F0-423B-9CE4-E01D196CB9C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79C2493D-CFFD-43BD-A226-6DFEBC381FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79C2493D-CFFD-43BD-A226-6DFEBC381FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79C2493D-CFFD-43BD-A226-6DFEBC381FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79C2493D-CFFD-43BD-A226-6DFEBC381FCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +85,8 @@ Global
 		{80016E36-9BFA-421B-8A02-2A9436487CE6} = {B548C64B-A65A-4E82-9F23-565BB199625D}
 		{E86A530E-595F-49FC-BA89-512B8F80BE92} = {4BA4CF38-8598-4970-9FC9-F93051CE2CD1}
 		{FDEEFC64-0BB0-433B-990E-EA0403C38AD4} = {4BA4CF38-8598-4970-9FC9-F93051CE2CD1}
+		{FDC2916E-E9F0-423B-9CE4-E01D196CB9C1} = {4BA4CF38-8598-4970-9FC9-F93051CE2CD1}
+		{79C2493D-CFFD-43BD-A226-6DFEBC381FCD} = {4BA4CF38-8598-4970-9FC9-F93051CE2CD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC728145-D8D7-49DC-A781-4AF67D940948}

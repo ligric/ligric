@@ -1,10 +1,14 @@
-﻿using BoardRepository.BitZlato.API;
+﻿using AbstractionBitZlatoRequests;
+using AbstractionBoardRepository;
+using AbstractionBoardRepository.Interfaces;
+using BoardRepository;
+using BoardRepository.BitZlato.API;
 
 namespace MyApp // Note: actual namespace depends on the project name.
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             
 
@@ -18,12 +22,23 @@ namespace MyApp // Note: actual namespace depends on the project name.
                             "}";
             string email = "balalay16@gmail.com";
 
-            BitZlatoRequests requests = new BitZlatoRequests(apiKey, email);
-            IDictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("limit", "5");
-            parameters.Add("currency", "RUB");
-            var res = requests.GetAdsFromFilters(parameters);
-            Console.WriteLine("Hello, World!");
+            IDictionary<string, string> filters = new Dictionary<string, string>();
+            filters.Add("limit", "5");
+            filters.Add("currency", "RUB");
+
+
+            IBitZlatoRequestsService bitZlatoRequests = new BitZlatoRequests(apiKey, email);
+            IAdBoardRepositoryWIthTimer adBoardRepository = new BoardBitZlatoRepository(filters, TimeSpan.FromSeconds(5), RepositoryStateEnum.Active, "BitZlato: currency -- RUB", bitZlatoRequests);
+
+            adBoardRepository.AdsChanged += AdBoardRepository_AdsChanged;
+
+            Console.ReadLine();
+        }
+
+        private static void AdBoardRepository_AdsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, Common.DtoTypes.Board.AdReadOnlyStruct> action)
+        {
+            Console.Clear();
+           
         }
     }
 }

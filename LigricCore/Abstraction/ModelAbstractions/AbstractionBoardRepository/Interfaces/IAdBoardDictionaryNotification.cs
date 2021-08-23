@@ -1,8 +1,6 @@
 ﻿using Common.DtoTypes.Board;
-using System;
-using System.Collections.Generic;
 
-namespace AbstractionBoardRepository
+namespace AbstractionBoardRepository.Interfaces
 {
     public interface IAdBoardDictionaryNotification
     {

@@ -1,15 +1,16 @@
-﻿using Common.DtoTypes.Board;
+﻿using AbstractionBoardRepository.Interfaces;
+using Common.DtoTypes.Board;
 using System.Collections.ObjectModel;
 
-namespace AbstractionBoardRepository
+namespace AbstractionBoardRepository.Abstracts
 {
-    public abstract class AbstractAdBoardNotifications : IAdBoardRepositoryStateNotification, IAdBoardDictionaryNotification, IAdBoardNameNotification, IAdBoardFiltersNotification
+    public abstract class AbstractAdBoardNotifications : IRepositoryStateNotification, IAdBoardDictionaryNotification, IAdBoardNameNotification, IAdBoardFiltersNotification
     {
         #region RepositoryStateChanged
         public RepositoryStateEnum CurrentRepositoryState { get; private set; }
         public event ActionRepositoryStateHandler RepositoryStateChanged;
 
-        public bool SetAdBoardStateAndSendAction(RepositoryStateEnum repositoryState)
+        public virtual bool SetAdBoardStateAndSendAction(RepositoryStateEnum repositoryState)
         {
             if (repositoryState == CurrentRepositoryState)
                 return false;
@@ -24,7 +25,7 @@ namespace AbstractionBoardRepository
         #region FiltersChanged
         public IDictionary<string, string> Filters { get; private set; }
         public event ActionFiltersHandler FiltersChanged;
-        protected bool SetFiltersAndSendAction(IDictionary<string, string> newFiltres)
+        protected virtual bool SetFiltersAndSendAction(IDictionary<string, string> newFiltres)
         {
             if (Filters.Count == newFiltres.Count && !Filters.Except(newFiltres).Any())
                 return false;
@@ -41,7 +42,7 @@ namespace AbstractionBoardRepository
 
         public event ActionNameHandler NameChanged;
 
-        public bool SetNameAndSendAction(string name)
+        public virtual bool SetNameAndSendAction(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return false;
@@ -64,7 +65,7 @@ namespace AbstractionBoardRepository
         #region Методы для изменения словаря.
         ///<summary>Добавления в словарь новой пары: ключ-значение.
         /// Возвращает false, если такой ключ уже есть и добавление не было выполнено.</summary>
-        protected bool AddAdAndSendAction(long id, AdReadOnlyStruct ad)
+        protected virtual bool AddAdAndSendAction(long id, AdReadOnlyStruct ad)
         {
             if (ads.ContainsKey(id))
                 return false;
@@ -122,10 +123,29 @@ namespace AbstractionBoardRepository
 
         #endregion
 
-        /// <summary>Инициализация оболочки <see cref="Ads"/>.</summary>
+
+        /*------------------------------------------------------------------------------------------------------------------*/
+        #region Constructors
         protected AbstractAdBoardNotifications()
         {
             Ads = new ReadOnlyDictionary<long, AdReadOnlyStruct>(ads);
+            Filters = new Dictionary<string, string>();
+            CurrentRepositoryState = RepositoryStateEnum.Stoped;
         }
+
+        protected AbstractAdBoardNotifications(IDictionary<string, string> filters)
+        {
+            Ads = new ReadOnlyDictionary<long, AdReadOnlyStruct>(ads);
+            Filters = filters;
+            CurrentRepositoryState = RepositoryStateEnum.Stoped;
+        }
+
+        protected AbstractAdBoardNotifications(IDictionary<string, string> filters, RepositoryStateEnum repositoryState)
+        {
+            Ads = new ReadOnlyDictionary<long, AdReadOnlyStruct>(ads);
+            Filters = filters;
+            CurrentRepositoryState = repositoryState;
+        }
+        #endregion
     }
 }

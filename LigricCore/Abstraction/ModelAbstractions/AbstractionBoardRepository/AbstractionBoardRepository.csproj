@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\AbstractionRepository\AbstractionRepository.csproj" />
     <ProjectReference Include="..\..\..\Common\Common.csproj" />
+    <ProjectReference Include="..\AbstractionBitZlatoRequests\AbstractionBitZlatoRequests.csproj" />
   </ItemGroup>
 
 </Project>
