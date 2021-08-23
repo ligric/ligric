@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AbstractionRequestSender\AbstractionRequestSender.csproj" />
     <ProjectReference Include="..\..\Abstraction\ModelAbstractions\AbstractionBitZlatoRequests\AbstractionBitZlatoRequests.csproj" />
     <ProjectReference Include="..\..\Abstraction\ModelAbstractions\AbstractionBoardRepository\AbstractionBoardRepository.csproj" />
   </ItemGroup>

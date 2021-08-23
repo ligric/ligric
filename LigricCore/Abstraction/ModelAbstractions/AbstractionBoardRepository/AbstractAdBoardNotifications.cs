@@ -1,8 +1,5 @@
 ﻿using Common.DtoTypes.Board;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace AbstractionBoardRepository
 {
@@ -12,7 +9,7 @@ namespace AbstractionBoardRepository
         public RepositoryStateEnum CurrentRepositoryState { get; private set; }
         public event ActionRepositoryStateHandler RepositoryStateChanged;
 
-        protected bool SetRepositoryStateAndSendAction(RepositoryStateEnum repositoryState)
+        public bool SetAdBoardStateAndSendAction(RepositoryStateEnum repositoryState)
         {
             if (repositoryState == CurrentRepositoryState)
                 return false;

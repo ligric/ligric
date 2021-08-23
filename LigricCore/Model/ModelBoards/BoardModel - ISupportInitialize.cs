@@ -1,11 +1,7 @@
 ﻿using AbstractionBoardRepository;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Timers;
 
-namespace BoardRepository.BitZlato
+namespace BoardRepository
 {
     public partial class BoardBitZlatoRepository : ISupportInitializeBoardRepository, IAdBoardFiltersNotification
     {

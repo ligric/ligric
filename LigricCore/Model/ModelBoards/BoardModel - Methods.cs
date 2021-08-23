@@ -1,7 +1,6 @@
 ﻿using AbstractionBoardRepository;
-using System.Collections.Generic;
 
-namespace BoardRepository.BitZlato
+namespace BoardRepository
 {
     public partial class BoardBitZlatoRepository : IAdBoardRepository
     {
@@ -19,12 +18,18 @@ namespace BoardRepository.BitZlato
             RenderAds();
         }
 
+        public void SetAdBoardState(RepositoryStateEnum state)
+        {
+            timer.Stop();
+            SetAdBoardStateAndSendAction(state);
+            RenderAds();
+        }
+
         private void RenderAds()
         {
             timer.Stop();
             if(CurrentRepositoryState != RepositoryStateEnum.Active)
                 return;
-
 
             timer.Start();
         }

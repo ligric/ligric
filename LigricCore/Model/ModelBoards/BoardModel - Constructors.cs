@@ -1,6 +1,6 @@
 ﻿using AbstractionBoardRepository;
 
-namespace BoardRepository.BitZlato
+namespace BoardRepository
 {
     public partial class BoardBitZlatoRepository : AbstractAdBoardNotifications, IAdBoardDictionaryNotification, IAdBoardNameNotification, IAdBoardFiltersNotification
     {

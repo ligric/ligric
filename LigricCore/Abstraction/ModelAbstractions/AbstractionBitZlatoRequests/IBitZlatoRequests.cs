@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace AbstractionBitZlatoRequests
 {
-    public interface IBitZlatoRequests
+    public interface IBitZlatoRequestsService
     {
         /// <summary> Получает предложения по указанному фильтру</summary>
-        Task<ResponseDto> GetAdBoards(IDictionary<string, string> filters);
+        Task<Response<Ad[]>> GetAdsFromFilters(IDictionary<string, string> filters);
     }
 }

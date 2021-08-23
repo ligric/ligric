@@ -2,7 +2,7 @@
 
 namespace AbstractionBitZlatoRequests.DtoTypes
 {
-    public class AdDto
+    public class Ad
     {
         [JsonProperty("id")]
         public string Id { get; set; }

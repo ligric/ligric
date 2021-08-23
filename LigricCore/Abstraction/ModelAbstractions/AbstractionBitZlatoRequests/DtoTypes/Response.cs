@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace AbstractionBitZlatoRequests.DtoTypes
 {
-    public class ResponseDto
+    public class Response<T>
     {
         [JsonProperty("total")]
-        public int Total { get; set; }
+        public long Total { get; set; }
 
         [JsonProperty("data")]
-        public IList<AdDto> Data { get; set; }
+        public T Data { get; set; }
     }
 }

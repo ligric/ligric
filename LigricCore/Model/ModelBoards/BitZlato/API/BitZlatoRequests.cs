@@ -1,45 +1,40 @@
 ﻿using AbstractionBitZlatoRequests;
 using AbstractionBitZlatoRequests.DtoTypes;
+using AbstractionRequestSender;
 using JsonWebToken;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Web;
 
 namespace BoardRepository.BitZlato.API
 {
-    public class BitZlatoRequests : IBitZlatoRequests
+    public class BitZlatoRequests : IBitZlatoRequestsService
     {
-        private string apiKey;
-
-        private string email;
-
-        private static readonly Random rnd = new Random();
+        private IRequestSenderService _requestSender;
+        private const string _url = "https://bitzlato.com/api/p2p";
 
         public BitZlatoRequests(string apiKey, string email)
         {
-            this.apiKey = apiKey; this.email = email;
-        }
-
-        private string GenerateToken()
-        {
-            var privJwk = Jwk.FromJson(apiKey);
-
-            var descriptor = new JwsDescriptor()
-            {
-                Algorithm = SignatureAlgorithm.EcdsaSha256,
-                SigningKey = privJwk,
-                IssuedAt = DateTime.UtcNow,
-                Audience = "usr",
-                JwtId = rnd.Next().ToString("X"),
-                KeyId = 2.ToString()
-            };
-            descriptor.AddClaim("email", email);
-
-            var writer = new JwtWriter();
-            return writer.WriteTokenString(descriptor);
+            _requestSender = new BitZlatoRequestSenderService(apiKey, email);
         }
 
 
-        public Task<ResponseDto> GetAdBoards(IDictionary<string, string> filters)
+        public async Task<Response<Ad[]>> GetAdsFromFilters(IDictionary<string, string> filters)
         {
-            ResponseDto result;
+            //string json = JsonConvert.SerializeObject(filters, Formatting.Indented);
+            //json = HttpUtility.UrlEncode(json);
+
+            //https://bitzlato.com/api/p2p/public/exchange/dsa/
+
+            var url = $"{_url}/public/exchange/dsa/?{HttpUtility.UrlEncode(string.Join("&", filters.Select(kvp => $"{kvp.Key}={kvp.Value}")))}";
+            //string url = $"{_url}/public/exchange/dsa/?params={json}";
+            var response = await _requestSender.SendHttpRequest<Response<Ad[]>, object>(url, HttpMethod.Get, null);
+            return response;
+        }
+
+        //public Task<ResponseDto> GetAdsFromFilters(IDictionary<string, string> filters)
+        //{
+            //ResponseDto result;
             //using (var request = new HttpRequest())
             //{
             //    request.AddHeader("Bearer", GenerateToken());
@@ -64,7 +59,7 @@ namespace BoardRepository.BitZlato.API
             //    result = JsonConvert.DeserializeObject<ResponseDto>(responseJsonResult);
             //}
 
-            return null;
-        }
+           // return null;
+        //}
     }
 }

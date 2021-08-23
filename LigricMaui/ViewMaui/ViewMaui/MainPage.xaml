@@ -1,9 +1,22 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ViewMaui.MainPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
+<ContentPage x:Class="ViewMaui.MainPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Grid RowDefinitions="*,*">
+
+    <Grid BackgroundColor="#1E1D2C">
+        <CollectionView ItemsSource="10">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Frame CornerRadius="20" BackgroundColor="#1e1e1e"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        
 
     </Grid>
+    
+    
+    
 </ContentPage>
