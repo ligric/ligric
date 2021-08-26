@@ -18,45 +18,9 @@ namespace BoardRepository.BitZlato.API
 
         public async Task<Response<Ad[]>> GetAdsFromFilters(IDictionary<string, string> filters)
         {
-            //string json = JsonConvert.SerializeObject(filters, Formatting.Indented);
-            //json = HttpUtility.UrlEncode(json);
-
-            //https://bitzlato.com/api/p2p/public/exchange/dsa/
-
-            var url = $"{_url}/public/exchange/dsa/?{HttpUtility.UrlEncode(string.Join("&", filters.Select(kvp => $"{kvp.Key}={kvp.Value}")))}";
-            //string url = $"{_url}/public/exchange/dsa/?params={json}";
+            var url = $"{_url}/public/exchange/dsa/?{string.Join("&", filters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"))}";
             var response = await _requestSender.SendHttpRequest<Response<Ad[]>, object>(url, HttpMethod.Get, null);
             return response;
         }
-
-        //public Task<ResponseDto> GetAdsFromFilters(IDictionary<string, string> filters)
-        //{
-            //ResponseDto result;
-            //using (var request = new HttpRequest())
-            //{
-            //    request.AddHeader("Bearer", GenerateToken());
-
-            //    var str = JsonConvert.SerializeObject(new
-            //    {
-            //        limit = 15,
-            //        //amount = 1,
-            //        //amountType = "currency", // хз
-            //        cryptocurrency = filters["cryptocurrency"],
-            //        currency = filters["currency"],
-            //        isOwnerActive = filters["isOwnerActive"],
-            //        isOwnerVerificated = filters["isOwnerVerificated"],
-            //        lang = "ru",
-            //        skip = 0,
-            //        type = filters["type"]
-            //    });
-
-            //    var response = request.Get("https://bitzlato.com/api/p2p/public/exchange/dsa/");
-            //    string responseJsonResult = response.ToString();
-
-            //    result = JsonConvert.DeserializeObject<ResponseDto>(responseJsonResult);
-            //}
-
-           // return null;
-        //}
     }
 }

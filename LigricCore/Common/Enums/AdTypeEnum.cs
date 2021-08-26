@@ -2,7 +2,7 @@
 {
     public enum AdTypeEnum
     {
-        Sell,
-        Buy
+        Selling,
+        Buying
     }
 }

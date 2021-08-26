@@ -7,9 +7,7 @@
         /// <summary>Удалён ключ.</summary>
         Removed,
         /// <summary>Изменено значение для ключа.</summary>
-        Changed,
-        ///<summary>Очищены все ключи.</summary>
-        Cleared
+        Changed
     }
     /// <summary>Аргументы события изменения словаря.</summary>
     /// <typeparam name="TKey">Тип ключа словаря.</typeparam>
@@ -56,8 +54,5 @@
             => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Removed, key, value, default);
         public static NotifyDictionaryChangedEventArgs<TKey, TValue> ChangedValue<TKey, TValue>(TKey key, TValue oldValue, TValue newValue)
             => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Changed, key, oldValue, newValue);
-        // Создание аргумента для события извещения об очистке словаря (то есть удалении всех пар ключ-значение).
-        public static NotifyDictionaryChangedEventArgs<TKey, TValue> Cleared<TKey, TValue>()
-            => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Cleared, default, default, default);
     }
 }

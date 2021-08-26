@@ -1,7 +1,10 @@
 ﻿using AbstractionBitZlatoRequests;
+using AbstractionBitZlatoRequests.DtoTypes;
 using AbstractionBoardRepository;
 using AbstractionBoardRepository.Abstracts;
 using AbstractionBoardRepository.Interfaces;
+using Common.DtoTypes.Board;
+using Common.Enums;
 
 namespace BoardRepository
 {
@@ -69,18 +72,53 @@ namespace BoardRepository
             try
             {
                 var result = Task.Run(async () => await bitZlatoRequests.GetAdsFromFilters(Filters));
-                if (result.Result.Data != null)
-                {
 
+                if (result.Result.Data == null)
+                    return;
+
+                var list = new List<AdDto>();
+
+
+
+                foreach (var newAd in (IEnumerable<Ad>)result.Result.Data)
+                {
+                    list.Add(new AdDto(newAd.Id,
+                             new TraderDto(newAd.Owner, newAd.ownerBalance, newAd.OwnerLastActivity, newAd.IsOwnerVerificated, newAd.OwnerTrusted),
+                             new PaymethodDto(newAd.Paymethod.Id, newAd.Paymethod.Name),
+                             new RateDto(new CurrencyDto(newAd.Currency, null, CurrencyTypeEnum.Bank),
+                                         new CurrencyDto(newAd.Cryptocurrency, null, CurrencyTypeEnum.Crypto),
+                                         newAd.Rate),
+                             new LimitDto(newAd.LimitCurrency.Min, newAd.LimitCurrency.Max, newAd.LimitCurrency.RealMax),
+                             new LimitDto(newAd.LimitCryptocurrency.Min, newAd.LimitCryptocurrency.Max, newAd.LimitCryptocurrency.RealMax),
+                                          newAd.Type == "selling" ? AdTypeEnum.Selling : AdTypeEnum.Buying,
+                             newAd.SafeMode));
                 }
+
+                _ = NewAdsHandler(list);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                var exception = ex;
             }
+
+
+
+
+
+
            
 
             Timer.Start();
+        }
+
+        public bool StartRepository()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool StopRepository()
+        {
+            throw new NotImplementedException();
         }
     }
 }

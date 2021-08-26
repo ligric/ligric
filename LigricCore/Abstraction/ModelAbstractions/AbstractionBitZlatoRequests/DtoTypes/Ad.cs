@@ -5,7 +5,7 @@ namespace AbstractionBitZlatoRequests.DtoTypes
     public class Ad
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public long Id { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; }
 
@@ -25,9 +25,6 @@ namespace AbstractionBitZlatoRequests.DtoTypes
         [JsonProperty("paymethod")]
         public Paymethod Paymethod { get; set; }
 
-
-        [JsonProperty("paymethodId")]
-        public short PaymethodId { get; set; }
         [JsonProperty("owner")]
         public string Owner { get; set; }
 
@@ -40,7 +37,7 @@ namespace AbstractionBitZlatoRequests.DtoTypes
         [JsonProperty("ownerTrusted")]
         public bool OwnerTrusted { get; set; }
         [JsonProperty("ownerBalance")]
-        public string ownerBalance { get; set; }
+        public decimal? ownerBalance { get; set; }
     }
 
 
@@ -48,31 +45,65 @@ namespace AbstractionBitZlatoRequests.DtoTypes
     public class LimitCurrency
     {
         [JsonProperty("min")]
-        public double Min { get; set; }
+        public decimal Min { get; set; }
         [JsonProperty("max")]
-        public double Max { get; set; }
+        public decimal Max { get; set; }
         [JsonProperty("realMax")]
-        public string RealMax { get; set; }
+        public decimal? RealMax { get; set; }
     }
 
     [JsonObject(Title = "limitCryptocurrency")]
     public class LimitCryptocurrency
     {
         [JsonProperty("min")]
-        public double Min { get; set; }
+        public decimal Min { get; set; }
         [JsonProperty("max")]
-        public double Max { get; set; }
+        public decimal Max { get; set; }
         [JsonProperty("realMax")]
-        public string RealMax { get; set; }
+        public decimal? RealMax { get; set; }
     }
 
     [JsonObject(Title = "paymethod")]
     public class Paymethod
     {
         [JsonProperty("id")]
-        public short Id { get; set; }
+        public ushort Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
     }
 
 }
+
+
+
+/*
+"id":203942,
+"type":"selling",
+"cryptocurrency":"BTC",
+"currency":"GBP",
+"rate":"39191",
+
+"limitCurrency":{
+    "min":"100",
+    "max":"236",
+    "realMax":null
+},
+
+"limitCryptocurrency":{
+    "min":"0.0025",
+    "max":"0.006",
+    "realMax":null
+},
+
+"paymethod":{
+    "id":1850,
+    "name":"PaySend"
+},
+"paymethodId":1850,
+"owner":"Sancho",
+"ownerLastActivity":1629966150462,
+"isOwnerVerificated":true,
+"safeMode":true,
+"ownerTrusted":false,
+"ownerBalance":null
+ */

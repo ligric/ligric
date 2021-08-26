@@ -1,5 +1,6 @@
 ﻿using AbstractionBoardRepository.Interfaces;
 using Common.DtoTypes.Board;
+using Common.EventArgs;
 using System.Collections.ObjectModel;
 
 namespace AbstractionBoardRepository.Abstracts
@@ -25,7 +26,7 @@ namespace AbstractionBoardRepository.Abstracts
         #region FiltersChanged
         public IDictionary<string, string> Filters { get; private set; }
         public event ActionFiltersHandler FiltersChanged;
-        protected virtual bool SetFiltersAndSendAction(IDictionary<string, string> newFiltres)
+        protected bool SetFiltersAndSendAction(IDictionary<string, string> newFiltres)
         {
             if (Filters.Count == newFiltres.Count && !Filters.Except(newFiltres).Any())
                 return false;
@@ -42,7 +43,7 @@ namespace AbstractionBoardRepository.Abstracts
 
         public event ActionNameHandler NameChanged;
 
-        public virtual bool SetNameAndSendAction(string name)
+        public bool SetNameAndSendAction(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return false;
@@ -57,15 +58,13 @@ namespace AbstractionBoardRepository.Abstracts
         #endregion
 
         #region AdsChanged
-        private readonly IDictionary<long, AdReadOnlyStruct> ads = new Dictionary<long, AdReadOnlyStruct>();
-        public IReadOnlyDictionary<long, AdReadOnlyStruct> Ads { get; }
+        private readonly IDictionary<long, AdDto> ads = new Dictionary<long, AdDto>();
+        public IReadOnlyDictionary<long, AdDto> Ads { get; }
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<long, AdReadOnlyStruct>> AdsChanged;
+        public event EventHandler<NotifyDictionaryChangedEventArgs<long, AdDto>> AdsChanged;
 
         #region Методы для изменения словаря.
-        ///<summary>Добавления в словарь новой пары: ключ-значение.
-        /// Возвращает false, если такой ключ уже есть и добавление не было выполнено.</summary>
-        protected virtual bool AddAdAndSendAction(long id, AdReadOnlyStruct ad)
+        protected bool AddAd(long id, AdDto ad)
         {
             if (ads.ContainsKey(id))
                 return false;
@@ -75,11 +74,9 @@ namespace AbstractionBoardRepository.Abstracts
             return true;
         }
 
-        ///<summary>Удаление из словаря пары: ключ-значение.
-        /// Возвращает false, если такого ключа нет и удаление не было выполнено.</summary>
-        protected bool RemoveAdAndSendAction(long id)
+        protected bool RemoveAd(long id)
         {
-            if (ads.TryGetValue(id, out AdReadOnlyStruct ad))
+            if (ads.TryGetValue(id, out AdDto ad))
             {
                 ads.Remove(id);
                 AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.RemoveKey(id, ad));
@@ -89,60 +86,57 @@ namespace AbstractionBoardRepository.Abstracts
 
         }
 
-        ///<summary> Задание в словаре значения ключу.
-        /// Возвращает false, если такого ключа нет и вместо замены было выполнено добавление.</summary>
-        protected bool SetAdAndSendAction(long id, AdReadOnlyStruct ad)
+        protected bool ChangeAd(long id, AdDto newAd)
         {
-            if (ads.TryGetValue(id, out AdReadOnlyStruct oldAd))
+            if (ads.TryGetValue(id, out AdDto ent))
             {
-                ads[id] = ad;
-                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.ChangedValue(id, oldAd, ad));
+                if (!Equals(newAd, ent))
+                {
+                    var oldAd = ent;
+                    ent = newAd;
+                    AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.ChangedValue(newAd.Id, oldAd, ent));
+                }
                 return true;
             }
-
-            ads.Add(id, ad);
-            AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.AddKey(id, ad));
             return false;
         }
 
-        ///<summary>Очистка словаря.
-        /// Возвращает false, если словарь был пустой.</summary>
-        protected bool ClearAdsAndSendAction()
+        protected bool NewAdsHandler(IEnumerable<AdDto> receivedAds)
         {
-            var notEmpty = ads.Count != 0;
-
-            if (notEmpty)
+            foreach (var newAd in receivedAds)
             {
-                ads.Clear();
-                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.Cleared<long, AdReadOnlyStruct>());
-                return true;
+                if(!ChangeAd(newAd.Id, newAd))
+                {
+                    ads.Add(newAd.Id, newAd);
+                    AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.AddKey(newAd.Id, newAd));
+                }
             }
-            return notEmpty;
+
+            return false;
         }
         #endregion
 
         #endregion
-
 
         /*------------------------------------------------------------------------------------------------------------------*/
         #region Constructors
         protected AbstractAdBoardNotifications()
         {
-            Ads = new ReadOnlyDictionary<long, AdReadOnlyStruct>(ads);
+            Ads = new ReadOnlyDictionary<long, AdDto>(ads);
             Filters = new Dictionary<string, string>();
             CurrentRepositoryState = RepositoryStateEnum.Stoped;
         }
 
         protected AbstractAdBoardNotifications(IDictionary<string, string> filters)
         {
-            Ads = new ReadOnlyDictionary<long, AdReadOnlyStruct>(ads);
+            Ads = new ReadOnlyDictionary<long, AdDto>(ads);
             Filters = filters;
             CurrentRepositoryState = RepositoryStateEnum.Stoped;
         }
 
         protected AbstractAdBoardNotifications(IDictionary<string, string> filters, RepositoryStateEnum repositoryState)
         {
-            Ads = new ReadOnlyDictionary<long, AdReadOnlyStruct>(ads);
+            Ads = new ReadOnlyDictionary<long, AdDto>(ads);
             Filters = filters;
             CurrentRepositoryState = repositoryState;
         }
