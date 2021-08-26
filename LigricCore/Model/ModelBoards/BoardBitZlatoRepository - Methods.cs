@@ -10,11 +10,9 @@ namespace BoardRepository
 {
     public partial class BoardBitZlatoRepository : AbstractAdBoardWithTimerNotifications, IAdBoardRepositoryWIthTimer
     {
-        private IBitZlatoRequestsService bitZlatoRequests;
-
         public bool SetUpdateTime(TimeSpan time)
         {
-            Timer.Stop();
+            timer.Stop();
             if (time.Milliseconds < 250)
                 return false;
 
@@ -29,7 +27,7 @@ namespace BoardRepository
 
         public bool SetFilters(IDictionary<string, string> newFilters)
         {
-            Timer.Stop();
+            timer.Stop();
             if (SetFiltersAndSendAction(newFilters))
             {
                 RenderAds();
@@ -41,7 +39,7 @@ namespace BoardRepository
 
         public bool SetName(string name)
         {
-            Timer.Stop();
+            timer.Stop();
             if (SetNameAndSendAction(name))
             {
                 RenderAds();
@@ -53,7 +51,7 @@ namespace BoardRepository
 
         public bool SetAdBoardState(RepositoryStateEnum state)
         {
-            Timer.Stop();
+            timer.Stop();
             if (SetAdBoardStateAndSendAction(state))
             {
                 RenderAds();
@@ -65,7 +63,7 @@ namespace BoardRepository
 
         protected override void RenderAds(object sender = null, System.Timers.ElapsedEventArgs e = null)
         {
-            Timer.Stop();
+            timer.Stop();
             if (CurrentRepositoryState != RepositoryStateEnum.Active)
                 return;
 
@@ -101,14 +99,7 @@ namespace BoardRepository
                 var exception = ex;
             }
 
-
-
-
-
-
-           
-
-            Timer.Start();
+            timer.Start();
         }
 
         public bool StartRepository()

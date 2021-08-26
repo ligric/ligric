@@ -14,25 +14,25 @@ namespace BoardRepository
         public BoardBitZlatoRepository(IDictionary<string, string> filters, TimeSpan updateTime, RepositoryStateEnum repositoryState)
             : base(filters, updateTime, repositoryState)
         {
-            ((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState);
+            //((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState);
         }
 
         public BoardBitZlatoRepository(IDictionary<string, string> filters, TimeSpan updateTime, RepositoryStateEnum repositoryState, string boardName)
             : base(filters, updateTime, repositoryState)
         {
-            ((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, boardName);
+            //((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, boardName);
         }
 
         public BoardBitZlatoRepository(IDictionary<string, string> filters, TimeSpan updateTime, RepositoryStateEnum repositoryState, IBitZlatoRequestsService bitZlatoRequests)
             : base(filters, updateTime, repositoryState)
         {
-            ((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, bitZlatoRequests);
+            //((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, bitZlatoRequests);
         }
 
         public BoardBitZlatoRepository(IDictionary<string, string> filters, TimeSpan updateTime, RepositoryStateEnum repositoryState, string boardName, IBitZlatoRequestsService bitZlatoRequests)
-            : base(filters, updateTime, repositoryState)
+            : base(filters, updateTime, repositoryState, bitZlatoRequests)
         {
-            ((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, boardName, bitZlatoRequests);
+            //((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, boardName, bitZlatoRequests);
         }
     }
 }

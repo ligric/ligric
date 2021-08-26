@@ -1,20 +1,23 @@
-﻿using AbstractionBoardRepository.Interfaces;
+﻿using AbstractionBitZlatoRequests;
+using AbstractionBoardRepository.Interfaces;
 using AbstractionRepository;
-using Common.DtoTypes.Board;
+using System.ComponentModel;
 
 namespace AbstractionBoardRepository.Abstracts
 {
-    public abstract class AbstractAdBoardWithTimerNotifications : AbstractAdBoardNotifications, IRepositoryTimerNotification
+    public abstract class AbstractAdBoardWithTimerNotifications : AbstractAdBoardNotifications, IRepositoryTimerNotification, ISupportInitializeBoardRepository
     {
-        public readonly System.Timers.Timer Timer;
+        protected readonly System.Timers.Timer timer;
+        protected IBitZlatoRequestsService bitZlatoRequests;
+
         public event ActionUpdateTimeStateHandler UpdateTimeChanged;
 
         protected virtual bool SetUpdateTimeAndSendAction(TimeSpan time)
         {
-            if (Timer.Interval == time.TotalMilliseconds)
+            if (timer.Interval == time.TotalMilliseconds)
                 return false;
 
-            Timer.Interval = time.TotalMilliseconds;
+            timer.Interval = time.TotalMilliseconds;
             UpdateTimeChanged?.Invoke(this, time);
 
             return true;
@@ -22,32 +25,113 @@ namespace AbstractionBoardRepository.Abstracts
 
         protected abstract void RenderAds(object sender = null, System.Timers.ElapsedEventArgs e = null);
 
+        #region Constructors
         public AbstractAdBoardWithTimerNotifications()
             : base()
         {
-            Timer = new System.Timers.Timer();
-            Timer.AutoReset = true;
-            Timer.Interval = 15000;
-            Timer.Elapsed += RenderAds;
+            timer = new System.Timers.Timer();
+            timer.AutoReset = true;
+            timer.Interval = 15000;
+            timer.Elapsed += RenderAds;
         }
 
-        protected AbstractAdBoardWithTimerNotifications(IDictionary<string, string> filters, TimeSpan updateTime)
+        public AbstractAdBoardWithTimerNotifications(IDictionary<string, string> filters, TimeSpan updateTime)
             : base(filters)
         {
-            Timer = new System.Timers.Timer();
-            Timer.AutoReset = true;
-            Timer.Interval = updateTime.TotalMilliseconds;
-            Timer.Elapsed += RenderAds;
+            timer = new System.Timers.Timer();
+            timer.AutoReset = true;
+            timer.Interval = updateTime.TotalMilliseconds;
+            timer.Elapsed += RenderAds;
         }
-
 
         public AbstractAdBoardWithTimerNotifications(IDictionary<string, string> filters, TimeSpan updateTime, RepositoryStateEnum repositoryState)
             : base(filters, repositoryState)
         {
-            Timer = new System.Timers.Timer();
-            Timer.AutoReset = true;
-            Timer.Interval = updateTime.TotalMilliseconds;
-            Timer.Elapsed += RenderAds;
+            timer = new System.Timers.Timer();
+            timer.AutoReset = true;
+            timer.Interval = updateTime.TotalMilliseconds;
+            timer.Elapsed += RenderAds;
+
+            ((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState);
         }
+
+        public AbstractAdBoardWithTimerNotifications(IDictionary<string, string> filters, TimeSpan updateTime, RepositoryStateEnum repositoryState, IBitZlatoRequestsService bitZlatoRequests)
+            : base(filters, repositoryState)
+        {
+            timer = new System.Timers.Timer();
+            timer.AutoReset = true;
+            timer.Interval = updateTime.TotalMilliseconds;
+            timer.Elapsed += RenderAds;
+
+            ((ISupportInitializeBoardRepository)this).Initialize(filters, repositoryState, bitZlatoRequests);
+        }
+        #endregion
+
+        #region ISupportInitializeBoardRepository
+        public bool IsBeginInit { get; protected set; }
+
+        public void Initialize(IDictionary<string, string> filters, RepositoryStateEnum repositoryState)
+        {
+            ISupportInitializeBoardRepository initializeRates = this;
+
+            initializeRates.BeginInit();
+            SetFiltersAndSendAction(filters);
+            SetAdBoardStateAndSendAction(repositoryState);
+            initializeRates.EndInit();
+        }
+
+        public void Initialize(IDictionary<string, string> filters, RepositoryStateEnum repositoryState, string name)
+        {
+            ISupportInitializeBoardRepository initializeRates = this;
+
+            initializeRates.BeginInit();
+            SetFiltersAndSendAction(filters);
+            SetAdBoardStateAndSendAction(repositoryState);
+            SetNameAndSendAction(name);
+            initializeRates.EndInit();
+        }
+
+        public void Initialize(IDictionary<string, string> filters, RepositoryStateEnum repositoryState, IBitZlatoRequestsService bitZlatoRequests)
+        {
+            ISupportInitializeBoardRepository initializeRates = this;
+
+            initializeRates.BeginInit();
+            SetFiltersAndSendAction(filters);
+            SetAdBoardStateAndSendAction(repositoryState);
+            this.bitZlatoRequests = bitZlatoRequests;
+            initializeRates.EndInit();
+        }
+
+        public void Initialize(IDictionary<string, string> filters, RepositoryStateEnum repositoryState, string name, IBitZlatoRequestsService bitZlatoRequests)
+        {
+            ISupportInitializeBoardRepository initializeRates = this;
+
+            initializeRates.BeginInit();
+            SetFiltersAndSendAction(filters);
+            SetAdBoardStateAndSendAction(repositoryState);
+            SetNameAndSendAction(name);
+
+            this.bitZlatoRequests = bitZlatoRequests;
+            initializeRates.EndInit();
+        }
+
+        public void BeginInit()
+        {
+            if (IsBeginInit)
+                throw new MethodAccessException("Нельзя начинать новую инициализацию пока не закончена предыдущая транзакциия инициализации.");
+
+            IsBeginInit = true;
+            timer.Stop();
+        }
+
+        public void EndInit()
+        {
+            if (!IsBeginInit)
+                throw new MethodAccessException("Транзакциия инициализации не была начата.");
+
+            IsBeginInit = false;
+            RenderAds();
+        }
+        #endregion
     }
 }
