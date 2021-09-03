@@ -1,8 +1,10 @@
-﻿namespace AbstractionRepository
+﻿namespace BoardRepository
 {
-    public delegate void ActionUpdateTimeStateHandler(object sender, TimeSpan time);
-    public interface IRepositoryTimerNotification
+    public delegate void ActionTimerIntervalHandler(object sender, TimeSpan time);
+
+    public interface IRepositoryWithTimerNotification
     {
-        event ActionUpdateTimeStateHandler UpdateTimeChanged;
+        event ActionTimerIntervalHandler TimerIntervalChanged;
+        bool SetTimerInterval(TimeSpan time);
     }
 }

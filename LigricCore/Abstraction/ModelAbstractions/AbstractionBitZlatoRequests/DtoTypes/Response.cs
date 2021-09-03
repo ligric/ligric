@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AbstractionBitZlatoRequests.DtoTypes
+namespace BitZlatoApi.DtoTypes
 {
     public class Response<T>
     {

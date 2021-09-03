@@ -1,8 +1,7 @@
-﻿using AbstractionBitZlatoRequests;
-using AbstractionBoardRepository;
-using AbstractionBoardRepository.Interfaces;
+﻿using BitZlatoApi;
 using BoardRepository;
-using BoardRepository.BitZlato.API;
+using BoardRepository.BitZlato;
+using BoardRepository.BitZlato.Types;
 using Common.EventArgs;
 using System.Linq;
 
@@ -10,99 +9,131 @@ namespace MyApp // Note: actual namespace depends on the project name.
 {
     public class Program
     {
+        #region IBitZlatoRequestsService initialization
+        private static string apiKey = "{" +
+                        "\"kty\":\"EC\"," +
+                        "\"alg\":\"ES256\"," +
+                        "\"crv\":\"P-256\"," +
+                        "\"x\":\"WnVJnRzpTUo0mYEdkiDSuyGqfDZtBVLepkzqHk7O8SE\"," +
+                        "\"y\":\"J9P-SkGy4qyyL6f-T9KHtJzwiTASHcxAxmwtWiUVF1Q\"," +
+                        "\"d\":\"1xF-MartEnw4cAQB3eJC-Eg5YwThMemMx96DuHhyGFA\"" +
+                        "}";
 
-        public static IAdBoardRepositoryWIthTimer adBoardRepository;
+        private static string email = "balalay16@gmail.com";
+
+        private static Dictionary<string, string> filters = new Dictionary<string, string>()
+        {
+            { "limit", "10" },
+            { "currency", "RUB" },
+            { "type", "purchase" },
+            { "cryptocurrency", "BTC" }
+        };
+        #endregion
+
         public async static Task Main(string[] args)
         {
-            
+            AbstractBoardRepositoryWithTimer<AdDto> bitZlatoRepository = new BitZlatoWithTimerRepository(apiKey, email, TimeSpan.FromSeconds(5), filters, RepositoryStateEnum.Active);
 
-            string apiKey = "{" +
-                            "\"kty\":\"EC\"," +
-                            "\"alg\":\"ES256\"," +
-                            "\"crv\":\"P-256\"," +
-                            "\"x\":\"WnVJnRzpTUo0mYEdkiDSuyGqfDZtBVLepkzqHk7O8SE\"," +
-                            "\"y\":\"J9P-SkGy4qyyL6f-T9KHtJzwiTASHcxAxmwtWiUVF1Q\"," +
-                            "\"d\":\"1xF-MartEnw4cAQB3eJC-Eg5YwThMemMx96DuHhyGFA\"" +
-                            "}";
-            string email = "balalay16@gmail.com";
-
-            IDictionary<string, string> filters = new Dictionary<string, string>();
-            filters.Add("limit", "20");
-            filters.Add("currency", "RUB");
-
-
-            IBitZlatoRequestsService bitZlatoRequests = new BitZlatoRequests(apiKey, email);
-            adBoardRepository = new BoardBitZlatoRepository(filters, TimeSpan.FromSeconds(20), RepositoryStateEnum.Active, "BitZlato: currency -- RUB", bitZlatoRequests);
-
-
-            foreach (var ad in adBoardRepository.Ads)
-            {
-
-
-                Console.WriteLine("Id\t" + ad.Value.Id +
-                                  "\nType\t" + ad.Value.Type.ToString() +
-                                  "\nCrypto currency\t" + ad.Value.Rate.RightCurrency +
-                                  "\nCurrency\t" + ad.Value.Rate.LeftCurrency + "\nRate\t" + ad.Value.Rate.Value +
-                                  "\nLimit Currency\n" +
-                                        "Min\t" + ad.Value.LimitCurrencyLeft.From +
-                                        "\nMax\t" + ad.Value.LimitCurrencyLeft.To +
-                                        "\nReal max\t" + ad.Value.LimitCurrencyLeft.RealMax +
-                                  "\nLimit Cryptocurrency\n" +
-                                        "Min\t" + ad.Value.LimitCurrencyRight.From +
-                                        "\nMax\t" + ad.Value.LimitCurrencyRight.To +
-                                        "\nReal max\t" + ad.Value.LimitCurrencyRight.RealMax +
-                                  "\nPaymethod" +
-                                        "\n\tId\t" + ad.Value.Paymethod.Id +
-                                        "\n\tName\t" + ad.Value.Paymethod.Name +
-                                  "\nPaymethod id\t" + ad.Value.Paymethod.Id +
-                                  "\nOwner\t" + ad.Value.Trader.Name +
-                                  "\nOwner last activity\t" + ad.Value.Trader.LastActivity +
-                                  "\nIs owner verificated\t" + ad.Value.Trader.Verificated +
-                                  "\nSafe mode\t" + ad.Value.SafeMode +
-                                  "\nOwner trusted\t" + ad.Value.Trader.Trusted +
-                                  "\nOwner balance\t" + ad.Value.Trader.Balance);
-            }
-
-
-            adBoardRepository.AdsChanged += AdBoardRepository_AdsChanged;
-
+            bitZlatoRepository.AdsChanged += OnAdsChangedAsync;
             Console.ReadLine();
-            
         }
 
-        private static void AdBoardRepository_AdsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, Common.DtoTypes.Board.AdDto> e)
+        private static int oldNumber  = -1;
+        private async static void OnAdsChangedAsync(object? sender, NotifyEnumerableChangedEventArgs<AdDto> e)
         {
-            Console.Clear();
+            int timeout = 0;
+            int еxpectedNumber = e.Number - 1;
 
-
-            foreach (var ad in adBoardRepository.Ads)
+            while (oldNumber < еxpectedNumber && timeout < 100)
             {
-               
-
-                Console.WriteLine("Id\t" + ad.Value.Id + 
-                                  "\nType\t" + ad.Value.Type.ToString() + 
-                                  "\nCrypto currency\t" + ad.Value.Rate.RightCurrency +
-                                  "\nCurrency\t" + ad.Value.Rate.LeftCurrency + "\nRate\t" + ad.Value.Rate.Value +
-                                  "\nLimit Currency\n" + 
-                                        "Min\t" + ad.Value.LimitCurrencyLeft.From + 
-                                        "\nMax\t" + ad.Value.LimitCurrencyLeft.To + 
-                                        "\nReal max\t" + ad.Value.LimitCurrencyLeft.RealMax +
-                                  "\nLimit Cryptocurrency\n" + 
-                                        "Min\t" + ad.Value.LimitCurrencyRight.From + 
-                                        "\nMax\t" + ad.Value.LimitCurrencyRight.To + 
-                                        "\nReal max\t" + ad.Value.LimitCurrencyRight.RealMax +
-                                  "\nPaymethod" +
-                                        "\n\tId\t" + ad.Value.Paymethod.Id +
-                                        "\n\tName\t" + ad.Value.Paymethod.Name +
-                                  "\nPaymethod id\t" + ad.Value.Paymethod.Id +
-                                  "\nOwner\t" + ad.Value.Trader.Name +
-                                  "\nOwner last activity\t" + ad.Value.Trader.LastActivity +
-                                  "\nIs owner verificated\t" + ad.Value.Trader.Verificated +
-                                  "\nSafe mode\t" + ad.Value.SafeMode +
-                                  "\nOwner trusted\t" + ad.Value.Trader.Trusted +
-                                  "\nOwner balance\t" + ad.Value.Trader.Balance);
+                timeout++;
+                await Task.Delay(1);
             }
-           
+
+            if (oldNumber < еxpectedNumber)
+                throw new ArgumentException($"Сообщение после {oldNumber} потерялось.");
+            else if (oldNumber > еxpectedNumber)
+                throw new ArgumentException($"Сообщение после {oldNumber} уже обработано");
+            else
+            {
+                try
+                {
+                    await Task.Run(() => OnAdsChanged(e));
+                    oldNumber++;
+                    if (oldNumber != e.Number)
+                        throw new ArgumentException("Чё-то непонятное произошло.");
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException(ex.Message);
+                }
+            }
+        }
+
+        private static List<AdDto> tempAds = new List<AdDto>();
+        private static void OnAdsChanged(NotifyEnumerableChangedEventArgs<AdDto> e)
+        {
+            switch (e.Action)
+            {
+                case NotifyEnumumerableChangedAction.Added:
+                    foreach (var item in e.NewValues)
+                    {
+                        tempAds.Add(item);
+                        ShowLineToConsole(item, '+');
+                    }
+                    break;
+                case NotifyEnumumerableChangedAction.Changed:
+                    Console.Clear();
+                    foreach (var item in e.NewValues)
+                    {
+                        var change = tempAds.Find(x => x.Id == item.Id);
+                        change = item;
+                    }
+
+                    foreach (var item in tempAds)
+                    {
+                        var find = e.NewValues.FirstOrDefault(x => x.Id == item.Id);
+                        if (find == null)
+                        {
+                            ShowLineToConsole(item, ' ');
+                        }
+                        else
+                        {
+                            ShowLineToConsole(item, '~');
+                        }
+                    }
+                    break;
+                case NotifyEnumumerableChangedAction.Removed:
+                    Console.Clear();
+                    foreach (var remove in e.OldValues)
+                    {
+                        tempAds.Remove(remove);
+                        ShowLineToConsole(remove, '-');
+                    }
+                    foreach (var current in tempAds)
+                    {
+                        ShowLineToConsole(current, ' ');
+                    }
+                    break;
+                case NotifyEnumumerableChangedAction.Reset:
+                    Console.Clear();
+                    foreach (var item in e.NewValues)
+                    {
+                        tempAds.Add(item);
+                        ShowLineToConsole(item, '+');
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        private static void ShowLineToConsole(AdDto ad, char symbol)
+        {
+            Console.Write(symbol + "\tId\t" + ad.Id + "\tType\t" + ad.Type.ToString() + "\tRate\t" + ad.Rate.Value +
+                                   "\n\t\tCrypto currency\t" + ad.Rate.RightCurrency.Name + "\tMin\t" + ad.LimitCurrencyRight.From + "\tMax\t" + ad.LimitCurrencyRight.To +
+                                   "\n\t\tCurrency\t" + ad.Rate.LeftCurrency.Name + "\tMin\t" + ad.LimitCurrencyLeft.From + "\tMax\t" + ad.LimitCurrencyLeft.To + "\n");
         }
     }
 }

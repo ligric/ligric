@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace AbstractionBitZlatoRequests.DtoTypes
+namespace BitZlatoApi.DtoTypes
 {
     public class Ad
     {
@@ -52,6 +52,7 @@ namespace AbstractionBitZlatoRequests.DtoTypes
         public decimal? RealMax { get; set; }
     }
 
+
     [JsonObject(Title = "limitCryptocurrency")]
     public class LimitCryptocurrency
     {
@@ -63,6 +64,7 @@ namespace AbstractionBitZlatoRequests.DtoTypes
         public decimal? RealMax { get; set; }
     }
 
+
     [JsonObject(Title = "paymethod")]
     public class Paymethod
     {
@@ -73,8 +75,6 @@ namespace AbstractionBitZlatoRequests.DtoTypes
     }
 
 }
-
-
 
 /*
 "id":203942,
