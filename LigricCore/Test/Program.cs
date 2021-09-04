@@ -1,9 +1,7 @@
-﻿using BitZlatoApi;
-using BoardRepository;
+﻿using BoardRepository;
 using BoardRepository.BitZlato;
 using BoardRepository.BitZlato.Types;
 using Common.EventArgs;
-using System.Linq;
 
 namespace MyApp // Note: actual namespace depends on the project name.
 {
