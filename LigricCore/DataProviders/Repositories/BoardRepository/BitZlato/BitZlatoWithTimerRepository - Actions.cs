@@ -27,29 +27,8 @@ namespace BoardRepository.BitZlato
             }
         }
 
-        private void RaiseActionAds(NotifyEnumumerableChangedAction action, IEnumerable<AdDto> newValue, IEnumerable<AdDto> oldValue)
-        {
-            switch(action)
-            {
-                case NotifyEnumumerableChangedAction.Added:
-                    if (newValue.Count() > 1)
-                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(newValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
-                    else if(newValue.Count() == 1)
-                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Added(newValue.First(), actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
-                    break;
-
-                case NotifyEnumumerableChangedAction.Changed:
-                    if (newValue.Count() > 1)
-                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.ChangedEnumerable(oldValue, newValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
-                    else if (newValue.Count() == 1)
-                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Changed(oldValue.First(), newValue.First(), actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
-                    break;
-            }
-        }
-
-
         #region Single Ad Notifications
-        private void AddToAdsDictionary(AdDto ad)
+        protected void AddToAdsDictionary(AdDto ad)
         {
             if (ads.ContainsKey(ad.Id))
                 return;
@@ -61,7 +40,7 @@ namespace BoardRepository.BitZlato
             }
         }
 
-        private void RemoveFromAdsDictionary(long id)
+        protected void RemoveFromAdsDictionary(long id)
         {
             lock (((ICollection)ads).SyncRoot)
             {
@@ -73,7 +52,7 @@ namespace BoardRepository.BitZlato
             }
         }
 
-        private void ChangeInAdsDictionary(AdDto changedAd)
+        protected void ChangeInAdsDictionary(AdDto changedAd)
         {
             lock (((ICollection)ads).SyncRoot)
             {
@@ -98,7 +77,7 @@ namespace BoardRepository.BitZlato
         #endregion
 
         #region Enumerable Ads Notifications
-        private void AddToAdsDictionary(IEnumerable<AdDto> newAds)
+        protected void AddToAdsDictionary(IEnumerable<AdDto> newAds)
         {
             List<AdDto> addedAds = new List<AdDto>();
             lock (((ICollection)ads).SyncRoot)
@@ -111,13 +90,13 @@ namespace BoardRepository.BitZlato
                         ads.Add(ad.Id, ad); 
                     }
                 }
-                if (addedAds.Count != 0)
+                if (addedAds.Count > 0)
                     privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(addedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
             }
         }
 
         // TODO : некоторые элменты могут быть не удалены!
-        private void RemoveFromAdsDictionary(IEnumerable<long> ids)
+        protected void RemoveFromAdsDictionary(IEnumerable<long> ids)
         {
             List<AdDto> deletedAds = new List<AdDto>();
             lock (((ICollection)ads).SyncRoot)
@@ -130,12 +109,12 @@ namespace BoardRepository.BitZlato
                         ads.Remove(id);
                     }
                 }
-                if (deletedAds.Count != 0)
+                if (deletedAds.Count > 0)
                     privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.RemovedEnumerable(deletedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
             }
         }
 
-        private void ChangeInAdsDictionary(IEnumerable<AdDto> changedValues)
+        protected void ChangeInAdsDictionary(IEnumerable<AdDto> changedValues)
         {
             List<AdDto> changedAds = new List<AdDto>();
             List<AdDto> oldAds = new List<AdDto>();
@@ -173,7 +152,7 @@ namespace BoardRepository.BitZlato
         }
         #endregion
 
-        private void CommonAdsDictionaryHandler(IEnumerable<AdDto> receivedAds)
+        protected void CommonAdsDictionaryHandler(IEnumerable<AdDto> receivedAds)
         {
             List<AdDto> newAds = new List<AdDto>();
             List<AdDto> changedAds = new List<AdDto>();
