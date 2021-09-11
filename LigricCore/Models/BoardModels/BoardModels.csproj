@@ -10,4 +10,8 @@
     <Folder Include="BitZlato\Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataProviders\Repositories\Common\Common.csproj" />
+  </ItemGroup>
+
 </Project>

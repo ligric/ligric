@@ -6,7 +6,7 @@ using System.Web;
 namespace BitZlatoApi
 {
     /// <summary>
-    /// Class reapized https://bitzlato.com/en/docsapi
+    /// API Documentation https://bitzlato.com/en/docsapi
     /// </summary>
     public class BitZlatoRequests : IBitZlatoRequests
     {
@@ -17,6 +17,7 @@ namespace BitZlatoApi
         {
             requestSender = new BitZlatoRequestSenderService(apiKey, email);
         }
+
 
         public async Task<Response<Ad[]>> GetAds(IDictionary<string, string> filters = null)
         {

@@ -1,6 +1,7 @@
-﻿using BoardRepository;
+﻿using BoardRepository.Abstractions;
 using BoardRepository.BitZlato;
 using BoardRepository.BitZlato.Types;
+using BoardRepository.Interfaces;
 using Common.EventArgs;
 
 namespace MyApp // Note: actual namespace depends on the project name.
@@ -30,7 +31,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
 
         public async static Task Main(string[] args)
         {
-            AbstractBoardRepositoryWithTimer<AdDto> bitZlatoRepository = new BitZlatoWithTimerRepository(apiKey, email, TimeSpan.FromSeconds(5), filters, RepositoryStateEnum.Active);
+            AbstractBoardRepositoryWithTimer<AdDto> bitZlatoRepository = new BitZlatoWithTimerRepository(apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
 
             bitZlatoRepository.AdsChanged += OnAdsChangedAsync;
             Console.ReadLine();

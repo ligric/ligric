@@ -1,6 +1,6 @@
 ﻿using Common.EventArgs;
 
-namespace BoardRepository
+namespace BoardRepository.Interfaces
 {
     public interface IBoardRepository<T>
     {

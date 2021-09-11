@@ -7,9 +7,9 @@ namespace AbstractionRequestSender
 {
     public abstract class AbstractRequestSenderService : IRequestSender
     {
-        protected readonly Dictionary<string, string> headers;
+        protected readonly IDictionary<string, string> headers;
 
-        protected AbstractRequestSenderService(Dictionary<string, string> headers)
+        protected AbstractRequestSenderService(IDictionary<string, string> headers)
         {
             this.headers = headers;
         }

@@ -1,5 +1,7 @@
 ﻿using BitZlatoApi.Interfaces;
+using BoardRepository.Abstractions;
 using BoardRepository.BitZlato.Types;
+using BoardRepository.Interfaces;
 using Common.DtoTypes;
 using Common.Enums;
 using Common.EventArgs;
@@ -18,31 +20,30 @@ namespace BoardRepository.BitZlato
 
         private readonly Dictionary<long, AdDto> ads = new Dictionary<long, AdDto>();
 
-        private event EventHandler<NotifyEnumerableChangedEventArgs<AdDto>> privateStudentsChanged;
 
-        public override event EventHandler<NotifyEnumerableChangedEventArgs<AdDto>> AdsChanged
+        public override void Initialize(StateEnum defaultState)
         {
-            add
-            {
-                lock (((ICollection)ads).SyncRoot)
-                {
-                    value?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Reset(ads.Values.ToArray(), actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
-                    privateStudentsChanged += value;
-                }
-            }
-            remove
-            {
-                lock (((ICollection)ads).SyncRoot)
-                {
-                    privateStudentsChanged -= value;
-                }
-            }
+            ISupportInitializeBoardRepository initializeRates = this;
+
+            initializeRates.BeginInit();
+            SetState(defaultState);
+            initializeRates.EndInit();
+        }
+
+        public override void Initialize(IDictionary<string, string> filters, StateEnum defaultState)
+        {
+            ISupportInitializeBoardRepository initializeRates = this;
+
+            initializeRates.BeginInit();
+            SetState(defaultState);
+            SetParameters(filters);
+            initializeRates.EndInit();
         }
 
         protected override void RenderAds(object sender = null, ElapsedEventArgs e = null)
         {
             timer.Stop();
-            if (CurrentRepositoryState != RepositoryStateEnum.Active)
+            if (CurrentState != StateEnum.Active)
                 return;
 
             try

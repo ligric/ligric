@@ -57,7 +57,6 @@
             Action = action;
         }
 
-
         #region Enumerable
         //Add
         public static NotifyEnumerableChangedEventArgs<T> AddedEnumerable<T>(IEnumerable<T> value, int number, long senderTime)
@@ -81,7 +80,6 @@
         public static NotifyEnumerableChangedEventArgs<T> Changed<T>(T oldValues, T newValues, int number, long senderTime)
             => new NotifyEnumerableChangedEventArgs<T>(NotifyEnumumerableChangedAction.Changed, oldValues, newValues, number, senderTime);
         #endregion
-
 
         // Reset
         public static NotifyEnumerableChangedEventArgs<T> Reset<T>(IEnumerable<T> newValues, int number, long senderTime)

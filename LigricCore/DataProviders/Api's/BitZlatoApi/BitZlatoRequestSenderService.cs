@@ -1,6 +1,8 @@
 ﻿using AbstractionRequestSender;
 using JsonWebToken;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -9,10 +11,10 @@ namespace BitZlatoApi
 {
     internal class BitZlatoRequestSenderService : AbstractRequestSenderService, IRequestSender
     {
-        private string apiKey;
-        private string email;
+        private string apiKey, email;
 
         private static readonly Random rnd = new Random();
+
         private string GenerateToken()
         {
             var privJwk = Jwk.FromJson(apiKey);
@@ -38,12 +40,11 @@ namespace BitZlatoApi
             this.apiKey = apiKey; this.email = email;
         }
 
-        public BitZlatoRequestSenderService(Dictionary<string, string> headers, string apiKey, string email)
+        public BitZlatoRequestSenderService(IDictionary<string, string> headers, string apiKey, string email)
             :base(headers)
         {
             this.apiKey = apiKey; this.email = email;
         }
-
 
         public async override Task<TResponse> SendHttpRequest<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
                                                                                                                            where TResponse : class

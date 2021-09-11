@@ -6,6 +6,48 @@ namespace BoardRepository.BitZlato
 {
     public partial class BitZlatoWithTimerRepository
     {
+        private event EventHandler<NotifyEnumerableChangedEventArgs<AdDto>> privateAdsChanged;
+
+        public override event EventHandler<NotifyEnumerableChangedEventArgs<AdDto>> AdsChanged
+        {
+            add
+            {
+                lock (((ICollection)ads).SyncRoot)
+                {
+                    value?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Reset(ads.Values.ToArray(), actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                    privateAdsChanged += value;
+                }
+            }
+            remove
+            {
+                lock (((ICollection)ads).SyncRoot)
+                {
+                    privateAdsChanged -= value;
+                }
+            }
+        }
+
+        private void RaiseActionAds(NotifyEnumumerableChangedAction action, IEnumerable<AdDto> newValue, IEnumerable<AdDto> oldValue)
+        {
+            switch(action)
+            {
+                case NotifyEnumumerableChangedAction.Added:
+                    if (newValue.Count() > 1)
+                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(newValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                    else if(newValue.Count() == 1)
+                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Added(newValue.First(), actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                    break;
+
+                case NotifyEnumumerableChangedAction.Changed:
+                    if (newValue.Count() > 1)
+                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.ChangedEnumerable(oldValue, newValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                    else if (newValue.Count() == 1)
+                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Changed(oldValue.First(), newValue.First(), actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                    break;
+            }
+        }
+
+
         #region Single Ad Notifications
         private void AddToAdsDictionary(AdDto ad)
         {
@@ -15,7 +57,7 @@ namespace BoardRepository.BitZlato
             lock (((ICollection)ads).SyncRoot)
             {
                 ads.Add(ad.Id, ad);
-                privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Added(ad, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));               
+                privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Added(ad, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));               
             }
         }
 
@@ -26,7 +68,7 @@ namespace BoardRepository.BitZlato
                 if (ads.TryGetValue(id, out AdDto ad))
                 {
                     ads.Remove(id);
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Removed(ad, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Removed(ad, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
                 }
             }
         }
@@ -44,7 +86,7 @@ namespace BoardRepository.BitZlato
                     {
                         var oldAd = ent;
                         ent = changedAd;
-                        privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Changed(oldAd, ent, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                        privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Changed(oldAd, ent, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
                     }
                 }
                 else
@@ -70,7 +112,7 @@ namespace BoardRepository.BitZlato
                     }
                 }
                 if (addedAds.Count != 0)
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(addedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(addedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
             }
         }
 
@@ -89,7 +131,7 @@ namespace BoardRepository.BitZlato
                     }
                 }
                 if (deletedAds.Count != 0)
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.RemovedEnumerable(deletedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.RemovedEnumerable(deletedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
             }
         }
 
@@ -125,7 +167,7 @@ namespace BoardRepository.BitZlato
                     throw new ArgumentException($"Изменённые списки не сошлись :(\nТип класса: {nameof(BitZlatoWithTimerRepository)}\nМетод: {nameof(ChangeInAdsDictionary)}");         
 
                 if (changedAds.Count > 0)
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.ChangedEnumerable(oldAds, changedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.ChangedEnumerable(oldAds, changedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
                 
             }
         }
@@ -173,14 +215,14 @@ namespace BoardRepository.BitZlato
                             removeAds.Add(ad.Value);
                         }
                     }
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.RemovedEnumerable(removeAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.RemovedEnumerable(removeAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
                 }
 
                 if (changedAds.Count > 0)
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.ChangedEnumerable(oldAds, changedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds()));
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.ChangedEnumerable(oldAds, changedAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
 
                 if (newAds.Count > 0)
-                    privateStudentsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(newAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeSeconds())); 
+                    privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.AddedEnumerable(newAds, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds())); 
             }   
         }
     }

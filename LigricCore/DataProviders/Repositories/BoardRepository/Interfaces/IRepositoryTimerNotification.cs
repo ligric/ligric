@@ -1,4 +1,4 @@
-﻿namespace BoardRepository
+﻿namespace BoardRepository.Interfaces
 {
     public delegate void ActionTimerIntervalHandler(object sender, TimeSpan time);
 
