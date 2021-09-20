@@ -3,6 +3,8 @@ using BoardRepository.BitZlato;
 using BoardRepository.BitZlato.Types;
 using BoardRepository.Interfaces;
 using Common.EventArgs;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyApp // Note: actual namespace depends on the project name.
 {
