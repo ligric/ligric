@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="0dfadc61-130a-48d5-8608-80240cc44377"
+    Name="493647ce-bfef-44c1-96e5-4fb4b32a7786"
     Publisher="CN=Mykyta.Vtorenko"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="d8463376-161b-4d9a-b53f-6d08c07c78c6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="0038b605-6c2f-4b9f-81e8-702d8c2fa6b4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>LigricUno</DisplayName>
