@@ -1,38 +1,9 @@
-﻿<Page x:Class="LigricUno.MainPage"
+﻿<Page x:Class="LigricUno.MainPage" x:Name="mainElement"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinHeight="0" MinWidth="0"
+      Background="#cbcbcd">
 
-    <RelativePanel Background="#1e1e1e">
-        
-        <!-- Item -->
-        <Canvas>
-            <Grid Background="#272631" RowSpacing="5" Width="400" Height="500" BorderBrush="Pink" BorderThickness="1">
-               <Grid.RowDefinitions>
-                   <RowDefinition Height="20*"/>
-                   <RowDefinition Height="100*"/>
-               </Grid.RowDefinitions>
-            
-                <Grid Grid.Row="0" Background="Pink"/>
-            
-            
-                <StackPanel Grid.Row="1" Spacing="10">
-                    <Border Background="White" Height="70"/>
-                    <Border Background="White" Height="70"/>
-                    <Border Background="White" Height="70"/>
-                    <Border Background="White" Height="70"/>
-                    <Border Background="White" Height="70"/>
-                    <Border Background="White" Height="70"/>
-                </StackPanel>
-            </Grid>
-            
-        </Canvas>
+    <Grid ColumnSpacing="0" RowSpacing="0">
 
-        
-        
-        
-        <Border CornerRadius="25" Background="White"
-                Height="50" Width="400" Margin="0,0,0,50"
-                RelativePanel.AlignBottomWithPanel="true"
-                RelativePanel.AlignHorizontalCenterWithPanel="True"/>     
-    </RelativePanel>
+    </Grid>
 </Page>

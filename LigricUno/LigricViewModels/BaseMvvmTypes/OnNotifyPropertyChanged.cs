@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace LigricViewModels.BaseMvvmTypes
 {
-    public abstract class OnNotifyPropertyChangedClass: INotifyPropertyChanged
+    public abstract class OnNotifyPropertyChanged: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
  

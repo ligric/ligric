@@ -21,4 +21,10 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModelEntities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LigricUno\LigricUno.UWP\LigricUno.UWP.csproj" />
+  </ItemGroup>
 </Project>

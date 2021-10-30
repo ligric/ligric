@@ -1,10 +1,10 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace LigricUno
+namespace LigricUno.Views.Pages
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class HomePage : Page
     {
-        public MainPage()
+        public HomePage()
         {
             this.InitializeComponent();
         }
