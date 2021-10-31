@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace LigricViewModels.BaseMvvmTypes
+namespace LigricMvvm.RelayCommand
 {
     /* 
      * https://www.cyberforum.ru/wpf-silverlight/thread2738784.html#post15042396
@@ -57,21 +57,5 @@ namespace LigricViewModels.BaseMvvmTypes
         /// <summary>Вызов выполняющего метода команды.</summary>
         /// <param name="parameter">Параметр команды.</param>
         public void Execute(object parameter) => execute?.Invoke(parameter);
-    }
- 
-
-
-    /// <summary>Реализация RelayCommand для методов с обобщённым параметром.</summary>
-    /// <typeparam name="T">Тип параметра методов.</typeparam>
-    public class RelayCommand<T> : RelayCommand, ICommand
-    {
-        /// <inheritdoc cref="RelayCommand(ExecuteHandler, CanExecuteHandler)"/>
-        public RelayCommand(ExecuteHandler<T> execute, CanExecuteHandler<T> canExecute = null)
-            : base
-            (
-                  p => execute((T)p),
-                  canExecute == null ? null : p => canExecute((T)p)
-            )
-        { }
     }
 }

@@ -1,13 +1,8 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
-  <!--
-	Adding project references to this project requires some manual adjustments.
-	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
-	-->
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <TargetFrameworks>uap10.0.18362;netstandard2.0;net6.0-android</TargetFrameworks>
-    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <LangVersion>10.0</LangVersion>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
-	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI" Version="3.10.11" />
@@ -20,11 +15,5 @@
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModelEntities\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LigricUno\LigricUno.UWP\LigricUno.UWP.csproj" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,9 @@
-﻿using LigricUno.Views.Pages;
-using LigricViewModels.BaseMvvmTypes;
-using System;
+﻿using LigricMvvm.BaseMvvm;
+using LigricMvvm.RelayCommand;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace LigricViewModels.Pages
+namespace LigricUno.Views.Pages
 {
     public class LoginViewModel : OnNotifyPropertyChanged
     {

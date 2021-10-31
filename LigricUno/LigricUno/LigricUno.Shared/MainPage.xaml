@@ -1,9 +1,11 @@
-﻿<Page x:Class="LigricUno.MainPage" x:Name="mainElement"
+﻿<Page x:Class="LigricUno.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinHeight="0" MinWidth="0"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      MinHeight="0" MinWidth="0"
       Background="#cbcbcd">
 
     <Grid ColumnSpacing="0" RowSpacing="0">
-
+        <Button Content="Open LoginPage" Click="Button_Click"
+                HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Page>

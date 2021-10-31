@@ -25,5 +25,9 @@
   <ItemGroup Condition="'$(TargetFramework)'=='net6.0-ios' or '$(TargetFramework)'=='net6.0-maccatalyst'">
     <PackageReference Include="Uno.Extensions.Logging.OSLog" Version="1.2.0-dev.2" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LigricCommonTypesMvvm\LigricCommonTypesMvvm.csproj" />
+    <ProjectReference Include="..\..\LigricMvvm\LigricMvvm.csproj" />
+  </ItemGroup>
   <Import Project="..\LigricUno.Shared\LigricUno.Shared.projitems" Label="Shared" />
 </Project>

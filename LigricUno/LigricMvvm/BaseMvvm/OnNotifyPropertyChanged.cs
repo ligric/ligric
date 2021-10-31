@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace LigricViewModels.BaseMvvmTypes
+namespace LigricMvvm.BaseMvvm
 {
     public abstract class OnNotifyPropertyChanged: INotifyPropertyChanged
     {
