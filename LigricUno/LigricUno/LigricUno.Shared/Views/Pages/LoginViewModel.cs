@@ -1,7 +1,7 @@
 ﻿using LigricMvvm.BaseMvvm;
+using LigricMvvm.Navigation;
 using LigricMvvm.RelayCommand;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
+using System.Threading.Tasks;
 
 namespace LigricUno.Views.Pages
 {
@@ -11,13 +11,13 @@ namespace LigricUno.Views.Pages
 
         public string Email { get => _email; set => SetProperty(ref _email, value); }
 
-        private RelayCommand _loginLate;
-        public RelayCommand LoginLate => _loginLate ?? (_loginLate = new RelayCommand(LoginLaterMethod));
+        private RelayCommand _loginLaterCommand;
+        public RelayCommand LoginLaterCommand => _loginLaterCommand ?? (_loginLaterCommand = new RelayCommand(LoginLaterMethod));
 
-        private void LoginLaterMethod(object parameter)
+        private async void LoginLaterMethod(object parameter)
         {
-            Frame newFrame = new Frame();
-            newFrame.Navigate(typeof(HomePage), null, new EntranceNavigationTransitionInfo());
+            await Navigation.PrerenderPage(new HomePage(), nameof(HomePage));
+            await Navigation.GoTo(nameof(HomePage));
         }
     }
 }

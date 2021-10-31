@@ -17,8 +17,8 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <TextBlock Grid.Column="1" Text="ligric" FontSize="90" FontFamily="/Assets/Fonts/Current/Current-Regular.otf#Current"
-                   Foreground="Black"
+        <TextBlock Grid.Column="1" Text="ligric" FontFamily="/Assets/Fonts/Current/Current-Regular.otf#Current"
+                   Foreground="Black" FontSize="90"
                    HorizontalTextAlignment="Center" VerticalAlignment="Bottom"/>
 
         <!-- Login Content -->
@@ -42,7 +42,8 @@
                 <Button Content="Login later"
                         Margin="0,20,0,0"
                         RelativePanel.AlignHorizontalCenterWith="emailTextBox"
-                        RelativePanel.Below="emailTextBox"/>
+                        RelativePanel.Below="emailTextBox"
+                        Command="{Binding LoginLaterCommand}"/>
                 
             </RelativePanel>
 

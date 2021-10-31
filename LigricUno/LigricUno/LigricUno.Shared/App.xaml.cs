@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LigricUno.Views.Pages;
+using Microsoft.Extensions.Logging;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -80,7 +81,7 @@ namespace LigricUno
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), args.Arguments);
+                    rootFrame.Navigate(typeof(LoginPage), args.Arguments);
                 }
                 // Ensure the current window is active
                 _window.Activate();
