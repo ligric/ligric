@@ -16,8 +16,7 @@ namespace LigricUno.Views.Pages
 
         private async void LoginLaterMethod(object parameter)
         {
-            await Navigation.PrerenderPage(new HomePage(), nameof(HomePage));
-            await Navigation.GoTo(nameof(HomePage));
+            await Navigation.GoTo(nameof(HomePage), new HomePage());
         }
     }
 }

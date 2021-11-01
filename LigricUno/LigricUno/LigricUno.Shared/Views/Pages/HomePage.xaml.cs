@@ -4,9 +4,6 @@ namespace LigricUno.Views.Pages
 {
     public sealed partial class HomePage : Page
     {
-        public HomePage()
-        {
-            this.InitializeComponent();
-        }
+        public HomePage() => this.InitializeComponent();
     }
 }

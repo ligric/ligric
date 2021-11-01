@@ -2,9 +2,9 @@
 
 namespace LigricMvvm.Navigation
 {
-    internal delegate void PageClosedHandler(PageInfo sender);
+    internal delegate void PageClosedHandler(string pageName);
 
-    internal class PageInfo
+    internal class PageInfo : IDisposable
     {
         public object BackPage { get; }
 
@@ -21,5 +21,24 @@ namespace LigricMvvm.Navigation
         {
             Page = page; PageName = pageName; BackPage = backPage; NextPage = nextPage;
         }
+
+        #region Dispose
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            if (!disposed)
+            {
+                PageClosed?.Invoke(PageName);
+                disposed = true;
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        ~PageInfo()
+        {
+            Dispose();
+        }
+        #endregion
     }
 }

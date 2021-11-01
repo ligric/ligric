@@ -12,19 +12,15 @@ namespace LigricMvvm.Navigation
     {
         private static readonly NavigationService navigationService = new NavigationService();
 
-        public static Task GoTo(string pageName) => Task.Run(() => 
-        {
-            navigationService.GoTo(pageName);
-        });
+        public static Task GoTo(string pageName, FrameworkElement newPage) 
+            => navigationService.GoTo(pageName, newPage);
 
-        public static Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null) => Task.Run(() =>
-        {
-            navigationService.PrerenderPage(page, pageName, backPage, nextPage);
-        });
+        public static Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null) 
+            => navigationService.PrerenderPage(page, pageName, backPage, nextPage);
 
         static Navigation()
         {
-            navigationService.PageChanged += OnPageChanged;
+            navigationService.CurrentPageChanged += OnPageChanged;
         }
 
         private static async void OnPageChanged(object sender, object oldPage, object newPage, PageChangingVectorEnum changingVector)

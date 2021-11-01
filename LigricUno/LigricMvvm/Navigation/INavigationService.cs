@@ -8,7 +8,7 @@ namespace LigricMvvm.Navigation
         Next
     }
 
-    public delegate void PageChangeHandler(object sender, object oldPage, object newPage, PageChangingVectorEnum changingVector);
+    public delegate void CurrentPageChangeHandler(object sender, object oldPage, object newPage, PageChangingVectorEnum changingVector);
 
 
     public interface INavigationService
@@ -16,11 +16,11 @@ namespace LigricMvvm.Navigation
 
         object CurrentPage { get; }
 
-        event PageChangeHandler PageChanged;
+        event CurrentPageChangeHandler CurrentPageChanged;
 
-        Task PrerenderPage(object page, string pageName, object backPage = null, object nextPage = null);
+        Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null);
 
-        Task GoTo(string pageName);
+        Task GoTo(string pageName, object page = null, object backPage = null, object nextPage = null);
 
         //Task NavigateTo(Type page);
 

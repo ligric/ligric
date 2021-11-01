@@ -5,40 +5,89 @@ using System.Linq;
 
 namespace LigricMvvm.Navigation
 {
-    public sealed class NavigationService : INavigationService
-    {
-        private Dictionary<string, PageInfo> pages = new Dictionary<string, PageInfo>();
+    
 
-        public event PageChangeHandler PageChanged;
+    //public delegate void ActivePageAddedHandler(object sender, object page, PageActionEnum action);
+
+
+    public class NavigationService : INavigationService
+    {
+        private enum PageActionEnum { Prerender, GoTo }
+
+        private Dictionary<string, PageInfo> activePages = new Dictionary<string, PageInfo>();
+
+        public event CurrentPageChangeHandler CurrentPageChanged;
 
         public object CurrentPage { get; private set; }
 
-        public Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null) => Task.Run(() => 
+        public Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null)
+            => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.Prerender);
+
+        public Task GoTo(string pageName, object page = null, object backPage = null, object nextPage = null) 
+            => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.GoTo);
+
+
+        private Task PageHandler(object page, string pageName = null, object backPage = null, object nextPage = null, PageActionEnum action = 0) => Task.Run(() =>
         {
-            #region Protections
-            if (pages.TryGetValue(pageName, out PageInfo outPage))
-                throw new ArgumentException($"Page with name \"{pageName}\" already registred.");
+            var oldPage = CurrentPage;
 
-            if (page == null)
-                throw new ArgumentException($"Page is null.");
-            #endregion
+            if (page is null && pageName is null)
+                throw new ArgumentException("Page name and page are null.");
 
-            var newPage = new PageInfo(page, pageName, backPage, nextPage);
-            newPage.PageClosed += OnPageClosed;
-            pages.Add(pageName, newPage);
-        });
+            string resultPageName = pageName;
+            if (string.IsNullOrEmpty(resultPageName))
+                resultPageName = nameof(page);
 
-        public Task GoTo(string pageName) => Task.Run(() => 
-        {
-            if (pages.TryGetValue(pageName, out PageInfo outPage))
+            switch (action)
             {
-                PageChanged?.Invoke(this, CurrentPage, outPage.Page, PageChangingVectorEnum.Next);
+                case PageActionEnum.Prerender:
+                    if (page is null)
+                        throw new ArgumentException($"Page is null.");
+
+                    break;
+                case PageActionEnum.GoTo:
+                    if (activePages.TryGetValue(resultPageName, out PageInfo outPage))
+                    {
+                        CurrentPageChanged?.Invoke(this, oldPage, outPage.Page, PageChangingVectorEnum.Next);
+                    }  
+                    else if(page is null)
+                    {
+                        throw new ArgumentException("[404] page not found.");
+                    }
+                    else
+                    {
+                        if (AddActivePage(new PageInfo(page, resultPageName, backPage, nextPage)))
+                        {
+                            CurrentPageChanged?.Invoke(this, oldPage, page, PageChangingVectorEnum.Next);
+                        }
+                    }
+                    break;
             }
         });
 
-        private void OnPageClosed(PageInfo sender)
+        private bool AddActivePage(PageInfo newPage)
         {
-            throw new NotImplementedException();
+ 
+            //if (!activePages.TryAdd(newPage.PageName, newPage))
+                //return false;
+
+            try
+            {
+                activePages.Add(newPage.PageName, newPage);
+            }
+            catch
+            {
+                return false;
+            }
+
+            newPage.PageClosed += OnPageClosed;
+
+            return true;
+        }
+
+        private void OnPageClosed(string pageName)
+        {
+            activePages.Remove(pageName);
         }
     }
 }
