@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Templates\Ad1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CustomControls\ItemStandard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
@@ -32,6 +32,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\LoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\CustomControls\ItemStandardCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

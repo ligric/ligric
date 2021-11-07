@@ -1,8 +1,43 @@
 ﻿<Page x:Class="LigricUno.Views.Pages.HomePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-      xmlns:attached="using:LigricMvvm.AttachedProperties" 
-      attached:ViewModelLocator.AutoWireViewModel="True">
-    
-    <Grid Background="Red">
-        
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:behaviors="using:LigricCommonTypesMvvm.Behaviors">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="7*" />
+        </Grid.RowDefinitions>
+
+        <ContentControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,10">
+            <TextBlock Text="Custom Behavior - DragPositionBehavior" FontSize="40" VerticalAlignment="Stretch" Foreground="Black" />
+        </ContentControl>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                <StackPanel Grid.Column="1">
+                    <TextBlock TextWrapping="WrapWholeWords" Margin="10,0,10,0" FontSize="20" Foreground="Green">
+                        <TextBlock.Text>
+                            Implementing a Custom Behavior for DragPositionBehavior allows controls to be moved around the canvas.
+                            In this example, the shapes are able to be dragged around the page using a mouse drag.
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <RichTextBlock TextWrapping="WrapWholeWords" Margin="10,20,0,0" FontSize="15" Foreground="Pink" xml:space="preserve" IsTextSelectionEnabled="True">
+					<Paragraph>&lt;Rectangle>
+                               &lt;Interactivity:Interaction.Behaviors>
+                               &lt;Behaviors:DragPositionBehavior/>
+                               &lt;/Interactivity:Interaction.Behaviors>
+                               &lt;/Rectangle>
+                    </Paragraph>
+				</RichTextBlock>
+                </StackPanel>
+            </ScrollViewer>
+
+
+        </Grid>
     </Grid>
 </Page>

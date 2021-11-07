@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:LigricUno.Views.CustomControls">
+
+    <Style TargetType="local:ItemStandard">
+        <Setter Property="Background" Value="#e9f0f3"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Foreground" Value="#0a1113"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ItemStandard">
+                    <Frame Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid ColumnSpacing="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Trader}" 
+                                       VerticalAlignment="Center" HorizontalTextAlignment="Left" Margin="5,0,0,0"/>
+                            <TextBlock Grid.Column="1" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Rate}" 
+                                       VerticalAlignment="Center" HorizontalTextAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Limit}" 
+                                       VerticalAlignment="Center" HorizontalTextAlignment="Right" Margin="0,0,5,0"/>
+                        </Grid>
+                    </Frame>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
