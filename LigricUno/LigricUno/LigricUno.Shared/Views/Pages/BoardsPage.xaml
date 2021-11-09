@@ -16,13 +16,13 @@
 
     <Grid>
 
-        <Canvas >
-            <Interactivity:Interaction.Behaviors>
-                <behaviors:DragPositionBehavior/>
-            </Interactivity:Interaction.Behaviors>
-
+        <Canvas>
             <cc:BoardStandard Margin="250,450,0,0" Width="250" Height="400" Title="{Binding TestBoard.Title}"
-                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"/>
+                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}">
+                <Interactivity:Interaction.Behaviors>
+                    <behaviors:DragPositionBehavior/>
+                </Interactivity:Interaction.Behaviors>
+            </cc:BoardStandard>
 
         </Canvas>
         
