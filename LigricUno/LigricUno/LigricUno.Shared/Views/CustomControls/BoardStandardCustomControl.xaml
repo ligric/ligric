@@ -1,7 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:LigricUno.Views.CustomControls">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:LigricUno.Views.CustomControls"
+                    xmlns:system ="using:System">
 
     <Style TargetType="local:BoardStandard">
-        <Setter Property="Background" Value="#e9f0f3"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Foreground" Value="#0a1113"/>
         <Setter Property="Template">
@@ -36,36 +37,20 @@
                             </Grid>
                         </Frame>
 
-
-
-
-                        <ListView ItemsSource="{TemplateBinding Ads}">
+                        <ListView Grid.Row="1" ItemsSource="{TemplateBinding Ads}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding [Trader].}"
-                                    
+                                    <local:ItemStandard Properties="{Binding}" Height="50"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-
-
-                        <ScrollViewer Grid.Row="1">
-                            <StackPanel Spacing="5">
-                                <items:ItemStandard Trader="limeniye" PaymentMethod="Альфа Банк"  Rate="9 999 999"  Limit="100 000 - 140 130"
-                                            Height="50"/>
-
-                                <items:ItemStandard Height="50"/>
-
-                                <items:ItemStandard Height="50"/>
-
-                                <items:ItemStandard Height="50"/>
-
-                                <items:ItemStandard Height="50"/>
-
-                                <items:ItemStandard Height="50"/>
-                            </StackPanel>
-                        </ScrollViewer>
-
+                        
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -7,6 +7,7 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
                 <ResourceDictionary Source="Views/Styles/TextBox.xaml"/>
                 <ResourceDictionary Source="/Views/CustomControls/ItemStandardCustomControl.xaml"/>
+                <ResourceDictionary Source="/Views/CustomControls/BoardStandardCustomControl.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         

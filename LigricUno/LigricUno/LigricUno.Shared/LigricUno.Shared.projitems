@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
