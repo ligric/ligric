@@ -6,13 +6,11 @@
     <Grid>
 
         <Canvas >
+            <Interactivity:Interaction.Behaviors>
+                <behaviors:DragPositionBehavior/>
+            </Interactivity:Interaction.Behaviors>
 
-            
             <Grid Background="White" Margin="50,50,0,0" Width="250" Height="400" RowSpacing="20" CornerRadius="10">
-                <Interactivity:Interaction.Behaviors>
-                    <behaviors:DragPositionBehavior/>
-                </Interactivity:Interaction.Behaviors>
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20*"/>
                     <RowDefinition Height="100*"/>

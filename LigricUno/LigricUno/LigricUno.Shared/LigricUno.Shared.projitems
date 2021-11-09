@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CustomControls\BoardStandard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CustomControls\ItemStandard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
@@ -32,6 +33,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\LoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\CustomControls\BoardStandardCustomControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\CustomControls\ItemStandardCustomControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -72,8 +77,5 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-regular.ttf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Views\UserControls\" />
   </ItemGroup>
 </Project>
