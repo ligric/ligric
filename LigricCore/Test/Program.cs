@@ -1,10 +1,11 @@
-﻿using BoardRepository.Abstractions;
-using BoardRepository.BitZlato;
-using BoardRepository.BitZlato.Types;
-using BoardRepository.Interfaces;
+﻿using BoardRepositories.Abstractions;
+using BoardRepositories.BitZlato;
+using BoardRepositories.BitZlato.Types;
 using Common.EventArgs;
+using Common.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyApp // Note: actual namespace depends on the project name.
