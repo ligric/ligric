@@ -1,4 +1,6 @@
-﻿namespace Common.EventArgs
+﻿using System.Collections.Generic;
+
+namespace Common.EventArgs
 {
     public enum NotifyEnumumerableChangedAction
     {

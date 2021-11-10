@@ -1,5 +1,7 @@
 ﻿using BoardModels.Types;
 using Common.EventArgs;
+using System;
+using System.Collections.Generic;
 
 namespace BoardModels.BoardNotifications.Interfaces
 {

@@ -1,4 +1,5 @@
 ﻿using Common.EventArgs;
+using System;
 
 namespace BoardRepository.Interfaces
 {

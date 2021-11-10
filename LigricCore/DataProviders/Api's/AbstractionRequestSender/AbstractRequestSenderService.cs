@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AbstractionRequestSender
 {
@@ -18,8 +22,8 @@ namespace AbstractionRequestSender
             headers = new Dictionary<string, string>();
         }
 
-        public async virtual Task<TResponse> SendHttpRequest<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
-                                                                                                                           where TResponse : class
+        public async virtual Task<TResponse> SendHttpRequestAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest request) 
+            where TRequest : class where TResponse : class
         {
             TResponse response = null;
 
@@ -52,7 +56,7 @@ namespace AbstractionRequestSender
             return response;
         }
 
-        public async virtual Task<TResponse> SendWebRequest<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
+        public async virtual Task<TResponse> SendWebRequestAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
                                                                                                                   where TResponse : class
         {
             var webRequest = WebRequest.CreateHttp(url);

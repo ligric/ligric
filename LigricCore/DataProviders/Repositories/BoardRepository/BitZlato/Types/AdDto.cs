@@ -1,5 +1,6 @@
 ﻿using Common.DtoTypes;
 using Common.Enums;
+using System;
 
 namespace BoardRepository.BitZlato.Types
 {

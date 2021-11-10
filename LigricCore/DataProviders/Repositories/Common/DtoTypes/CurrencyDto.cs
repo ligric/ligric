@@ -1,4 +1,5 @@
 ﻿using Common.Enums;
+using System;
 
 namespace Common.DtoTypes
 {

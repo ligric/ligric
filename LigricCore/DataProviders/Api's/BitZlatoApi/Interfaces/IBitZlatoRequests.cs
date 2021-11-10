@@ -1,4 +1,6 @@
 ﻿using BitZlatoApi.DtoTypes;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BitZlatoApi.Interfaces
 {

@@ -1,4 +1,7 @@
-﻿namespace Common
+﻿using System;
+using System.Collections.Generic;
+
+namespace Common
 {
     public static class ExtensionMethods
     {

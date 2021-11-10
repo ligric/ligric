@@ -1,4 +1,6 @@
-﻿namespace Common.DtoTypes
+﻿using System;
+
+namespace Common.DtoTypes
 {
     public class RateDto : IEquatable<RateDto>
     {

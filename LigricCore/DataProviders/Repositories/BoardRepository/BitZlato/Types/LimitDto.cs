@@ -1,4 +1,6 @@
-﻿namespace BoardRepository.BitZlato.Types
+﻿using System;
+
+namespace BoardRepository.BitZlato.Types
 {
     public class LimitDto : IEquatable<LimitDto>
     {

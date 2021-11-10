@@ -1,4 +1,6 @@
-﻿namespace BoardRepository.Interfaces
+﻿using System.Collections.Generic;
+
+namespace BoardRepository.Interfaces
 {
     public delegate void ActionParametersResetHandler(object sender, IDictionary<string, string> newParameters);
     public interface IBoardParamsNotification

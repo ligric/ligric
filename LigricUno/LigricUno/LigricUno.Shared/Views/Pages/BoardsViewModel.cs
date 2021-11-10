@@ -19,16 +19,12 @@ namespace LigricUno.Views.Pages
     public class BoardViewModel : OnNotifyPropertyChanged
     {
         private int _id = 0;
-        private string _title = "BitZlato";
-
+        private string _title;
 
         public int Id { get => _id; private set => SetProperty(ref _id, value); }
         public string Title { get => _title; set => SetProperty(ref _title, value); }
 
-        private ObservableCollection<AdViewModel> _ads = new ObservableCollection<AdViewModel>()
-        {
-            new AdViewModel(){ Trader = "limeniye",  PaymentMethod = "Альфа Банк", Rate = "9 999 999" , Limit = "100 000 - 140 130" }
-        };
+        private ObservableCollection<AdViewModel> _ads = new ObservableCollection<AdViewModel>();
 
         public ObservableCollection<AdViewModel> Ads { get => _ads; set => SetProperty(ref _ads, value); }
     }

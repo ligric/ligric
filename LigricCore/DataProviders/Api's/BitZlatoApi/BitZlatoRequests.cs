@@ -1,6 +1,10 @@
 ﻿using AbstractionRequestSender;
 using BitZlatoApi.DtoTypes;
 using BitZlatoApi.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace BitZlatoApi
@@ -28,7 +32,7 @@ namespace BitZlatoApi
             else
                 url = $"{_url}/public/exchange/dsa/?{string.Join("&", filters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"))}";
 
-            var response = await requestSender.SendHttpRequest<Response<Ad[]>, object>(url, HttpMethod.Get, null);
+            var response = await requestSender.SendHttpRequestAsync<Response<Ad[]>, object>(url, HttpMethod.Get, null);
             return response;
         }
     }

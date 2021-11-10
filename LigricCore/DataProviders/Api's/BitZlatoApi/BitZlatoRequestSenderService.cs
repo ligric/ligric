@@ -3,9 +3,12 @@ using JsonWebToken;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BitZlatoApi
 {
@@ -46,7 +49,7 @@ namespace BitZlatoApi
             this.apiKey = apiKey; this.email = email;
         }
 
-        public async override Task<TResponse> SendHttpRequest<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
+        public async override Task<TResponse> SendHttpRequestAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
                                                                                                                            where TResponse : class
         {
             TResponse response = null;
@@ -83,7 +86,7 @@ namespace BitZlatoApi
             return response;
         }
 
-        public async override Task<TResponse> SendWebRequest<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
+        public async override Task<TResponse> SendWebRequestAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest request) where TRequest : class
                                                                                                                   where TResponse : class
         {
             var webRequest = WebRequest.CreateHttp(url);

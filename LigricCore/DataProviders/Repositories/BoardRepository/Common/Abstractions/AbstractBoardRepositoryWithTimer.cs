@@ -1,4 +1,6 @@
 ﻿using BoardRepository.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace BoardRepository.Abstractions
 {
