@@ -5,6 +5,7 @@ using Common.Enums;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace BoardModels.AbstractBoardNotifications.Abstractions
@@ -129,9 +130,17 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
 
         #endregion
 
-        public AbstractBoardModel()
+        public AbstractBoardModel(string boardName, StateEnum state = StateEnum.Stoped)
         {
+            Name = boardName;
+            CurrentState = state;
+            Ads = new ReadOnlyDictionary<long,T>(ads);
+        }
 
+        public AbstractBoardModel(string boardName, IDictionary<string, string> filters, StateEnum state = StateEnum.Stoped) :
+            this(boardName, state)
+        {
+            Filters = filters;
         }
     }
 }

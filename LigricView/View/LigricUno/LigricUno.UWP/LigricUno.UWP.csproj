@@ -143,6 +143,10 @@
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\LigricCore\Common\Common.csproj">
+      <Project>{39F003B7-5BCF-4E99-AF7A-A67E90585658}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Model\BoardModels\BoardModels.csproj">
       <Project>{FA32BC91-B97D-42EF-BA11-94C3A79F989D}</Project>
       <Name>BoardModels</Name>
