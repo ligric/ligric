@@ -1,5 +1,7 @@
 ﻿using BoardModels.AbstractBoardNotifications.Interfaces;
-using BoardModels.Types;
+using BoardModels.CommonTypes.Entities;
+using Common.Delegates;
+using Common.Enums;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,8 @@ using System.Linq;
 
 namespace BoardModels.AbstractBoardNotifications.Abstractions
 {
-    public abstract class AbstractBoardModel : IAdDictionaryNotification, IBoardNameNotification, IBoardFiltersNotification, IBoardStateNotification
+    public abstract class AbstractBoardModel<T> : IAdDictionaryNotification<T>, IBoardNameNotification, IBoardFiltersNotification, IBoardStateNotification
+         where T : AdDto
     {
         #region NameChanged
         public string Name { get; private set; }
@@ -44,10 +47,10 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
         #endregion
 
         #region BoardStateChanged
-        public RepositoryStateEnum CurrentState { get; private set; }
-        public event ActionBoardStateHandler BoardStateChanged;
+        public StateEnum CurrentState { get; private set; }
+        public event ActionStateHandler BoardStateChanged;
 
-        protected bool SetRepositoryStateAndSendAction(RepositoryStateEnum repositoryState)
+        protected bool SetRepositoryStateAndSendAction(StateEnum repositoryState)
         {
             if (repositoryState == CurrentState)
                 return false;
@@ -60,15 +63,15 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
         #endregion
 
         #region AdsChanged
-        private readonly Dictionary<long, AbsctractAdDtoType> ads = new Dictionary<long, AbsctractAdDtoType>();
-        public IReadOnlyDictionary<long, AbsctractAdDtoType> Ads { get; }
+        private readonly Dictionary<long, T> ads = new Dictionary<long, T>();
+        public IReadOnlyDictionary<long, T> Ads { get; }
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<long, AbsctractAdDtoType>> AdsChanged;
+        public event EventHandler<NotifyDictionaryChangedEventArgs<long, T>> AdsChanged;
 
         #region Методы для изменения словаря.
         ///<summary>Добавления в словарь новой пары: ключ-значение.
         /// Возвращает false, если такой ключ уже есть и добавление не было выполнено.</summary>
-        protected bool AddAdAndSendAction(long id, AbsctractAdDtoType ad)
+        protected bool AddAdAndSendAction(long id, T ad)
         {
             if (ads.ContainsKey(id))
                 return false;
@@ -82,7 +85,7 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
         /// Возвращает false, если такого ключа нет и удаление не было выполнено.</summary>
         protected bool RemoveAdAndSendAction(long id)
         {
-            if (ads.TryGetValue(id, out AbsctractAdDtoType ad))
+            if (ads.TryGetValue(id, out T ad))
             {
                 ads.Remove(id);
                 AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.RemoveKey(id, ad));
@@ -94,9 +97,9 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
 
         ///<summary> Задание в словаре значения ключу.
         /// Возвращает false, если такого ключа нет и вместо замены было выполнено добавление.</summary>
-        protected bool SetAdAndSendAction(long id, AbsctractAdDtoType ad)
+        protected bool SetAdAndSendAction(long id, T ad)
         {
-            if (ads.TryGetValue(id, out AbsctractAdDtoType oldAd))
+            if (ads.TryGetValue(id, out T oldAd))
             {
                 ads[id] = ad;
                 AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.ChangedValue(id, oldAd, ad));
@@ -117,7 +120,7 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
             if (notEmpty)
             {
                 ads.Clear();
-                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.Cleared<long, AbsctractAdDtoType>());
+                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.Cleared<long, T>());
                 return true;
             }
             return notEmpty;

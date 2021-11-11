@@ -1,4 +1,8 @@
-﻿using LigricMvvmToolkit.BaseMvvm;
+﻿using BoardModels.AbstractBoardNotifications.Abstractions;
+using BoardModels.BitZlato;
+using BoardModels.BitZlato.Entities;
+using BoardModels.CommonTypes.Entities;
+using LigricMvvmToolkit.BaseMvvm;
 using System.Collections.ObjectModel;
 
 namespace LigricUno.Views.Pages
@@ -32,7 +36,7 @@ namespace LigricUno.Views.Pages
 
     public class BitzlatoBoardViewModel : BoardViewModel
     {
-        private AbstractBoardWithTimerNotifications model = new BitZlatoBoardWithTimer();
+        private AbstractBoardWithTimerNotifications<AdDto> model = new BitZlatoBoardWithTimer<BitZlatoAdDto>();
     }
 
     public class BoardsViewModel : OnNotifyPropertyChanged

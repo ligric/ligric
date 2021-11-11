@@ -143,6 +143,10 @@
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Model\BoardModels\BoardModels.csproj">
+      <Project>{FA32BC91-B97D-42EF-BA11-94C3A79F989D}</Project>
+      <Name>BoardModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\ViewModel\LigricMvvmToolkit\LigricMvvmToolkit.csproj">
       <Project>{67a3fa98-d1f0-4069-89b8-6869b25d4351}</Project>
       <Name>LigricMvvmToolkit</Name>
