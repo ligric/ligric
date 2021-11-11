@@ -1,8 +1,8 @@
 ﻿using BoardRepositories.Abstractions;
 using BoardRepositories.BitZlato;
 using BoardRepositories.BitZlato.Types;
+using Common.Enums;
 using Common.EventArgs;
-using Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +35,14 @@ namespace MyApp // Note: actual namespace depends on the project name.
 
         public async static Task Main(string[] args)
         {
-            AbstractBoardRepositoryWithTimer<AdDto> bitZlatoRepository = new BitZlatoWithTimerRepository(apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
+            AbstractBoardRepositoryWithTimer<Ad> bitZlatoRepository = new BitZlatoWithTimerRepository(apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
 
             bitZlatoRepository.AdsChanged += OnAdsChangedAsync;
             Console.ReadLine();
         }
 
-        private static int oldNumber  = -1;
-        private async static void OnAdsChangedAsync(object? sender, NotifyEnumerableChangedEventArgs<AdDto> e)
+        private static int oldNumber = -1;
+        private async static void OnAdsChangedAsync(object? sender, NotifyEnumerableChangedEventArgs<Ad> e)
         {
             int timeout = 0;
             int еxpectedNumber = e.Number - 1;
@@ -73,8 +73,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
             }
         }
 
-        private static List<AdDto> tempAds = new List<AdDto>();
-        private static void OnAdsChanged(NotifyEnumerableChangedEventArgs<AdDto> e)
+        private static List<Ad> tempAds = new List<Ad>();
+        private static void OnAdsChanged(NotifyEnumerableChangedEventArgs<Ad> e)
         {
             switch (e.Action)
             {
@@ -132,7 +132,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
         }
 
 
-        private static void ShowLineToConsole(AdDto ad, char symbol)
+        private static void ShowLineToConsole(Ad ad, char symbol)
         {
             Console.Write(symbol + "\tId\t" + ad.Id + "\tType\t" + ad.Type.ToString() + "\tRate\t" + ad.Rate.Value +
                                    "\n\t\tCrypto currency\t" + ad.Rate.RightCurrency.Name + "\tMin\t" + ad.LimitCurrencyRight.From + "\tMax\t" + ad.LimitCurrencyRight.To +

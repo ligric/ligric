@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace BitZlatoApi.DtoTypes
+namespace BitZlatoApi.Types
 {
-    public class Ad
+    public class AdJson
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -17,13 +17,13 @@ namespace BitZlatoApi.DtoTypes
         public decimal Rate { get; set; }
 
         [JsonProperty("limitCurrency")]
-        public LimitCurrency LimitCurrency { get; set; }
+        public LimitCurrencyJson LimitCurrency { get; set; }
 
         [JsonProperty("limitCryptocurrency")]
-        public LimitCryptocurrency LimitCryptocurrency { get; set; }
+        public LimitCryptocurrencyJson LimitCryptocurrency { get; set; }
 
         [JsonProperty("paymethod")]
-        public Paymethod Paymethod { get; set; }
+        public PaymethodJson Paymethod { get; set; }
 
         [JsonProperty("owner")]
         public string Owner { get; set; }
@@ -42,7 +42,7 @@ namespace BitZlatoApi.DtoTypes
 
 
     [JsonObject(Title = "limitCurrency")]
-    public class LimitCurrency
+    public class LimitCurrencyJson
     {
         [JsonProperty("min")]
         public decimal Min { get; set; }
@@ -54,7 +54,7 @@ namespace BitZlatoApi.DtoTypes
 
 
     [JsonObject(Title = "limitCryptocurrency")]
-    public class LimitCryptocurrency
+    public class LimitCryptocurrencyJson
     {
         [JsonProperty("min")]
         public decimal Min { get; set; }
@@ -66,7 +66,7 @@ namespace BitZlatoApi.DtoTypes
 
 
     [JsonObject(Title = "paymethod")]
-    public class Paymethod
+    public class PaymethodJson
     {
         [JsonProperty("id")]
         public ushort Id { get; set; }

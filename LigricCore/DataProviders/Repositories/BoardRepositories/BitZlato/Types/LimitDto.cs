@@ -2,7 +2,7 @@
 
 namespace BoardRepositories.BitZlato.Types
 {
-    public class LimitDto : IEquatable<LimitDto>
+    public class Limit : IEquatable<Limit>
     {
         public decimal From { get; }
         public decimal To { get; }
@@ -10,7 +10,7 @@ namespace BoardRepositories.BitZlato.Types
 
         private readonly int hash;
 
-        public LimitDto(decimal from, decimal to, decimal? realMax)
+        public Limit(decimal from, decimal to, decimal? realMax)
         {
             From = from;
             To = to;
@@ -19,14 +19,14 @@ namespace BoardRepositories.BitZlato.Types
             hash = From.GetHashCode() ^ To.GetHashCode() ^ (RealMax ?? decimal.Zero).GetHashCode();
         }
 
-        public bool Equals(LimitDto other)
+        public bool Equals(Limit other)
         {
             return From == other.From && To == other.To && RealMax == other.RealMax;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is LimitDto rate && Equals(rate);
+            return obj is Limit rate && Equals(rate);
         }
 
         public override int GetHashCode() => hash;

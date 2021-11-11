@@ -1,4 +1,4 @@
-﻿namespace Common.Enums
+﻿namespace BoardRepositories.Enums
 {
     public enum AdTypeEnum
     {

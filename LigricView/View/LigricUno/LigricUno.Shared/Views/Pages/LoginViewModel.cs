@@ -1,7 +1,6 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
-using System.Threading.Tasks;
 
 namespace LigricUno.Views.Pages
 {

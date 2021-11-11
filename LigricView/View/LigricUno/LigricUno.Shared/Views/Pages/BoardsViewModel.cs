@@ -29,9 +29,17 @@ namespace LigricUno.Views.Pages
         public ObservableCollection<AdViewModel> Ads { get => _ads; set => SetProperty(ref _ads, value); }
     }
 
+
+    public class BitzlatoBoardViewModel : BoardViewModel
+    {
+        private AbstractBoardWithTimerNotifications model = new BitZlatoBoardWithTimer();
+    }
+
     public class BoardsViewModel : OnNotifyPropertyChanged
     {
-        private BoardViewModel _testBoard = new BoardViewModel();
+        private BitzlatoBoardViewModel _testBoard = new BitzlatoBoardViewModel();
+
+
         public BoardViewModel TestBoard { get => _testBoard; set => SetProperty(ref _testBoard, value); }
 
         public ObservableCollection<BoardViewModel> Boards = new ObservableCollection<BoardViewModel>();

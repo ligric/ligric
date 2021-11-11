@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
 
-namespace BitZlatoApi.DtoTypes
+namespace BitZlatoApi.Types
 {
-    public class Response<T>
+    public abstract class ResponseAbstract<T>
     {
-        public bool Success { get; private set; }
+        public bool Success { get; protected set; }
+    }
 
+    public class ResponseJson<T> : ResponseAbstract<T>
+    {
         private string _error;
         [JsonProperty("error")]
         public string Error

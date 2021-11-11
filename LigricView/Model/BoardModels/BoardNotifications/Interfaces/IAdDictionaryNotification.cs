@@ -1,15 +1,15 @@
-﻿using BoardModels.Types;
+﻿using BoardModels.AbstractBoardNotifications.Abstractions;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
 
-namespace BoardModels.BoardNotifications.Interfaces
+namespace BoardModels.AbstractBoardNotifications.Interfaces
 {
     public interface IAdDictionaryNotification
     {
-        IReadOnlyDictionary<long, AbsctractAdDtoType> Ads  { get; } 
+        IReadOnlyDictionary<long, AdDto> Ads  { get; } 
 
         /// <summary>Событие извещающее об изменении словаря.</summary>
-        event EventHandler<NotifyDictionaryChangedEventArgs<long, AbsctractAdDtoType>> AdsChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<long, AdDto>> AdsChanged;
     }
 }

@@ -9,9 +9,9 @@ namespace BoardRepositories.BitZlato
 {
     public partial class BitZlatoWithTimerRepository
     {
-        private event EventHandler<NotifyEnumerableChangedEventArgs<AdDto>> privateAdsChanged;
+        private event EventHandler<NotifyEnumerableChangedEventArgs<Ad>> privateAdsChanged;
 
-        public override event EventHandler<NotifyEnumerableChangedEventArgs<AdDto>> AdsChanged
+        public override event EventHandler<NotifyEnumerableChangedEventArgs<Ad>> AdsChanged
         {
             add
             {
@@ -31,7 +31,7 @@ namespace BoardRepositories.BitZlato
         }
 
         #region Single Ad Notifications
-        protected void AddToAdsDictionary(AdDto ad)
+        protected void AdAdsDictionary(Ad ad)
         {
             if (ads.ContainsKey(ad.Id))
                 return;
@@ -47,7 +47,7 @@ namespace BoardRepositories.BitZlato
         {
             lock (((ICollection)ads).SyncRoot)
             {
-                if (ads.TryGetValue(id, out AdDto ad))
+                if (ads.TryGetValue(id, out Ad ad))
                 {
                     ads.Remove(id);
                     privateAdsChanged?.Invoke(this, NotifyActionEnumerableChangedEventArgs.Removed(ad, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
@@ -55,11 +55,11 @@ namespace BoardRepositories.BitZlato
             }
         }
 
-        protected void ChangeInAdsDictionary(AdDto changedAd)
+        protected void ChangeInAdsDictionary(Ad changedAd)
         {
             lock (((ICollection)ads).SyncRoot)
             {
-                if (ads.TryGetValue(changedAd.Id, out AdDto ent))
+                if (ads.TryGetValue(changedAd.Id, out Ad ent))
                 {
                     if (ent == null)
                         return;
@@ -80,9 +80,9 @@ namespace BoardRepositories.BitZlato
         #endregion
 
         #region Enumerable Ads Notifications
-        protected void AddToAdsDictionary(IEnumerable<AdDto> newAds)
+        protected void AdAdsDictionary(IEnumerable<Ad> newAds)
         {
-            List<AdDto> addedAds = new List<AdDto>();
+            List<Ad> addedAds = new List<Ad>();
             lock (((ICollection)ads).SyncRoot)
             { 
                 foreach (var ad in newAds)
@@ -101,12 +101,12 @@ namespace BoardRepositories.BitZlato
         // TODO : некоторые элменты могут быть не удалены!
         protected void RemoveFromAdsDictionary(IEnumerable<long> ids)
         {
-            List<AdDto> deletedAds = new List<AdDto>();
+            List<Ad> deletedAds = new List<Ad>();
             lock (((ICollection)ads).SyncRoot)
             {
                 foreach (var id in ids)
                 {
-                    if (ads.TryGetValue(id, out AdDto ad))
+                    if (ads.TryGetValue(id, out Ad ad))
                     {
                         deletedAds.Remove(ad);
                         ads.Remove(id);
@@ -117,15 +117,15 @@ namespace BoardRepositories.BitZlato
             }
         }
 
-        protected void ChangeInAdsDictionary(IEnumerable<AdDto> changedValues)
+        protected void ChangeInAdsDictionary(IEnumerable<Ad> changedValues)
         {
-            List<AdDto> changedAds = new List<AdDto>();
-            List<AdDto> oldAds = new List<AdDto>();
+            List<Ad> changedAds = new List<Ad>();
+            List<Ad> oldAds = new List<Ad>();
             lock (((ICollection)ads).SyncRoot)
             {
                 foreach (var newAdValue in changedValues)
                 {
-                    if (ads.TryGetValue(newAdValue.Id, out AdDto oldValue))
+                    if (ads.TryGetValue(newAdValue.Id, out Ad oldValue))
                     {
                         if (oldValue != null)
                         {
@@ -155,13 +155,13 @@ namespace BoardRepositories.BitZlato
         }
         #endregion
 
-        protected void CommonAdsDictionaryHandler(IEnumerable<AdDto> receivedAds)
+        protected void CommonAdsDictionaryHandler(IEnumerable<Ad> receivedAds)
         {
-            List<AdDto> newAds = new List<AdDto>();
-            List<AdDto> changedAds = new List<AdDto>();
-            List<AdDto> oldAds = new List<AdDto>();
-            List<AdDto> noRemoveAds = new List<AdDto>();
-            List<AdDto> removeAds = new List<AdDto>();
+            List<Ad> newAds = new List<Ad>();
+            List<Ad> changedAds = new List<Ad>();
+            List<Ad> oldAds = new List<Ad>();
+            List<Ad> noRemoveAds = new List<Ad>();
+            List<Ad> removeAds = new List<Ad>();
 
 
             lock (((ICollection)ads).SyncRoot)

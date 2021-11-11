@@ -1,8 +1,6 @@
 ﻿using BitZlatoApi.Interfaces;
 using BoardRepositories.Abstractions;
 using BoardRepositories.BitZlato.Types;
-using Common.Interfaces;
-using Common.DtoTypes;
 using Common.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,10 +8,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using BoardRepositories.Interfaces;
+using BitZlatoApi.Types;
+using BoardRepositories.Types;
+using BoardRepositories.Enums;
 
 namespace BoardRepositories.BitZlato
 {
-    public partial class BitZlatoWithTimerRepository : AbstractBoardRepositoryWithTimer<AdDto>
+    public partial class BitZlatoWithTimerRepository : AbstractBoardRepositoryWithTimer<Ad>
     {
         private static int actionNumber = 0, tryAgain = 0;
 
@@ -21,7 +22,7 @@ namespace BoardRepositories.BitZlato
 
         private readonly Dictionary<string, string> parametrs;
 
-        private readonly Dictionary<long, AdDto> ads = new Dictionary<long, AdDto>();
+        private readonly Dictionary<long, Ad> ads = new Dictionary<long, Ad>();
 
 
         public override void Initialize(StateEnum defaultState)
@@ -51,7 +52,7 @@ namespace BoardRepositories.BitZlato
 
             try
             {
-                var result = GetAds();
+                var result = Task.Run(async() => await GetAdsAsync());
                 if (result != null)
                 {
                     CommonAdsDictionaryHandler(result.Result);
@@ -78,36 +79,36 @@ namespace BoardRepositories.BitZlato
             }
         }
 
-        private async Task<IEnumerable<AdDto>> GetAds()
+        private async Task<IEnumerable<Ad>> GetAdsAsync()
         {
-            var responseAds = await bitZlatoApi.GetAds(parametrs);
+            var responseAds = await bitZlatoApi.GetJsonAdsAsync(parametrs);
 
             var bitZlatoEnumerable = responseAds.Data.Select(
-                adApi => new AdDto(adApi.Id,
-                            new TraderDto(
+                adApi => new Ad(adApi.Id,
+                            new Trader(
                                 adApi.Owner,
                                 adApi.ownerBalance,
                                 adApi.OwnerLastActivity,
                                 adApi.IsOwnerVerificated,
                                 adApi.OwnerTrusted),
-                            new PaymethodDto(
+                            new Paymethod(
                                 adApi.Paymethod.Id,
                                 adApi.Paymethod.Name),
-                            new RateDto(
-                                new CurrencyDto(
+                            new Rate(
+                                new Currency(
                                     adApi.Currency,
                                     null,
                                     CurrencyTypeEnum.Bank),
-                                new CurrencyDto(
+                                new Currency(
                                     adApi.Cryptocurrency,
                                     null,
                                     CurrencyTypeEnum.Crypto),
                                 adApi.Rate),
-                            new LimitDto(
+                            new Limit(
                                 adApi.LimitCurrency.Min,
                                 adApi.LimitCurrency.Max,
                                 adApi.LimitCurrency.RealMax),
-                            new LimitDto(
+                            new Limit(
                                 adApi.LimitCryptocurrency.Min,
                                 adApi.LimitCryptocurrency.Max,
                                 adApi.LimitCryptocurrency.RealMax),

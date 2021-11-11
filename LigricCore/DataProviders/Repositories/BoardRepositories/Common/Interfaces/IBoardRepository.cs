@@ -5,6 +5,6 @@ namespace BoardRepositories.Interfaces
 {
     public interface IBoardRepository<T>
     {
-        public event EventHandler<NotifyEnumerableChangedEventArgs<T>> AdsChanged;
+        event EventHandler<NotifyEnumerableChangedEventArgs<T>> AdsChanged;
     }
 }

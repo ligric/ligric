@@ -8,6 +8,6 @@ namespace BoardRepositories.Interfaces
         event ActionParametersResetHandler ParametersChanged;
         IDictionary<string, string> Parameters { get; }
 
-        public bool SetParameters(IDictionary<string,string> parameters);
+        bool SetParameters(IDictionary<string,string> parameters);
     }
 }

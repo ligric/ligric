@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace Common.DtoTypes
+namespace BoardRepositories.Types
 {
-    public class RateDto : IEquatable<RateDto>
+    public class Rate : IEquatable<Rate>
     {
-        public CurrencyDto LeftCurrency { get; }
-        public CurrencyDto RightCurrency { get; }
+        public Currency LeftCurrency { get; }
+        public Currency RightCurrency { get; }
         public decimal Value { get; }
 
         private readonly int hash;
 
-        public RateDto(CurrencyDto leftCurrency, CurrencyDto rightCurrency, decimal value)
+        public Rate(Currency leftCurrency, Currency rightCurrency, decimal value)
         {
             LeftCurrency = leftCurrency ?? throw new ArgumentNullException(nameof(leftCurrency));
             RightCurrency = rightCurrency ?? throw new ArgumentNullException(nameof(rightCurrency));
@@ -19,7 +19,7 @@ namespace Common.DtoTypes
             hash = LeftCurrency.GetHashCode() ^ RightCurrency.GetHashCode() ^ Value.GetHashCode();
         }
 
-        public bool Equals(RateDto other)
+        public bool Equals(Rate other)
         {
             return Equals(LeftCurrency, other.LeftCurrency) &&
                    Equals(RightCurrency, other.RightCurrency) &&
@@ -28,7 +28,7 @@ namespace Common.DtoTypes
 
         public override bool Equals(object obj)
         {
-            return obj is RateDto rate && Equals(rate);
+            return obj is Rate rate && Equals(rate);
         }
 
         public override int GetHashCode() => hash;

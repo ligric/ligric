@@ -1,5 +1,5 @@
 ﻿using BoardRepositories.Interfaces;
-using Common.Interfaces;
+using Common.Enums;
 using System;
 using System.Collections.Generic;
 

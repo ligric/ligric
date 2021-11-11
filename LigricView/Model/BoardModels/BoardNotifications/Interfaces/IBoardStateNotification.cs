@@ -1,4 +1,4 @@
-﻿namespace BoardModels.BoardNotifications.Interfaces
+﻿namespace BoardModels.AbstractBoardNotifications.Interfaces
 {
     public enum RepositoryStateEnum
     {

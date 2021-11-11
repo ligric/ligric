@@ -1,9 +1,9 @@
-﻿using Common.Enums;
+﻿using BoardRepositories.Enums;
 using System;
 
-namespace Common.DtoTypes
+namespace BoardRepositories.Types
 {
-    public class CurrencyDto : IEquatable<CurrencyDto>
+    public class Currency : IEquatable<Currency>
     {
         public string Name { get; }
         public string Symbol { get; }
@@ -11,7 +11,7 @@ namespace Common.DtoTypes
 
         private readonly int hash;
 
-        public CurrencyDto(string name, string symbol, CurrencyTypeEnum type)
+        public Currency(string name, string symbol, CurrencyTypeEnum type)
         {; 
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Symbol = symbol ?? string.Empty;
@@ -20,14 +20,14 @@ namespace Common.DtoTypes
             hash = Name.GetHashCode() ^ Symbol.GetHashCode() ^ Type.GetHashCode();
         }
 
-        public bool Equals(CurrencyDto other)
+        public bool Equals(Currency other)
         {
             return Name == other.Name && Symbol == other.Symbol && Type == other.Type;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is CurrencyDto currency && Equals(currency);
+            return obj is Currency currency && Equals(currency);
         }
 
         public override int GetHashCode() => hash;

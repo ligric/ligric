@@ -1,25 +1,25 @@
-﻿using Common.DtoTypes;
-using Common.Enums;
+﻿using BoardRepositories.Enums;
+using BoardRepositories.Types;
 using System;
 
 namespace BoardRepositories.BitZlato.Types
 {
-    public class AdDto : IEquatable<AdDto>
+    public class Ad : IEquatable<Ad>
     {
         public long Id { get; }
-        public TraderDto Trader { get; }
-        public PaymethodDto Paymethod { get; }
-        public RateDto Rate { get; }
-        public LimitDto LimitCurrencyLeft { get; }
-        public LimitDto LimitCurrencyRight { get; }
+        public Trader Trader { get; }
+        public Paymethod Paymethod { get; }
+        public Rate Rate { get; }
+        public Limit LimitCurrencyLeft { get; }
+        public Limit LimitCurrencyRight { get; }
         public AdTypeEnum Type { get; }
 
         public bool SafeMode { get; }
 
         private readonly int hash;
 
-        public AdDto(long id, TraderDto trader, PaymethodDto paymethod, 
-                              RateDto rate, LimitDto limitCurrencyLeft, LimitDto limitCurrencyRight, AdTypeEnum type, bool safeMode)
+        public Ad(long id, Trader trader, Paymethod paymethod, 
+                              Rate rate, Limit limitCurrencyLeft, Limit limitCurrencyRight, AdTypeEnum type, bool safeMode)
         {
             Id = id; 
             Trader = trader ?? throw new ArgumentNullException(nameof(trader));
@@ -34,7 +34,7 @@ namespace BoardRepositories.BitZlato.Types
                    LimitCurrencyLeft.GetHashCode() ^ LimitCurrencyRight.GetHashCode() ^ Type.GetHashCode() ^ SafeMode.GetHashCode();
         }
 
-        public bool Equals(AdDto other)
+        public bool Equals(Ad other)
         {
             return other.Id == Id &&
                    Equals(other.Trader,Trader) &&
@@ -48,7 +48,7 @@ namespace BoardRepositories.BitZlato.Types
 
         public override bool Equals(object obj)
         {
-            return obj is AdDto ad && Equals(ad);
+            return obj is Ad ad && Equals(ad);
         }
 
         public override int GetHashCode() => hash;

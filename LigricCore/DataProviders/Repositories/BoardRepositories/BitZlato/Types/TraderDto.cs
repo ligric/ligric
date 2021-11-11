@@ -2,7 +2,7 @@
 
 namespace BoardRepositories.BitZlato.Types
 {
-    public class TraderDto : IEquatable<TraderDto>
+    public class Trader : IEquatable<Trader>
     {
         public string Name { get; }
         public decimal? Balance { get; }
@@ -12,7 +12,7 @@ namespace BoardRepositories.BitZlato.Types
 
         private readonly int hash;
 
-        public TraderDto(string name, decimal? balance, long lastActivity, bool verificated, bool trasted)
+        public Trader(string name, decimal? balance, long lastActivity, bool verificated, bool trasted)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Balance = balance;
@@ -23,14 +23,14 @@ namespace BoardRepositories.BitZlato.Types
             hash = Name.GetHashCode() ^ (Balance ?? decimal.Zero).GetHashCode() ^ LastActivity.GetHashCode() ^ Verificated.GetHashCode() ^ Trusted.GetHashCode();
         }
 
-        public bool Equals(TraderDto other)
+        public bool Equals(Trader other)
         {
             return Name == other.Name && Balance == other.Balance && LastActivity == other.LastActivity && Verificated == other.Verificated && Trusted == other.Trusted;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is TraderDto trader && Equals(trader);
+            return obj is Trader trader && Equals(trader);
         }
 
         public override int GetHashCode() => hash;

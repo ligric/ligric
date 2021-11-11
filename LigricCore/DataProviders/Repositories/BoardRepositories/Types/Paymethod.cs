@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Common.DtoTypes
+namespace BoardRepositories.Types
 {
-    public class PaymethodDto : IEquatable<PaymethodDto>
+    public class Paymethod : IEquatable<Paymethod>
     {
         public ushort Id { get; }
         public string Name { get; }
 
         private readonly int hash;
 
-        public PaymethodDto(ushort id, string name)
+        public Paymethod(ushort id, string name)
         {
             Id = id; 
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -17,14 +17,14 @@ namespace Common.DtoTypes
             hash = Id ^ Name.GetHashCode();
         }
 
-        public bool Equals(PaymethodDto other)
+        public bool Equals(Paymethod other)
         {
             return Id == other.Id && Name == other.Name;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is PaymethodDto paymethod && Equals(paymethod);
+            return obj is Paymethod paymethod && Equals(paymethod);
         }
 
         public override int GetHashCode() => hash;

@@ -1,13 +1,8 @@
-﻿namespace Common.Interfaces
+﻿using Common.Delegates;
+using Common.Enums;
+
+namespace Common.Interfaces
 {
-    public enum StateEnum
-    {
-        Active,
-        Stoped
-    }
-
-    public delegate void ActionStateHandler(object sender, StateEnum state);
-
     public interface IStateNotification
     {
         StateEnum CurrentState { get; }

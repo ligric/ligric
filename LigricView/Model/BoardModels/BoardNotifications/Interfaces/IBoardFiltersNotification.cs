@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BoardModels.BoardNotifications.Interfaces
+namespace BoardModels.AbstractBoardNotifications.Interfaces
 {
     public delegate void ActionFiltersHandler(object sender, IDictionary<string, string> newCollection);
     public interface IBoardFiltersNotification
