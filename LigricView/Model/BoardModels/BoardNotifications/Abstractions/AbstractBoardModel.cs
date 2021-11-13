@@ -1,8 +1,10 @@
 ﻿using BoardModels.AbstractBoardNotifications.Interfaces;
 using BoardModels.CommonTypes.Entities;
+using Common;
 using Common.Delegates;
 using Common.Enums;
 using Common.EventArgs;
+using Common.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,9 +12,13 @@ using System.Linq;
 
 namespace BoardModels.AbstractBoardNotifications.Abstractions
 {
-    public abstract class AbstractBoardModel<T> : IAdDictionaryNotification<T>, IBoardNameNotification, IBoardFiltersNotification, IBoardStateNotification
-         where T : AdDto
+    public abstract class AbstractBoardModel<TKey, TValue> : IAdDictionaryNotification<TKey, TValue>, IBoardNameNotification, IBoardFiltersNotification, IBoardStateNotification
+         where TValue : AdDto
     {
+        protected readonly SyncMethod syncMethod = new SyncMethod();
+
+        protected int syncNumer = 0;
+
         #region NameChanged
         public string Name { get; private set; }
 
@@ -34,7 +40,9 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
 
         #region FiltersChanged
         public IDictionary<string, string> Filters { get; private set; }
+
         public event ActionFiltersHandler FiltersChanged;
+
         protected bool SetFiltersAndSendAction(IDictionary<string, string> newFiltres)
         {
             if (Filters.Count == newFiltres.Count && !Filters.Except(newFiltres).Any())
@@ -49,6 +57,7 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
 
         #region BoardStateChanged
         public StateEnum CurrentState { get; private set; }
+
         public event ActionStateHandler BoardStateChanged;
 
         protected bool SetRepositoryStateAndSendAction(StateEnum repositoryState)
@@ -64,77 +73,45 @@ namespace BoardModels.AbstractBoardNotifications.Abstractions
         #endregion
 
         #region AdsChanged
-        private readonly Dictionary<long, T> ads = new Dictionary<long, T>();
-        public IReadOnlyDictionary<long, T> Ads { get; }
+        private readonly Dictionary<TKey, TValue> ads = new Dictionary<TKey, TValue>();
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<long, T>> AdsChanged;
+        public IReadOnlyDictionary<TKey, TValue> Ads { get; }
+
+        public event EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>> AdsChanged;
 
         #region Методы для изменения словаря.
-        ///<summary>Добавления в словарь новой пары: ключ-значение.
-        /// Возвращает false, если такой ключ уже есть и добавление не было выполнено.</summary>
-        protected bool AddAdAndSendAction(long id, T ad)
+        protected void AdsRaiseActionAddValue(TKey key, TValue value)
         {
-            if (ads.ContainsKey(id))
-                return false;
-
-            ads.Add(id, ad);
-            AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.AddKey(id, ad));
-            return true;
+            ads.AddAndShout(this, AdsChanged, key, value, ref syncNumer);
         }
 
-        ///<summary>Удаление из словаря пары: ключ-значение.
-        /// Возвращает false, если такого ключа нет и удаление не было выполнено.</summary>
-        protected bool RemoveAdAndSendAction(long id)
+        protected void AdsRaiseActionRemoveValue(TKey key)
         {
-            if (ads.TryGetValue(id, out T ad))
-            {
-                ads.Remove(id);
-                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.RemoveKey(id, ad));
-                return true;
-            }
-            return false;
-
+            ads.RemoveAndShout(this, AdsChanged, key, ref syncNumer);
         }
 
-        ///<summary> Задание в словаре значения ключу.
-        /// Возвращает false, если такого ключа нет и вместо замены было выполнено добавление.</summary>
-        protected bool SetAdAndSendAction(long id, T ad)
+        protected void AdsRaiseActionSetValue(TKey key, TValue value)
         {
-            if (ads.TryGetValue(id, out T oldAd))
-            {
-                ads[id] = ad;
-                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.ChangedValue(id, oldAd, ad));
-                return true;
-            }
-
-            ads.Add(id, ad);
-            AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.AddKey(id, ad));
-            return false;
+            ads.SetAndShout(this, AdsChanged, key, value, ref syncNumer);
         }
 
-        ///<summary>Очистка словаря.
-        /// Возвращает false, если словарь был пустой.</summary>
-        protected bool ClearAdsAndSendAction()
+        protected void AdsRaiseActionClear()
         {
-            var notEmpty = ads.Count != 0;
-
-            if (notEmpty)
-            {
-                ads.Clear();
-                AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.Cleared<long, T>());
-                return true;
-            }
-            return notEmpty;
+            ads.ClearAndShout(this, AdsChanged, ref syncNumer);
         }
-        #endregion
 
+        protected void AdsRaiseActionInitialized(IDictionary<TKey, TValue> newValues)
+        {
+            AdsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.InitializeKeyValuePairs(newValues, syncNumer++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+        }
+        #endregion 
         #endregion
 
         public AbstractBoardModel(string boardName, StateEnum state = StateEnum.Stoped)
         {
             Name = boardName;
             CurrentState = state;
-            Ads = new ReadOnlyDictionary<long,T>(ads);
+            Ads = new ReadOnlyDictionary<TKey, TValue>(ads);
         }
 
         public AbstractBoardModel(string boardName, IDictionary<string, string> filters, StateEnum state = StateEnum.Stoped) :

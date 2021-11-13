@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BoardRepositories.Abstractions
 {
-    public abstract partial class AbstractBoardRepositoryWithTimer<T> : AbstractBoardRepository<T>, IRepositoryWithTimerNotification, ISupportInitializeBoardRepository
+    public abstract partial class AbstractBoardRepositoryWithTimer<TKey, TEntity> : AbstractBoardRepository<TKey, TEntity>, IRepositoryWithTimerNotification, ISupportInitializeBoardRepository
     {
         #region Timer notification
         protected readonly System.Timers.Timer timer = new System.Timers.Timer();

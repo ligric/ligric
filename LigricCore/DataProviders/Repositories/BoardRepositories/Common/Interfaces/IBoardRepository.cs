@@ -3,8 +3,8 @@ using System;
 
 namespace BoardRepositories.Interfaces
 {
-    public interface IBoardRepository<T>
+    public interface IBoardRepository<TKey, TEntity>
     {
-        event EventHandler<NotifyEnumerableChangedEventArgs<T>> AdsChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<TKey, TEntity>> AdsChanged;
     }
 }

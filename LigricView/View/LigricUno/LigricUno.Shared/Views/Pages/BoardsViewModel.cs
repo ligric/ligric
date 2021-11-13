@@ -62,7 +62,7 @@ namespace LigricUno.Views.Pages
         };
         #endregion
 
-        private AbstractBoardWithTimerNotifications<BitZlatoAdDto> model = new BitZlatoBoardWithTimer("BitZlato", apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
+        private AbstractBoardWithTimerNotifications<long, BitZlatoAdDto> model = new BitZlatoBoardWithTimer("BitZlato", apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
 
         public BitzlatoBoardViewModel()
         {
@@ -114,6 +114,16 @@ namespace LigricUno.Views.Pages
                     break;
                 case NotifyDictionaryChangedAction.Cleared:
                     Ads.Clear();
+                    break;
+                case NotifyDictionaryChangedAction.Initialized:
+                    Ads = new ObservableCollection<AdViewModel>(e.NewDictionary.Values.Select(x => new AdViewModel()
+                    {
+                        Id = x.Id,
+                        Trader = x.Trader.Name,
+                        PaymentMethod = x.Paymethod.Name,
+                        Limit = x.LimitCurrencyRight.From + " - " + x.LimitCurrencyRight.To,
+                        Rate = x.Rate.Value.ToString()
+                    }));
                     break;
             }
         }

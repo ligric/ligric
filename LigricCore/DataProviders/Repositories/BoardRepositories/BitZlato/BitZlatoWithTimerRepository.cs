@@ -8,15 +8,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using BoardRepositories.Interfaces;
-using BitZlatoApi.Types;
 using BoardRepositories.Types;
 using BoardRepositories.Enums;
+using BitZlatoApi.Types;
+using Common.Extentions;
 
 namespace BoardRepositories.BitZlato
 {
-    public partial class BitZlatoWithTimerRepository : AbstractBoardRepositoryWithTimer<Ad>
+    public partial class BitZlatoWithTimerRepository : AbstractBoardRepositoryWithTimer<long, Ad>
     {
-        private static int actionNumber = 0, tryAgain = 0;
+        private int tryAgain = 0;
 
         private readonly IBitZlatoRequests bitZlatoApi;
 
@@ -55,8 +56,12 @@ namespace BoardRepositories.BitZlato
                 var result = Task.Run(async() => await GetAdsAsync());
                 if (result != null)
                 {
-                    CommonAdsDictionaryHandler(result.Result);
+                    ads.NewElementsHandler(this, result.Result, privateAdsChanged, ref actionNumber);
                     timer.Start();
+                }
+                else
+                {
+                    throw new ArgumentException($"Error lol kek azazek test");
                 }
             }
             catch (Exception ex)
@@ -66,7 +71,7 @@ namespace BoardRepositories.BitZlato
                 if (tryAgain < 5)
                 {
                     ++tryAgain;
-                    Task.Delay(100);
+                    Task.Run(async() => await Task.Delay(100));
                     timer.Start();
                     // TODO : нельзя использовать throw new ArgumentException в "void"
                     throw new ArgumentException($"Ой, мы упали, девочки :(\nПопытка запуститься ещё раз: {tryAgain}/5\nMessage: {ex.Message}\nClass: {nameof(BitZlatoWithTimerRepository)}\nMethod: {nameof(RenderAds)}");
@@ -79,43 +84,26 @@ namespace BoardRepositories.BitZlato
             }
         }
 
-        private async Task<IEnumerable<Ad>> GetAdsAsync()
+        private async Task<IDictionary<long, Ad>> GetAdsAsync()
         {
             var responseAds = await bitZlatoApi.GetJsonAdsAsync(parametrs);
 
-            var bitZlatoEnumerable = responseAds.Data.Select(
-                adApi => new Ad(adApi.Id,
-                            new Trader(
-                                adApi.Owner,
-                                adApi.ownerBalance,
-                                adApi.OwnerLastActivity,
-                                adApi.IsOwnerVerificated,
-                                adApi.OwnerTrusted),
-                            new Paymethod(
-                                adApi.Paymethod.Id,
-                                adApi.Paymethod.Name),
-                            new Rate(
-                                new Currency(
-                                    adApi.Currency,
-                                    null,
-                                    CurrencyTypeEnum.Bank),
-                                new Currency(
-                                    adApi.Cryptocurrency,
-                                    null,
-                                    CurrencyTypeEnum.Crypto),
-                                adApi.Rate),
-                            new Limit(
-                                adApi.LimitCurrency.Min,
-                                adApi.LimitCurrency.Max,
-                                adApi.LimitCurrency.RealMax),
-                            new Limit(
-                                adApi.LimitCryptocurrency.Min,
-                                adApi.LimitCryptocurrency.Max,
-                                adApi.LimitCryptocurrency.RealMax),
-                            adApi.Type == "selling" ? AdTypeEnum.Selling : AdTypeEnum.Buying, adApi.SafeMode));
+            Dictionary<long, Ad> adsDict = new Dictionary<long, Ad>();
+            foreach (var item in responseAds.Data)
+                adsDict.Add(item.Id, item.ToAd());
 
-            return bitZlatoEnumerable;
+            return adsDict;
         }
+    }
 
+    internal static class TypesExtantions
+    {
+        public static Ad ToAd(this AdJson adJson) => new Ad(adJson.Id,
+                            new Trader(adJson.Owner, adJson.ownerBalance, adJson.OwnerLastActivity, adJson.IsOwnerVerificated, adJson.OwnerTrusted),
+                            new Paymethod(adJson.Paymethod.Id, adJson.Paymethod.Name),
+                            new Rate(new Currency(adJson.Currency, null, CurrencyTypeEnum.Bank), new Currency(adJson.Cryptocurrency, null, CurrencyTypeEnum.Crypto), adJson.Rate),
+                            new Limit(adJson.LimitCurrency.Min, adJson.LimitCurrency.Max, adJson.LimitCurrency.RealMax),
+                            new Limit(adJson.LimitCryptocurrency.Min, adJson.LimitCryptocurrency.Max, adJson.LimitCryptocurrency.RealMax),
+                            adJson.Type == "selling" ? AdTypeEnum.Selling : AdTypeEnum.Buying, adJson.SafeMode);
     }
 }

@@ -7,8 +7,8 @@ using System.Collections.Generic;
 
 namespace BoardModels.AbstractBoardNotifications.Abstractions
 {
-    public abstract class AbstractBoardWithTimerNotifications<T> : AbstractBoardModel<T>, IAdDictionaryNotification<T>, IBoardNameNotification, IBoardFiltersNotification
-        where T : AdDto
+    public abstract class AbstractBoardWithTimerNotifications<TKey, TValue> : AbstractBoardModel<TKey, TValue>, IBoardNameNotification, IBoardFiltersNotification
+        where TValue : AdDto
     {
         public AbstractBoardWithTimerNotifications(string boardName, TimeSpan interval, IDictionary<string, string> filters, StateEnum defaultState = StateEnum.Stoped)
             : base(boardName, filters, defaultState)

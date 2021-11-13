@@ -6,10 +6,11 @@ using Common.Enums;
 
 namespace BoardRepositories.Abstractions
 {
-    public abstract partial class AbstractBoardRepository<T> : IBoardRepository<T>, IStateNotification, IBoardParamsNotification, ISupportInitializeBoardRepository
+    public abstract partial class AbstractBoardRepository<TKey, TEntity> : IStateNotification, IBoardParamsNotification, ISupportInitializeBoardRepository
     {
         #region Properties
         public IDictionary<string, string> Parameters { get; private set; } = new Dictionary<string, string>();
+
         public StateEnum CurrentState { get; protected set; }
         #endregion
 
@@ -44,6 +45,7 @@ namespace BoardRepositories.Abstractions
 
         #region ISupportInitialize
         public bool IsBeginInit { get; protected set; }
+
         public abstract void BeginInit();
 
         public abstract void EndInit();

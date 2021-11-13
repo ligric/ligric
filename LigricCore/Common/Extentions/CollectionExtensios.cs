@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.Extentions
 {
-    public static class ExtensionMethods
+    public static class CollectionExtensions
     {
         /// <summary>Добавляет элементы последовательности <paramref name="source"/> в конец коллекции <paramref name="collection"/>.</summary>
         /// <typeparam name="T">Тип элемента коллекции.</typeparam>

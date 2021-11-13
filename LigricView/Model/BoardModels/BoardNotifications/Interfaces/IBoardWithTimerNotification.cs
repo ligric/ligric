@@ -7,6 +7,7 @@ namespace BoardModels.BoardNotifications.Interfaces
     public interface IBoardWithTimerNotification
     {
         event ActionTimerIntervalHandler TimerIntervalChanged;
+
         bool SetTimerInterval(TimeSpan time);
     }
 }

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace BoardModels.AbstractBoardNotifications.Interfaces
 {
-    public interface IAdDictionaryNotification<T> where T : AdDto
+    public interface IAdDictionaryNotification<TKey, TValue> where TValue : AdDto
     {
-        IReadOnlyDictionary<long, T> Ads  { get; } 
+        IReadOnlyDictionary<TKey, TValue> Ads  { get; } 
 
         /// <summary>Событие извещающее об изменении словаря.</summary>
-        event EventHandler<NotifyDictionaryChangedEventArgs<long, T>> AdsChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>> AdsChanged;
     }
 }
