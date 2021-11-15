@@ -2,7 +2,8 @@
       xmlns:attached="using:LigricMvvmToolkit.AttachedProperties" 
       attached:ViewModelLocator.AutoWireViewModel="True"
       
-      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:behaviors="using:LigricMvvmToolkit.Behaviors"
       xmlns:cc="using:LigricUno.Views.CustomControls"
       xmlns:local="using:LigricUno.Views.Pages"
@@ -16,15 +17,21 @@
 
     <Grid>
 
-        <Canvas>
-            <cc:BoardStandard Margin="250,450,0,0" Width="250" Height="400" Title="{Binding TestBoard.Title}"
-                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}">
-                <Interactivity:Interaction.Behaviors>
-                    <behaviors:DragPositionBehavior/>
-                </Interactivity:Interaction.Behaviors>
-            </cc:BoardStandard>
 
-        </Canvas>
+        <ScrollViewer ZoomMode="Enabled">
+            <Canvas>
+
+                <cc:BoardStandard x:Name="board" Margin="250,450,0,0" Width="250" Height="400" Title="{Binding TestBoard.Title}"
+                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:DragPositionBehavior Command="{Binding TestBoard.SavePositionCommand}"/>
+                    </interactivity:Interaction.Behaviors>
+                </cc:BoardStandard>
+
+            </Canvas>
+        </ScrollViewer>
+        
+
         
     </Grid>
 </Page>

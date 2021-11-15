@@ -1,14 +1,18 @@
 ﻿using BoardModels.AbstractBoardNotifications.Abstractions;
 using BoardModels.BitZlato;
 using BoardModels.BitZlato.Entities;
-using BoardModels.CommonTypes.Entities;
 using Common.Enums;
 using Common.EventArgs;
 using LigricMvvmToolkit.BaseMvvm;
+using LigricMvvmToolkit.RelayCommand;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
 
 namespace LigricUno.Views.Pages
 {
@@ -24,18 +28,34 @@ namespace LigricUno.Views.Pages
         public string Limit { get => _limit; set => SetProperty(ref _limit, value); }
     }
 
-
     public class BoardViewModel : OnNotifyPropertyChanged
     {
+        #region Private fields
         private int _id = 0;
         private string _title;
-
-        public int Id { get => _id; private set => SetProperty(ref _id, value); }
-        public string Title { get => _title; set => SetProperty(ref _title, value); }
+        private Point _position;
 
         private ObservableCollection<AdViewModel> _ads = new ObservableCollection<AdViewModel>();
+        #endregion
 
+        #region Properties
+        public int Id { get => _id; private set => SetProperty(ref _id, value); }
+        public string Title { get => _title; set => SetProperty(ref _title, value); }
+        public Point Position { get => _position; set => SetProperty(ref _position, value); }
         public ObservableCollection<AdViewModel> Ads { get => _ads; set => SetProperty(ref _ads, value); }
+        #endregion
+
+        #region Commands
+        private RelayCommand<Point> _savePositionCommand;
+        public RelayCommand<Point> SavePositionCommand => _savePositionCommand ?? (_savePositionCommand = new RelayCommand<Point>(async (e) => await OnSavePositionExecuteAsync(e)));
+        
+        private async Task OnSavePositionExecuteAsync(Point parameter)
+        {
+            var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var folder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
+            File.WriteAllText(Path.Combine(folder.Path, "Settings.txt"), $"Board:{Id}\nX:{parameter.X }\nY:{parameter.Y}");
+        }
+        #endregion
     }
 
 

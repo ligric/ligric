@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xaml.Interactivity;
+using System;
+using System.Windows.Input;
+using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -8,71 +12,98 @@ namespace LigricMvvmToolkit.Behaviors
 {
     public partial class DragPositionBehavior : DependencyObject, IBehavior
     {
-        public DependencyObject AssociatedObject
-        {
-            get;
-            set;
-        }
+        public DependencyObject AssociatedObject{ get; set; }
 
+        private UIElement parent = null;
+        private Point prevPoint;
+        private int pointerId = -1;
+
+        
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DragPositionBehavior), new PropertyMetadata(null));
+        public ICommand Command { get => (ICommand)GetValue(CommandProperty); set => SetValue(CommandProperty, value); }
+
+
+        #region Life circle
         public void Attach(DependencyObject associatedObject)
         {
             if ((associatedObject != AssociatedObject) && !Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 AssociatedObject = associatedObject;
-                var fe = AssociatedObject as FrameworkElement;
-                if (fe != null)
+                var element = AssociatedObject as FrameworkElement;
+                if (element != null)
                 {
-                    fe.PointerPressed += fe_PointerPressed;
-                    fe.PointerReleased += fe_PointerReleased;
+                    element.PointerPressed += OnElementPointerPressed;
+                    element.PointerReleased += OnElementPointerReleased;
                 }
             }
         }
 
-        UIElement parent = null;
-        Point prevPoint;
-        int pointerId = -1;
-        void fe_PointerPressed(object sender, PointerRoutedEventArgs e)
+        public void Detach()
         {
-            var fe = AssociatedObject as FrameworkElement;
-            parent = (UIElement)fe.Parent;
+            var element = AssociatedObject as FrameworkElement;
 
-            if (!(fe.RenderTransform is TranslateTransform))
-                fe.RenderTransform = new TranslateTransform();
+            if (element is not null)
+            {
+                element.PointerPressed -= OnElementPointerPressed;
+                element.PointerReleased -= OnElementPointerReleased;
+            }
+
+            if (parent is not null)
+            {
+                parent.PointerMoved -= OnMove;
+            }
+
+            parent = null;
+            AssociatedObject = null;
+        }
+        #endregion
+
+        #region Handle pointer input
+        private void OnElementPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var element = AssociatedObject as FrameworkElement;
+            parent = (UIElement)element.Parent;
+
+            if (!(element.RenderTransform is TranslateTransform))
+                element.RenderTransform = new TranslateTransform();
+
             prevPoint = e.GetCurrentPoint(parent).Position;
-            parent.PointerMoved += move;
+            parent.PointerMoved += OnMove;
             pointerId = (int)e.Pointer.PointerId;
         }
+        
+        private void OnElementPointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerId != pointerId)
+                return;
 
-        private void move(object o, PointerRoutedEventArgs args)
+            parent.PointerMoved -= OnMove;
+            pointerId = -1;
+
+
+            Point position = e.GetCurrentPoint(parent).Position;
+            if (Command.CanExecute(position))
+            {
+                Command.Execute(position);
+            }
+        }
+
+        private void OnMove(object o, PointerRoutedEventArgs args)
         {
             if (args.Pointer.PointerId != pointerId)
                 return;
 
-            var fe = AssociatedObject as FrameworkElement;
+            var element = AssociatedObject as FrameworkElement;
+
+            if (element is null)
+                return;
+
             var pos = args.GetCurrentPoint(parent).Position;
-            var tr = (TranslateTransform)fe.RenderTransform;
+            var tr = (TranslateTransform)element.RenderTransform;
             tr.X += pos.X - prevPoint.X;
             tr.Y += pos.Y - prevPoint.Y;
             prevPoint = pos;
         }
-        void fe_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            var fe = AssociatedObject as FrameworkElement;
-            if (e.Pointer.PointerId != pointerId)
-                return;
-            parent.PointerMoved -= move;
-            pointerId = -1;
-        }
-        public void Detach()
-        {
-            var fe = AssociatedObject as FrameworkElement;
-            if (fe != null)
-            {
-                fe.PointerPressed -= fe_PointerPressed;
-                fe.PointerReleased -= fe_PointerReleased;
-            }
-            parent = null;
-            AssociatedObject = null;
-        }
+        #endregion
     }
 }
