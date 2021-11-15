@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xaml.Interactivity;
-using System;
 using System.Windows.Input;
-using Uno.Disposables;
 using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -18,9 +15,25 @@ namespace LigricMvvmToolkit.Behaviors
         private Point prevPoint;
         private int pointerId = -1;
 
-        
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DragPositionBehavior), new PropertyMetadata(null));
         public ICommand Command { get => (ICommand)GetValue(CommandProperty); set => SetValue(CommandProperty, value); }
+
+        //public static readonly DependencyProperty HeightAreaProperty = DependencyProperty.Register(nameof(HeightArea), typeof(double), typeof(DragPositionBehavior), new PropertyMetadata(0, OnHeightAreaChanged));
+
+        //private static void OnHeightAreaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var newZoom = e.NewValue;
+        //    var current = ((DragPositionBehavior)d).HeightArea;
+        //}
+
+        //public double HeightArea { get => (double)GetValue(HeightAreaProperty); set => SetValue(HeightAreaProperty, value); }
+
+
+
+        public static readonly DependencyProperty ZoomFactorProperty = DependencyProperty.Register(nameof(ZoomFactor), typeof(double), typeof(DragPositionBehavior), new PropertyMetadata(0));
+
+        public double ZoomFactor { get => (double)GetValue(ZoomFactorProperty); set => SetValue(ZoomFactorProperty, value); }
+
 
 
         #region Life circle
@@ -90,6 +103,8 @@ namespace LigricMvvmToolkit.Behaviors
 
         private void OnMove(object o, PointerRoutedEventArgs args)
         {
+            var zommFactor = ZoomFactor;
+
             if (args.Pointer.PointerId != pointerId)
                 return;
 
@@ -99,9 +114,8 @@ namespace LigricMvvmToolkit.Behaviors
                 return;
 
             var pos = args.GetCurrentPoint(parent).Position;
-            var tr = (TranslateTransform)element.RenderTransform;
-            tr.X += pos.X - prevPoint.X;
-            tr.Y += pos.Y - prevPoint.Y;
+            ((TranslateTransform)element.RenderTransform).X += (pos.X - prevPoint.X) / zommFactor;
+            ((TranslateTransform)element.RenderTransform).Y += (pos.Y - prevPoint.Y) / zommFactor;
             prevPoint = pos;
         }
         #endregion
