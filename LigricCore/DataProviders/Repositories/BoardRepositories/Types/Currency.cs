@@ -12,7 +12,7 @@ namespace BoardRepositories.Types
         private readonly int hash;
 
         public Currency(string name, string symbol, CurrencyTypeEnum type)
-        {; 
+        { 
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Symbol = symbol ?? string.Empty;
             Type = type;

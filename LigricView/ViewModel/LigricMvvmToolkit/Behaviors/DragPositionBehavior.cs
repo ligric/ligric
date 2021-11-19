@@ -18,17 +18,6 @@ namespace LigricMvvmToolkit.Behaviors
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DragPositionBehavior), new PropertyMetadata(null));
         public ICommand Command { get => (ICommand)GetValue(CommandProperty); set => SetValue(CommandProperty, value); }
 
-        //public static readonly DependencyProperty HeightAreaProperty = DependencyProperty.Register(nameof(HeightArea), typeof(double), typeof(DragPositionBehavior), new PropertyMetadata(0, OnHeightAreaChanged));
-
-        //private static void OnHeightAreaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    var newZoom = e.NewValue;
-        //    var current = ((DragPositionBehavior)d).HeightArea;
-        //}
-
-        //public double HeightArea { get => (double)GetValue(HeightAreaProperty); set => SetValue(HeightAreaProperty, value); }
-
-
 
         public static readonly DependencyProperty ZoomFactorProperty = DependencyProperty.Register(nameof(ZoomFactor), typeof(double), typeof(DragPositionBehavior), new PropertyMetadata(0));
 

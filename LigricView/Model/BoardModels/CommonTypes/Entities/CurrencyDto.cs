@@ -12,7 +12,7 @@ namespace BoardModels.BitZlato.Entities
         private readonly int hash;
 
         public CurrencyDto(string name, string symbol, CurrencyTypeEnum type)
-        {; 
+        { 
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Symbol = symbol ?? string.Empty;
             Type = type;

@@ -16,7 +16,7 @@ namespace LigricMvvmToolkit.Converters
 
             foreach (var item in elements)
             {
-                Dictionary<string,string> properties = new Dictionary<string, string>();
+                Dictionary<string, string> properties = new Dictionary<string, string>();
                 foreach (var keyValuePair in item.DictionaryFromType())
                 {
                     properties.Add(keyValuePair.Key, keyValuePair.Value.ToString());
