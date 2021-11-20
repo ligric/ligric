@@ -1,6 +1,4 @@
-﻿using System;
-using System.Numerics;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Views.Pages
 {

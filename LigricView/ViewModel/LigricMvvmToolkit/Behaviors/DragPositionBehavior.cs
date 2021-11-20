@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -12,6 +13,9 @@ namespace LigricMvvmToolkit.Behaviors
         public DependencyObject AssociatedObject{ get; set; }
 
         private UIElement parent = null;
+
+
+
         private Point prevPoint;
         private int pointerId = -1;
 
@@ -63,8 +67,34 @@ namespace LigricMvvmToolkit.Behaviors
         #region Handle pointer input
         private void OnElementPointerPressed(object sender, PointerRoutedEventArgs e)
         {
+#if NET6_0_ANDROID
+            //NativeScrollContentPresenter fassd;
+            //Windows.UI.Xaml.Controls.NativeScrollContentPresenter ffffffff;
+
+
             var element = AssociatedObject as FrameworkElement;
+
+            var parentAsUIElement = sender as UIElement;
+
+            if (parentAsUIElement == null)
+                return;
+
+            parent = (UIElement)parentAsUIElement.Parent;
+
+
+            Android.Views.IViewParent? das =  parentAsUIElement.Parent;
+
+
+#else
+
+            var element = AssociatedObject as FrameworkElement;
+
+            if (element == null)
+                return;
+
             parent = (UIElement)element.Parent;
+#endif
+
 
             if (!(element.RenderTransform is TranslateTransform))
                 element.RenderTransform = new TranslateTransform();

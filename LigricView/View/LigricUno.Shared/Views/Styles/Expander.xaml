@@ -121,18 +121,6 @@
                                 Visibility="Collapsed"/>
                         
                         
-                        <ToggleButton x:Name="ExpanderHeader" CornerRadius="10"
-                                      AutomationProperties.AutomationId="ExpanderToggleButton" 
-                                      Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                                      BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding HeaderTemplate}" 
-                                      Content="{TemplateBinding Header}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-                                      HorizontalAlignment="Stretch" HorizontalContentAlignment="{StaticResource ExpanderHeaderHorizontalContentAlignment}" 
-                                      IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
-                                      IsEnabled="{TemplateBinding IsEnabled}" MinHeight="{TemplateBinding MinHeight}" Padding="{StaticResource ExpanderHeaderPadding}" 
-                                      Style="{StaticResource ExpanderHeaderDownStyle}" VerticalContentAlignment="{StaticResource ExpanderHeaderVerticalContentAlignment}"/>
-
-
-
                         <Border x:Name="ExpanderContentClip" Grid.Row="1">
                             <Border x:Name="ExpanderContent"
                                     HorizontalAlignment="Stretch" MinHeight="{TemplateBinding MinHeight}" Padding="{TemplateBinding Padding}" VerticalAlignment="Stretch" Visibility="Collapsed">
@@ -145,6 +133,16 @@
                                                   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                             </Border>
                         </Border>
+
+                        <ToggleButton x:Name="ExpanderHeader" CornerRadius="10"
+                                      AutomationProperties.AutomationId="ExpanderToggleButton" 
+                                      Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                      BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                      Content="{TemplateBinding Header}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
+                                      HorizontalAlignment="Stretch" HorizontalContentAlignment="{StaticResource ExpanderHeaderHorizontalContentAlignment}" 
+                                      IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
+                                      IsEnabled="{TemplateBinding IsEnabled}" MinHeight="{TemplateBinding MinHeight}" Padding="{StaticResource ExpanderHeaderPadding}" 
+                                      Style="{StaticResource ExpanderHeaderDownStyle}" VerticalContentAlignment="{StaticResource ExpanderHeaderVerticalContentAlignment}"/>
                         
                         
                     </Grid>

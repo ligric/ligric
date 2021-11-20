@@ -24,10 +24,8 @@
                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
             <cc:BoardStandard Margin="100,100,0,0" Width="250" Height="400" Title="{Binding TestBoard.Title}"
-                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}">
-                <interactivity:Interaction.Behaviors>
-                    <behaviors:DragPositionBehavior Command="{Binding TestBoard.SavePositionCommand}" ZoomFactor="{Binding ElementName=scrollViewer, Path=ZoomFactor}"/>
-                </interactivity:Interaction.Behaviors>
+                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}" AllowDrop="True">
+
             </cc:BoardStandard>
 
         </ScrollViewer>
@@ -94,7 +92,7 @@
             <Grid>
                 <StackPanel Orientation="Horizontal" Spacing="40" HorizontalAlignment="Center">
 
-                    <Button Width="50" Height="50" Background="White" Content="1" CornerRadius="10"/>
+                    <Button Width="50" Height="50" Background="Red" Content="1" CornerRadius="10"/>
                   
                     <Button Width="50" Height="50" Background="White" Content="2" CornerRadius="10"/>
                   
