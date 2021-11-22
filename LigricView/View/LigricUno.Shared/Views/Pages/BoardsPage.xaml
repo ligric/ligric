@@ -26,7 +26,7 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas/>
+                    <Canvas Background="Transparent"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -41,7 +41,7 @@
                         <interactivity:Interaction.Behaviors>
                             <behaviors:DragPositionBehavior Command="{Binding SavePositionCommand}"
                                                             ZoomFactor="1"
-                                                            BaseElement="{Binding ElementName=baseListView}"/>
+                                                            BaseParent="{Binding ElementName=baseListView}"/>
                         </interactivity:Interaction.Behaviors>
                     </cc:BoardStandard>
 
@@ -49,6 +49,11 @@
             </ItemsControl.ItemTemplate>
 
         </ItemsControl>
+
+        <StackPanel IsHitTestVisible="False">
+            <TextBlock Text="{Binding ActualWidth, ElementName=baseListView}"/>
+            <TextBlock Text="{Binding ActualHeight, ElementName=baseListView}"/>
+        </StackPanel>
 
         <Grid Background="Pink" Visibility="Collapsed">
 
