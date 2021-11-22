@@ -31,7 +31,7 @@ namespace LigricUno.Views.Pages
     public class BoardViewModel : OnNotifyPropertyChanged
     {
         #region Private fields
-        private int _id = 0;
+        private long _id;
         private string _title;
         private Point _position;
 
@@ -39,9 +39,24 @@ namespace LigricUno.Views.Pages
         #endregion
 
         #region Properties
-        public int Id { get => _id; private set => SetProperty(ref _id, value); }
+        public long Id { get => _id; private set => SetProperty(ref _id, value); }
         public string Title { get => _title; set => SetProperty(ref _title, value); }
         public Point Position { get => _position; set => SetProperty(ref _position, value); }
+
+
+
+
+        #region Test position
+        private double _positionX, _positionY;
+
+
+        public double PositionX { get => _positionX; set => SetProperty(ref _positionX, value); }
+        public double PositionY { get => _positionY; set => SetProperty(ref _positionY, value); }
+
+
+        #endregion
+
+
         public ObservableCollection<AdViewModel> Ads { get => _ads; set => SetProperty(ref _ads, value); }
         #endregion
 
@@ -64,6 +79,11 @@ namespace LigricUno.Views.Pages
             File.WriteAllText(Path.Combine(folder.Path, "Settings.txt"), $"Board:{Id}\nX:{parameter.X }\nY:{parameter.Y}");
         }
         #endregion
+
+        public BoardViewModel(long id, string titel, double positionX = 0, double positionY = 0)
+        {
+            Id = id; Title = titel ?? "Uknown"; ; PositionX = positionX; PositionY = positionY;
+        }
     }
 
 
@@ -90,11 +110,12 @@ namespace LigricUno.Views.Pages
         };
         #endregion
 
-        private AbstractBoardWithTimerNotifications<long, BitZlatoAdDto> model = new BitZlatoBoardWithTimer("BitZlato", apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Stoped);
-
-        public BitzlatoBoardViewModel()
+        private readonly AbstractBoardWithTimerNotifications<long, BitZlatoAdDto> model;
+        public BitzlatoBoardViewModel(long id, string name, double positionX = 0, double positionY = 0) :
+            base(id, name, positionX, positionY)
         {
-            Title = model.Name;
+            model = new BitZlatoBoardWithTimer(name, apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Stoped);
+
             foreach (var newValue in model.Ads.Values)
             {
                 Ads.Add(new AdViewModel()
@@ -159,10 +180,13 @@ namespace LigricUno.Views.Pages
 
     public class BoardsViewModel : OnNotifyPropertyChanged
     {
-        private BitzlatoBoardViewModel _testBoard = new BitzlatoBoardViewModel();
-        public BitzlatoBoardViewModel TestBoard { get => _testBoard; set => SetProperty(ref _testBoard, value); }
+        private ObservableCollection<BoardViewModel> _boards = new ObservableCollection<BoardViewModel>();
+        public ObservableCollection<BoardViewModel> Boards { get => _boards; set => SetProperty(ref _boards, value); }
 
-
-        public ObservableCollection<BoardViewModel> Boards = new ObservableCollection<BoardViewModel>();
+        public BoardsViewModel()
+        {
+            Boards.Add(new BitzlatoBoardViewModel(0, "First BitZlato", 10, 60));
+            Boards.Add(new BitzlatoBoardViewModel(1, "Second BitZlato", 280, 60));
+        }
     }
 }

@@ -4,6 +4,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Foreground" Value="#0a1113"/>
+        <Setter Property="AllowDrop" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:BoardStandard">

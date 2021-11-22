@@ -13,24 +13,42 @@
       d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}"
       Background="#cbcbcd">
     <Page.Resources>
-        <ThemeShadow x:Name="SharedShadow"/>
         <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
     </Page.Resources>
 
     <Grid>
-        
-        <ScrollViewer Name="scrollViewer" ZoomMode="Enabled"
-                      HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" 
-                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-            <cc:BoardStandard Margin="100,100,0,0" Width="250" Height="400" Title="{Binding TestBoard.Title}"
-                              Ads="{Binding TestBoard.Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}" AllowDrop="True">
+        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Background="Red" ScrollViewer.ZoomMode="Enabled"
+                  
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Enabled"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
-            </cc:BoardStandard>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
-        </ScrollViewer>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="local:BoardViewModel">
 
+                    <cc:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
+                                      Width="250" Height="400">
+                        <cc:BoardStandard.RenderTransform>
+                            <TranslateTransform X="{Binding PositionX}" Y="{Binding PositionY}"/>
+                        </cc:BoardStandard.RenderTransform>
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:DragPositionBehavior Command="{Binding SavePositionCommand}"
+                                                            ZoomFactor="1"
+                                                            BaseElement="{Binding ElementName=baseListView}"/>
+                        </interactivity:Interaction.Behaviors>
+                    </cc:BoardStandard>
 
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
 
         <Grid Background="Pink" Visibility="Collapsed">
 
@@ -41,7 +59,6 @@
                 </Button.Content>
             </Button>
         </Grid>
-
 
         <controls:Expander Margin="30" Width="500" Style="{StaticResource ExpanderMenuStyle}"
                            HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="White">
@@ -93,11 +110,11 @@
                 <StackPanel Orientation="Horizontal" Spacing="40" HorizontalAlignment="Center">
 
                     <Button Width="50" Height="50" Background="Red" Content="1" CornerRadius="10"/>
-                  
+
                     <Button Width="50" Height="50" Background="White" Content="2" CornerRadius="10"/>
-                  
+
                     <Button Width="50" Height="50" Background="White" Content="3" CornerRadius="10"/>
-                   
+
                     <Button Width="50" Height="50" Background="White" Content="4" CornerRadius="10"/>
 
                     <Button Width="50" Height="50" Background="White" CornerRadius="10">
@@ -105,12 +122,11 @@
                             <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="15" Fill="#0a1113" Stretch="Uniform" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                         </Button.Content>
                     </Button>
-                    
+
                 </StackPanel>
             </Grid>
-            
-        </controls:Expander>
 
+        </controls:Expander>
 
     </Grid>
 </Page>
