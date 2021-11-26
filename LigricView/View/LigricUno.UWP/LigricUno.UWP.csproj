@@ -3,14 +3,9 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <!--
-			If, in the same solution, you are referencing a project that uses https://github.com/onovotny/MSBuildSdkExtras,
-			you need to make sure that the version provided here matches https://github.com/novotnyllc/MSBuildSdkExtras/blob/main/Source/MSBuild.Sdk.Extras/DefaultItems/ImplicitPackages.targets#L11.
-			This is not an issue when libraries are referenced through nuget packages. See https://github.com/unoplatform/uno/issues/446 for more details.
-			-->
       <Version>6.2.11</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.6.2" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
     <PackageReference Include="Uno.Core" Version="3.0.0" />
     <PackageReference Include="Uno.UI" Version="3.11.6" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
@@ -132,6 +127,10 @@
       <Project>{39f003b7-5bcf-4e99-af7a-a67e90585658}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj">
+      <Project>{c5517c02-22bc-4386-8967-57345de1c330}</Project>
+      <Name>LigricBoardCustomControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Model\BoardModels\BoardModels.csproj">
       <Project>{fa32bc91-b97d-42ef-ba11-94c3a79f989d}</Project>
       <Name>BoardModels</Name>
@@ -168,11 +167,5 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-			 Other similar extension points exist, see Microsoft.Common.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
+
 </Project>

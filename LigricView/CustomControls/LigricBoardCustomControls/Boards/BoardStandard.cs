@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace LigricUno.Views.CustomControls
+namespace LigricBoardCustomControls.Boards
 {
     public partial class BoardStandard : Control
     {
@@ -11,7 +12,12 @@ namespace LigricUno.Views.CustomControls
 
         public IList<IDictionary<string,string>> Ads { get => (IList<IDictionary<string, string>>)GetValue(AdsProperty); set => SetValue(AdsProperty, value); }
         public static readonly DependencyProperty AdsProperty = DependencyProperty.Register(nameof(Ads), typeof(IList<IDictionary<string, string>>), typeof(BoardStandard), new
-            PropertyMetadata(new List<IDictionary<string, string>>()));
+            PropertyMetadata(new List<IDictionary<string, string>>(), OnTest));
+
+        private static void OnTest(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var safsaf = ((BoardStandard)d).Ads;
+        }
 
         public BoardStandard() => this.DefaultStyleKey = typeof(BoardStandard);
     }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace LigricUno.Views.CustomControls
+namespace LigricBoardCustomControls.Items
 {
     public partial class ItemStandard : Control
     {
@@ -22,7 +21,6 @@ namespace LigricUno.Views.CustomControls
                 ((ItemStandard)d).Rate = rate;
             if (dict.TryGetValue("Limit", out string limit))
                 ((ItemStandard)d).Limit = limit;
-            //throw new NotImplementedException();
         }
 
         public string Trader { get => (string)GetValue(TraderProperty); set => SetValue(TraderProperty, value); }

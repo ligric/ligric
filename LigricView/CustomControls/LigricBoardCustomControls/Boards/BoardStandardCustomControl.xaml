@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:local="using:LigricBoardCustomControls.Boards"
+                    xmlns:items="using:LigricBoardCustomControls.Items"
+                    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+
+    <Style TargetType="local:BoardStandard">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Foreground" Value="#0a1113"/>
+        <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:BoardStandard">
+                    <Grid Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" RowSpacing="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20*"/>
+                            <RowDefinition Height="100*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+
+                            <ItemsControl Margin="10"
+                                          ItemsSource="{TemplateBinding Ads}"
+                                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="ItemsControl">
+                                        <ScrollViewer CanBeScrollAnchor="True">
+                                            <ItemsPresenter/>
+                                        </ScrollViewer>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsStackPanel Margin="0,-2.5,0,-2.5"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Height" Value="60"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="0,2.5,0,2.5" />
+
+                                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <items:ItemStandard Properties="{Binding}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+
+                        </Grid>
+
+
+                        <Grid Grid.RowSpan="2">
+                            <controls:Expander CornerRadius="5" Margin="10,10,10,0" Background="White"
+                                               VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                               Style="{StaticResource ExpanderAcrylicChangerStyle}">
+                                
+                                
+                                <controls:Expander.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100*"/>
+                                            <ColumnDefinition Width="40*"/>
+                                            <ColumnDefinition Width="10*"/>
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <TextBlock Grid.Column="0" Text="{TemplateBinding Title}" FontSize="20" Foreground="White" Margin="10,0,0,0"
+                                                   HorizontalTextAlignment="Left" VerticalAlignment="Center" TextWrapping="WrapWholeWords"/>
+
+                                        <Frame Grid.Column="1" Background="White" CornerRadius="10"
+                                               Width="30" Height="30" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="2">
+                                                <Border Width="15" Height="2" Background="#0a1113" HorizontalAlignment="Right"/>
+                                                <Border Width="10" Height="2" Background="#0a1113" HorizontalAlignment="Right"/>
+                                                <Border Width="12" Height="2" Background="#0a1113" HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                        </Frame>
+                                    </Grid>
+                                </controls:Expander.Header>
+                            </controls:Expander>
+                        </Grid>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -21,29 +21,32 @@ namespace LigricUno.Views.Pages
         private long _id = 0;
         private string _trader, _paymentMethod, _rate, _limit;
         
-        public long Id { get => _id; set => SetProperty(ref _id, value); }
+        public long Id { get => _id; private set => SetProperty(ref _id, value); }
         public string Trader { get => _trader; set => SetProperty(ref _trader, value); }
         public string PaymentMethod { get => _paymentMethod; set => SetProperty(ref _paymentMethod, value); }
         public string Rate { get => _rate; set => SetProperty(ref _rate, value); }
         public string Limit { get => _limit; set => SetProperty(ref _limit, value); }
+
+        public AdViewModel(long id, string trader, string paymentMethod, string rate, string limit)
+        {
+            Id = id; Trader = trader; PaymentMethod = paymentMethod; Rate = rate; Limit = limit;
+        }
     }
 
     public class BoardViewModel : OnNotifyPropertyChanged
     {
+        public ObservableCollection<AdViewModel> Ads { get; } = new ObservableCollection<AdViewModel>();
+
         #region Private fields
         private long _id;
         private string _title;
         private Point _position;
-
-        private ObservableCollection<AdViewModel> _ads = new ObservableCollection<AdViewModel>();
         #endregion
 
         #region Properties
         public long Id { get => _id; private set => SetProperty(ref _id, value); }
         public string Title { get => _title; set => SetProperty(ref _title, value); }
         public Point Position { get => _position; set => SetProperty(ref _position, value); }
-
-
 
 
         #region Test position
@@ -56,8 +59,6 @@ namespace LigricUno.Views.Pages
 
         #endregion
 
-
-        public ObservableCollection<AdViewModel> Ads { get => _ads; set => SetProperty(ref _ads, value); }
         #endregion
 
         #region Commands
@@ -118,16 +119,9 @@ namespace LigricUno.Views.Pages
 
             foreach (var newValue in model.Ads.Values)
             {
-                Ads.Add(new AdViewModel()
-                {
-                    Id = newValue.Id,
-                    Trader = newValue.Trader.Name,
-                    PaymentMethod = newValue.Paymethod.Name,
-                    Limit = newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To,
-                    Rate = newValue.Rate.Value.ToString()
-                });
+                Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
             }
-            model.AdsChanged += Model_AdsChanged;
+            //model.AdsChanged += Model_AdsChanged;
         }
 
         private void Model_AdsChanged(object sender, NotifyDictionaryChangedEventArgs<long, BitZlatoAdDto> e)
@@ -138,25 +132,11 @@ namespace LigricUno.Views.Pages
             switch (e.Action)
             {
                 case NotifyDictionaryChangedAction.Added:
-                    Ads.Add(new AdViewModel()
-                    {
-                        Id = newValue.Id,
-                        Trader = newValue.Trader.Name,
-                        PaymentMethod = newValue.Paymethod.Name,
-                        Limit = newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To,
-                        Rate = newValue.Rate.Value.ToString()
-                    });
+                    Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
                     break;
                 case NotifyDictionaryChangedAction.Changed:
                     var index = Ads.IndexOf(Ads.FirstOrDefault(x => x.Id == newValue.Id));
-                    Ads[index] = new AdViewModel()
-                                 {
-                                     Id = newValue.Id,
-                                     Trader = newValue.Trader.Name,
-                                     PaymentMethod = newValue.Paymethod.Name,
-                                     Limit = newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To,
-                                     Rate = newValue.Rate.Value.ToString()
-                                 };
+                    Ads[index] = new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString());
                     break;
                 case NotifyDictionaryChangedAction.Removed:
                     Ads.Remove(Ads.FirstOrDefault(x => x.Id == newValue.Id));
@@ -165,14 +145,12 @@ namespace LigricUno.Views.Pages
                     Ads.Clear();
                     break;
                 case NotifyDictionaryChangedAction.Initialized:
-                    Ads = new ObservableCollection<AdViewModel>(e.NewDictionary.Values.Select(x => new AdViewModel()
+                    Ads.Clear();
+
+                    foreach (var item in e.NewDictionary.Values.Select(x => new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString())))
                     {
-                        Id = x.Id,
-                        Trader = x.Trader.Name,
-                        PaymentMethod = x.Paymethod.Name,
-                        Limit = x.LimitCurrencyRight.From + " - " + x.LimitCurrencyRight.To,
-                        Rate = x.Rate.Value.ToString()
-                    }));
+                        Ads.Add(item);
+                    }
                     break;
             }
         }
@@ -180,13 +158,34 @@ namespace LigricUno.Views.Pages
 
     public class BoardsViewModel : OnNotifyPropertyChanged
     {
-        private ObservableCollection<BoardViewModel> _boards = new ObservableCollection<BoardViewModel>();
-        public ObservableCollection<BoardViewModel> Boards { get => _boards; set => SetProperty(ref _boards, value); }
+        public ObservableCollection<BoardViewModel> Boards { get; } = new ObservableCollection<BoardViewModel>();
 
         public BoardsViewModel()
         {
-            Boards.Add(new BitzlatoBoardViewModel(0, "First BitZlato", 10, 60));
-            Boards.Add(new BitzlatoBoardViewModel(1, "Second BitZlato", 280, 60));
+            var testAds = new List<AdViewModel>()
+            {
+                new AdViewModel(0, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(1, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(2, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(3, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(4, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(5, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(6, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(7, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            };
+
+            var fist = new BitzlatoBoardViewModel(0, "First BitZlato", 10, 60);
+            var second = new BitzlatoBoardViewModel(1, "Second BitZlato", 280, 60);
+
+            foreach (var item in testAds)
+            {
+                fist.Ads.Add(item);
+                second.Ads.Add(item);
+            }
+
+            Boards.Add(fist) ;
+            Boards.Add(second);
         }
     }
 }

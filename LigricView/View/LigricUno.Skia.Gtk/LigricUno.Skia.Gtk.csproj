@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
@@ -24,5 +24,6 @@
     <ProjectReference Include="..\..\ViewModel\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
     <ProjectReference Include="..\..\ViewModel\LigricMvvmTypes\LigricMvvmTypes.csproj" />
   </ItemGroup>
+  <Import Project="..\LigricUno.CustomControls\LigricUno.CustomControls.projitems" Label="Shared" />
   <Import Project="..\LigricUno.Shared\LigricUno.Shared.projitems" Label="Shared" />
 </Project>

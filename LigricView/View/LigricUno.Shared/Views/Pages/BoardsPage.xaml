@@ -5,7 +5,7 @@
       
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:behaviors="using:LigricMvvmToolkit.Behaviors"
-      xmlns:cc="using:LigricUno.Views.CustomControls"
+      xmlns:boards="using:LigricBoardCustomControls.Boards"
       xmlns:local="using:LigricUno.Views.Pages"
       xmlns:converters="using:LigricMvvmToolkit.Converters"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
@@ -17,7 +17,6 @@
     </Page.Resources>
 
     <Grid>
-
         <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Background="Red" ScrollViewer.ZoomMode="Enabled"
                   
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -33,27 +32,22 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="local:BoardViewModel">
 
-                    <cc:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
-                                      Width="250" Height="400">
-                        <cc:BoardStandard.RenderTransform>
+                    <boards:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
+                                          Width="250" Height="400">
+                        <boards:BoardStandard.RenderTransform>
                             <TranslateTransform X="{Binding PositionX}" Y="{Binding PositionY}"/>
-                        </cc:BoardStandard.RenderTransform>
+                        </boards:BoardStandard.RenderTransform>
                         <interactivity:Interaction.Behaviors>
                             <behaviors:DragPositionBehavior Command="{Binding SavePositionCommand}"
                                                             ZoomFactor="1"
                                                             BaseParent="{Binding ElementName=baseListView}"/>
                         </interactivity:Interaction.Behaviors>
-                    </cc:BoardStandard>
+                    </boards:BoardStandard>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
         </ItemsControl>
-
-        <StackPanel IsHitTestVisible="False">
-            <TextBlock Text="{Binding ActualWidth, ElementName=baseListView}"/>
-            <TextBlock Text="{Binding ActualHeight, ElementName=baseListView}"/>
-        </StackPanel>
 
         <Grid Background="Pink" Visibility="Collapsed">
 
@@ -132,6 +126,5 @@
             </Grid>
 
         </controls:Expander>
-
     </Grid>
 </Page>

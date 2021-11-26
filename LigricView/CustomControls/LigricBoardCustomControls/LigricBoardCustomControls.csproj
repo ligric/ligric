@@ -1,0 +1,62 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <TargetFrameworks>uap10.0.18362;netstandard2.0;net6.0-android</TargetFrameworks>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="3.11.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Boards\BoardStandardCustomControl.xaml" />
+    <None Remove="Items\ItemStandardCustomControl.xaml" />
+    <None Remove="Menus\MenuStandardCustomControl.xaml" />
+    <None Remove="Styles\Expander.xaml" />
+    <None Remove="Styles\ToggleButton.xaml" />
+    <None Remove="Themes\Generic.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Boards\BoardStandardCustomControl.xaml" />
+    <UpToDateCheckInput Remove="Items\ItemStandardCustomControl.xaml" />
+    <UpToDateCheckInput Remove="Menus\MenuStandardCustomControl.xaml" />
+    <UpToDateCheckInput Remove="Styles\Expander.xaml" />
+    <UpToDateCheckInput Remove="Styles\ToggleButton.xaml" />
+    <UpToDateCheckInput Remove="Themes\Generic.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="BoardStandard\BoardStandardCustomControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ItemStandard\ItemStandardCustomControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Menus\MenuStandardCustomControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Expander.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\ToggleButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0.18362' ">
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform " Version="6.2.11" />
+	<PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
+  </ItemGroup>
+  
+  
+</Project>
