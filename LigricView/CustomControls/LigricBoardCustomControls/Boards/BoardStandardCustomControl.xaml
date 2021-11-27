@@ -2,17 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:local="using:LigricBoardCustomControls.Boards"
                     xmlns:items="using:LigricBoardCustomControls.Items"
+                    xmlns:menus="using:LigricBoardCustomControls.Menus"
                     xmlns:controls="using:Microsoft.UI.Xaml.Controls">
 
     <Style TargetType="local:BoardStandard">
         <Setter Property="Background" Value="White"/>
         <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Foreground" Value="#0a1113"/>
+        <Setter Property="Foreground" Value="#2c2c2c"/>
         <Setter Property="AllowDrop" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:BoardStandard">
-                    <Grid Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" RowSpacing="5">
+                    <Grid x:Name="baseElement" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" RowSpacing="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20*"/>
                             <RowDefinition Height="100*"/>
@@ -65,12 +66,150 @@
 
 
                         <Grid Grid.RowSpan="2">
-                            <controls:Expander CornerRadius="5" Background="#0a1113"
-                                               Height="{TemplateBinding Height}" 
-                                               VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                                               Style="{StaticResource ExpanderAcrylicChangerStyle}"
-                                               Header="{TemplateBinding Title}">
-                            </controls:Expander>
+                            <menus:MenuStandard CornerRadius="5" Background="#2c2c2c"
+                                                Height="{TemplateBinding Height}" Padding="10"
+                                                VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                                ParentElement="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
+                                <controls:Expander.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100*"/>
+                                            <ColumnDefinition Width="40*"/>
+                                            <ColumnDefinition Width="10*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="{TemplateBinding Title}"  FontSize="18" Foreground="White" Margin="10,0,0,0"
+                                                   HorizontalTextAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap"/>
+
+                                        <Frame Grid.Column="1" Background="White" CornerRadius="10"
+                                               Width="30" Height="30" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Right">
+
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="2">
+                                                <Border Width="15" Height="2" Background="#2c2c2c" HorizontalAlignment="Right"/>
+                                                <Border Width="10" Height="2" Background="#2c2c2c" HorizontalAlignment="Right"/>
+                                                <Border Width="12" Height="2" Background="#2c2c2c" HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                        </Frame>
+                                    </Grid>
+                                </controls:Expander.Header>
+
+                                <Grid RowSpacing="10" Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <ComboBoxItem>Купить</ComboBoxItem>
+                                            <ComboBoxItem>Продать</ComboBoxItem>
+                                        </ComboBox>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="1">
+                                        <ComboBox PlaceholderText="Что покупаем"
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <ComboBoxItem>BTC</ComboBoxItem>
+                                            <ComboBoxItem>ETH</ComboBoxItem>
+                                            <ComboBoxItem>BCH</ComboBoxItem>
+                                            <ComboBoxItem>LTC</ComboBoxItem>
+                                            <ComboBoxItem>DASH</ComboBoxItem>
+                                            <ComboBoxItem>DOGE</ComboBoxItem>
+                                        </ComboBox>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="2">
+                                        <ComboBox PlaceholderText="Список валют"
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <ComboBoxItem>RUB</ComboBoxItem>
+                                            <ComboBoxItem>UAH</ComboBoxItem>
+                                            <ComboBoxItem>USD</ComboBoxItem>
+                                            <ComboBoxItem>AED</ComboBoxItem>
+                                            <ComboBoxItem>AFN</ComboBoxItem>
+                                            <ComboBoxItem>ALL</ComboBoxItem>
+                                        </ComboBox>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="3">
+                                        <ComboBox PlaceholderText="Сумма"
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <ComboBoxItem>BTC</ComboBoxItem>
+                                            <ComboBoxItem>RUB</ComboBoxItem>
+                                        </ComboBox>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="4">
+                                        <ComboBox PlaceholderText="Способ оплаты"
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <ComboBoxItem>Сбербанк</ComboBoxItem>
+                                            <ComboBoxItem>Тинькофф</ComboBoxItem>
+                                            <ComboBoxItem>С карты на карту</ComboBoxItem>
+                                            <ComboBoxItem>Альфа-Банк</ComboBoxItem>
+                                            <ComboBoxItem>ВТБ</ComboBoxItem>
+                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        </ComboBox>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="5" ColumnSpacing="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Только активные" Foreground="White" 
+                                                       TextWrapping="WrapWholeWords"
+                                                       VerticalAlignment="Center"/>
+
+                                        <ToggleButton Grid.Column="1"
+                                                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="6" ColumnSpacing="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Проверенные пользователи" Foreground="White"
+                                                       TextWrapping="WrapWholeWords"
+                                                       VerticalAlignment="Center"/>
+
+                                        <ToggleButton Grid.Column="1"
+                                                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="7" ColumnSpacing="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Доверенные пользователи" Foreground="White"
+                                                       TextWrapping="WrapWholeWords"
+                                                       VerticalAlignment="Center"/>
+
+                                        <ToggleButton Grid.Column="1"
+                                                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    </Grid>
+
+                                </Grid>
+
+                            </menus:MenuStandard>
                         </Grid>
 
                     </Grid>

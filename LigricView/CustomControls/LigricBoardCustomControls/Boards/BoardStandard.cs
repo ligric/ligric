@@ -12,12 +12,8 @@ namespace LigricBoardCustomControls.Boards
 
         public IList<IDictionary<string,string>> Ads { get => (IList<IDictionary<string, string>>)GetValue(AdsProperty); set => SetValue(AdsProperty, value); }
         public static readonly DependencyProperty AdsProperty = DependencyProperty.Register(nameof(Ads), typeof(IList<IDictionary<string, string>>), typeof(BoardStandard), new
-            PropertyMetadata(new List<IDictionary<string, string>>(), OnTest));
+            PropertyMetadata(new List<IDictionary<string, string>>()));
 
-        private static void OnTest(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var safsaf = ((BoardStandard)d).Ads;
-        }
 
         public BoardStandard() => this.DefaultStyleKey = typeof(BoardStandard);
     }

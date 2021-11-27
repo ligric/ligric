@@ -19,7 +19,7 @@
     <None Remove="Boards\BoardStandardCustomControl.xaml" />
     <None Remove="Items\ItemStandardCustomControl.xaml" />
     <None Remove="Menus\MenuStandardCustomControl.xaml" />
-    <None Remove="Styles\Expander.xaml" />
+    <None Remove="Styles\ToggleButton - Copy.xaml" />
     <None Remove="Styles\ToggleButton.xaml" />
     <None Remove="Themes\Generic.xaml" />
   </ItemGroup>
@@ -27,7 +27,7 @@
     <UpToDateCheckInput Remove="Boards\BoardStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Items\ItemStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\MenuStandardCustomControl.xaml" />
-    <UpToDateCheckInput Remove="Styles\Expander.xaml" />
+    <UpToDateCheckInput Remove="Styles\ToggleButton - Copy.xaml" />
     <UpToDateCheckInput Remove="Styles\ToggleButton.xaml" />
     <UpToDateCheckInput Remove="Themes\Generic.xaml" />
   </ItemGroup>
@@ -41,7 +41,7 @@
     <Page Update="Menus\MenuStandardCustomControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Styles\Expander.xaml">
+    <Page Update="Styles\ToggleButton - Copy.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ToggleButton.xaml">
