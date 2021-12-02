@@ -25,6 +25,5 @@
     <ProjectReference Include="..\..\ViewModel\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
     <ProjectReference Include="..\..\ViewModel\LigricMvvmTypes\LigricMvvmTypes.csproj" />
   </ItemGroup>
-  <Import Project="..\LigricUno.CustomControls\LigricUno.CustomControls.projitems" Label="Shared" />
   <Import Project="..\LigricUno.Shared\LigricUno.Shared.projitems" Label="Shared" />
 </Project>

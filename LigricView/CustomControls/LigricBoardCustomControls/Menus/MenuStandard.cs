@@ -11,8 +11,8 @@ namespace LigricBoardCustomControls.Menus
     {
         private Storyboard justStoryboard = new Storyboard();
 
-        private readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
-        private readonly string c_expanderHeader = "ExpanderHeader";
+        protected readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
+        protected readonly string c_expanderHeader = "ExpanderHeader";
 
         public FrameworkElement ParentElement { get => (FrameworkElement)GetValue(ParentElementProperty); set => SetValue(ParentElementProperty, value); }
         public static readonly DependencyProperty ParentElementProperty = DependencyProperty.Register(nameof(ParentElement), typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null));
@@ -36,7 +36,7 @@ namespace LigricBoardCustomControls.Menus
 
         private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
-            justStoryboard.Stop(); 
+            justStoryboard.Stop();
             justStoryboard = new Storyboard();
             SliderAnimationExpanding(TimeSpan.FromMilliseconds(400));
         }
