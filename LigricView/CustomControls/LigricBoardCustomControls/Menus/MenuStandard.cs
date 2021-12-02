@@ -28,6 +28,7 @@ namespace LigricBoardCustomControls.Menus
         public MenuStandard() : base() 
         {
             this.Collapsed += OnMenuStandardCollapsed;
+            this.Expanding += OnMenuStandardExpanding;
 
             //this.TransformMatrix  TransformToVisual
 
@@ -50,6 +51,10 @@ namespace LigricBoardCustomControls.Menus
             SliderAnimationCollapsed(TimeSpan.FromMilliseconds(500));
         }
 
+        private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
+        {
+            SliderAnimationExpanding(TimeSpan.FromMilliseconds(500));
+        }
 
         private void SliderAnimationCollapsed(TimeSpan timeSpan)
         {
@@ -141,5 +146,80 @@ namespace LigricBoardCustomControls.Menus
             justintimeStoryboard.Begin();
         }
 
+        private void SliderAnimationExpanding(TimeSpan timeSpan)
+        {
+            var duration = new Duration(timeSpan);
+
+            FrameworkElement sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
+            FrameworkElement expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
+
+            var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
+
+            if (renderTransform == null)
+            {
+                renderTransform = new TranslateTransform();
+                sliderBackgroundBorder.RenderTransform = renderTransform;
+            }
+
+            var elementVisualRelative = expanderHeader.TransformToVisual(this);
+            Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+            sliderBackgroundBorder.Visibility = Visibility.Visible;
+
+            #region widthAnimation
+            DoubleAnimation widthAnimation = new DoubleAnimation()
+            {
+                EnableDependentAnimation = true,
+                From = expanderHeader.ActualWidth,
+                To = this.ActualWidth,
+                Duration = duration
+            };
+            Storyboard.SetTarget(widthAnimation, sliderBackgroundBorder);
+            Storyboard.SetTargetProperty(widthAnimation, "Width");
+            #endregion
+
+            #region heightAnimation
+            DoubleAnimation heightAnimation = new DoubleAnimation()
+            {
+                EnableDependentAnimation = true,
+                From = expanderHeader.ActualHeight - 3,
+                To = this.ActualHeight,
+                Duration = duration
+            };
+            Storyboard.SetTarget(heightAnimation, sliderBackgroundBorder);
+            Storyboard.SetTargetProperty(heightAnimation, "Height");
+            #endregion
+
+            #region xAnimation
+            DoubleAnimation xAnimation = new DoubleAnimation()
+            {
+                EnableDependentAnimation = true,
+                From = headerPostition.X,
+                To = 0,
+                Duration = duration
+            };
+            Storyboard.SetTarget(xAnimation, renderTransform);
+            Storyboard.SetTargetProperty(xAnimation, "X");
+            #endregion
+
+            #region yAnimation
+            DoubleAnimation yAnimation = new DoubleAnimation()
+            {
+                EnableDependentAnimation = true,
+                From = headerPostition.Y,
+                To = 0,
+                Duration = duration
+            };
+            Storyboard.SetTarget(yAnimation, renderTransform);
+            Storyboard.SetTargetProperty(yAnimation, "Y");
+            #endregion
+
+            Storyboard justintimeStoryboard = new Storyboard();
+            justintimeStoryboard.Children.Add(widthAnimation);
+            justintimeStoryboard.Children.Add(heightAnimation);
+            justintimeStoryboard.Children.Add(xAnimation);
+            justintimeStoryboard.Children.Add(yAnimation);
+            justintimeStoryboard.Begin();
+        }
     }
 }

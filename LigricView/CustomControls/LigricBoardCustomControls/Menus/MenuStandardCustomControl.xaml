@@ -109,7 +109,7 @@
                         </VisualStateManager.VisualStateGroups>
 
 
-                        <Border x:Name="SliderBackgroundBorder" Background="#2c2c2c" Grid.RowSpan="2" CornerRadius="10"  Height="200" Margin="0"
+                        <Border x:Name="SliderBackgroundBorder" Background="#2c2c2c" Grid.RowSpan="2" CornerRadius="10"  Height="200" Margin="0" Visibility="Collapsed"
                                 VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
                         <Border x:Name="ExpanderContentClip" Grid.Row="1">
