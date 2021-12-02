@@ -1,13 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Numerics;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -15,6 +9,8 @@ namespace LigricBoardCustomControls.Menus
 {
     public partial class MenuStandard : Expander
     {
+        private Storyboard justStoryboard = new Storyboard();
+
         private readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
         private readonly string c_expanderHeader = "ExpanderHeader";
 
@@ -29,31 +25,20 @@ namespace LigricBoardCustomControls.Menus
         {
             this.Collapsed += OnMenuStandardCollapsed;
             this.Expanding += OnMenuStandardExpanding;
-
-            //this.TransformMatrix  TransformToVisual
-
-            //((Grid)this.Header).ActualOffset
-
-            Task.Run(async () =>
-            {
-                await Task.Delay(2_000);
-
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                    var test = this;
-                }
-                );
-            }
-            );
         }
 
         private void OnMenuStandardCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
         {
-            SliderAnimationCollapsed(TimeSpan.FromMilliseconds(500));
+            justStoryboard.Stop();
+            justStoryboard = new Storyboard();
+            SliderAnimationCollapsed(TimeSpan.FromMilliseconds(400));
         }
 
         private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
-            SliderAnimationExpanding(TimeSpan.FromMilliseconds(500));
+            justStoryboard.Stop(); 
+            justStoryboard = new Storyboard();
+            SliderAnimationExpanding(TimeSpan.FromMilliseconds(400));
         }
 
         private void SliderAnimationCollapsed(TimeSpan timeSpan)
@@ -137,13 +122,12 @@ namespace LigricBoardCustomControls.Menus
             Storyboard.SetTargetProperty(visibilityAnimation, "Visibility");
             #endregion
 
-            Storyboard justintimeStoryboard = new Storyboard();
-            justintimeStoryboard.Children.Add(widthAnimation);
-            justintimeStoryboard.Children.Add(heightAnimation);
-            justintimeStoryboard.Children.Add(xAnimation);
-            justintimeStoryboard.Children.Add(yAnimation);
-            justintimeStoryboard.Children.Add(visibilityAnimation);
-            justintimeStoryboard.Begin();
+            justStoryboard.Children.Add(widthAnimation);
+            justStoryboard.Children.Add(heightAnimation);
+            justStoryboard.Children.Add(xAnimation);
+            justStoryboard.Children.Add(yAnimation);
+            justStoryboard.Children.Add(visibilityAnimation);
+            justStoryboard.Begin();
         }
 
         private void SliderAnimationExpanding(TimeSpan timeSpan)
@@ -214,12 +198,11 @@ namespace LigricBoardCustomControls.Menus
             Storyboard.SetTargetProperty(yAnimation, "Y");
             #endregion
 
-            Storyboard justintimeStoryboard = new Storyboard();
-            justintimeStoryboard.Children.Add(widthAnimation);
-            justintimeStoryboard.Children.Add(heightAnimation);
-            justintimeStoryboard.Children.Add(xAnimation);
-            justintimeStoryboard.Children.Add(yAnimation);
-            justintimeStoryboard.Begin();
+            justStoryboard.Children.Add(widthAnimation);
+            justStoryboard.Children.Add(heightAnimation);
+            justStoryboard.Children.Add(xAnimation);
+            justStoryboard.Children.Add(yAnimation);
+            justStoryboard.Begin();
         }
     }
 }
