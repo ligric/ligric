@@ -17,11 +17,7 @@
     </Page.Resources>
 
     <Grid>
-        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Background="Red" ScrollViewer.ZoomMode="Enabled"
-                  
-                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Enabled"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Background="Red">
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

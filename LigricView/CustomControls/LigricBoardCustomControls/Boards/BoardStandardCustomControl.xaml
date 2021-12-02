@@ -66,6 +66,7 @@
 
 
                         <Grid Grid.RowSpan="2">
+                            
                             <menus:MenuStandard CornerRadius="5" Background="#2c2c2c"
                                                 Height="{TemplateBinding Height}" Padding="10"
                                                 VerticalAlignment="Top" HorizontalAlignment="Stretch"
@@ -210,6 +211,8 @@
                                 </Grid>
 
                             </menus:MenuStandard>
+                        
+                        
                         </Grid>
 
                     </Grid>

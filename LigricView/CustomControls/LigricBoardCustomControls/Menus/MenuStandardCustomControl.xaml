@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:menus="using:LigricBoardCustomControls.Menus">
+                    xmlns:menus="using:LigricBoardCustomControls.Menus"
+                    xmlns:thicknessAnimation="using:LigricBoardCustomControls.Animations.ThicknessAnimation">
 
     <Style TargetType="menus:MenuStandard">
         <Setter Property="IsTabStop" Value="False"/>
@@ -23,43 +24,14 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="SliderBackgroundBorder" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                                        </ObjectAnimationUsingKeyFrames>
-
+                                        
+                                        
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent"
                                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
 
                                             <LinearDoubleKeyFrame KeyTime="0" Value="{Binding TemplateSettings.NegativeContentHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                             <SplineDoubleKeyFrame KeyTime="0:0:0.2" KeySpline="0.0, 0.0, 0.0, 1.0" Value="0"/>
                                         </DoubleAnimationUsingKeyFrames>
-
-                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="SliderBackgroundBorder"
-                                                                       Storyboard.TargetProperty="(FrameworkElement.Height)">
-
-                                            <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.8" Value="{Binding ParentElement.Height, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
-
-                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="SliderBackgroundBorderTransform"
-                                                                       Storyboard.TargetProperty="Y">
-
-                                            <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.8" Value="10"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
-
-                                        <!--<ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="SliderBackgroundBorder"  
-                                                                       Storyboard.TargetProperty="(FrameworkElement.Margin)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.8">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Thickness>10,10,10,0</Thickness>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>-->
-
 
                                     </Storyboard>
                                 </VisualState>
@@ -70,25 +42,11 @@
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SliderBackgroundBorder" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="Collapsed"/>
-                                        </ObjectAnimationUsingKeyFrames>
-
-
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" 
                                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
                                             <SplineDoubleKeyFrame KeyTime="0:0:0.2" KeySpline="1.0, 1.0, 0.0, 1.0" Value="{Binding TemplateSettings.NegativeContentHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                         </DoubleAnimationUsingKeyFrames>
-
-
-                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="SliderBackgroundBorder"
-                                                                       Storyboard.TargetProperty="(FrameworkElement.Height)">
-
-                                            <LinearDoubleKeyFrame KeyTime="0" Value="{Binding ParentElement.Height, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
 
                                     </Storyboard>
                                 </VisualState>
@@ -151,12 +109,8 @@
                         </VisualStateManager.VisualStateGroups>
 
 
-                        <Border x:Name="SliderBackgroundBorder" Grid.RowSpan="2" Background="#2c2c2c" CornerRadius="10" Visibility="Collapsed"
-                                VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                            <Border.RenderTransform>
-                                <TranslateTransform x:Name="SliderBackgroundBorderTransform"/>
-                            </Border.RenderTransform>
-                        </Border>
+                        <Border x:Name="SliderBackgroundBorder" Background="#2c2c2c" Grid.RowSpan="2" CornerRadius="10"  Height="200" Margin="0"
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
                         <Border x:Name="ExpanderContentClip" Grid.Row="1">
                             <Border x:Name="ExpanderContent"
