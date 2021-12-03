@@ -19,16 +19,14 @@
     <None Remove="Boards\BoardStandardCustomControl.xaml" />
     <None Remove="Items\ItemStandardCustomControl.xaml" />
     <None Remove="Menus\MenuStandardCustomControl.xaml" />
-    <None Remove="Styles\ToggleButton - Copy.xaml" />
-    <None Remove="Styles\ToggleButton.xaml" />
+    <None Remove="Templates\ComboBox.xaml" />
     <None Remove="Themes\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="Boards\BoardStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Items\ItemStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\MenuStandardCustomControl.xaml" />
-    <UpToDateCheckInput Remove="Styles\ToggleButton - Copy.xaml" />
-    <UpToDateCheckInput Remove="Styles\ToggleButton.xaml" />
+    <UpToDateCheckInput Remove="Templates\ComboBox.xaml" />
     <UpToDateCheckInput Remove="Themes\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +45,9 @@
     <Page Update="Styles\ToggleButton.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Templates\ComboBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -56,6 +57,11 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0.18362' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform " Version="6.2.11" />
 	<PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
+  </ItemGroup>
+  
+  
+  <ItemGroup>
+    <Folder Include="Styles\" />
   </ItemGroup>
   
 </Project>

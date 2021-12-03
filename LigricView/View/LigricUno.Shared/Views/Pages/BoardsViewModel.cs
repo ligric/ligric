@@ -173,6 +173,8 @@ namespace LigricUno.Views.Pages
                 new AdViewModel(6, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
                 new AdViewModel(7, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
                 new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+                new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
             };
 
             var fist = new BitzlatoBoardViewModel(0, "First BitZlato", 10, 60);

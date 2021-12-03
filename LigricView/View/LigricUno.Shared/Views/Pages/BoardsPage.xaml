@@ -33,11 +33,11 @@
                         <boards:BoardStandard.RenderTransform>
                             <TranslateTransform X="{Binding PositionX}" Y="{Binding PositionY}"/>
                         </boards:BoardStandard.RenderTransform>
-                        <interactivity:Interaction.Behaviors>
+                        <!--<interactivity:Interaction.Behaviors>
                             <behaviors:DragPositionBehavior Command="{Binding SavePositionCommand}"
                                                             ZoomFactor="1"
                                                             BaseParent="{Binding ElementName=baseListView}"/>
-                        </interactivity:Interaction.Behaviors>
+                        </interactivity:Interaction.Behaviors>-->
                     </boards:BoardStandard>
 
                 </DataTemplate>
