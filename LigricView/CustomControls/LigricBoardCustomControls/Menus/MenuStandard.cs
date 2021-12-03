@@ -12,14 +12,7 @@ namespace LigricBoardCustomControls.Menus
         private Storyboard justStoryboard = new Storyboard();
 
         protected readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
-        protected readonly string c_expanderHeader = "ExpanderHeader";
-
-        //public FrameworkElement ParentElement { get => (FrameworkElement)GetValue(ParentElementProperty); set => SetValue(ParentElementProperty, value); }
-        //public static readonly DependencyProperty ParentElementProperty = DependencyProperty.Register(nameof(ParentElement), typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null));
-
-        public Rect Rect { get => (Rect)GetValue(RectProperty); set => SetValue(RectProperty, value); }
-        public static readonly DependencyProperty RectProperty = DependencyProperty.Register(nameof(Rect), typeof(Rect), typeof(MenuStandard), new PropertyMetadata(default(Rect)));
-        
+        protected readonly string c_expanderHeader = "ExpanderHeader";       
 
         public MenuStandard() : base() 
         {
