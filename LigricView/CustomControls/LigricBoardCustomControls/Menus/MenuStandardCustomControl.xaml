@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:menus="using:LigricBoardCustomControls.Menus">
+                    xmlns:menus="using:LigricBoardCustomControls.Menus"
+                    xmlns:sys="using:System">
+
 
     <Style TargetType="menus:MenuStandard">
         <Setter Property="IsTabStop" Value="False"/>
@@ -20,33 +22,21 @@
 
                                 <VisualState x:Name="ExpandDown">
                                     <Storyboard>
+                                        
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        
-                                        
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent"
-                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-
-                                            <LinearDoubleKeyFrame KeyTime="0" Value="{Binding TemplateSettings.NegativeContentHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                            <SplineDoubleKeyFrame KeyTime="0:0:0.2" KeySpline="0.0, 0.0, 0.0, 1.0" Value="0"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
                                     </Storyboard>
+                                    
                                 </VisualState>
 
                                 <VisualState x:Name="CollapseUp">
                                     <Storyboard>
+                                        
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
-
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" 
-                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                            <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
-                                            <SplineDoubleKeyFrame KeyTime="0:0:0.2" KeySpline="1.0, 1.0, 0.0, 1.0" Value="{Binding TemplateSettings.NegativeContentHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
+                                        
                                     </Storyboard>
                                 </VisualState>
 
@@ -108,8 +98,11 @@
                         </VisualStateManager.VisualStateGroups>
 
 
-                        <Border x:Name="SliderBackgroundBorder" Background="#2c2c2c" Grid.RowSpan="2" CornerRadius="10"  Height="200" Margin="0" Visibility="Collapsed"
-                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Grid x:Name="SliderBackgroundBorder" Background="#2c2c2c" Grid.RowSpan="2" 
+                              CornerRadius="10"  Height="200" Margin="0" Visibility="Collapsed"
+                              VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+
 
                         <Border x:Name="ExpanderContentClip" Grid.Row="1">
                             <Border x:Name="ExpanderContent"

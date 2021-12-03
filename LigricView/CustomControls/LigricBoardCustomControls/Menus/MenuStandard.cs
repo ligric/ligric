@@ -2,6 +2,7 @@
 using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -13,18 +14,50 @@ namespace LigricBoardCustomControls.Menus
 
         protected readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
         protected readonly string c_expanderHeader = "ExpanderHeader";       
+        protected readonly string c_expanderContent = "ExpanderContent";
 
+        private FrameworkElement sliderBackgroundBorder;
+        private FrameworkElement expanderHeader;
+        private FrameworkElement expanderContent;
+        
         public MenuStandard() : base() 
         {
+            this.Loaded += OnMenuStandardLoaded;
+
             this.Collapsed += OnMenuStandardCollapsed;
             this.Expanding += OnMenuStandardExpanding;
         }
+
+        private void OnMenuStandardLoaded(object sender, RoutedEventArgs e)
+        {
+            sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
+            expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
+            expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;
+
+            TransformInitialize(sliderBackgroundBorder);
+            TransformInitialize(expanderHeader);
+            TransformInitialize(expanderContent);
+        }
+
+        private void TransformInitialize(FrameworkElement element)
+        {
+            var renderTransform = element.RenderTransform as TranslateTransform;
+
+            if (renderTransform == null)
+            {
+                renderTransform = new TranslateTransform();
+                element.RenderTransform = renderTransform;
+            }
+        }
+
 
         private void OnMenuStandardCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
         {
             justStoryboard.Stop();
             justStoryboard = new Storyboard();
             SliderAnimationCollapsed(TimeSpan.FromMilliseconds(400));
+            expanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(400));
+            justStoryboard.Begin();
         }
 
         private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
@@ -32,22 +65,15 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Stop();
             justStoryboard = new Storyboard();
             SliderAnimationExpanding(TimeSpan.FromMilliseconds(400));
+            expanderContentAnimationExpanding(TimeSpan.FromMilliseconds(400));
+            justStoryboard.Begin();
         }
 
         private void SliderAnimationCollapsed(TimeSpan timeSpan)
         {
             var duration = new Duration(timeSpan);
 
-            FrameworkElement sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
-            FrameworkElement expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
-
             var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
-
-            if (renderTransform == null)
-            {
-                renderTransform = new TranslateTransform();
-                sliderBackgroundBorder.RenderTransform = renderTransform;
-            }
 
             var elementVisualRelative = expanderHeader.TransformToVisual(this);
             Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
@@ -120,23 +146,13 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(xAnimation);
             justStoryboard.Children.Add(yAnimation);
             justStoryboard.Children.Add(visibilityAnimation);
-            justStoryboard.Begin();
         }
 
         private void SliderAnimationExpanding(TimeSpan timeSpan)
         {
             var duration = new Duration(timeSpan);
 
-            FrameworkElement sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
-            FrameworkElement expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
-
             var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
-
-            if (renderTransform == null)
-            {
-                renderTransform = new TranslateTransform();
-                sliderBackgroundBorder.RenderTransform = renderTransform;
-            }
 
             var elementVisualRelative = expanderHeader.TransformToVisual(this);
             Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
@@ -196,7 +212,64 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(heightAnimation);
             justStoryboard.Children.Add(xAnimation);
             justStoryboard.Children.Add(yAnimation);
-            justStoryboard.Begin();
+        }
+
+        private void expanderContentAnimationExpanding(TimeSpan timeSpan)
+        {
+            var duration = new Duration(timeSpan);
+            var renderTransform = expanderContent.RenderTransform as TranslateTransform;
+
+            expanderContent.Visibility = Visibility.Visible;
+
+            #region yAnimation
+            DoubleAnimation yAnimationKek = new DoubleAnimation()
+            {
+                EnableDependentAnimation = true,
+                From = -300,
+                To = 0,
+                Duration = duration
+            };
+            Storyboard.SetTarget(yAnimationKek, renderTransform);
+            Storyboard.SetTargetProperty(yAnimationKek, "Y");
+            #endregion
+
+            justStoryboard.Children.Add(yAnimationKek);
+        }
+
+        private void expanderContentAnimationCollapsed(TimeSpan timeSpan)
+        {
+            var duration = new Duration(timeSpan);
+            var renderTransform = expanderContent.RenderTransform as TranslateTransform;
+
+            expanderContent.Visibility = Visibility.Visible;
+
+            #region yAnimation
+            DoubleAnimation yAnimationKek = new DoubleAnimation()
+            {
+                EnableDependentAnimation = true,
+                From = 0,
+                To = -300,
+                Duration = duration
+            };
+            Storyboard.SetTarget(yAnimationKek, renderTransform);
+            Storyboard.SetTargetProperty(yAnimationKek, "Y");
+            #endregion
+
+            #region visibilityAnimation
+            ObjectAnimationUsingKeyFrames visibilityAnimation = new ObjectAnimationUsingKeyFrames();
+            DiscreteObjectKeyFrame visibilityCollapsedKeyFrame = new DiscreteObjectKeyFrame()
+            {
+                KeyTime = timeSpan,
+                Value = Visibility.Collapsed
+            };
+            visibilityAnimation.KeyFrames.Add(visibilityCollapsedKeyFrame);
+
+            Storyboard.SetTarget(visibilityAnimation, expanderContent);
+            Storyboard.SetTargetProperty(visibilityAnimation, "Visibility");
+            #endregion
+
+            justStoryboard.Children.Add(yAnimationKek);
+            justStoryboard.Children.Add(visibilityAnimation);
         }
     }
 }
