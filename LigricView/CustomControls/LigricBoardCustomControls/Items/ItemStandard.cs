@@ -8,7 +8,7 @@ namespace LigricBoardCustomControls.Items
     {
         public IDictionary<string, string> Properties { get => (IDictionary<string, string>)GetValue(PropertiesProperty); set => SetValue(PropertiesProperty, value); }
         public static readonly DependencyProperty PropertiesProperty = DependencyProperty.Register(nameof(Properties), typeof(IDictionary<string, string>), typeof(ItemStandard), new PropertyMetadata(new Dictionary<string, string>(), OnPropertiesChanged));
-
+        
         private static void OnPropertiesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var dict = (IDictionary<string, string>)e.NewValue;

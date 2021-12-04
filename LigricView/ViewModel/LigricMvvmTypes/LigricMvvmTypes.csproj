@@ -16,9 +16,4 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.18362'">
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.1</Version>
-    </PackageReference>
-  </ItemGroup>
 </Project>

@@ -165,8 +165,6 @@
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            
-            
         </ContentPresenter>
     </ControlTemplate>
 </ResourceDictionary>

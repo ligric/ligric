@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:menus="using:LigricBoardCustomControls.Menus"
-                    xmlns:sys="using:System">
+                    xmlns:menus="using:LigricBoardCustomControls.Menus">
 
 
     <Style TargetType="menus:MenuStandard">

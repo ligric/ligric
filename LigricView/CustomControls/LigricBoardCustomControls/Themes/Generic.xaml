@@ -3,10 +3,11 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Templates/ToggleButton.xaml"/>
+        
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Styles/ComboBox.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Styles/ToggleButton.xaml"/>
 
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/MenuStandardCustomControl.xaml"/>
-
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Items/ItemStandardCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Boards/BoardStandardCustomControl.xaml"/>
     </ResourceDictionary.MergedDictionaries>

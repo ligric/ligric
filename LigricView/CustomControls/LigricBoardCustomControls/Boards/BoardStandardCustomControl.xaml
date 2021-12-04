@@ -304,8 +304,8 @@
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                                <ToggleButton Grid.Column="1"
-                                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                                <ToggleButton Grid.Column="1" Style="{StaticResource ToggleButtonSimpleStyle}"
+                                                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
                                             </Grid>
 

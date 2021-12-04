@@ -65,4 +65,80 @@
     <Folder Include="Styles\" />
   </ItemGroup>
   
+  
+  <ItemGroup>
+    <Compile Update="Multibinding\Common\Disposable\AnonymousDisposable.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Common\Extensions\CollectionExtensions.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Common\Extensions\EventsExtensions.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Common\Extensions\PropertyInfoExtensions.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Common\Reflection\Reflector.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Data\Binding.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Data\BindingHelper.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Data\MultiBinding.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Data\MultiBindingCollection.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Data\MultiBindingExpression.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Data\MultiBindingHelper.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\DisableablePropertyChangedCallback.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Extensions\MultiBindingExtensions.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Extensions\ReflectionExtensions.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Interfaces\IDependencyPropertyDescriptor.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Interfaces\IMultibindingItem.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Interfaces\IMultiValueConverter.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Interfaces\IOneWayMultibindingItem.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Interfaces\IOneWayToSourceMultibindingItem.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\Interfaces\ITypeProvider.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\PropertyDescriptors\AttachedPropertyDescriptor.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\PropertyDescriptors\DependencyPropertyDescriptor.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\PropertyDescriptors\DependencyPropertyDescriptorBase.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Multibinding\Foundation\TypeProvider.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+  </ItemGroup>
+  
 </Project>
