@@ -11,6 +11,7 @@ namespace LigricBoardCustomControls.Menus
     public partial class MenuStandard : Expander
     {
         private Storyboard justStoryboard = new Storyboard();
+        private bool isLoaded;
 
         protected readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
         protected readonly string c_expanderHeader = "ExpanderHeader";       
@@ -28,6 +29,36 @@ namespace LigricBoardCustomControls.Menus
             this.Expanding += OnMenuStandardExpanding;
         }
 
+        #region Initialization
+        private void InitializeState()
+        {
+            if (this.IsExpanded)
+            {
+                ExpanderExpanding();
+            }
+            else
+            {
+                ExpanderCollapsing();
+            }
+        }
+
+        private bool TransformInitialize(FrameworkElement element)
+        {
+            if (element is null)
+                return false;
+
+            var renderTransform = element.RenderTransform as TranslateTransform;
+
+            if (renderTransform is null)
+            {
+                renderTransform = new TranslateTransform();
+                element.RenderTransform = renderTransform;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Expander actions
         private void OnMenuStandardLoaded(object sender, RoutedEventArgs e)
         {
             sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
@@ -37,40 +68,54 @@ namespace LigricBoardCustomControls.Menus
             TransformInitialize(sliderBackgroundBorder);
             TransformInitialize(expanderHeader);
             TransformInitialize(expanderContent);
+
+            isLoaded = true;
+            InitializeState();
         }
-
-        private void TransformInitialize(FrameworkElement element)
-        {
-            var renderTransform = element.RenderTransform as TranslateTransform;
-
-            if (renderTransform == null)
-            {
-                renderTransform = new TranslateTransform();
-                element.RenderTransform = renderTransform;
-            }
-        }
-
 
         private void OnMenuStandardCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
         {
-            justStoryboard.Stop();
-            justStoryboard = new Storyboard();
-            SliderAnimationCollapsed(TimeSpan.FromMilliseconds(400));
-            expanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(400));
-            justStoryboard.Begin();
+            if (!isLoaded)
+                return;
+
+            ExpanderCollapsing();
         }
 
         private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
+            if (!isLoaded)
+                return;
+
+            ExpanderExpanding();
+        }
+        #endregion
+    
+        #region Set expander animation
+        private void ExpanderCollapsing()
+        {
             justStoryboard.Stop();
             justStoryboard = new Storyboard();
-            SliderAnimationExpanding(TimeSpan.FromMilliseconds(400));
-            expanderContentAnimationExpanding(TimeSpan.FromMilliseconds(400));
+            SliderAnimationCollapsed(TimeSpan.FromMilliseconds(400));
+            ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(400));
             justStoryboard.Begin();
         }
 
+        private void ExpanderExpanding()
+        {
+            justStoryboard.Stop();
+            justStoryboard = new Storyboard();
+            SliderAnimationExpanding(TimeSpan.FromMilliseconds(400));
+            ExpanderContentAnimationExpanding(TimeSpan.FromMilliseconds(400));
+            justStoryboard.Begin();
+        }
+        #endregion
+
+        #region Animations
         private void SliderAnimationCollapsed(TimeSpan timeSpan)
         {
+            if (!TransformInitialize(sliderBackgroundBorder) && isLoaded)
+                return;
+
             var duration = new Duration(timeSpan);
 
             var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
@@ -150,6 +195,9 @@ namespace LigricBoardCustomControls.Menus
 
         private void SliderAnimationExpanding(TimeSpan timeSpan)
         {
+            if (!TransformInitialize(sliderBackgroundBorder) && isLoaded)
+                return;
+
             var duration = new Duration(timeSpan);
 
             var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
@@ -214,8 +262,11 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(yAnimation);
         }
 
-        private void expanderContentAnimationExpanding(TimeSpan timeSpan)
+        private void ExpanderContentAnimationExpanding(TimeSpan timeSpan)
         {
+            if (!TransformInitialize(expanderContent) && isLoaded)
+                return;
+
             var duration = new Duration(timeSpan);
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;
 
@@ -236,8 +287,11 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(yAnimationKek);
         }
 
-        private void expanderContentAnimationCollapsed(TimeSpan timeSpan)
+        private void ExpanderContentAnimationCollapsed(TimeSpan timeSpan)
         {
+            if (!TransformInitialize(expanderContent) && isLoaded)
+                return;
+
             var duration = new Duration(timeSpan);
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;
 
@@ -271,5 +325,6 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(yAnimationKek);
             justStoryboard.Children.Add(visibilityAnimation);
         }
+        #endregion
     }
 }

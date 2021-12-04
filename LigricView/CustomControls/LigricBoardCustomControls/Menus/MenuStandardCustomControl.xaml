@@ -6,6 +6,7 @@
 
     <Style TargetType="menus:MenuStandard">
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="IsExpanded" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -23,20 +24,13 @@
                                 <VisualState x:Name="ExpandDown">
                                     <Storyboard>
                                         
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                     
                                 </VisualState>
 
                                 <VisualState x:Name="CollapseUp">
                                     <Storyboard>
-                                        
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        
+                                                                                
                                     </Storyboard>
                                 </VisualState>
 
@@ -120,7 +114,7 @@
 
 
                         <ToggleButton x:Name="ExpanderHeader" CornerRadius="10" Margin="10,10,10,0"
-                                      AutomationProperties.AutomationId="ExpanderToggleButton" 
+                                      AutomationProperties.AutomationId="ExpanderToggleButton" Visibility="Visible"
                                       Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                       BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding HeaderTemplate}" 
                                       Content="{TemplateBinding Header}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
@@ -128,10 +122,6 @@
                                       IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
                                       IsEnabled="{TemplateBinding IsEnabled}" MinHeight="{TemplateBinding MinHeight}" Padding="{StaticResource ExpanderHeaderPadding}" 
                                       Template="{StaticResource ExpanderMenuHeaderDownTemplate}" VerticalContentAlignment="{StaticResource ExpanderHeaderVerticalContentAlignment}">
-                            <ToggleButton.RenderTransform>
-                                <TranslateTransform x:Name="ToggleButtonTransform"/>
-                            </ToggleButton.RenderTransform>
-                            
                         </ToggleButton>
 
                     </Grid>

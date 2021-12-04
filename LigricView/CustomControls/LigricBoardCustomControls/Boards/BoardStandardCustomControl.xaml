@@ -108,7 +108,6 @@
                         <Grid Grid.RowSpan="3">
 
                             <menus:MenuStandard CornerRadius="5" Background="#2c2c2c" Padding="10"
-                                                Height="Auto"
                                                 VerticalAlignment="Top" HorizontalAlignment="Stretch">
 
                                 <controls:Expander.Header>
@@ -119,7 +118,7 @@
                                             <ColumnDefinition Width="10*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Column="0" Text="{TemplateBinding Title}"  FontSize="18" Foreground="White" Margin="10,0,0,0"
+                                        <TextBlock Grid.Column="0" Text="{Binding Title}"  FontSize="18" Foreground="White" Margin="10,0,0,0"
                                                    HorizontalTextAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap"/>
 
                                         <Frame Grid.Column="1" Background="White" CornerRadius="10"
