@@ -135,246 +135,213 @@
                                 </controls:Expander.Header>
 
                                 <Grid RowSpacing="10" Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
+                                    
+                                    <ScrollViewer>
+                                        <StackPanel Spacing="3">
+                                            <ComboBox HorizontalAlignment="Stretch" Height="40"
+                                                      Style="{StaticResource ComboBoxSimpleTemplate}">
+                                                <ComboBoxItem>Купить</ComboBoxItem>
+                                                <ComboBoxItem>Продать</ComboBoxItem>
+                                            </ComboBox>
 
-                                    <Grid Grid.Row="0">
+                                            <ComboBox PlaceholderText="Что покупаем" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                                      HorizontalAlignment="Stretch" Height="40">
+                                                <ComboBoxItem>BTC</ComboBoxItem>
+                                                <ComboBoxItem>ETH</ComboBoxItem>
+                                                <ComboBoxItem>BCH</ComboBoxItem>
+                                                <ComboBoxItem>LTC</ComboBoxItem>
+                                                <ComboBoxItem>DASH</ComboBoxItem>
+                                                <ComboBoxItem>DOGE</ComboBoxItem>
+                                            </ComboBox>
 
-                                        <ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                  Style="{StaticResource ComboBoxSimpleTemplate}">
-                                            <ComboBoxItem>Купить</ComboBoxItem>
-                                            <ComboBoxItem>Продать</ComboBoxItem>
-                                        </ComboBox>
+                                            <ComboBox PlaceholderText="Список валют" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                                      HorizontalAlignment="Stretch" Height="40">
+                                                <ComboBoxItem>RUB</ComboBoxItem>
+                                                <ComboBoxItem>UAH</ComboBoxItem>
+                                                <ComboBoxItem>USD</ComboBoxItem>
+                                                <ComboBoxItem>AED</ComboBoxItem>
+                                                <ComboBoxItem>AFN</ComboBoxItem>
+                                                <ComboBoxItem>ALL</ComboBoxItem>
+                                            </ComboBox>
 
-                                    </Grid>
+                                            <ComboBox PlaceholderText="Сумма" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                                      HorizontalAlignment="Stretch" Height="40">
+                                                <ComboBoxItem>BTC</ComboBoxItem>
+                                                <ComboBoxItem>RUB</ComboBoxItem>
+                                            </ComboBox>
 
+                                            <ComboBox PlaceholderText="Способ оплаты" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                                      HorizontalAlignment="Stretch" Height="40">
+                                                <ComboBoxItem>Сбербанк</ComboBoxItem>
+                                                <ComboBoxItem>Тинькофф</ComboBoxItem>
+                                                <ComboBoxItem>С карты на карту</ComboBoxItem>
+                                                <ComboBoxItem>Альфа-Банк</ComboBoxItem>
+                                                <ComboBoxItem>ВТБ</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                                <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                            </ComboBox>
 
-                                    <Grid Grid.Row="1">
+                                            <Grid ColumnSpacing="20" Height="40">
 
-                                        <ComboBox PlaceholderText="Что покупаем" Style="{StaticResource ComboBoxSimpleTemplate}"
-                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <ComboBoxItem>BTC</ComboBoxItem>
-                                            <ComboBoxItem>ETH</ComboBoxItem>
-                                            <ComboBoxItem>BCH</ComboBoxItem>
-                                            <ComboBoxItem>LTC</ComboBoxItem>
-                                            <ComboBoxItem>DASH</ComboBoxItem>
-                                            <ComboBoxItem>DOGE</ComboBoxItem>
-                                        </ComboBox>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="10*"/>
+                                                    <ColumnDefinition Width="4*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                    </Grid>
-
-
-                                    <Grid Grid.Row="2">
-
-                                        <ComboBox PlaceholderText="Список валют" Style="{StaticResource ComboBoxSimpleTemplate}"
-                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <ComboBoxItem>RUB</ComboBoxItem>
-                                            <ComboBoxItem>UAH</ComboBoxItem>
-                                            <ComboBoxItem>USD</ComboBoxItem>
-                                            <ComboBoxItem>AED</ComboBoxItem>
-                                            <ComboBoxItem>AFN</ComboBoxItem>
-                                            <ComboBoxItem>ALL</ComboBoxItem>
-                                        </ComboBox>
-
-                                    </Grid>
-
-
-                                    <Grid Grid.Row="3">
-
-                                        <ComboBox PlaceholderText="Сумма" Style="{StaticResource ComboBoxSimpleTemplate}"
-                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <ComboBoxItem>BTC</ComboBoxItem>
-                                            <ComboBoxItem>RUB</ComboBoxItem>
-                                        </ComboBox>
-
-                                    </Grid>
-
-
-                                    <Grid Grid.Row="4">
-
-                                        <ComboBox PlaceholderText="Способ оплаты" Style="{StaticResource ComboBoxSimpleTemplate}"
-                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <ComboBoxItem>Сбербанк</ComboBoxItem>
-                                            <ComboBoxItem>Тинькофф</ComboBoxItem>
-                                            <ComboBoxItem>С карты на карту</ComboBoxItem>
-                                            <ComboBoxItem>Альфа-Банк</ComboBoxItem>
-                                            <ComboBoxItem>ВТБ</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                            <ComboBoxItem>MASTERCARD</ComboBoxItem>
-                                        </ComboBox>
-
-                                    </Grid>
-
-
-                                    <Grid Grid.Row="5" ColumnSpacing="20">
-
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10*"/>
-                                            <ColumnDefinition Width="4*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Grid.Column="0" Text="Только активные" Foreground="White" 
+                                                <TextBlock Grid.Column="0" Text="Только активные" Foreground="White" 
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                        <ToggleButton Grid.Column="1"
+                                                <ToggleButton Grid.Column="1"
                                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-                                    </Grid>
+                                            </Grid>
 
+                                            <Grid ColumnSpacing="20" Height="40">
 
-                                    <Grid Grid.Row="6" ColumnSpacing="20">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="10*"/>
+                                                    <ColumnDefinition Width="4*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10*"/>
-                                            <ColumnDefinition Width="4*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Grid.Column="0" Text="Проверенные пользователи" Foreground="White"
+                                                <TextBlock Grid.Column="0" Text="Проверенные пользователи" Foreground="White"
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                        <ToggleButton Grid.Column="1"
+                                                <ToggleButton Grid.Column="1"
                                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-                                    </Grid>
+                                            </Grid>
 
+                                            <Grid ColumnSpacing="20" Height="40">
 
-                                    <Grid Grid.Row="7" ColumnSpacing="20">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="10*"/>
+                                                    <ColumnDefinition Width="4*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10*"/>
-                                            <ColumnDefinition Width="4*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Grid.Column="0" Text="Доверенные пользователи" Foreground="White"
+                                                <TextBlock Grid.Column="0" Text="Доверенные пользователи" Foreground="White"
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                        <ToggleButton Grid.Column="1"
+                                                <ToggleButton Grid.Column="1"
                                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-                                    </Grid>
+                                            </Grid>
+                                        </StackPanel>
+                                    </ScrollViewer>
 
                                 </Grid>
 
