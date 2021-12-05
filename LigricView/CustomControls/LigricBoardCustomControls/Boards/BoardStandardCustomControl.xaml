@@ -3,6 +3,7 @@
                     xmlns:local="using:LigricBoardCustomControls.Boards"
                     xmlns:items="using:LigricBoardCustomControls.Items"
                     xmlns:menus="using:LigricBoardCustomControls.Menus"
+                    xmlns:toggleButtons="using:LigricBoardCustomControls.ToggleButtons"
                     xmlns:controls="using:Microsoft.UI.Xaml.Controls">
 
     <Style TargetType="local:BoardStandard">
@@ -304,8 +305,16 @@
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                                <ToggleButton Grid.Column="1" Style="{StaticResource ToggleButtonSimpleStyle}"
-                                                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                                <Grid Grid.Column="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition Height="2*"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    
+                                                    <toggleButtons:ToggleButtonStandard Grid.Row="1"/>
+                                                    
+                                                </Grid>
 
                                             </Grid>
 
@@ -320,8 +329,16 @@
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                                <ToggleButton Grid.Column="1"
-                                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                                <Grid Grid.Column="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition Height="2*"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <toggleButtons:ToggleButtonStandard Grid.Row="1"/>
+
+                                                </Grid>
 
                                             </Grid>
 
@@ -336,8 +353,16 @@
                                                    TextWrapping="WrapWholeWords"
                                                    VerticalAlignment="Center"/>
 
-                                                <ToggleButton Grid.Column="1"
-                                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                                <Grid Grid.Column="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition Height="2*"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <toggleButtons:ToggleButtonStandard Grid.Row="1"/>
+
+                                                </Grid>
 
                                             </Grid>
                                         </StackPanel>
