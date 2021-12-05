@@ -37,37 +37,11 @@
 
                                 <VisualState x:Name="ExpandUp">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" 
-                                                                       Storyboard.TargetProperty="Visibility"
-                                                                       EnableDependentAnimation="True">
-
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                                        </ObjectAnimationUsingKeyFrames>
-
-
-
-                                        <DoubleAnimationUsingKeyFrames Duration="0:0:10" Storyboard.TargetName="ExpanderContent" 
-                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-
-
-                                            <LinearDoubleKeyFrame KeyTime="0" Value="{Binding TemplateSettings.ContentHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-
-
-                                            <SplineDoubleKeyFrame KeyTime="0:0:0.333" KeySpline="0.0, 0.0, 0.0, 1.0" Value="0"/>
-
-
-                                        </DoubleAnimationUsingKeyFrames>
+ 
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapseDown">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderContent" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="0"/>
-                                            <SplineDoubleKeyFrame KeyTime="0:0:0.167" KeySpline="1.0, 1.0, 0.0, 1.0" Value="{Binding TemplateSettings.ContentHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                        </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
 
@@ -97,14 +71,11 @@
                               VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
 
-
                         <Border x:Name="ExpanderContentClip" Grid.Row="1">
                             <Border x:Name="ExpanderContent"
                                     HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
                                     MinHeight="{TemplateBinding MinHeight}" Padding="{TemplateBinding Padding}" Visibility="Collapsed">
-                                <Border.RenderTransform>
-                                    <CompositeTransform/>
-                                </Border.RenderTransform>
+
                                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   Content="{TemplateBinding Content}" 
                                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" 
