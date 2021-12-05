@@ -14,14 +14,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:BoardStandard">
-                    <Grid x:Name="baseElement" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                    <Grid x:Name="root" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20*"/>
                             <RowDefinition Height="100*"/>
                             <RowDefinition Height="15*"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="1">
+                        <Grid Grid.Row="1" x:Name="test">
 
                             <ListView Margin="10"
                                       ItemsSource="{TemplateBinding Ads}"
@@ -105,10 +105,11 @@
                         </Grid>
                         
                         
-                        <!-- Filter menu -->
+                        <!-- Menu -->
                         <Grid Grid.RowSpan="3">
 
                             <menus:MenuStandard CornerRadius="5" Background="#2c2c2c" Padding="10"
+                                                MainParent="{Binding ElementName=root}"
                                                 VerticalAlignment="Top" HorizontalAlignment="Stretch">
 
                                 <controls:Expander.Header>

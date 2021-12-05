@@ -19,7 +19,14 @@ namespace LigricBoardCustomControls.Menus
         private FrameworkElement sliderBackgroundBorder;
         private FrameworkElement expanderHeader;
         private FrameworkElement expanderContent;
-        
+
+        public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null));
+        public FrameworkElement MainParent
+        {
+            get { return (FrameworkElement)GetValue(MainParentProperty); }
+            set { SetValue(MainParentProperty, value); }
+        }
+
         public MenuStandard() : base() 
         {
             this.Loaded += OnMenuStandardLoaded;
@@ -128,7 +135,7 @@ namespace LigricBoardCustomControls.Menus
             DoubleAnimation widthAnimation = new DoubleAnimation()
             {
                 EnableDependentAnimation = true,
-                From = this.ActualWidth,
+                From = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualWidth,
                 To = expanderHeader.ActualWidth - 3,
                 Duration = duration
             };
@@ -140,7 +147,7 @@ namespace LigricBoardCustomControls.Menus
             DoubleAnimation heightAnimation = new DoubleAnimation()
             {
                 EnableDependentAnimation = true,
-                From = this.ActualHeight,
+                From = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualHeight,
                 To = expanderHeader.ActualHeight - 3,
                 Duration = duration
             };
@@ -211,7 +218,7 @@ namespace LigricBoardCustomControls.Menus
             {
                 EnableDependentAnimation = true,
                 From = expanderHeader.ActualWidth,
-                To = ((FrameworkElement)this.Parent).ActualWidth,
+                To = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualWidth,
                 Duration = duration
             };
             Storyboard.SetTarget(widthAnimation, sliderBackgroundBorder);
@@ -223,7 +230,7 @@ namespace LigricBoardCustomControls.Menus
             {
                 EnableDependentAnimation = true,
                 From = expanderHeader.ActualHeight - 3,
-                To = ((FrameworkElement)this.Parent).ActualHeight,
+                To = ((MainParent is null ? (FrameworkElement)this.Parent : MainParent)).ActualHeight,
                 Duration = duration
             };
 
