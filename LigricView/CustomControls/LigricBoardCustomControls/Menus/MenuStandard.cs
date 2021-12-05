@@ -27,6 +27,42 @@ namespace LigricBoardCustomControls.Menus
             set { SetValue(MainParentProperty, value); }
         }
 
+
+        public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null, OnHeaderBufferChanged));
+
+        private static void OnHeaderBufferChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var newBuffer = e.NewValue as FrameworkElement;
+            if (newBuffer is null)
+                return;
+
+            var thisObject = (MenuStandard)d;
+
+            if (!thisObject.IsLoaded)
+                return;
+
+            BufferForm(thisObject, newBuffer);
+        }
+
+        private static void BufferForm(MenuStandard thisObject, FrameworkElement buffer)
+        {
+            var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
+            Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+            ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
+            ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
+
+            thisObject.expanderHeader.Width = buffer.ActualWidth;
+            thisObject.expanderHeader.Height = buffer.ActualHeight;
+        }
+
+        public FrameworkElement HeaderBuffer
+        {
+            get { return (FrameworkElement)GetValue(HeaderBufferProperty); }
+            set { SetValue(HeaderBufferProperty, value); }
+        }
+
+
         public MenuStandard() : base() 
         {
             this.Loaded += OnMenuStandardLoaded;
@@ -38,6 +74,8 @@ namespace LigricBoardCustomControls.Menus
         #region Initialization
         private void InitializeState()
         {
+            BufferForm(this, HeaderBuffer);
+
             if (this.IsExpanded)
             {
                 ExpanderExpanding();
