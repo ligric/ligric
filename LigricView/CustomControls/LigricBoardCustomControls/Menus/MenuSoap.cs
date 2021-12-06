@@ -117,8 +117,6 @@ namespace LigricBoardCustomControls.Menus
         }
 
 
-
-
         #region Initialization
         private void InitializeState()
         {

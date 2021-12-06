@@ -26,10 +26,10 @@
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="local:BoardViewModel">
+                <DataTemplate>
 
                     <boards:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
-                                          Width="250" Height="400">
+                                          Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4">
                         <boards:BoardStandard.RenderTransform>
                             <TranslateTransform X="{Binding PositionX}" Y="{Binding PositionY}"/>
                         </boards:BoardStandard.RenderTransform>
