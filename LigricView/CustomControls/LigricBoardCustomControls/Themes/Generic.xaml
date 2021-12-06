@@ -7,6 +7,7 @@
 
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/ToggleButtons/ToggleButtonStandardCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/MenuStandardCustomControl.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/MenuSoapCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Items/ItemStandardCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Boards/BoardStandardCustomControl.xaml"/>
     </ResourceDictionary.MergedDictionaries>

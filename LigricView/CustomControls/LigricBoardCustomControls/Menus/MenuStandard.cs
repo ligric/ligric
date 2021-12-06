@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -39,6 +40,11 @@ namespace LigricBoardCustomControls.Menus
 
 
         public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null, OnHeaderBufferChanged));
+        public FrameworkElement HeaderBuffer
+        {
+            get { return (FrameworkElement)GetValue(HeaderBufferProperty); }
+            set { SetValue(HeaderBufferProperty, value); }
+        }
 
         private static void OnHeaderBufferChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -66,11 +72,7 @@ namespace LigricBoardCustomControls.Menus
             thisObject.expanderHeader.Height = buffer.ActualHeight;
         }
 
-        public FrameworkElement HeaderBuffer
-        {
-            get { return (FrameworkElement)GetValue(HeaderBufferProperty); }
-            set { SetValue(HeaderBufferProperty, value); }
-        }
+
 
 
         public MenuStandard() : base()

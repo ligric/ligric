@@ -293,8 +293,6 @@
                                                   VerticalSnapPointsType="OptionalSingle" 
                                                   ZoomMode="Disabled">
 
-
-
                                     <ItemsPresenter Margin="{ThemeResource ComboBoxDropdownContentMargin}"/>
 
                                 </ScrollViewer>

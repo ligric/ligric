@@ -18,6 +18,7 @@
   <ItemGroup>
     <None Remove="Boards\BoardStandardCustomControl.xaml" />
     <None Remove="Items\ItemStandardCustomControl.xaml" />
+    <None Remove="Menus\MenuSoapCustomControl.xaml" />
     <None Remove="Menus\MenuStandardCustomControl.xaml" />
     <None Remove="Templates\ComboBox.xaml" />
     <None Remove="Themes\Generic.xaml" />
@@ -25,6 +26,7 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Boards\BoardStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Items\ItemStandardCustomControl.xaml" />
+    <UpToDateCheckInput Remove="Menus\MenuSoapCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\MenuStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Templates\ComboBox.xaml" />
     <UpToDateCheckInput Remove="Themes\Generic.xaml" />
@@ -35,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ItemStandard\ItemStandardCustomControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Menus\MenuSoapCustomControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Menus\MenuStandardCustomControl.xaml">
