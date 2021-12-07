@@ -19,34 +19,6 @@
                         </Grid.RowDefinitions>
 
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="ExpandStates">
-
-                                <VisualState x:Name="ExpandDown">
-                                    <Storyboard>
-                                        
-                                    </Storyboard>
-                                    
-                                </VisualState>
-
-                                <VisualState x:Name="CollapseUp">
-                                    <Storyboard>
-                                                                                
-                                    </Storyboard>
-                                </VisualState>
-
-
-                                <VisualState x:Name="ExpandUp">
-                                    <Storyboard>
- 
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CollapseDown">
-                                    <Storyboard>
-                                    </Storyboard>
-                                </VisualState>
-
-                            </VisualStateGroup>
-
                             <VisualStateGroup x:Name="ExpandDirectionStates">
 
                                 <VisualState x:Name="Down"/>
@@ -66,7 +38,7 @@
                         </VisualStateManager.VisualStateGroups>
 
 
-                        <Grid x:Name="SliderBackgroundBorder" Background="#2c2c2c" Grid.RowSpan="2" 
+                        <Grid x:Name="SliderBackgroundBorder" Background="#171925" Grid.RowSpan="2" 
                               CornerRadius="10"  Height="200" Margin="0" Visibility="Collapsed"
                               VerticalAlignment="Top" HorizontalAlignment="Left"/>
 

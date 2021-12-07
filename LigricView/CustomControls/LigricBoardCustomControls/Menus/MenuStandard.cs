@@ -152,10 +152,14 @@ namespace LigricBoardCustomControls.Menus
         private void ExpanderCollapsing()
         {
             justStoryboard = new Storyboard();
-            SliderAnimationCollapsed(TimeSpan.FromMilliseconds(400));
-            ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(400));
+
+            SliderStrechLineAnimationCollapsed(TimeSpan.FromMilliseconds(1000));
+
+            //SliderAnimationCollapsed(TimeSpan.FromMilliseconds(400));
+            //ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(400));
             justStoryboard.Begin();
         }
+
 
         private void ExpanderExpanding()
         {
@@ -439,6 +443,71 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(widthAnimation);
             //justStoryboard.Children.Add(xAnimation);
         }
+
+
+        private void SliderStrechLineAnimationCollapsed(TimeSpan timeSpan)
+        {
+            if (!TransformInitialize(sliderBackgroundBorder) && isLoaded)
+                return;
+
+            TimeSpan forFirstPart = TimeSpan.FromMilliseconds(timeSpan.TotalMilliseconds / 2);
+
+
+            var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
+            var duration = new Duration(timeSpan);
+
+            var elementVisualRelative = expanderHeader.TransformToVisual(this);
+            Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+            double to = 0;
+            double actualWidth = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualWidth;
+
+            if (headerSide == HeaderSideEnum.Left)
+            {
+                to = actualWidth - (headerPostition.X * 2);
+            }
+
+            #region xAnimation
+            DoubleAnimationUsingKeyFrames xAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true};
+            xAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = headerPostition.X, KeyTime = KeyTime.FromTimeSpan(forFirstPart) });
+            Storyboard.SetTarget(xAnimation, renderTransform);
+            Storyboard.SetTargetProperty(xAnimation, "X");
+            #endregion
+
+            #region yAnimation
+            DoubleAnimationUsingKeyFrames yAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+            yAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = headerPostition.Y, KeyTime = KeyTime.FromTimeSpan(forFirstPart) });
+            Storyboard.SetTarget(yAnimation, renderTransform);
+            Storyboard.SetTargetProperty(yAnimation, "Y");
+            #endregion
+
+            #region heightAnimation
+            DoubleAnimationUsingKeyFrames heightAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+            heightAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = expanderHeader.ActualHeight, KeyTime = KeyTime.FromTimeSpan(forFirstPart) });
+            Storyboard.SetTarget(heightAnimation, sliderBackgroundBorder);
+            Storyboard.SetTargetProperty(heightAnimation, "Height");
+            #endregion
+
+
+
+            #region widthAnimation
+            DoubleAnimationUsingKeyFrames widthAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+
+            widthAnimation.KeyFrames.Add(
+                new SplineDoubleKeyFrame() { Value = expanderHeader.ActualWidth, KeyTime = KeyTime.FromTimeSpan(timeSpan), KeySpline = new KeySpline() { ControlPoint1 = new Point(0.5, 0.5), ControlPoint2 = new Point(0.5, 0.0) } });
+            
+            Storyboard.SetTarget(widthAnimation, sliderBackgroundBorder);
+            Storyboard.SetTargetProperty(widthAnimation, "Width");
+            #endregion
+
+
+
+            justStoryboard.Children.Add(widthAnimation);
+            justStoryboard.Children.Add(xAnimation);
+            justStoryboard.Children.Add(yAnimation);
+            justStoryboard.Children.Add(heightAnimation);
+        }
+
 
         #endregion
     }
