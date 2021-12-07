@@ -72,9 +72,6 @@ namespace LigricBoardCustomControls.Menus
             thisObject.expanderHeader.Height = buffer.ActualHeight;
         }
 
-
-
-
         public MenuStandard() : base()
         {
             this.DefaultStyleKey = typeof(MenuStandard);
@@ -92,12 +89,53 @@ namespace LigricBoardCustomControls.Menus
 
             if (this.IsExpanded)
             {
-                ExpanderExpanding();
+                ExpanderInitializeExpanding();
             }
             else
             {
-                ExpanderCollapsing();
+                ExpanderInitializeCollapsing();
             }
+        }
+
+        private void ExpanderInitializeExpanding()
+        {
+            // Board
+            sliderBackgroundBorder.Visibility = Visibility.Visible;
+
+            ((TranslateTransform)sliderBackgroundBorder.RenderTransform).X = 0;
+            ((TranslateTransform)sliderBackgroundBorder.RenderTransform).Y = 0;
+
+            sliderBackgroundBorder.Height = ((MainParent is null ? (FrameworkElement)this.Parent : MainParent)).ActualHeight;
+            sliderBackgroundBorder.Width = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualWidth;
+
+
+            // Content
+            expanderContent.Visibility = Visibility.Visible;
+            ((TranslateTransform)expanderContent.RenderTransform).Y = 0;
+        }
+
+        private void ExpanderInitializeCollapsing()
+        {
+            // Board
+            sliderBackgroundBorder.Visibility = Visibility.Visible;
+
+            var elementVisualRelative = expanderHeader.TransformToVisual(this);
+            Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+
+            ((TranslateTransform)sliderBackgroundBorder.RenderTransform).X = headerPostition.X;
+            ((TranslateTransform)sliderBackgroundBorder.RenderTransform).Y = headerPostition.Y;
+
+            sliderBackgroundBorder.Height = expanderHeader.ActualHeight;
+            sliderBackgroundBorder.Width = expanderHeader.ActualWidth;
+
+
+            // Content
+            var renderTransform = expanderContent.RenderTransform as TranslateTransform;
+            double to = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualHeight - renderTransform.Y;
+
+            ((TranslateTransform)expanderContent.RenderTransform).Y = -to;
+            expanderContent.Visibility = Visibility.Collapsed;
         }
 
         private bool TransformInitialize(FrameworkElement element)
@@ -158,7 +196,6 @@ namespace LigricBoardCustomControls.Menus
 
             justStoryboard.Begin();
         }
-
 
         private void ExpanderExpanding()
         {
@@ -313,7 +350,6 @@ namespace LigricBoardCustomControls.Menus
             justStoryboard.Children.Add(yAnimation);
             justStoryboard.Children.Add(visibilityAnimation);
         }
-
         #endregion
     }
 }

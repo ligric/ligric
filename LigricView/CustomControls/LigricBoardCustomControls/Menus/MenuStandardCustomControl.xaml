@@ -45,8 +45,8 @@
 
                         <Border x:Name="ExpanderContentClip" Grid.Row="1" Padding="{TemplateBinding Padding}" Margin="0,11,0,0">
                             <Border x:Name="ExpanderContent"
-                                    HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
-                                    MinHeight="{TemplateBinding MinHeight}" Visibility="Collapsed">
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    MinHeight="{TemplateBinding MinHeight}">
 
                                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   Content="{TemplateBinding Content}" 
