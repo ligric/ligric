@@ -43,10 +43,10 @@
                               VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
 
-                        <Border x:Name="ExpanderContentClip" Grid.Row="1">
+                        <Border x:Name="ExpanderContentClip" Grid.Row="1" Padding="{TemplateBinding Padding}" Margin="0,11,0,0">
                             <Border x:Name="ExpanderContent"
                                     HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
-                                    MinHeight="{TemplateBinding MinHeight}" Padding="{TemplateBinding Padding}" Visibility="Collapsed">
+                                    MinHeight="{TemplateBinding MinHeight}" Visibility="Collapsed">
 
                                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   Content="{TemplateBinding Content}" 
@@ -56,7 +56,7 @@
                         </Border>
 
 
-                        <ToggleButton x:Name="ExpanderHeader" CornerRadius="10" Margin="0"
+                        <ToggleButton x:Name="ExpanderHeader" CornerRadius="10"
                                       AutomationProperties.AutomationId="ExpanderToggleButton" Visibility="Visible"
                                       Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                       BorderThickness="{TemplateBinding BorderThickness}"

@@ -63,18 +63,28 @@
                         
                         
                         <!-- Title -->
-                        <Grid Grid.Row="0" ColumnSpacing="10">
+                        <Grid Grid.Row="0" ColumnSpacing="0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="0*"/>
+                            </Grid.RowDefinitions>
+                            
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="100*"/>
                                 <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="30*"/>
+                                <ColumnDefinition Width="10"/>
                             </Grid.ColumnDefinitions>
                             
                             <!-- Filter menu buffer -->
-                            <Grid Grid.Column="0" x:Name="filterMenuBuffer" Margin="10,10,0,0"/>
+                            <Grid Grid.Row="1" Grid.Column="1" x:Name="filterMenuBuffer"/>
 
 
                             <!-- Board menu buffer -->
-                            <Grid Grid.Column="1" x:Name="boardMenuBuffer" Margin="0,10,10,0"/>
+                            <Grid Grid.Row="1" Grid.Column="3" x:Name="boardMenuBuffer"/>
                         </Grid>
 
 
@@ -142,7 +152,7 @@
                         <Grid Grid.RowSpan="3">
 
                             <menus:MenuStandard Background="#171925"
-                                                Padding="10" MinHeight="0" 
+                                                Padding="10" MinHeight="0"
                                                 VerticalAlignment="Top" HorizontalAlignment="Stretch"
                                                 MainParent="{Binding ElementName=root}" HeaderBuffer="{Binding ElementName=filterMenuBuffer}">
 
