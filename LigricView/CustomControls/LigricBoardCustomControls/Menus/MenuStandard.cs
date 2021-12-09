@@ -117,7 +117,7 @@ namespace LigricBoardCustomControls.Menus
         private void ExpanderInitializeCollapsing()
         {
             // Board
-            sliderBackgroundBorder.Visibility = Visibility.Visible;
+            sliderBackgroundBorder.Visibility = Visibility.Collapsed;
 
             var elementVisualRelative = expanderHeader.TransformToVisual(this);
             Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
@@ -189,20 +189,28 @@ namespace LigricBoardCustomControls.Menus
         #region Set expander animation
         private void ExpanderCollapsing()
         {
+            justStoryboard.Pause();
             justStoryboard = new Storyboard();
 
-            SliderAnimationCollapsing(TimeSpan.FromMilliseconds(800));
+            SliderAnimationCollapsing(TimeSpan.FromMilliseconds(300));
             ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(200));
 
             justStoryboard.Begin();
+
+            justStoryboard.Completed += (s, e) =>
+            {
+                sliderBackgroundBorder.Visibility = Visibility.Collapsed;
+                expanderContent.Visibility = Visibility.Collapsed;
+            };
         }
 
         private void ExpanderExpanding()
         {
+            justStoryboard.Pause();
             justStoryboard = new Storyboard();
 
-            SliderAnimationExpanding(TimeSpan.FromMilliseconds(200));
-            ExpanderContentAnimationExpanding(TimeSpan.FromMilliseconds(700));
+            SliderAnimationExpanding(TimeSpan.FromMilliseconds(150));
+            ExpanderContentAnimationExpanding(TimeSpan.FromMilliseconds(250));
 
             justStoryboard.Begin();
         }
@@ -339,16 +347,7 @@ namespace LigricBoardCustomControls.Menus
             Storyboard.SetTargetProperty(yAnimation, "Y");
             #endregion
 
-            #region visibilityAnimation
-            ObjectAnimationUsingKeyFrames visibilityAnimation = new ObjectAnimationUsingKeyFrames();
-            DiscreteObjectKeyFrame visibilityCollapsedKeyFrame = new DiscreteObjectKeyFrame() { KeyTime = timeSpan, Value = Visibility.Collapsed };
-            visibilityAnimation.KeyFrames.Add(visibilityCollapsedKeyFrame);
-            Storyboard.SetTarget(visibilityAnimation, expanderContent);
-            Storyboard.SetTargetProperty(visibilityAnimation, "Visibility");
-            #endregion
-
             justStoryboard.Children.Add(yAnimation);
-            justStoryboard.Children.Add(visibilityAnimation);
         }
         #endregion
     }
