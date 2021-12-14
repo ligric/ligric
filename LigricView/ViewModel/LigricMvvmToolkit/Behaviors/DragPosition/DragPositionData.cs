@@ -1,29 +1,36 @@
 ﻿using System;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace LigricMvvmToolkit.Behaviors.DragPosition
 {
+    /// <summary>Основные данные для создания привязок в DragPositionBehavior.</summary>
     public class DragPositionData
     {
-        private object _zoomFactor;
         private object _baseParent;
         private object _offsetX;
         private object _offsetY;
 
-        public object ZoomFactor
+        private static readonly DoubleConverter doubleConverter = new DoubleConverter();
+        public static bool DoubleTryParse(object value, out object result)
         {
-            get => _zoomFactor;
-            set
+            if (value is double dble)
             {
-                if ((value ?? 0.0) is double ||
-                    value is BindingBase ||
-                    (double.TryParse(value.ToString(), out double val) && (value = val) != null))
-                    _zoomFactor = value;
-                else
-                    throw new ArgumentException(nameof(value));
+                result = dble;
+                return true;
             }
+
+            if (value == null || !doubleConverter.IsValid(value))
+            {
+                result = null;
+                return false;
+            }
+
+            result = doubleConverter.ConvertFrom(value);
+            return true;
         }
+
         public object BaseParent
         {
             get => _baseParent;
@@ -40,9 +47,8 @@ namespace LigricMvvmToolkit.Behaviors.DragPosition
             get => _offsetX;
             set
             {
-                if ((value ?? 0.0) is double ||
-                    value is BindingBase ||
-                    (double.TryParse(value.ToString(), out double val) && (value = val) != null))
+                if (value is BindingBase ||
+                    DoubleTryParse(value, out value))
                     _offsetX = value;
                 else
                     throw new ArgumentException(nameof(value));
@@ -53,9 +59,8 @@ namespace LigricMvvmToolkit.Behaviors.DragPosition
             get => _offsetY;
             set
             {
-                if ((value ?? 0.0) is double ||
-                    value is BindingBase ||
-                    (double.TryParse(value.ToString(), out double val) && (value = val) != null))
+                if (value is BindingBase ||
+                    DoubleTryParse(value, out value))
                     _offsetY = value;
                 else
                     throw new ArgumentException(nameof(value));
@@ -64,4 +69,5 @@ namespace LigricMvvmToolkit.Behaviors.DragPosition
 
         public Action<DependencyObject> BindingAction { get; set; }
     }
+
 }
