@@ -158,6 +158,9 @@ namespace LigricUno.Views.Pages
 
     public class BoardsViewModel : OnNotifyPropertyChanged
     {
+        private double _zoomFactor;
+        public double ZoomFactor { get => _zoomFactor; private set => SetProperty(ref _zoomFactor, value); }
+
         public ObservableCollection<BoardViewModel> Boards { get; } = new ObservableCollection<BoardViewModel>();
 
         public BoardsViewModel()
@@ -188,6 +191,26 @@ namespace LigricUno.Views.Pages
 
             Boards.Add(fist) ;
             Boards.Add(second);
+        }
+    }
+
+    public class BoardConteinersViewModel : OnNotifyPropertyChanged
+    {
+        public ObservableCollection<BoardsViewModel> BoardConeiners { get; } = new ObservableCollection<BoardsViewModel>();
+
+        public BoardConteinersViewModel()
+        {
+            var testAds = new List<BoardsViewModel>()
+            {
+                new BoardsViewModel{ },
+                new BoardsViewModel{ },
+                new BoardsViewModel{ },
+            };
+
+            foreach (var item in testAds)
+            {
+                BoardConeiners.Add(item);
+            }
         }
     }
 }
