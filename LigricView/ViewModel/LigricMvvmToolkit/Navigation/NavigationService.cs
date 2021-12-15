@@ -2,92 +2,101 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.ObjectModel;
+using Common.Delegates;
+using Common.Enums;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    
-
-    //public delegate void ActivePageAddedHandler(object sender, object page, PageActionEnum action);
-
-
     public class NavigationService : INavigationService
     {
         private enum PageActionEnum { Prerender, GoTo }
 
         private Dictionary<string, PageInfo> activePages = new Dictionary<string, PageInfo>();
+        public IReadOnlyDictionary<string, PageInfo> ActivePages { get; }
 
-        public event CurrentPageChangeHandler CurrentPageChanged;
+        public event CurrentPageEventHandler CurrentPageChanged;
 
-        public object CurrentPage { get; private set; }
+        public event CollectionEventHandler<PageInfo> ActivePagesChanged;
 
-        public Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null)
-            => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.Prerender);
+        public PageInfo CurrentPage { get; private set; }
 
-        public Task GoTo(string pageName, object page = null, object backPage = null, object nextPage = null) 
+        public NavigationService()
+        {
+            ActivePages = new ReadOnlyDictionary<string, PageInfo>(activePages);
+        }
+
+        public void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null)
+            => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.Prerender, title);
+
+        public void GoTo(string pageName, object page = null, object backPage = null, object nextPage = null) 
             => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.GoTo);
 
-
-        private Task PageHandler(object page, string pageName = null, object backPage = null, object nextPage = null, PageActionEnum action = 0) => Task.Run(() =>
+        private void PageHandler(object page, string pageName = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
         {
+            #region preparation
             var oldPage = CurrentPage;
 
             if (page is null && pageName is null)
-                throw new ArgumentException("Page name and page are null.");
-
-            string resultPageName = pageName;
-            if (string.IsNullOrEmpty(resultPageName))
-                resultPageName = nameof(page);
+            {
+                throw new NullReferenceException("Page and page name are null.");
+            }
+                
+            var prerenderPage = new PageInfo(page, pageName, title, backPage, nextPage);
+            #endregion
 
             switch (action)
             {
                 case PageActionEnum.Prerender:
+
                     if (page is null)
-                        throw new ArgumentException($"Page is null.");
+                    {
+                        throw new NullReferenceException($"Page is null.");
+                    }
+
+                    AddActivePage(prerenderPage);
 
                     break;
                 case PageActionEnum.GoTo:
-                    if (activePages.TryGetValue(resultPageName, out PageInfo outPage))
+
+                    if (!activePages.TryGetValue(prerenderPage.PageKey, out PageInfo outPage))
                     {
-                        CurrentPageChanged?.Invoke(this, oldPage, outPage.Page, PageChangingVectorEnum.Next);
-                    }  
-                    else if(page is null)
+                        throw new NullReferenceException($"Page is null.");
+                    }
+
+                    if (outPage is null)
                     {
-                        throw new ArgumentException("[404] page not found.");
+                        throw new NullReferenceException("[404] page not found.");
                     }
                     else
                     {
-                        if (AddActivePage(new PageInfo(page, resultPageName, backPage, nextPage)))
-                        {
-                            CurrentPageChanged?.Invoke(this, oldPage, page, PageChangingVectorEnum.Next);
-                        }
+                        CurrentPageChanged?.Invoke(this, oldPage, outPage, PageChangingVectorEnum.Next);
                     }
                     break;
             }
-        });
+        }
 
         private bool AddActivePage(PageInfo newPage)
         {
- 
-            //if (!activePages.TryAdd(newPage.PageName, newPage))
-                //return false;
-
             try
             {
-                activePages.Add(newPage.PageName, newPage);
+                activePages.Add(newPage.PageKey, newPage);
+                ActivePagesChanged?.Invoke(this, ActionCollectionEnum.Added, newPage);
+                newPage.PageClosed += OnPageClosed;
             }
             catch
             {
                 return false;
             }
-
-            newPage.PageClosed += OnPageClosed;
-
             return true;
         }
 
-        private void OnPageClosed(string pageName)
+        private void OnPageClosed(PageInfo page)
         {
-            activePages.Remove(pageName);
+            if (activePages.Remove(page.PageKey))
+            {
+                ActivePagesChanged?.Invoke(this, ActionCollectionEnum.Removed, page);
+            }            
         }
     }
 }

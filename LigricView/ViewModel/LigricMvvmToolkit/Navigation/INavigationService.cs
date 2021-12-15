@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Common.Delegates;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LigricMvvmToolkit.Navigation
 {
@@ -8,25 +10,21 @@ namespace LigricMvvmToolkit.Navigation
         Next
     }
 
-    public delegate void CurrentPageChangeHandler(object sender, object oldPage, object newPage, PageChangingVectorEnum changingVector);
-
+    public delegate void CurrentPageEventHandler(object sender, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector);
 
     public interface INavigationService
     {
+        PageInfo CurrentPage { get; }
 
-        object CurrentPage { get; }
+        public IReadOnlyDictionary<string, PageInfo> ActivePages { get; }
 
-        event CurrentPageChangeHandler CurrentPageChanged;
+        event CurrentPageEventHandler CurrentPageChanged;
 
-        Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null);
+        event CollectionEventHandler<PageInfo> ActivePagesChanged;
 
-        Task GoTo(string pageName, object page = null, object backPage = null, object nextPage = null);
+        void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null);
 
-        //Task NavigateTo(Type page);
-
-        //Task NavigateTo(Type page, byte number);
-
-        //Task NavigateTo(string page, object parameter);
+        void GoTo(string pageName, object page = null, object backPage = null, object nextPage = null);
 
         //Task GoBack();
     }

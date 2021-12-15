@@ -1,26 +1,81 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    internal delegate void PageClosedHandler(string pageName);
+    public delegate void PageClosedHandler(PageInfo page);
 
-    internal class PageInfo : IDisposable
+    public class PageInfo : IDisposable, IEquatable<PageInfo>
     {
-        public object BackPage { get; }
-
         public object Page { get; }
 
-        public string PageName { get; }
+        /// <summary> 
+        /// Unique name for easy search. 
+        /// </summary>
+        /// <remarks> 
+        /// Default value -- <c>nameof(Page)</c> 
+        /// </remarks>
+        public string PageKey { get; }
+
+        /// <summary> 
+        /// The name of the page to be displayed on the view. 
+        /// </summary>
+        /// <remarks> 
+        /// Default value -- <c>nameof(PageName)</c> 
+        /// </remarks>
+        public string Title { get; }
+
+        /// <summary> 
+        /// Reference to the page that came before this page. 
+        /// </summary>
+        public object BackPage { get; }
 
         public object NextPage { get; }
 
         public event PageClosedHandler PageClosed;
 
+        private readonly int hash;
 
-        public PageInfo(object page, string pageName, object backPage = null, object nextPage = null)
+        public PageInfo(object page, string pageKey, string title, object backPage = null, object nextPage = null)
         {
-            Page = page; PageName = pageName; BackPage = backPage; NextPage = nextPage;
+            Page = page;
+            PageKey = string.IsNullOrEmpty(pageKey) ? nameof(page) : pageKey; 
+            Title = string.IsNullOrEmpty(title) ? PageKey : title; 
+            BackPage = backPage; 
+            NextPage = nextPage;
+
+            hash = CalculateHash();
         }
+
+        #region Equals
+        public bool Equals(PageInfo other)
+        {
+            return Equals(other.Page, Page) &&
+                   Equals(other.PageKey, PageKey) &&
+                   Equals(other.Title, Title) &&
+                   Equals(other.BackPage, BackPage) &&
+                   Equals(other.NextPage, NextPage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PageInfo pageInfo && Equals(pageInfo);
+        }
+        #endregion
+
+        #region GetHashCode
+        public override int GetHashCode() => hash;
+        private int CalculateHash()
+        {
+            int hashCode = 1365913784;
+            hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(Page);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PageKey);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
+            hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(BackPage);
+            hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(NextPage);
+            return hashCode;
+        }
+        #endregion
 
         #region Dispose
         private bool disposed = false;
@@ -29,7 +84,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             if (!disposed)
             {
-                PageClosed?.Invoke(PageName);
+                PageClosed?.Invoke(this);
                 disposed = true;
                 GC.SuppressFinalize(this);
             }

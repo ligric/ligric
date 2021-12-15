@@ -1,4 +1,5 @@
-﻿using LigricUno.Views.Pages;
+﻿using LigricMvvmToolkit.Navigation;
+using LigricUno.Views.Pages;
 using Microsoft.Extensions.Logging;
 using System;
 using Windows.ApplicationModel;
@@ -82,9 +83,20 @@ namespace LigricUno
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
+
+                    SetBoardsPages();
                 }
                 // Ensure the current window is active
                 _window.Activate();
+            }
+        }
+
+        private readonly NavigationService navigation = new NavigationService();
+        private void SetBoardsPages()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i);
             }
         }
 

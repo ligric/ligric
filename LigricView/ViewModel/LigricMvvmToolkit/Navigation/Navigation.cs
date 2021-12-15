@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -12,11 +11,11 @@ namespace LigricMvvmToolkit.Navigation
     {
         private static readonly NavigationService navigationService = new NavigationService();
 
-        public static Task GoTo(string pageName, FrameworkElement newPage) 
-            => navigationService.GoTo(pageName, newPage);
+        public static void GoTo(string pageName, FrameworkElement newPage, object backPage = null, object nextPage = null) 
+            => navigationService.GoTo(pageName, newPage, backPage, nextPage);
 
-        public static Task PrerenderPage(object page, string pageName = null, object backPage = null, object nextPage = null) 
-            => navigationService.PrerenderPage(page, pageName, backPage, nextPage);
+        public static void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null) 
+            => navigationService.PrerenderPage(page, pageName, title, backPage, nextPage);
 
         static Navigation()
         {
@@ -41,7 +40,6 @@ namespace LigricMvvmToolkit.Navigation
                                 throw new ArgumentException("New page is null.");
 
                             mainFrame.Navigate(newPage.GetType(), null, new EntranceNavigationTransitionInfo());
-
                             break;
                     }
                 }

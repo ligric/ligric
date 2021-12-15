@@ -13,9 +13,9 @@ namespace LigricUno.Views.Pages
         private RelayCommand _loginLaterCommand;
         public RelayCommand LoginLaterCommand => _loginLaterCommand ?? (_loginLaterCommand = new RelayCommand(LoginLaterMethod));
 
-        private async void LoginLaterMethod(object parameter)
+        private void LoginLaterMethod(object parameter)
         {
-            await Navigation.GoTo(nameof(HomePage), new HomePage());
+            Navigation.GoTo(nameof(HomePage), new HomePage());
         }
     }
 }
