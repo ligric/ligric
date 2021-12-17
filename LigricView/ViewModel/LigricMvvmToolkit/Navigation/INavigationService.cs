@@ -10,7 +10,7 @@ namespace LigricMvvmToolkit.Navigation
         Next
     }
 
-    public delegate void CurrentPageEventHandler(object sender, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector);
+    public delegate void CurrentPageEventHandler(object sender, object rootElement, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector);
 
     public interface INavigationService
     {
@@ -24,7 +24,7 @@ namespace LigricMvvmToolkit.Navigation
 
         void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null);
 
-        void GoTo(string pageName, object page = null, object backPage = null, object nextPage = null);
+        void GoTo(string pageName, object backPage = null, object nextPage = null);
 
         //Task GoBack();
     }

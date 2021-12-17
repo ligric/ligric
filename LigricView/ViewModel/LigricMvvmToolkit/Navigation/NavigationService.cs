@@ -10,6 +10,7 @@ namespace LigricMvvmToolkit.Navigation
 {
     public class NavigationService : INavigationService
     {
+        private readonly object rootElement;
         private enum PageActionEnum { Prerender, GoTo }
 
         private Dictionary<string, PageInfo> activePages = new Dictionary<string, PageInfo>();
@@ -21,18 +22,19 @@ namespace LigricMvvmToolkit.Navigation
 
         public PageInfo CurrentPage { get; private set; }
 
-        public NavigationService()
+        public NavigationService(object rootElement)
         {
             ActivePages = new ReadOnlyDictionary<string, PageInfo>(activePages);
+            this.rootElement = rootElement;
         }
 
         public void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null)
             => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.Prerender, title);
 
-        public void GoTo(string pageName, object page = null, object backPage = null, object nextPage = null) 
-            => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.GoTo);
+        public void GoTo(string pageName, object backPage = null, object nextPage = null) 
+            => PageHandler(pageName: pageName, backPage : backPage, nextPage : nextPage, action : PageActionEnum.GoTo);
 
-        private void PageHandler(object page, string pageName = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
+        private void PageHandler(object page = null, string pageName = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
         {
             #region preparation
             var oldPage = CurrentPage;
@@ -70,7 +72,7 @@ namespace LigricMvvmToolkit.Navigation
                     }
                     else
                     {
-                        CurrentPageChanged?.Invoke(this, oldPage, outPage, PageChangingVectorEnum.Next);
+                        CurrentPageChanged?.Invoke(this, rootElement, oldPage, outPage, PageChangingVectorEnum.Next);
                     }
                     break;
             }

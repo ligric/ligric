@@ -82,7 +82,7 @@ namespace LigricUno
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
+                    rootFrame.Navigate(typeof(LoginPage), args.Arguments);
 
                     SetBoardsPages();
                 }
@@ -91,12 +91,11 @@ namespace LigricUno
             }
         }
 
-        private readonly NavigationService navigation = new NavigationService();
         private void SetBoardsPages()
         {
             for (int i = 0; i < 1; i++)
             {
-                navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i);
+                Navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i);
             }
         }
 
