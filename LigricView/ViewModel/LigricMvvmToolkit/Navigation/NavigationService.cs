@@ -83,7 +83,7 @@ namespace LigricMvvmToolkit.Navigation
             try
             {
                 activePages.Add(newPage.PageKey, newPage);
-                ActivePagesChanged?.Invoke(this, ActionCollectionEnum.Added, newPage);
+                ActivePagesChanged?.Invoke(this, rootElement, ActionCollectionEnum.Added, newPage);
                 newPage.PageClosed += OnPageClosed;
             }
             catch
@@ -97,7 +97,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             if (activePages.Remove(page.PageKey))
             {
-                ActivePagesChanged?.Invoke(this, ActionCollectionEnum.Removed, page);
+                ActivePagesChanged?.Invoke(this, rootElement, ActionCollectionEnum.Removed, page);
             }            
         }
     }

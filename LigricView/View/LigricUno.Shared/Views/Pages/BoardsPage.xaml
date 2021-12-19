@@ -17,6 +17,8 @@
     </Page.Resources>
 
     <Grid>
+        <Grid Background="Red"/>
+
         <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Background="Red">
 
             <ItemsControl.ItemsPanel>

@@ -1,6 +1,7 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
+using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Views.Pages
 {

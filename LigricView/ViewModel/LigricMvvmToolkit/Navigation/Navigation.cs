@@ -1,20 +1,23 @@
-﻿using System;
+﻿using Common.Delegates;
+using LigricMvvmToolkit.Extantions;
+using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace LigricMvvmToolkit.Navigation
 {
     public class Navigation
     {
-        private static readonly Dictionary<string, NavigationService> navigationServices = new Dictionary<string, NavigationService>()
+        protected static readonly Dictionary<string, NavigationService> navigationServices = new Dictionary<string, NavigationService>()
         {
             { 
                 "root", 
-                new NavigationService(Window.Current.Content as FrameworkElement)
+                new NavigationService(Window.Current.Content as Frame)
             }
         };
 
@@ -25,7 +28,7 @@ namespace LigricMvvmToolkit.Navigation
         }
         
 
-        public static void PrerenderPage(object page, string pageName = null, string rootKey = null, string title = null, object backPage = null, object nextPage = null)
+        public static void PrerenderPage(FrameworkElement page, string pageName = null, string rootKey = null, string title = null, object backPage = null, object nextPage = null)
         {
             var navigationService = GetNavigationServiceByRootName(rootKey);
             navigationService.PrerenderPage(page, pageName, title, backPage, nextPage);
@@ -61,37 +64,80 @@ namespace LigricMvvmToolkit.Navigation
         static Navigation()
         {
             navigationServices["root"].CurrentPageChanged += OnPageChanged;
+            navigationServices["root"].ActivePagesChanged += OnActivePagesChanged;
         }
 
-        private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPage, PageInfo newPageInfo, PageChangingVectorEnum changingVector)
+        private static void OnActivePagesChanged(object sender, object rootElement, Common.Enums.ActionCollectionEnum action, PageInfo item)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (item?.Page is null)
+            {
+                throw new ArgumentNullException("Prerender element is null.");
+            }
+
+            var prerenderPage = item?.Page as FrameworkElement;
+        }
+
+        private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPageInfo, PageInfo newPageInfo, PageChangingVectorEnum changingVector)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
                 var root = rootElement as FrameworkElement;
-                //var element = oldPage.Page as FrameworkElement;
-                //var parent = element.Parent as Grid;
+                var oldPage = oldPageInfo?.Page as FrameworkElement;
+                var newPage = newPageInfo?.Page as FrameworkElement;
 
+                PropagateOnTemplateReused(newPage);
 
-                if (root != null)
+                if (root is null)
                 {
-                    switch (changingVector)
-                    {
-                        case PageChangingVectorEnum.Back:
-                            break;
-                        case PageChangingVectorEnum.Next:
-                            var page = newPageInfo.Page as FrameworkElement;
-                            if (page == null)
-                                throw new ArgumentException("New page is null.");
-
-                            //mainFrame.Navigate(newPageInfo.Page.GetType(), null, new EntranceNavigationTransitionInfo());
-                            break;
-                    }
+                    throw new ArgumentException("Cannot change the page because root is null");
                 }
-                else
+                if (oldPage is null)
                 {
-                    throw new ArgumentException("You cannot change the page for.");
+                    if (changingVector == PageChangingVectorEnum.Back)
+                    {
+                        throw new ArgumentException("Cannot change the page because old page is null");
+                    }
+                    oldPage = root;
+                }
+                if (newPage is null)
+                {
+                    throw new ArgumentException("Cannot change the page because new page is null");
+                }
+
+                switch (changingVector)
+                {
+                    case PageChangingVectorEnum.Back:
+                        break;
+                    case PageChangingVectorEnum.Next:
+                        root.GetTrainAnimationStrouyboard(oldPage, newPage, 1000).Begin();
+                        break;
                 }
             });
+        }
+
+        internal static void PropagateOnTemplateReused(object instance)
+        {
+            Panel panel = instance as Panel;
+            if (panel != null)
+            {
+                for (int i = 0; i < panel.Children.Count; i++)
+                {
+                    object instance2 = panel.Children[i];
+                    PropagateOnTemplateReused(instance2);
+                }
+
+                return;
+            }
+
+            UIElement uIElement = instance as UIElement;
+            if (uIElement != null)
+            {
+                IEnumerator<UIElement> enumerator = uIElement.GetChildren().GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    PropagateOnTemplateReused(enumerator.Current);
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Common.Delegates;
+using Common.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace LigricMvvmToolkit.Navigation
     }
 
     public delegate void CurrentPageEventHandler(object sender, object rootElement, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector);
+    public delegate void CollectionEventHandler<T>(object sender, object rootElement, ActionCollectionEnum action, T item);
+
 
     public interface INavigationService
     {
