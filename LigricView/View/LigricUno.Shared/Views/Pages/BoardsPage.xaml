@@ -16,8 +16,7 @@
         <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
     </Page.Resources>
 
-    <Grid>
-        <Grid Background="Red"/>
+    <Grid Background="Red">
 
         <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Background="Red">
 

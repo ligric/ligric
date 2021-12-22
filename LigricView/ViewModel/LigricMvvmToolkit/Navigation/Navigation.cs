@@ -6,6 +6,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -81,15 +82,15 @@ namespace LigricMvvmToolkit.Navigation
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                var root = rootElement as FrameworkElement;
+                var root = rootElement as Panel;
                 var oldPage = oldPageInfo?.Page as FrameworkElement;
                 var newPage = newPageInfo?.Page as FrameworkElement;
 
-                PropagateOnTemplateReused(newPage);
-
                 if (root is null)
                 {
-                    throw new ArgumentException("Cannot change the page because root is null");
+                    root = rootElement is DependencyObject rootDependencyObject ? rootDependencyObject.GetVisualChild<Panel>() : null;
+                    if (root is null)
+                        throw new ArgumentException("Cannot change the page because root element does't contain a Panel element.");
                 }
                 if (oldPage is null)
                 {
@@ -103,41 +104,42 @@ namespace LigricMvvmToolkit.Navigation
                 {
                     throw new ArgumentException("Cannot change the page because new page is null");
                 }
+                newPage.Visibility = Visibility.Collapsed;
+
+
+                var rootCopy = root.CloneDO();
+                //string xaml = "<Ellipse Name=\"EllipseAdded\" Width=\"300.5\" Height=\"200\" Fill =\"Red\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"/>";
+                //object ellipse = XamlReader.Load(xaml);
+                ////stackPanelRoot is the visual root of a Page in existing XAML markup already loaded by the appmodel
+                //stackPanelRoot.Children.Add(ellipse as UIElement);
+                ////walk the tree using XLinq result and cast back to a XAML type to set a property on it at runtime
+                //var result = (from item in stackPanelRoot.Children
+                //              where (item is FrameworkElement)
+                //              && ((FrameworkElement)item).Name == "EllipseAdded"
+                //              select item as FrameworkElement).FirstOrDefault();
+                //((Ellipse)result).Fill = new SolidColorBrush(Colors.Yellow);
+                //var rootCopy = root.DeepClone();
+                //rootCopy.Width = rootCopy.ActualWidth;
+                //rootCopy.Height = rootCopy.ActualHeight;
+
+
+                //root.Children.Clear();
+
+                //Grid wrapper = new Grid();
+                //wrapper.Children.Add(rootCopy);
+                //wrapper.Children.Add(newPage);
+
+                //root.Children.Add(wrapper);
 
                 switch (changingVector)
                 {
                     case PageChangingVectorEnum.Back:
                         break;
                     case PageChangingVectorEnum.Next:
-                        root.GetTrainAnimationStrouyboard(oldPage, newPage, 1000).Begin();
+                        root.GetTrainAnimationStrouyboard(root, newPage, 1000).Begin();
                         break;
                 }
             });
-        }
-
-        internal static void PropagateOnTemplateReused(object instance)
-        {
-            Panel panel = instance as Panel;
-            if (panel != null)
-            {
-                for (int i = 0; i < panel.Children.Count; i++)
-                {
-                    object instance2 = panel.Children[i];
-                    PropagateOnTemplateReused(instance2);
-                }
-
-                return;
-            }
-
-            UIElement uIElement = instance as UIElement;
-            if (uIElement != null)
-            {
-                IEnumerator<UIElement> enumerator = uIElement.GetChildren().GetEnumerator();
-                while (enumerator.MoveNext())
-                {
-                    PropagateOnTemplateReused(enumerator.Current);
-                }
-            }
         }
     }
 }

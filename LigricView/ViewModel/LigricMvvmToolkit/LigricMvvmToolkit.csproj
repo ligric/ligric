@@ -44,7 +44,7 @@
     <Compile Update="Multibinding\Common\Reflection\Reflector.cs">
       <Generator>MSBuild:Compile</Generator>
     </Compile>
-    <Compile Update="Multibinding\Foundation\Data\Binding.cs">
+    <Compile Update="Multibinding\Foundation\Data\ExtentedBinding.cs">
       <Generator>MSBuild:Compile</Generator>
     </Compile>
     <Compile Update="Multibinding\Foundation\Data\BindingHelper.cs">
