@@ -106,31 +106,6 @@ namespace LigricMvvmToolkit.Navigation
                 }
                 newPage.Visibility = Visibility.Collapsed;
 
-
-                var rootCopy = root.CloneDO();
-                //string xaml = "<Ellipse Name=\"EllipseAdded\" Width=\"300.5\" Height=\"200\" Fill =\"Red\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"/>";
-                //object ellipse = XamlReader.Load(xaml);
-                ////stackPanelRoot is the visual root of a Page in existing XAML markup already loaded by the appmodel
-                //stackPanelRoot.Children.Add(ellipse as UIElement);
-                ////walk the tree using XLinq result and cast back to a XAML type to set a property on it at runtime
-                //var result = (from item in stackPanelRoot.Children
-                //              where (item is FrameworkElement)
-                //              && ((FrameworkElement)item).Name == "EllipseAdded"
-                //              select item as FrameworkElement).FirstOrDefault();
-                //((Ellipse)result).Fill = new SolidColorBrush(Colors.Yellow);
-                //var rootCopy = root.DeepClone();
-                //rootCopy.Width = rootCopy.ActualWidth;
-                //rootCopy.Height = rootCopy.ActualHeight;
-
-
-                //root.Children.Clear();
-
-                //Grid wrapper = new Grid();
-                //wrapper.Children.Add(rootCopy);
-                //wrapper.Children.Add(newPage);
-
-                //root.Children.Add(wrapper);
-
                 switch (changingVector)
                 {
                     case PageChangingVectorEnum.Back:

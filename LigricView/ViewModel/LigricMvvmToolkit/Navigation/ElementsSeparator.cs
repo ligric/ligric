@@ -24,6 +24,14 @@ namespace LigricMvvmToolkit.Navigation
 
         public static FrameworkElement AddGridWrapper(this FrameworkElement element)
         {
+
+
+
+
+
+
+
+
             var parent = element.Parent;
             var test = parent.GetType();
             var parentType = availableTypes.FirstOrDefault(x => x == parent.GetType());

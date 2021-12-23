@@ -1,6 +1,7 @@
 ﻿using LigricMvvmToolkit.Multibinding.Foundation.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,9 +17,44 @@ using static LigricMvvmToolkit.Extantions.DependencyObjectExtensions;
 
 namespace LigricMvvmToolkit.Extantions
 {
-    public static partial class ExtensionMethods
+    public static partial class CloneableExtantions
     {
+        public static ReadOnlyDictionary<string, T> GetPropertiesValues<T>(this object obj)
+        {
+            Type typeT = typeof(T);
+            Type type = obj.GetType();
+            var properties = type.GetProperties();
+            Dictionary<string, T> values = new Dictionary<string, T>();
+            foreach (var property in properties)
+            {
+                if (typeT.IsAssignableFrom(property.PropertyType))
+                {
+                    values.Add(property.Name, (T)property.GetValue(obj));
+                }
+            }
 
+            return new ReadOnlyDictionary<string, T>(values);
+        }
+         public static ReadOnlyDictionary<string, T> GetStaticMemValues<T>(this object obj)
+        {
+            Type typeT = typeof(T);
+            Type type = obj.GetType();
+            var properties = type.GetProperties();
+            Dictionary<string, T> values = new Dictionary<string, T>();
+            foreach (var property in properties)
+            {
+                if (typeT.IsAssignableFrom(property.PropertyType))
+                {
+                    values.Add(property.Name, (T)property.GetValue(obj));
+                }
+            }
+
+            return new ReadOnlyDictionary<string, T>(values);
+        }
+   }
+
+    public static partial class DependencyExtensions
+    {
         private class ConstractorExtantions<T> where T : DependencyObject
         {
             private static readonly Dictionary<Type, Func<T>> constructors = new Dictionary<Type, Func<T>>();
@@ -107,6 +143,92 @@ namespace LigricMvvmToolkit.Extantions
             return clone;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private static readonly Dictionary<Type, Func<object>> constructors = new Dictionary<Type, Func<object>>();
+        private static readonly Type[] emptyTypes = new Type[0];
+        private static Func<T> GetConstructor<T>(Type type)
+            where T : UIElement
+        {
+            
+            if (!constructors.TryGetValue(type, out var func))
+            {
+                var constructor = type.GetConstructor
+                    (
+                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
+                        null, emptyTypes, null
+                    );
+                if (constructor == null)
+                {
+                    func = new Func<T>(() => null);
+                }
+                else
+                {
+                    DynamicMethod dynamic = new DynamicMethod(string.Empty,
+                                type,
+                                Type.EmptyTypes,
+                                type);
+                    ILGenerator il = dynamic.GetILGenerator();
+
+                    il.DeclareLocal(type);
+                    il.Emit(OpCodes.Newobj, constructor);
+                    il.Emit(OpCodes.Stloc_0);
+                    il.Emit(OpCodes.Ldloc_0);
+                    il.Emit(OpCodes.Ret);
+
+                    func = (Func<T>)dynamic.CreateDelegate(typeof(Func<T>));
+                }
+                constructors.Add(type, func);
+            }
+            return (Func<T>)func;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>Копирует значения и привязки всех <see cref="DependencyProperty"/>
         /// из объекта источника в целевой объект.</summary>
         /// <typeparam name="T">Тип объектов.</typeparam>
@@ -115,21 +237,22 @@ namespace LigricMvvmToolkit.Extantions
         public static void CopyDpTo<T>(this T source, T target)
             where T : DependencyObject
         {
-            Dictionary<string,DependencyProperty> properties = new Dictionary<string, DependencyProperty>();
+            ReadOnlyDictionary<string,DependencyProperty> properties = source.GetPropertiesValues<DependencyProperty>();
+ 
             ////// Looking for DependencyProperties by Reflex.
-            {
-                var propEnumerator = source.GetType().GetTypeInfo().DeclaredProperties.Where(x => true).GetEnumerator();
-                while (propEnumerator.MoveNext())
-                {
-                    if (propEnumerator.Current.PropertyType == typeof(DependencyProperty)
-                        /*&& propEnumerator.Current.CanWrite*/)
-                    {
-                        string fullName = propEnumerator.Current.Name;
-                        var basePropertyName = fullName.Remove(fullName.Length - 8);
-                        properties.Add(basePropertyName,(DependencyProperty)propEnumerator.Current.GetValue(source));
-                    }
-                }
-            }
+            //{
+            //    var propEnumerator = source.GetType().GetTypeInfo().DeclaredProperties.Where(x => true).GetEnumerator();
+            //    while (propEnumerator.MoveNext())
+            //    {
+            //        if (propEnumerator.Current.PropertyType == typeof(DependencyProperty)
+            //            /*&& propEnumerator.Current.CanWrite*/)
+            //        {
+            //            string fullName = propEnumerator.Current.Name;
+            //            var basePropertyName = fullName.Remove(fullName.Length - 8);
+            //            properties.Add(basePropertyName,(DependencyProperty)propEnumerator.Current.GetValue(source));
+            //        }
+            //    }
+            //}
             ////// Deliting properties that are not in another object.
             {
                 var propEnumerator = target.GetType().GetTypeInfo().DeclaredProperties.Where(x => true).GetEnumerator();
