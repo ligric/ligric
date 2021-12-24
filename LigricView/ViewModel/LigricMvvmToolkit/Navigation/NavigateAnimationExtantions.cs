@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -10,8 +11,7 @@ namespace LigricMvvmToolkit.Navigation
     {
         public static Storyboard GetTrainAnimationStrouyboard(this FrameworkElement root, FrameworkElement firstVisibileElement, FrameworkElement endVisibleElement, double timeMilliseconds)
         {
-            //firstVisibileElement.AddGridWrapper()
-                                //.AddElement(endVisibleElement, out int index);
+            firstVisibileElement.AddWrapper().AddElementToWrapper(endVisibleElement);
 
             var timespan = TimeSpan.FromMilliseconds(timeMilliseconds);
             Storyboard stroyboard = new Storyboard();
@@ -23,8 +23,8 @@ namespace LigricMvvmToolkit.Navigation
             Point endElementStartPostition = elementEndVisualRelative.TransformPoint(new Point(0, 0));
 
             ((TranslateTransform)endVisibleElement.RenderTransform).X = root.ActualWidth;
-            endVisibleElement.Width = root.ActualWidth == 0 ? root.Width : root.ActualWidth; endVisibleElement.Height = root.ActualHeight == 0 ? root.Height : root.ActualHeight; endVisibleElement.Visibility = Visibility.Visible;
-            endVisibleElement.VerticalAlignment = VerticalAlignment.Stretch; endVisibleElement.HorizontalAlignment = HorizontalAlignment.Stretch; 
+            ((TranslateTransform)endVisibleElement.RenderTransform).Y = 0;
+            endVisibleElement.Visibility = Visibility.Visible;
 
             
 

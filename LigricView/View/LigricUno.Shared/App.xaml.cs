@@ -4,8 +4,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace LigricUno
@@ -82,9 +84,9 @@ namespace LigricUno
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(HomePage), args.Arguments);
+                    rootFrame.Navigate(typeof(LoginPage), args.Arguments);
 
-                   // SetBoardsPages();
+                    SetBoardsPages();
                 }
                 // Ensure the current window is active
                 _window.Activate();
@@ -95,7 +97,7 @@ namespace LigricUno
         {
             for (int i = 0; i < 1; i++)
             {
-                Navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i);
+                Navigation.PrerenderPage(new BoardsPage() { Background = new SolidColorBrush(Colors.Orange) }, "BoardsPage" + i);
             }
         }
 
