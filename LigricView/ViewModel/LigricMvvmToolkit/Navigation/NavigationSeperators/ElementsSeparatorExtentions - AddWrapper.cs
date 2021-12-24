@@ -1,9 +1,5 @@
 ﻿using LigricMvvmToolkit.Extantions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,9 +20,9 @@ namespace LigricMvvmToolkit.Navigation
             Panel wrapper = null;
             var parent = element.Parent;
 
-            if (parent is Control)
+            if (parent is UserControl)
             {
-                wrapper = element.AddWrapperInTheControl((Control)parent);
+                wrapper = element.AddWrapperInTheUserControl((UserControl)parent);
             }
             else if (parent is Panel)
             {
@@ -34,7 +30,7 @@ namespace LigricMvvmToolkit.Navigation
             }
             else if(parent is Border)
             {
-                wrapper = AddWrapperInTheBorder((Border)parent);
+                wrapper = element.AddWrapperInTheBorder((Border)parent);
             }
             else if (parent is null)
             {
@@ -48,22 +44,22 @@ namespace LigricMvvmToolkit.Navigation
             return wrapper;
         }
 
-        private static Panel AddWrapperInTheControl(this FrameworkElement element, Control parent)
+        private static Panel AddWrapperInTheUserControl(this FrameworkElement element, UserControl parent)
         {
-            Grid wrapper = new Grid() { Background = new SolidColorBrush(Colors.Blue), Width = 400 };
+            Grid wrapper = new Grid();
 
-            var test = element;
-            var removeElement = parent.GetVisualChild<Del>(element);
+            parent.Content = null;
 
             wrapper.Children.Add(element);
-            element = (FrameworkElement)wrapper.Children[0];
+
+            parent.Content = wrapper;
 
             return wrapper;
         }
 
         private static Panel AddWrapperInThePanel(this FrameworkElement element, Panel parent)
         {
-            Grid wrapper = new Grid() { Background = new SolidColorBrush(Colors.Blue), Width = 400 };
+            Grid wrapper = new Grid();
 
             foreach (var item in parent.Children)
             {
@@ -80,9 +76,17 @@ namespace LigricMvvmToolkit.Navigation
             return wrapper;
         }
 
-        private static Panel AddWrapperInTheBorder(Border parent)
+        private static Panel AddWrapperInTheBorder(this FrameworkElement element, Border parent)
         {
-            throw new NotImplementedException();
+            Grid wrapper = new Grid();
+
+            parent.Child = null;
+
+            wrapper.Children.Add(element);
+
+            parent.Child = wrapper;
+
+            return wrapper;
         }        
 
     }

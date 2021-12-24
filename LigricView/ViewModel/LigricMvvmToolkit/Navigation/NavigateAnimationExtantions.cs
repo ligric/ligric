@@ -11,6 +11,8 @@ namespace LigricMvvmToolkit.Navigation
     {
         public static Storyboard GetTrainAnimationStrouyboard(this FrameworkElement root, FrameworkElement firstVisibileElement, FrameworkElement endVisibleElement, double timeMilliseconds)
         {
+            var rootWidth = root.ActualWidth == 0 ? root.Width : root.ActualWidth;
+
             firstVisibileElement.AddWrapper().AddElementToWrapper(endVisibleElement);
 
             var timespan = TimeSpan.FromMilliseconds(timeMilliseconds);
@@ -22,7 +24,7 @@ namespace LigricMvvmToolkit.Navigation
             var elementEndVisualRelative = firstVisibileElement.TransformToVisual(root);
             Point endElementStartPostition = elementEndVisualRelative.TransformPoint(new Point(0, 0));
 
-            ((TranslateTransform)endVisibleElement.RenderTransform).X = root.ActualWidth;
+            ((TranslateTransform)endVisibleElement.RenderTransform).X = rootWidth;
             ((TranslateTransform)endVisibleElement.RenderTransform).Y = 0;
             endVisibleElement.Visibility = Visibility.Visible;
 
@@ -30,7 +32,7 @@ namespace LigricMvvmToolkit.Navigation
 
             #region xAnimation firstElement
             DoubleAnimationUsingKeyFrames xAnimationFirstElement = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-            xAnimationFirstElement.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = -(root.ActualWidth == 0 ? root.Width : root.ActualWidth), KeyTime = KeyTime.FromTimeSpan(timespan) });
+            xAnimationFirstElement.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = -(rootWidth), KeyTime = KeyTime.FromTimeSpan(timespan) });
             Storyboard.SetTarget(xAnimationFirstElement, fromRenderTransform);
             Storyboard.SetTargetProperty(xAnimationFirstElement, "X");
             #endregion

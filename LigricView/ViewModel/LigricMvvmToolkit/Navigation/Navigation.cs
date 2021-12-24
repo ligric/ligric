@@ -82,7 +82,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                var root = rootElement as Panel;
+                var root = rootElement as FrameworkElement;
                 var oldPage = oldPageInfo?.Page as FrameworkElement;
                 var newPage = newPageInfo?.Page as FrameworkElement;
 
@@ -111,7 +111,7 @@ namespace LigricMvvmToolkit.Navigation
                     case PageChangingVectorEnum.Back:
                         break;
                     case PageChangingVectorEnum.Next:
-                        root.GetTrainAnimationStrouyboard(root, newPage, 1000).Begin();
+                        root.GetTrainAnimationStrouyboard(oldPage, newPage, 300).Begin();
                         break;
                 }
             });
