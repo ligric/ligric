@@ -29,10 +29,10 @@ namespace LigricMvvmToolkit.Navigation
         }
         
 
-        public static void PrerenderPage(FrameworkElement page, string pageName = null, string rootKey = null, string title = null, object backPage = null, object nextPage = null)
+        public static void PrerenderPage(FrameworkElement page, string pageName = null, object vm = null, string rootKey = null, string title = null, object backPage = null, object nextPage = null)
         {
             var navigationService = GetNavigationServiceByRootName(rootKey);
-            navigationService.PrerenderPage(page, pageName, title, backPage, nextPage);
+            navigationService.PrerenderPage(page, pageName, vm, title, backPage, nextPage);
         }
 
         private static NavigationService GetNavigationServiceByRootName(string rootKey)
@@ -74,8 +74,12 @@ namespace LigricMvvmToolkit.Navigation
             {
                 throw new ArgumentNullException("Prerender element is null.");
             }
-
             var prerenderPage = item?.Page as FrameworkElement;
+
+            if (item.ViewModel != null)
+            {
+                prerenderPage.DataContext = item.ViewModel;
+            }
         }
 
         private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPageInfo, PageInfo newPageInfo, PageChangingVectorEnum changingVector)

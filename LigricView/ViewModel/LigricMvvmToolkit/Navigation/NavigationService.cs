@@ -28,13 +28,13 @@ namespace LigricMvvmToolkit.Navigation
             this.rootElement = rootElement;
         }
 
-        public void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null)
-            => PageHandler(page, pageName, backPage, nextPage, PageActionEnum.Prerender, title);
+        public void PrerenderPage(object page, string pageName = null, object vm = null, string title = null, object backPage = null, object nextPage = null)
+            => PageHandler(page, pageName, vm, backPage, nextPage, PageActionEnum.Prerender, title);
 
         public void GoTo(string pageName, object backPage = null, object nextPage = null) 
             => PageHandler(pageName: pageName, backPage : backPage, nextPage : nextPage, action : PageActionEnum.GoTo);
 
-        private void PageHandler(object page = null, string pageName = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
+        private void PageHandler(object page = null, string pageName = null, object vm = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
         {
             #region preparation
             var oldPage = CurrentPage;
@@ -44,7 +44,7 @@ namespace LigricMvvmToolkit.Navigation
                 throw new NullReferenceException("Page and page name are null.");
             }
                 
-            var prerenderPage = new PageInfo(page, pageName, title, backPage, nextPage);
+            var prerenderPage = new PageInfo(page, pageName, vm, title, backPage, nextPage);
             #endregion
 
             switch (action)

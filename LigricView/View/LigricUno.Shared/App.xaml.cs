@@ -97,7 +97,7 @@ namespace LigricUno
         {
             for (int i = 0; i < 1; i++)
             {
-                Navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i);
+                Navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i, new BoardsViewModel());
             }
         }
 

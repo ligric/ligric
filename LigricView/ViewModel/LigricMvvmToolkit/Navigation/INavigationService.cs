@@ -25,7 +25,7 @@ namespace LigricMvvmToolkit.Navigation
 
         event CollectionEventHandler<PageInfo> ActivePagesChanged;
 
-        void PrerenderPage(object page, string pageName = null, string title = null, object backPage = null, object nextPage = null);
+        void PrerenderPage(object page, string pageName = null, object vm = null, string title = null, object backPage = null, object nextPage = null);
 
         void GoTo(string pageName, object backPage = null, object nextPage = null);
 

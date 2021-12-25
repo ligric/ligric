@@ -9,6 +9,8 @@ namespace LigricMvvmToolkit.Navigation
     {
         public object Page { get; }
 
+        public object ViewModel { get; }
+
         /// <summary> 
         /// Unique name for easy search. 
         /// </summary>
@@ -36,7 +38,7 @@ namespace LigricMvvmToolkit.Navigation
 
         private readonly int hash;
 
-        public PageInfo(object page, string pageKey, string title, object backPage = null, object nextPage = null)
+        public PageInfo(object page, string pageKey, object vm = null, string title = null, object backPage = null, object nextPage = null)
         {
             Page = page;
             PageKey = string.IsNullOrEmpty(pageKey) ? nameof(page) : pageKey; 
