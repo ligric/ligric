@@ -15,39 +15,49 @@ namespace LigricMvvmToolkit.Navigation
             return element;
         }
 
-        public static Panel AddWrapper(this FrameworkElement element)
+        public static Panel AddWrapper(this FrameworkElement element, string rootKey = "root")
         {
-            Panel wrapper = null;
             var parent = element.Parent;
+            if (parent is null)
+                throw new TypeAccessException("Root parent element is null.");
+
+            if (string.IsNullOrEmpty(rootKey))
+                throw new ArgumentNullException("Root key cannot be null or empty.");
+
+
+            if (!wrappers.TryGetValue(rootKey, out Panel wrapper))
+            {
+                wrapper = new Grid() { Tag = rootKey + "_wrapper" };
+            }
+            else
+            {
+                return wrapper;
+            }
 
             if (parent is UserControl)
             {
-                wrapper = element.AddWrapperInTheUserControl((UserControl)parent);
+                wrapper = element.AddWrapperInTheUserControl((UserControl)parent, wrapper);
             }
             else if (parent is Panel)
             {
-                wrapper = element.AddWrapperInThePanel((Panel)parent);
+                wrapper = element.AddWrapperInThePanel((Panel)parent, wrapper);
             }
             else if(parent is Border)
             {
-                wrapper = element.AddWrapperInTheBorder((Border)parent);
-            }
-            else if (parent is null)
-            {
-                throw new TypeAccessException("This element cannot be changed because his parent type is not allowed to page changes.");
+                wrapper = element.AddWrapperInTheBorder((Border)parent, wrapper);
             }
             else
             {
                 throw new NotImplementedException($"Type {parent} not implemented");
             }
 
+            wrappers.Add(rootKey, wrapper);
+
             return wrapper;
         }
 
-        private static Panel AddWrapperInTheUserControl(this FrameworkElement element, UserControl parent)
+        private static Panel AddWrapperInTheUserControl(this FrameworkElement element, UserControl parent, Panel wrapper)
         {
-            Grid wrapper = new Grid();
-
             parent.Content = null;
 
             wrapper.Children.Add(element);
@@ -57,10 +67,8 @@ namespace LigricMvvmToolkit.Navigation
             return wrapper;
         }
 
-        private static Panel AddWrapperInThePanel(this FrameworkElement element, Panel parent)
+        private static Panel AddWrapperInThePanel(this FrameworkElement element, Panel parent, Panel wrapper)
         {
-            Grid wrapper = new Grid();
-
             foreach (var item in parent.Children)
             {
                 if (item == element)
@@ -76,10 +84,8 @@ namespace LigricMvvmToolkit.Navigation
             return wrapper;
         }
 
-        private static Panel AddWrapperInTheBorder(this FrameworkElement element, Border parent)
+        private static Panel AddWrapperInTheBorder(this FrameworkElement element, Border parent, Panel wrapper)
         {
-            Grid wrapper = new Grid();
-
             parent.Child = null;
 
             wrapper.Children.Add(element);

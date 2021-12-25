@@ -22,42 +22,35 @@ namespace LigricMvvmToolkit.Navigation
             }
         };
 
-        public static void GoTo(string pageName, string rootKey = null, object backPage = null, object nextPage = null)
+        public static void GoTo(string pageName, string rootKey = "root", object backPage = null, object nextPage = null)
         {
-            var navigationService = GetNavigationServiceByRootName(rootKey);
+            var navigationService = GetNavigationServiceByRootKey(rootKey);
             navigationService.GoTo(pageName, backPage, nextPage);
         }
         
 
-        public static void PrerenderPage(FrameworkElement page, string pageName = null, object vm = null, string rootKey = null, string title = null, object backPage = null, object nextPage = null)
+        public static void PrerenderPage(FrameworkElement page, string pageName = null, object vm = null, string rootKey = "root", string title = null, object backPage = null, object nextPage = null)
         {
-            var navigationService = GetNavigationServiceByRootName(rootKey);
+            var navigationService = GetNavigationServiceByRootKey(rootKey);
             navigationService.PrerenderPage(page, pageName, vm, title, backPage, nextPage);
         }
 
-        private static NavigationService GetNavigationServiceByRootName(string rootKey)
+        private static NavigationService GetNavigationServiceByRootKey(string rootKey)
         {
             string root = string.Empty;
 
-            if (rootKey is null)
+            if (string.IsNullOrEmpty(rootKey))
             {
-                root = "root";
+                throw new ArgumentNullException($"Root key can't be empty.");
             }
             else
             {
-                if (string.IsNullOrEmpty(rootKey))
-                {
-                    throw new ArgumentNullException($"rootName can't be empty. MethodName: {nameof(GoTo)}");
-                }
-                else
-                {
-                    root = rootKey;
-                }
+                root = rootKey;
             }
 
             if (!navigationServices.TryGetValue(root, out NavigationService navigationService))
             {
-                throw new ArgumentNullException($"Key {root} is not registered or not available. Please use the RegisterRoot method.");
+                throw new ArgumentNullException($"Root key \"{root}\" is not registered or not available. Please use the \"RegisterRoot\" method.");
             }
             return navigationService;
         }
@@ -74,12 +67,28 @@ namespace LigricMvvmToolkit.Navigation
             {
                 throw new ArgumentNullException("Prerender element is null.");
             }
-            var prerenderPage = item?.Page as FrameworkElement;
 
-            if (item.ViewModel != null)
+            var prerenderPage = item?.Page as FrameworkElement;
+            if (prerenderPage == null)
+            {
+                throw new ArgumentNullException("Prerender element isn't FrameworkElement.");
+            }
+
+            if (item?.ViewModel != null)
             {
                 prerenderPage.DataContext = item.ViewModel;
             }
+
+
+            var rootObject = rootElement as FrameworkElement;
+            if (rootObject == null)
+            {
+                throw new ArgumentNullException("Root element is null or root element isn't FrameworkElement.");
+            }
+
+            prerenderPage.Visibility = Visibility.Collapsed;
+
+            rootObject.AddWrapper().AddElementToWrapper(prerenderPage);
         }
 
         private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPageInfo, PageInfo newPageInfo, PageChangingVectorEnum changingVector)
@@ -115,7 +124,7 @@ namespace LigricMvvmToolkit.Navigation
                     case PageChangingVectorEnum.Back:
                         break;
                     case PageChangingVectorEnum.Next:
-                        root.GetTrainAnimationStrouyboard(oldPage, newPage, 300).Begin();
+                        root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 300).Begin();
                         break;
                 }
             });

@@ -41,7 +41,8 @@ namespace LigricMvvmToolkit.Navigation
         public PageInfo(object page, string pageKey, object vm = null, string title = null, object backPage = null, object nextPage = null)
         {
             Page = page;
-            PageKey = string.IsNullOrEmpty(pageKey) ? nameof(page) : pageKey; 
+            PageKey = string.IsNullOrEmpty(pageKey) ? nameof(page) : pageKey;
+            ViewModel = vm;
             Title = string.IsNullOrEmpty(title) ? PageKey : title; 
             BackPage = backPage; 
             NextPage = nextPage;

@@ -9,26 +9,18 @@ namespace LigricMvvmToolkit.Navigation
 {
     public static class NavigateAnimationExtantions
     {
-        public static Storyboard GetTrainAnimationStrouyboard(this FrameworkElement root, FrameworkElement firstVisibileElement, FrameworkElement endVisibleElement, double timeMilliseconds)
+        public static Storyboard GetTrainAnimationStrouyboard(this Panel wrapper, FrameworkElement firstVisibileElement, FrameworkElement endVisibleElement, double timeMilliseconds)
         {
-            var rootWidth = root.ActualWidth == 0 ? root.Width : root.ActualWidth;
-
-            firstVisibileElement.AddWrapper().AddElementToWrapper(endVisibleElement);
+            var rootWidth = wrapper.ActualWidth == 0 ? wrapper.Width : wrapper.ActualWidth;
 
             var timespan = TimeSpan.FromMilliseconds(timeMilliseconds);
             Storyboard stroyboard = new Storyboard();
             var fromRenderTransform = TransformInitialize(firstVisibileElement);
             var toRenderTransform = TransformInitialize(endVisibleElement);
 
-            // Set default properties
-            var elementEndVisualRelative = firstVisibileElement.TransformToVisual(root);
-            Point endElementStartPostition = elementEndVisualRelative.TransformPoint(new Point(0, 0));
-
             ((TranslateTransform)endVisibleElement.RenderTransform).X = rootWidth;
             ((TranslateTransform)endVisibleElement.RenderTransform).Y = 0;
             endVisibleElement.Visibility = Visibility.Visible;
-
-            
 
             #region xAnimation firstElement
             DoubleAnimationUsingKeyFrames xAnimationFirstElement = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };

@@ -6,14 +6,14 @@ namespace LigricMvvmToolkit.Navigation
 {
     public static partial class ElementsSeparatorExtentions
     {
-        public static FrameworkElement AddElementToWrapper(this Panel root, FrameworkElement addElement)
+        public static FrameworkElement AddElementToWrapper(this Panel wrapper, FrameworkElement addElement)
         {
-            if (root == null)
+            if (wrapper == null)
             {
                 throw new ArgumentNullException("Wrapper element is null");
             }
 
-            root.Children.Add(addElement);
+            wrapper.Children.Add(addElement);
 
             return addElement;
         }

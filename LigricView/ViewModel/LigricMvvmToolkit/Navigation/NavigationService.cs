@@ -10,7 +10,8 @@ namespace LigricMvvmToolkit.Navigation
 {
     public class NavigationService : INavigationService
     {
-        private readonly object rootElement;
+        public object RootElement { get; }
+
         private enum PageActionEnum { Prerender, GoTo }
 
         private Dictionary<string, PageInfo> activePages = new Dictionary<string, PageInfo>();
@@ -25,7 +26,7 @@ namespace LigricMvvmToolkit.Navigation
         public NavigationService(object rootElement)
         {
             ActivePages = new ReadOnlyDictionary<string, PageInfo>(activePages);
-            this.rootElement = rootElement;
+            RootElement = rootElement;
         }
 
         public void PrerenderPage(object page, string pageName = null, object vm = null, string title = null, object backPage = null, object nextPage = null)
@@ -72,7 +73,7 @@ namespace LigricMvvmToolkit.Navigation
                     }
                     else
                     {
-                        CurrentPageChanged?.Invoke(this, rootElement, oldPage, outPage, PageChangingVectorEnum.Next);
+                        CurrentPageChanged?.Invoke(this, RootElement, oldPage, outPage, PageChangingVectorEnum.Next);
                     }
                     break;
             }
@@ -83,7 +84,7 @@ namespace LigricMvvmToolkit.Navigation
             try
             {
                 activePages.Add(newPage.PageKey, newPage);
-                ActivePagesChanged?.Invoke(this, rootElement, ActionCollectionEnum.Added, newPage);
+                ActivePagesChanged?.Invoke(this, RootElement, ActionCollectionEnum.Added, newPage);
                 newPage.PageClosed += OnPageClosed;
             }
             catch
@@ -97,7 +98,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             if (activePages.Remove(page.PageKey))
             {
-                ActivePagesChanged?.Invoke(this, rootElement, ActionCollectionEnum.Removed, page);
+                ActivePagesChanged?.Invoke(this, RootElement, ActionCollectionEnum.Removed, page);
             }            
         }
     }
