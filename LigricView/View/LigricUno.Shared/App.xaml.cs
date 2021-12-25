@@ -2,6 +2,7 @@
 using LigricUno.Views.Pages;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -57,7 +58,7 @@ namespace LigricUno
 #endif
 
             var rootFrame = _window.Content as Frame;
-
+            _window.Activated += OnWindowActivated;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -89,7 +90,6 @@ namespace LigricUno
                 }
                 // Ensure the current window is active
                 _window.Activate();
-                _window.Activated += OnWindowActivated;
             }
         }
 
@@ -128,6 +128,8 @@ namespace LigricUno
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+
+
         }
 
         /// <summary>
