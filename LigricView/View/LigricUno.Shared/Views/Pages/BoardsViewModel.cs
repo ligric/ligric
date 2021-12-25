@@ -196,7 +196,12 @@ namespace LigricUno.Views.Pages
 
     public class BoardConteinersViewModel : OnNotifyPropertyChanged
     {
+        private BoardsViewModel _currentContainer;
+
+        public BoardsViewModel CurrentContainer { get => _currentContainer; private set => SetProperty(ref _currentContainer, value); }
+
         public ObservableCollection<BoardsViewModel> BoardConeiners { get; } = new ObservableCollection<BoardsViewModel>();
+
 
         public BoardConteinersViewModel()
         {
