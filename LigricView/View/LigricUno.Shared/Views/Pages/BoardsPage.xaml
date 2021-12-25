@@ -1,8 +1,5 @@
 ﻿<Page x:Class="LigricUno.Views.Pages.BoardsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-      d:Height="1334" d:Width="750"
-      xmlns:attached="using:LigricMvvmToolkit.AttachedProperties"
-      attached:ViewModelLocator.AutoWireViewModel="True"
-      
+      d:Height="1334" d:Width="750"      
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:dragPosition="using:LigricMvvmToolkit.Behaviors.DragPosition"
       xmlns:boards="using:LigricBoardCustomControls.Boards"
