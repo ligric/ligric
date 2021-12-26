@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    public static class NavigateAnimationExtantions
+    public static partial class NavigateAnimationExtantions
     {
         public static Storyboard GetTrainAnimationStrouyboard(this Panel wrapper, FrameworkElement firstVisibileElement, FrameworkElement endVisibleElement, double timeMilliseconds)
         {
@@ -41,7 +41,6 @@ namespace LigricMvvmToolkit.Navigation
 
             return stroyboard;
         }
-
 
 
 

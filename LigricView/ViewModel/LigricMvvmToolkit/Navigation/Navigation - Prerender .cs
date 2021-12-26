@@ -1,33 +1,20 @@
-﻿using Common.Delegates;
-using LigricMvvmToolkit.Extantions;
+﻿using LigricMvvmToolkit.Extantions;
 using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    public class Navigation
+    public partial class Navigation
     {
-        protected static readonly Dictionary<string, NavigationService> navigationServices = new Dictionary<string, NavigationService>()
-        {
-            { 
-                "root", 
-                new NavigationService(Window.Current.Content as Frame)
-            }
-        };
-
         public static void GoTo(string pageName, string rootKey = "root", object backPage = null, object nextPage = null)
         {
             var navigationService = GetNavigationServiceByRootKey(rootKey);
             navigationService.GoTo(pageName, backPage, nextPage);
         }
-        
 
         public static void PrerenderPage(FrameworkElement page, string pageName = null, object vm = null, string rootKey = "root", string title = null, object backPage = null, object nextPage = null)
         {
@@ -35,31 +22,6 @@ namespace LigricMvvmToolkit.Navigation
             navigationService.PrerenderPage(page, pageName, vm, title, backPage, nextPage);
         }
 
-        private static NavigationService GetNavigationServiceByRootKey(string rootKey)
-        {
-            string root = string.Empty;
-
-            if (string.IsNullOrEmpty(rootKey))
-            {
-                throw new ArgumentNullException($"Root key can't be empty.");
-            }
-            else
-            {
-                root = rootKey;
-            }
-
-            if (!navigationServices.TryGetValue(root, out NavigationService navigationService))
-            {
-                throw new ArgumentNullException($"Root key \"{root}\" is not registered or not available. Please use the \"RegisterRoot\" method.");
-            }
-            return navigationService;
-        }
-
-        static Navigation()
-        {
-            navigationServices["root"].CurrentPageChanged += OnPageChanged;
-            navigationServices["root"].ActivePagesChanged += OnActivePagesChanged;
-        }
 
         private static void OnActivePagesChanged(object sender, object rootElement, Common.Enums.ActionCollectionEnum action, PageInfo item)
         {
@@ -128,6 +90,27 @@ namespace LigricMvvmToolkit.Navigation
                         break;
                 }
             });
+        }
+
+
+        private static NavigationService GetNavigationServiceByRootKey(string rootKey)
+        {
+            string root = string.Empty;
+
+            if (string.IsNullOrEmpty(rootKey))
+            {
+                throw new ArgumentNullException($"Root key can't be empty.");
+            }
+            else
+            {
+                root = rootKey;
+            }
+
+            if (!navigationServices.TryGetValue(root, out NavigationService navigationService))
+            {
+                throw new ArgumentNullException($"Root key \"{root}\" is not registered or not available. Please use the \"RegisterRoot\" method.");
+            }
+            return navigationService;
         }
     }
 }
