@@ -87,7 +87,6 @@ namespace LigricUno.Views.Pages
         }
     }
 
-
     public class BitzlatoBoardViewModel : BoardViewModel
     {
         #region IBitZlatoRequestsService initialization
