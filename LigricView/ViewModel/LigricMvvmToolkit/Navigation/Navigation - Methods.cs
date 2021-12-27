@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,22 @@ namespace LigricMvvmToolkit.Navigation
         public static void RegisterRootElement()
         {
             throw new NotImplementedException();
+        }
+
+        public static IReadOnlyDictionary<string, FrameworkElement> GetPages(string rootKey = "root")
+        {
+            var navigationService = GetNavigationServiceByRootKey(rootKey);
+            Dictionary<string, FrameworkElement> pages = new Dictionary<string, FrameworkElement>();
+            foreach (var item in navigationService.ActivePages)
+            {
+                FrameworkElement page = item.Value.Page as FrameworkElement;
+                if (page == null)
+                    throw new NullReferenceException($"Page \"{item.Key}\" is null.");
+
+                pages.Add(item.Key, page);
+            }
+
+            return new ReadOnlyDictionary<string, FrameworkElement>(pages);
         }
 
         public static void GoTo(string pageName, string rootKey = "root", object backPage = null, object nextPage = null)

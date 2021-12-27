@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenu.xaml.cs">
       <DependentUpon>NavigationMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenuViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml">

@@ -94,7 +94,6 @@ namespace LigricMvvmToolkit.Navigation
             {
                 root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement:item, timeMilliseconds: 200).Begin();
             }
-            
         }
     }
 }

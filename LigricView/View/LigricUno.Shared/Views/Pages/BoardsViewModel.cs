@@ -192,29 +192,4 @@ namespace LigricUno.Views.Pages
             Boards.Add(second);
         }
     }
-
-    public class BoardConteinersViewModel : OnNotifyPropertyChanged
-    {
-        private BoardsViewModel _currentContainer;
-
-        public BoardsViewModel CurrentContainer { get => _currentContainer; private set => SetProperty(ref _currentContainer, value); }
-
-        public ObservableCollection<BoardsViewModel> BoardConeiners { get; } = new ObservableCollection<BoardsViewModel>();
-
-
-        public BoardConteinersViewModel()
-        {
-            var testAds = new List<BoardsViewModel>()
-            {
-                new BoardsViewModel{ },
-                new BoardsViewModel{ },
-                new BoardsViewModel{ },
-            };
-
-            foreach (var item in testAds)
-            {
-                BoardConeiners.Add(item);
-            }
-        }
-    }
 }

@@ -96,11 +96,19 @@ namespace LigricUno
             }
         }
 
+        bool initialized = false;
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
+            if (initialized)
+                return;
+
+            initialized = true;
+
             var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
-            Navigation.PinFrontElement(new NavigationMenu(), new ReadOnlyCollection<string>(forbiddenPageKeys));
+
             PrerenderBoardsPages();
+
+            Navigation.PinFrontElement( new NavigationMenu() { DataContext = new NavigationMenuViewModel() }, new ReadOnlyCollection<string>(forbiddenPageKeys));
         }
 
         private void PrerenderBoardsPages()
