@@ -1,20 +1,11 @@
-﻿using LigricMvvmToolkit.Extantions;
-using System;
-using Windows.UI;
+﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    public static partial class ElementsSeparatorExtentions
+    internal static partial class ElementsSeparatorExtentions
     {
-        public static FrameworkElement RemoveGridWrapper(this FrameworkElement element)
-        {
-            throw new NotImplementedException();
-            return element;
-        }
-
         public static Panel AddWrapper(this FrameworkElement element, string rootKey = "root")
         {
             var parent = element.Parent;
@@ -24,16 +15,11 @@ namespace LigricMvvmToolkit.Navigation
             if (string.IsNullOrEmpty(rootKey))
                 throw new ArgumentNullException("Root key cannot be null or empty.");
 
+            if (wrappers.TryGetValue(rootKey, out WrapperInfo wrapperInfo))
+                return wrapperInfo.Wrapper;
 
-            if (!wrappers.TryGetValue(rootKey, out Panel wrapper))
-            {
-                wrapper = new Grid() { Tag = rootKey + "_wrapper" };
-            }
-            else
-            {
-                return wrapper;
-            }
 
+            Panel wrapper = new Grid() { Tag = rootKey + "_wrapper" };
             if (parent is UserControl)
             {
                 wrapper = element.AddWrapperInTheUserControl((UserControl)parent, wrapper);
@@ -51,7 +37,7 @@ namespace LigricMvvmToolkit.Navigation
                 throw new NotImplementedException($"Type {parent} not implemented");
             }
 
-            wrappers.Add(rootKey, wrapper);
+            wrappers.Add(rootKey, new WrapperInfo(rootKey, wrapper, 0));
 
             return wrapper;
         }

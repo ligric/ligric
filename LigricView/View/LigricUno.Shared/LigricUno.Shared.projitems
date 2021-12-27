@@ -30,7 +30,7 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\LoginViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Stickers\NavigationMenu.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenu.xaml.cs">
       <DependentUpon>NavigationMenu.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -47,7 +47,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Stickers\NavigationMenu.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

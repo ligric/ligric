@@ -42,8 +42,6 @@ namespace LigricMvvmToolkit.Navigation
             return stroyboard;
         }
 
-
-
         private static TranslateTransform TransformInitialize(FrameworkElement element)
         {
             if (element is null)

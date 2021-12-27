@@ -1,4 +1,5 @@
 ﻿using LigricMvvmToolkit.Navigation;
+using LigricUno.Shared.Views.Pins;
 using LigricUno.Views.Pages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -95,6 +96,7 @@ namespace LigricUno
 
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
+            Navigation.PinFrontElement(new NavigationMenu());
             PrerenderBoardsPages();
         }
 

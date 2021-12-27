@@ -5,7 +5,7 @@
       xmlns:boards="using:LigricBoardCustomControls.Boards"
       xmlns:local="using:LigricUno.Views.Pages"
       xmlns:converters="using:LigricMvvmToolkit.Converters"
-      xmlns:stickers="using:LigricUno.Shared.Views.Stickers"
+      xmlns:stickers="using:LigricUno.Shared.Views.Pins"
       
       d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}"
       Background="#cbcbcd">
