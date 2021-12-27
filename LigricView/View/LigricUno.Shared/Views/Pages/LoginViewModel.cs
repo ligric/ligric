@@ -16,7 +16,7 @@ namespace LigricUno.Views.Pages
 
         private void LoginLaterMethod(object parameter)
         {
-            Navigation.GoTo("BoardsPage0");
+            Navigation.GoTo("LoginPage0");
         }
     }
 }

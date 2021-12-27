@@ -10,27 +10,36 @@ namespace LigricMvvmToolkit.Navigation
     {
         public static FrameworkElement AddElementToWrapper(this Panel wrapper, FrameworkElement addElement)
         {
-            if (wrapper == null)
-            {
-                throw new ArgumentNullException("Wrapper element is null");
-            }
+            var wrapperInfo = GetWrapperInfo(wrapper);
 
-            wrapper.Children.Add(addElement);
+            var count = wrapper.Children.Count;
+
+            wrapper.Children.Insert(count - wrapperInfo.Pins.Count, addElement);
 
             return addElement;
         }
 
         public static Panel AddPinElement(this Panel wrapper, FrameworkElement element, IReadOnlyCollection<string> forbiddenPageKeys = null)
         {
-            var wrapperInfo = wrappers.Values.FirstOrDefault(x => x.Wrapper == wrapper);
-            if (wrapperInfo == null)
-                throw new ArgumentException("Unknown object. Please user the RegisterRoot mathod.");
+            var wrapperInfo = GetWrapperInfo(wrapper);
 
             wrapperInfo.Wrapper.Children.Add(element);
             wrapperInfo.Pins.Add(new PinInfo(wrapper, element, forbiddenPageKeys));
             wrappers[wrapperInfo.Key] = new WrapperInfo(wrapperInfo.Key, wrapperInfo.Wrapper, wrapperInfo.Pins);
 
             return wrapper;
+        }
+
+        private static WrapperInfo GetWrapperInfo(Panel wrapper)
+        {
+            if (wrapper == null)
+                throw new ArgumentNullException("Wrapper element is null");
+
+            var wrapperInfo = wrappers.Values.FirstOrDefault(x => x.Wrapper == wrapper);
+            if (wrapperInfo == null)
+                throw new ArgumentException("Unknown object. Please user the RegisterRoot mathod.");
+
+            return wrapperInfo;
         }
     }
 }
