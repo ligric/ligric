@@ -37,7 +37,7 @@ namespace LigricMvvmToolkit.Navigation
                 throw new NotImplementedException($"Type {parent} not implemented");
             }
 
-            wrappers.Add(rootKey, new WrapperInfo(rootKey, wrapper, 0));
+            wrappers.Add(rootKey, new WrapperInfo(rootKey, wrapper, null));
 
             return wrapper;
         }

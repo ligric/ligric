@@ -3,6 +3,8 @@ using LigricUno.Shared.Views.Pins;
 using LigricUno.Views.Pages;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -96,7 +98,8 @@ namespace LigricUno
 
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            Navigation.PinFrontElement(new NavigationMenu());
+            var forbiddenPageKeys = new List<string> { nameof(LoginPage), "Settings" };
+            Navigation.PinFrontElement(new NavigationMenu(), new ReadOnlyCollection<string>(forbiddenPageKeys));
             PrerenderBoardsPages();
         }
 
@@ -104,7 +107,13 @@ namespace LigricUno
         {
             for (int i = 0; i < 1; i++)
             {
-                Navigation.PrerenderPage(new BoardsPage(), "BoardsPage" + i, new BoardsViewModel());
+                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + i, new BoardsViewModel());
+            }
+
+
+            for (int i = 0; i < 1; i++)
+            {
+                Navigation.PrerenderPage(new LoginPage(), nameof(LoginPage) + i);
             }
         }
 
