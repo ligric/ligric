@@ -1,6 +1,7 @@
 ﻿using LigricMvvmToolkit.Extantions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -71,15 +72,29 @@ namespace LigricMvvmToolkit.Navigation
                 }
                 newPage.Visibility = Visibility.Collapsed;
 
+                
                 switch (changingVector)
                 {
                     case PageChangingVectorEnum.Back:
                         break;
                     case PageChangingVectorEnum.Next:
-                        root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 300).Begin();
+                        MoveNext(root, oldPage, newPage, newPageInfo);
                         break;
                 }
             });
+        }
+
+        private static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo)
+        {
+            IReadOnlyCollection<FrameworkElement> blockedPins;
+            blockedPins = ElementsSeparatorExtentions.GetBlockedPins("root", newPageInfo.PageKey);
+            root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200).Begin();
+
+            foreach (var item in blockedPins)
+            {
+                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement:item, timeMilliseconds: 200).Begin();
+            }
+            
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -28,7 +31,7 @@ namespace LigricMvvmToolkit.Navigation
             {
                 wrapper = element.AddWrapperInThePanel((Panel)parent, wrapper);
             }
-            else if(parent is Border)
+            else if (parent is Border)
             {
                 wrapper = element.AddWrapperInTheBorder((Border)parent, wrapper);
             }
@@ -42,6 +45,7 @@ namespace LigricMvvmToolkit.Navigation
             return wrapper;
         }
 
+        #region AddWrapper different types handler
         private static Panel AddWrapperInTheUserControl(this FrameworkElement element, UserControl parent, Panel wrapper)
         {
             parent.Content = null;
@@ -79,7 +83,58 @@ namespace LigricMvvmToolkit.Navigation
             parent.Child = wrapper;
 
             return wrapper;
-        }        
+        }
+        #endregion
 
+        public static FrameworkElement AddElementToWrapper(this Panel wrapper, FrameworkElement addElement)
+        {
+            var wrapperInfo = GetWrapperInfo(wrapper);
+
+            var count = wrapper.Children.Count;
+
+            wrapper.Children.Insert(count - wrapperInfo.Pins.Count, addElement);
+
+            return addElement;
+        }
+
+        public static Panel AddPinElement(this Panel wrapper, FrameworkElement element, IReadOnlyCollection<string> forbiddenPageKeys = null)
+        {
+            var wrapperInfo = GetWrapperInfo(wrapper);
+
+            wrapperInfo.Wrapper.Children.Add(element);
+            wrapperInfo.Pins.Add(new PinInfo(wrapper, element, forbiddenPageKeys));
+            wrappers[wrapperInfo.Key] = new WrapperInfo(wrapperInfo.Key, wrapperInfo.Wrapper, wrapperInfo.Pins);
+
+            return wrapper;
+        }
+
+        public static IReadOnlyCollection<FrameworkElement> GetBlockedPins(string rootKey, string blockedKey)
+        {
+            if (!wrappers.TryGetValue(rootKey, out WrapperInfo wrapperInfo))
+                throw new ArgumentException($"[404] Element with \"{rootKey}\" key not found");
+
+            List<FrameworkElement> outputPins = new List<FrameworkElement>();
+            foreach (var pinInfo in wrapperInfo.Pins)
+            {
+                if (pinInfo.ForbiddenPageKeys.Contains(blockedKey))
+                {
+                    outputPins.Add(pinInfo.Pin);
+                }
+            }
+
+            return outputPins;
+        }
+
+        private static WrapperInfo GetWrapperInfo(Panel wrapper)
+        {
+            if (wrapper == null)
+                throw new ArgumentNullException("Wrapper element is null");
+
+            var wrapperInfo = wrappers.Values.FirstOrDefault(x => x.Wrapper == wrapper);
+            if (wrapperInfo == null)
+                throw new ArgumentException("Unknown object. Please user the RegisterRoot mathod.");
+
+            return wrapperInfo;
+        }
     }
 }

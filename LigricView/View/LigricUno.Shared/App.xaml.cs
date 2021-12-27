@@ -98,7 +98,7 @@ namespace LigricUno
 
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            var forbiddenPageKeys = new List<string> { nameof(LoginPage), "Settings" };
+            var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
             Navigation.PinFrontElement(new NavigationMenu(), new ReadOnlyCollection<string>(forbiddenPageKeys));
             PrerenderBoardsPages();
         }
