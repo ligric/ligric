@@ -113,15 +113,9 @@ namespace LigricUno
 
         private void PrerenderBoardsPages()
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 10; i++)
             {
-                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + i, new BoardsViewModel());
-            }
-
-
-            for (int i = 0; i < 1; i++)
-            {
-                Navigation.PrerenderPage(new LoginPage(), nameof(LoginPage) + i);
+                Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + i }, nameof(BoardsPage) + i, new BoardsViewModel());
             }
         }
 

@@ -74,6 +74,7 @@ namespace LigricMvvmToolkit.Navigation
                     else
                     {
                         CurrentPageChanged?.Invoke(this, RootElement, oldPage, outPage, PageChangingVectorEnum.Next);
+                        CurrentPage = outPage;
                     }
                     break;
             }
