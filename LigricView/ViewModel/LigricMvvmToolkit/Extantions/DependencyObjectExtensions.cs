@@ -6,7 +6,7 @@ using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace LigricMvvmToolkit.Extantions
+namespace LigricMvvmToolkit.Extensions
 {
 	// Note: This file is included in Uno.UI ** AND ** linked in the toolkit for Windows Only
 

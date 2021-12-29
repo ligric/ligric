@@ -13,11 +13,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
-using static LigricMvvmToolkit.Extantions.DependencyObjectExtensions;
+using static LigricMvvmToolkit.Extensions.DependencyObjectExtensions;
 
-namespace LigricMvvmToolkit.Extantions
+namespace LigricMvvmToolkit.Extensions
 {
-    public static partial class CloneableExtantions
+    public static partial class CloneableExtensions
     {
         public static ReadOnlyDictionary<string, T> GetPropertiesValues<T>(this object obj)
         {
@@ -55,7 +55,7 @@ namespace LigricMvvmToolkit.Extantions
 
     public static partial class DependencyExtensions
     {
-        private class ConstractorExtantions<T> where T : DependencyObject
+        private class ConstractorExtensions<T> where T : DependencyObject
         {
             private static readonly Dictionary<Type, Func<T>> constructors = new Dictionary<Type, Func<T>>();
 
@@ -291,7 +291,7 @@ namespace LigricMvvmToolkit.Extantions
         public static T CloneDO<T>(this T dObj)
             where T : DependencyObject
         {
-            Func<T> constructor = ConstractorExtantions<T>.GetConstructor(dObj.GetType());
+            Func<T> constructor = ConstractorExtensions<T>.GetConstructor(dObj.GetType());
             T clone = constructor();
             if (clone == null)
             {

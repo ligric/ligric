@@ -1,4 +1,4 @@
-﻿using LigricMvvmToolkit.Extantions;
+﻿using LigricMvvmToolkit.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -87,7 +87,7 @@ namespace LigricMvvmToolkit.Navigation
         private static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo)
         {
             IReadOnlyCollection<FrameworkElement> blockedPins;
-            blockedPins = ElementsSeparatorExtentions.GetBlockedPins("root", newPageInfo.PageKey);
+            blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
             root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200).Begin();
 
             foreach (var item in blockedPins)

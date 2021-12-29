@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace LigricMvvmToolkit.Extantions
+namespace LigricMvvmToolkit.Extensions
 {
     /// <summary>
     /// Superfast deep copier class, which uses Expression trees.

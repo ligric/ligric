@@ -54,7 +54,7 @@ namespace BoardModels.BitZlato
         }
     }
 
-    internal static class TypeExtantions
+    internal static class TypeExtensions
     {
         public static BitZlatoAdDto ConvertToBitZlatoAdDto(this Ad ad) => new BitZlatoAdDto(ad.Id,
             new TraderDto(ad.Trader.Name, ad.Trader.Balance, ad.Trader.LastActivity, ad.Trader.Verificated, ad.Trader.Trusted),

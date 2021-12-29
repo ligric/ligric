@@ -4,7 +4,7 @@ using Common;
 using Common.Delegates;
 using Common.Enums;
 using Common.EventArgs;
-using Common.Extentions;
+using Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

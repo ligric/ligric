@@ -11,7 +11,7 @@ using BoardRepositories.Interfaces;
 using BoardRepositories.Types;
 using BoardRepositories.Enums;
 using BitZlatoApi.Types;
-using Common.Extentions;
+using Common.Extensions;
 
 namespace BoardRepositories.BitZlato
 {
@@ -96,7 +96,7 @@ namespace BoardRepositories.BitZlato
         }
     }
 
-    internal static class TypesExtantions
+    internal static class TypesExtensions
     {
         public static Ad ToAd(this AdJson adJson) => new Ad(adJson.Id,
                             new Trader(adJson.Owner, adJson.ownerBalance, adJson.OwnerLastActivity, adJson.IsOwnerVerificated, adJson.OwnerTrusted),

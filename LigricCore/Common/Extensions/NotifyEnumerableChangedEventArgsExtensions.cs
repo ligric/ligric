@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Extentions
+namespace Common.Extensions
 {
-    public static class NotifyEnumerableChangedEventArgsExtantions
+    public static class NotifyEnumerableChangedEventArgsExtensions
     {
         public static void NewElementsHandler<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender,
             IDictionary<TKey, TValue> newEntities, EventHandler<NotifyEnumerableChangedEventArgs<TValue>> entitiesChanged, ref int actionNumber)

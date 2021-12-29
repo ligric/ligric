@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    internal static partial class ElementsSeparatorExtentions
+    internal static partial class ElementsSeparatorExtensions
     {
         private class PinInfo
         {

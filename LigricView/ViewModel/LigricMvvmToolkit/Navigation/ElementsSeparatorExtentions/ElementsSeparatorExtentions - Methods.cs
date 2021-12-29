@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace LigricMvvmToolkit.Navigation
 {
-    internal static partial class ElementsSeparatorExtentions
+    internal static partial class ElementsSeparatorExtensions
     {
         public static Panel AddWrapper(this FrameworkElement element, string rootKey = "root")
         {

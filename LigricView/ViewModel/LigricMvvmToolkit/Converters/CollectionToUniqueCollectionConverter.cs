@@ -33,7 +33,7 @@ namespace LigricMvvmToolkit.Converters
         }
     }
 
-    internal static class Extantions
+    internal static class Extensions
     {
         public static Dictionary<string, object> DictionaryFromType(this object atype)
         {
