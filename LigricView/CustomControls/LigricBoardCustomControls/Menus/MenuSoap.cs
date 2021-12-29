@@ -1,17 +1,12 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricBoardCustomControls.Menus
 {
     public partial class MenuSoap : Expander
     {
-        private Storyboard justStoryboard = new Storyboard();
         private bool isLoaded;
 
 

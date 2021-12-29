@@ -197,8 +197,6 @@
     </ControlTemplate>
 
 
-
-
     <ControlTemplate x:Key="MenuExpanderTemplate" TargetType="ToggleButton">
         <Grid>
 

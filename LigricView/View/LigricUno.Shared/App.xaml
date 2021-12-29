@@ -8,10 +8,7 @@
 
                 <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Themes/Generic.xaml"/>
 
-                <ResourceDictionary Source="/Views/Styles/Expander.xaml"/>
                 <ResourceDictionary Source="/Views/Styles/TextBox.xaml"/>
-
-
             </ResourceDictionary.MergedDictionaries>
             
         </ResourceDictionary>
