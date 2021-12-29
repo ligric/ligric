@@ -1,10 +1,38 @@
 ﻿<UserControl x:Class="LigricUno.Shared.Views.Pins.NavigationMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:Microsoft.UI.Xaml.Controls"
              xmlns:menus="using:LigricBoardCustomControls.Menus"
              xmlns:templates="using:LigricBoardCustomControls.Templates"
-             
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity" 
-             xmlns:core="using:Microsoft.Xaml.Interactions.Core">
+             xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+             
+             xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:android="http://uno.ui/android"
+             xmlns:not_win="http://uno.ui/not_win"
+             
+             mc:Ignorable="android not_win">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ListView">
+                <win:Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <templates:UniformGrid Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </win:Setter>
+
+                <android:Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </android:Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid>
         <menus:ExpanderStandard Margin="20" Background="White" CornerRadius="15"
@@ -53,20 +81,7 @@
                 </Grid>
             </controls:Expander.Header>
 
-            <ListView x:Name="boards" ItemsSource="{Binding BoardConeiners}">
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="SelectionChanged">
-                        <core:InvokeCommandAction 
-                            Command="{Binding ElementName=boards, Path=DataContext.SelectedBoardCommand}"
-                            CommandParameter="{Binding ElementName=boards,Path=SelectedItem}"/>
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <templates:UniformGrid Columns="4"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <ListView x:Name="boards" ItemsSource="{Binding BoardConeiners}" SelectedItem="{Binding CurrentContainer, Mode=TwoWay}">
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -77,7 +92,7 @@
                                     <Button.Content>
                                         <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="15" Fill="#0a1113" Stretch="Uniform" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                                     </Button.Content>
-                                </Button>-->
+                            </Button>-->
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

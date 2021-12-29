@@ -9,7 +9,9 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -89,7 +91,7 @@ namespace LigricUno
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                   rootFrame.Navigate(typeof(LoginPage), args.Arguments);
+                   rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
                 }
                 // Ensure the current window is active
                 _window.Activate();
@@ -106,14 +108,34 @@ namespace LigricUno
 
             var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
 
-            PrerenderBoardsPages();
+            Task.Run(async () =>
+            {
+                await Task.Delay(200);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    try
+                    {
+                        PrerenderBoardsPages();
 
-            Navigation.PinFrontElement( new NavigationMenu() { DataContext = new NavigationMenuViewModel() }, new ReadOnlyCollection<string>(forbiddenPageKeys));
+                        var test = new NavigationMenu()
+                        {
+                            DataContext = new NavigationMenuViewModel() 
+                        };
+                        var test2 = new ReadOnlyCollection<string>(forbiddenPageKeys);
+
+                        Navigation.PinFrontElement(test, test2);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                });
+            });
         }
 
         private void PrerenderBoardsPages()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
                 Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + i }, nameof(BoardsPage) + i, new BoardsViewModel());
             }
@@ -141,8 +163,6 @@ namespace LigricUno
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-
-
         }
 
         /// <summary>

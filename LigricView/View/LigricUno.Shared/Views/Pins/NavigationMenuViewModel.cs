@@ -5,6 +5,8 @@ using LigricUno.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Shared.Views.Pins
 {
@@ -12,18 +14,9 @@ namespace LigricUno.Shared.Views.Pins
     {
         private string _currentContainer;
 
-        public string CurrentContainer { get => _currentContainer; private set => SetProperty(ref _currentContainer, value); }
+        public string CurrentContainer { get => _currentContainer; set => SetProperty(ref _currentContainer, value); }
 
         public ObservableCollection<string> BoardConeiners { get; } = new ObservableCollection<string>();
-
-
-        private RelayCommand<string> _selectedBoardCommand;
-        public RelayCommand<string> SelectedBoardCommand => _selectedBoardCommand ?? (_selectedBoardCommand = new RelayCommand<string>(SelectedBoardExecute));
-
-        private void SelectedBoardExecute(string parameter)
-        {
-            Navigation.GoTo(parameter);
-        }
 
         public NavigationMenuViewModel()
         {
@@ -32,6 +25,20 @@ namespace LigricUno.Shared.Views.Pins
             foreach (var item in test)
             {
                 BoardConeiners.Add(item.Key);
+            }
+        }
+
+        protected override void OnPropertyChanged(string propertyName, object oldValue, object newValue)
+        {
+            base.OnPropertyChanged(propertyName, oldValue, newValue);
+
+            if (propertyName == nameof(CurrentContainer))
+            {
+                var newValueString = newValue as string;
+                if (newValueString != null)
+                {
+                    Navigation.GoTo(newValueString);
+                }
             }
         }
     }
