@@ -1,6 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.18362;netstandard2.1;net6.0-android</TargetFrameworks>
+    <TargetFrameworks>uap10.0.18362;netstandard2.1;net6.0-android;net6.0-windows</TargetFrameworks>
     <LangVersion>10.0</LangVersion>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>

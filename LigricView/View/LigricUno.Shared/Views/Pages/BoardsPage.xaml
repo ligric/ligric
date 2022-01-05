@@ -25,31 +25,44 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
-                    <boards:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
-                                          Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4"/>
+                    <!--boards:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
+                                          Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4"/-->
+
+                    <Border Background="Red" Width="100" Height="100"/>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
 
-            <ItemsControl.ItemContainerStyle>
+            <!--<ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="dragPosition:DragPosition.DragPosition">
+                    --><!--<Setter Property="dragPosition:DragPosition.DragPosition">
                         <Setter.Value>
                             <dragPosition:DragPositionDataBindingCanvas
                                 BaseParent="{Binding ElementName=baseListView}"
                                 OffsetX="{Binding PositionX, Mode=TwoWay}"
                                 OffsetY="{Binding PositionY, Mode=TwoWay}"
                                 LeftBinding="{Binding PositionX, Mode=OneWay}"
-                                TopBinding="{Binding PositionY, Mode=OneWay}"/> 
+                                TopBinding="{Binding PositionY, Mode=OneWay}"/>
+                        </Setter.Value>
+                    </Setter>--><!--
+
+                    <Setter Property="dragPosition:DragPositionBehavior.DragPosition">
+                        <Setter.Value>
+                            <dragPosition:DragPositionDataBindingCanvas ZoomFactor="1"
+                                                                        BaseParent="{Binding ElementName=baseListView}"
+                                                                        OffsetX="{Binding PositionX, Mode=TwoWay}"
+                                                                        OffsetY="{Binding PositionY, Mode=TwoWay}"
+                                                                        LeftBinding="{Binding PositionX, Mode=OneWay}"
+                                                                        TopBinding="{Binding PositionY, Mode=OneWay}"/>
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ItemsControl.ItemContainerStyle>
+            </ItemsControl.ItemContainerStyle>-->
 
         </ItemsControl>
 
-        <Grid Background="Pink" Visibility="Collapsed">
+        <Grid Background="Pink" VerticalAlignment="Top" Height="30">
 
             <Button Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>

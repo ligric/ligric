@@ -91,7 +91,7 @@ namespace LigricUno
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                   rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
+                   rootFrame.Navigate(typeof(HomePage), args.Arguments);
                 }
                 // Ensure the current window is active
                 _window.Activate();
@@ -101,36 +101,36 @@ namespace LigricUno
         bool initialized = false;
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            if (initialized)
-                return;
+            //if (initialized)
+            //    return;
 
-            initialized = true;
+            //initialized = true;
 
-            var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
+            //var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
 
-            Task.Run(async () =>
-            {
-                await Task.Delay(200);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    try
-                    {
-                        PrerenderBoardsPages();
+            //Task.Run(async () =>
+            //{
+            //    await Task.Delay(200);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            //    {
+            //        try
+            //        {
+            //            PrerenderBoardsPages();
 
-                        var test = new NavigationMenu()
-                        {
-                            DataContext = new NavigationMenuViewModel() 
-                        };
-                        var test2 = new ReadOnlyCollection<string>(forbiddenPageKeys);
+            //            var test = new NavigationMenu()
+            //            {
+            //                DataContext = new NavigationMenuViewModel() 
+            //            };
+            //            var test2 = new ReadOnlyCollection<string>(forbiddenPageKeys);
 
-                        Navigation.PinFrontElement(test, test2);
-                    }
-                    catch (Exception ex)
-                    {
+            //            Navigation.PinFrontElement(test, test2);
+            //        }
+            //        catch (Exception ex)
+            //        {
 
-                    }
-                });
-            });
+            //        }
+            //    });
+            //});
         }
 
         private void PrerenderBoardsPages()

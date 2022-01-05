@@ -3,7 +3,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace LigricMvvmToolkit.Behaviors.DragPosition
+namespace LigricMvvmToolkit.AttachedProperties.DragPosition
 {
     [Bindable]
     public partial class DragPosition
@@ -51,7 +51,6 @@ namespace LigricMvvmToolkit.Behaviors.DragPosition
 
         #endregion
 
-
         #region Offset properties
         public static double GetOffsetX(UIElement element)
         {
@@ -81,7 +80,7 @@ namespace LigricMvvmToolkit.Behaviors.DragPosition
 
         // Using a DependencyProperty as the backing store for OffsetY.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OffsetYProperty =
-            DependencyProperty.RegisterAttached("OffsetY", typeof(double), typeof(DragPositionData), new PropertyMetadata(0.0));
+            DependencyProperty.RegisterAttached("OffsetY", typeof(double), typeof(DragPosition), new PropertyMetadata(0.0));
 
         #endregion
 

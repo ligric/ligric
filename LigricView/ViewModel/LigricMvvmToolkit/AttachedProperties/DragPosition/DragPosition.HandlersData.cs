@@ -4,7 +4,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
-namespace LigricMvvmToolkit.Behaviors.DragPosition
+namespace LigricMvvmToolkit.AttachedProperties.DragPosition
 {
     public partial class DragPosition
     {

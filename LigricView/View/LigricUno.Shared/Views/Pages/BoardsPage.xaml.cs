@@ -7,6 +7,7 @@ namespace LigricUno.Views.Pages
         public BoardsPage()
         {
             this.InitializeComponent();
+            DataContext = new BoardsViewModel();
         }
     }
 }
