@@ -34,9 +34,9 @@
             </ItemsControl.ItemTemplate>
 
 
-            <!--<ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    --><!--<Setter Property="dragPosition:DragPosition.DragPosition">
+                    <!--<Setter Property="dragPosition:DragPosition.DragPosition">
                         <Setter.Value>
                             <dragPosition:DragPositionDataBindingCanvas
                                 BaseParent="{Binding ElementName=baseListView}"
@@ -45,7 +45,7 @@
                                 LeftBinding="{Binding PositionX, Mode=OneWay}"
                                 TopBinding="{Binding PositionY, Mode=OneWay}"/>
                         </Setter.Value>
-                    </Setter>--><!--
+                    </Setter>-->
 
                     <Setter Property="dragPosition:DragPositionBehavior.DragPosition">
                         <Setter.Value>
@@ -58,7 +58,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ItemsControl.ItemContainerStyle>-->
+            </ItemsControl.ItemContainerStyle>
 
         </ItemsControl>
 

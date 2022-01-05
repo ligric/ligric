@@ -34,7 +34,14 @@ namespace LigricUno
         {
             InitializeLogging();
 
-            this.InitializeComponent();
+            try
+            {
+                this.InitializeComponent();
+            }
+            catch(Exception ex)
+            {
+            }
+
 
 #if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
@@ -91,7 +98,7 @@ namespace LigricUno
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                   rootFrame.Navigate(typeof(HomePage), args.Arguments);
+                   rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
                 }
                 // Ensure the current window is active
                 _window.Activate();
