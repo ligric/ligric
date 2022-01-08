@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <TargetFrameworks>uap10.0.18362;netstandard2.1;net6.0-android</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -20,7 +20,6 @@
     <None Remove="Items\ItemStandardCustomControl.xaml" />
     <None Remove="Menus\ExpanderStandardCustomControl.xaml" />
     <None Remove="Menus\MenuSoapCustomControl.xaml" />
-    <None Remove="Menus\MenuStandardCustomControl.xaml" />
     <None Remove="Templates\ComboBox.xaml" />
     <None Remove="Themes\Generic.xaml" />
   </ItemGroup>
@@ -29,7 +28,7 @@
     <UpToDateCheckInput Remove="Items\ItemStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\ExpanderStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\MenuSoapCustomControl.xaml" />
-    <UpToDateCheckInput Remove="Menus\MenuStandardCustomControl.xaml" />
+    <UpToDateCheckInput Remove="Menus\PourMenuCustomControl.xaml" />
     <UpToDateCheckInput Remove="Templates\ComboBox.xaml" />
     <UpToDateCheckInput Remove="Themes\Generic.xaml" />
     <UpToDateCheckInput Remove="ToggleButtons\ToggleButtonStandardCustomControl.xaml" />
@@ -47,7 +46,7 @@
     <Page Update="Menus\MenuSoapCustomControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Menus\MenuStandardCustomControl.xaml">
+    <Page Update="Menus\PourMenuCustomControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ToggleButton - Copy.xaml">

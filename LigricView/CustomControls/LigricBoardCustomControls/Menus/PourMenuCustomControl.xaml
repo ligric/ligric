@@ -3,7 +3,7 @@
                     xmlns:menus="using:LigricBoardCustomControls.Menus">
 
 
-    <Style TargetType="menus:MenuStandard">
+    <Style TargetType="menus:PourMenu">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="IsExpanded" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -11,7 +11,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="menus:MenuStandard">
+                <ControlTemplate TargetType="menus:PourMenu">
                     <Grid MaxWidth="{TemplateBinding MaxWidth}" MinWidth="{TemplateBinding MinWidth}">
                         <Grid.RowDefinitions>
                             <RowDefinition x:Name="Row0" Height="Auto"/>

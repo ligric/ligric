@@ -79,7 +79,7 @@
                             </Grid.ColumnDefinitions>
                             
                             <!-- Filter menu buffer -->
-                            <Grid Grid.Row="1" Grid.Column="1" x:Name="filterMenuBuffer"/>
+                            <Grid Grid.Row="1" Grid.Column="1" x:Name="filterMenuBuffer" Background="Green"/>
 
 
                             <!-- Board menu buffer -->
@@ -147,10 +147,10 @@
                         <!-- Filter menu -->
                         <Grid Grid.RowSpan="3">
 
-                            <menus:MenuStandard Background="#171925"
-                                                Padding="10" MinHeight="0"
-                                                VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                                                MainParent="{Binding ElementName=root}" HeaderBuffer="{Binding ElementName=filterMenuBuffer}">
+                            <menus:PourMenu Background="#171925"
+                                            Padding="10" MinHeight="0"
+                                            VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                            MainParent="{Binding ElementName=root}" HeaderBuffer="{Binding ElementName=filterMenuBuffer}">
 
                                 <controls:Expander.Header>
                                     <Grid>
@@ -411,7 +411,7 @@
 
                                 </Grid>
 
-                            </menus:MenuStandard>
+                            </menus:PourMenu>
 
                         </Grid>
 

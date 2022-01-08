@@ -91,11 +91,11 @@ namespace LigricBoardCustomControls.Menus
 
             this.Loaded += OnMenuSoapLoaded;
 
-            this.Expanding += OnMenuStandardExpanding;
-            this.Collapsed += OnMenuStandardCollapsed;
+            this.Expanding += OnPourMenuExpanding;
+            this.Collapsed += OnPourMenuCollapsed;
         }
 
-        private void OnMenuStandardCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
+        private void OnPourMenuCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
         {
             if (!isLoaded)
                 return;
@@ -108,7 +108,7 @@ namespace LigricBoardCustomControls.Menus
             expanderContent.Visibility = Visibility.Collapsed;
         }
 
-        private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
+        private void OnPourMenuExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
             if (!isLoaded)
                 return;

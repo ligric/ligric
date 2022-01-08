@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricBoardCustomControls.Menus
 {
-    public partial class MenuStandard : Expander
+    public partial class PourMenu : Expander
     {
         private Storyboard justStoryboard = new Storyboard();
         private bool isLoaded;
@@ -28,7 +28,7 @@ namespace LigricBoardCustomControls.Menus
 
         private HeaderSideEnum headerSide;
 
-        public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null));
+        public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(PourMenu), new PropertyMetadata(null));
         public FrameworkElement MainParent
         {
             get { return (FrameworkElement)GetValue(MainParentProperty); }
@@ -36,7 +36,7 @@ namespace LigricBoardCustomControls.Menus
         }
 
 
-        public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(MenuStandard), new PropertyMetadata(null, OnHeaderBufferChanged));
+        public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(PourMenu), new PropertyMetadata(null, OnHeaderBufferChanged));
         public FrameworkElement HeaderBuffer
         {
             get { return (FrameworkElement)GetValue(HeaderBufferProperty); }
@@ -49,7 +49,7 @@ namespace LigricBoardCustomControls.Menus
             if (newBuffer is null)
                 return;
 
-            var thisObject = (MenuStandard)d;
+            var thisObject = (PourMenu)d;
 
             if (!thisObject.IsLoaded)
                 return;
@@ -57,7 +57,7 @@ namespace LigricBoardCustomControls.Menus
             BufferForm(thisObject, newBuffer);
         }
 
-        private static void BufferForm(MenuStandard thisObject, FrameworkElement buffer)
+        private static void BufferForm(PourMenu thisObject, FrameworkElement buffer)
         {
             var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
             Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
@@ -69,14 +69,14 @@ namespace LigricBoardCustomControls.Menus
             thisObject.expanderHeader.Height = buffer.ActualHeight;
         }
 
-        public MenuStandard() : base()
+        public PourMenu() : base()
         {
-            this.DefaultStyleKey = typeof(MenuStandard);
+            this.DefaultStyleKey = typeof(PourMenu);
 
-            this.Loaded += OnMenuStandardLoaded;
+            this.Loaded += OnPourMenuLoaded;
 
-            this.Collapsed += OnMenuStandardCollapsed;
-            this.Expanding += OnMenuStandardExpanding;
+            this.Collapsed += OnPourMenuCollapsed;
+            this.Expanding += OnPourMenuExpanding;
         }
 
         #region Initialization
@@ -152,7 +152,7 @@ namespace LigricBoardCustomControls.Menus
         #endregion
 
         #region Expander actions
-        private void OnMenuStandardLoaded(object sender, RoutedEventArgs e)
+        private void OnPourMenuLoaded(object sender, RoutedEventArgs e)
         {
             sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
             expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
@@ -166,7 +166,7 @@ namespace LigricBoardCustomControls.Menus
             InitializeState();
         }
 
-        private void OnMenuStandardCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
+        private void OnPourMenuCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
         {
             if (!isLoaded)
                 return;
@@ -174,7 +174,7 @@ namespace LigricBoardCustomControls.Menus
             ExpanderCollapsing();
         }
 
-        private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
+        private void OnPourMenuExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
             if (!isLoaded)
                 return;
