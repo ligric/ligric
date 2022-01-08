@@ -37,13 +37,13 @@ namespace LigricBoardCustomControls.Menus
         #endregion
 
         #region HeaderBufferProperty
-        public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(MenuSoap), new PropertyMetadata(null, OnHeaderBufferChanged));
-       
         public FrameworkElement HeaderBuffer
         {
             get { return (FrameworkElement)GetValue(HeaderBufferProperty); }
             set { SetValue(HeaderBufferProperty, value); }
         }
+
+        public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(MenuSoap), new PropertyMetadata(null, OnHeaderBufferChanged));
 
         private static void OnHeaderBufferChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -62,23 +62,27 @@ namespace LigricBoardCustomControls.Menus
 
         private static void BufferForm(MenuSoap thisObject, FrameworkElement buffer)
         {
-            ////// Set start Postion
-            var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
-            Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
-
-            ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
-            ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
-
-
             ////// Set start Size
             thisObject.expanderHeader.Width = buffer.ActualWidth;
             thisObject.expanderHeader.Height = buffer.ActualHeight;
 
+            ////// Set start Postion
+            var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
+            Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+            ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
+            ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
+
+
+            ////// Size action changing
             buffer.SizeChanged += (sender, eventArgs) =>
             {
                 thisObject.expanderHeader.Width = eventArgs.NewSize.Width;
                 thisObject.expanderHeader.Height = eventArgs.NewSize.Height;
             };
+
+            ////// Position action changing
+
+            // TODO : тут должна быть привязка к изменении позици buffer'а
         }
 
         public MenuSoap() : base()
