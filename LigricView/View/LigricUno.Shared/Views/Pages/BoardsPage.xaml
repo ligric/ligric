@@ -1,8 +1,11 @@
 ﻿<Page x:Class="LigricUno.Views.Pages.BoardsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
       d:Height="1334" d:Width="750"      
-      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:dragPosition="using:LigricMvvmToolkit.Behaviors.DragPosition"
+      
       xmlns:boards="using:LigricBoardCustomControls.Boards"
+      
+      xmlns:data="using:LigricMvvmToolkit.Data"
+      xmlns:dragAPs="using:LigricMvvmToolkit.AttachedProperties.DragPosition"
+      
       xmlns:local="using:LigricUno.Views.Pages"
       xmlns:converters="using:LigricMvvmToolkit.Converters"
       
@@ -24,10 +27,11 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
-                    <!--boards:BoardStandard Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
-                                          Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4"/-->
-
-                    <Border Background="Red" Width="100" Height="100"/>
+                    <boards:BoardStandard Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4"
+                                          Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
+                                          data:Canvas.OffsetX="{Binding PositionX}"
+                                          data:Canvas.OffsetY="{Binding PositionY}"
+                                          dragAPs:DragPosition.IsDrop="True"/>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
