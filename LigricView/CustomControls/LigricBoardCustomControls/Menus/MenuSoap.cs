@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
 namespace LigricBoardCustomControls.Menus
@@ -25,15 +26,19 @@ namespace LigricBoardCustomControls.Menus
 
         private HeaderSideEnum headerSide;
 
+        #region MainParentProperty
         public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(MenuSoap), new PropertyMetadata(null));
+       
         public FrameworkElement MainParent
         {
             get { return (FrameworkElement)GetValue(MainParentProperty); }
             set { SetValue(MainParentProperty, value); }
         }
+        #endregion
 
-
+        #region HeaderBufferProperty
         public static DependencyProperty HeaderBufferProperty { get; } = DependencyProperty.Register("HeaderBuffer", typeof(FrameworkElement), typeof(MenuSoap), new PropertyMetadata(null, OnHeaderBufferChanged));
+       
         public FrameworkElement HeaderBuffer
         {
             get { return (FrameworkElement)GetValue(HeaderBufferProperty); }
@@ -53,21 +58,28 @@ namespace LigricBoardCustomControls.Menus
 
             BufferForm(thisObject, newBuffer);
         }
+        #endregion
 
         private static void BufferForm(MenuSoap thisObject, FrameworkElement buffer)
         {
+            ////// Set start Postion
             var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
             Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
 
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
 
+
+            ////// Set start Size
             thisObject.expanderHeader.Width = buffer.ActualWidth;
             thisObject.expanderHeader.Height = buffer.ActualHeight;
+
+            buffer.SizeChanged += (sender, eventArgs) =>
+            {
+                thisObject.expanderHeader.Width = eventArgs.NewSize.Width;
+                thisObject.expanderHeader.Height = eventArgs.NewSize.Height;
+            };
         }
-
-
-
 
         public MenuSoap() : base()
         {
@@ -78,7 +90,6 @@ namespace LigricBoardCustomControls.Menus
             this.Expanding += OnMenuStandardExpanding;
             this.Collapsed += OnMenuStandardCollapsed;
         }
-
 
         private void OnMenuStandardCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
         {
@@ -92,8 +103,6 @@ namespace LigricBoardCustomControls.Menus
         {
             expanderContent.Visibility = Visibility.Collapsed;
         }
-
-
 
         private void OnMenuStandardExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
@@ -116,7 +125,6 @@ namespace LigricBoardCustomControls.Menus
         private void InitializeState()
         {
             BufferForm(this, HeaderBuffer);
-
 
             if (this.IsExpanded)
             {
