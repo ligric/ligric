@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 
-namespace LigricMvvmToolkit.AttachedProperties.DragPosition
+namespace DragPosition
 {
     public partial class DragPosition 
     {
