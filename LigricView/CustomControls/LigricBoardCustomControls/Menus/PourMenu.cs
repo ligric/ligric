@@ -59,14 +59,27 @@ namespace LigricBoardCustomControls.Menus
 
         private static void BufferForm(PourMenu thisObject, FrameworkElement buffer)
         {
+            ////// Set start Size
+            thisObject.expanderHeader.Width = buffer.ActualWidth;
+            thisObject.expanderHeader.Height = buffer.ActualHeight;
+
+            ////// Set start Postion
             var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
             Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
-
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
 
-            thisObject.expanderHeader.Width = buffer.ActualWidth;
-            thisObject.expanderHeader.Height = buffer.ActualHeight;
+
+            ////// Size action changing
+            buffer.SizeChanged += (sender, eventArgs) =>
+            {
+                thisObject.expanderHeader.Width = eventArgs.NewSize.Width;
+                thisObject.expanderHeader.Height = eventArgs.NewSize.Height;
+            };
+
+            ////// Position action changing
+
+            // TODO : тут должна быть привязка к изменении позици buffer'а
         }
 
         public PourMenu() : base()
