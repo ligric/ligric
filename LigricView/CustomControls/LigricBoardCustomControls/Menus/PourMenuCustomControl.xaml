@@ -42,6 +42,7 @@
                               CornerRadius="10"  Height="200" Margin="0" Visibility="Collapsed"
                               VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
+                        
 
                         <Border x:Name="ExpanderContentClip" Grid.Row="1" Padding="{TemplateBinding Padding}" Margin="0,11,0,0">
                             <Border x:Name="ExpanderContent"

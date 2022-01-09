@@ -78,6 +78,11 @@ namespace LigricBoardCustomControls.Menus
             {
                 thisObject.expanderHeader.Width = eventArgs.NewSize.Width;
                 thisObject.expanderHeader.Height = eventArgs.NewSize.Height;
+
+                elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
+                bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+                ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
+                ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
             };
 
             ////// Position action changing
