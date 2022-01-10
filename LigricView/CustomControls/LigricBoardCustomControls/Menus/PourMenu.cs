@@ -28,7 +28,21 @@ namespace LigricBoardCustomControls.Menus
 
         private HeaderSideEnum headerSide;
 
-        public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(PourMenu), new PropertyMetadata(null));
+        public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(PourMenu), new PropertyMetadata(null, OnMainParentChanged));
+
+        private static void OnMainParentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var mainParent = e.NewValue as FrameworkElement;
+            if (mainParent is null)
+                return;
+
+            var thisObject = (PourMenu)d;
+
+            BufferUpdate(thisObject);
+
+            mainParent.SizeChanged += (sender, eventArgs) => BufferUpdate(thisObject);
+        }
+
         public FrameworkElement MainParent
         {
             get { return (FrameworkElement)GetValue(MainParentProperty); }
@@ -51,41 +65,24 @@ namespace LigricBoardCustomControls.Menus
 
             var thisObject = (PourMenu)d;
 
+            //BufferForm(thisObject, newBuffer);
+            //newBuffer.SizeChanged += (sender, eventArgs) => BufferForm(thisObject, newBuffer);
+        }
+
+        private static void BufferUpdate(PourMenu thisObject)
+        {
             if (!thisObject.IsLoaded)
                 return;
 
-            BufferForm(thisObject, newBuffer);
-        }
-
-        private static void BufferForm(PourMenu thisObject, FrameworkElement buffer)
-        {
             ////// Set start Size
-            thisObject.expanderHeader.Width = buffer.ActualWidth;
-            thisObject.expanderHeader.Height = buffer.ActualHeight;
+            thisObject.expanderHeader.Width = thisObject.HeaderBuffer.ActualWidth;
+            thisObject.expanderHeader.Height = thisObject.HeaderBuffer.ActualHeight;
 
             ////// Set start Postion
-            var elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
+            var elementVisualRelative = thisObject.HeaderBuffer.TransformToVisual(thisObject.MainParent);
             Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
-
-
-            ////// Size action changing
-            buffer.SizeChanged += (sender, eventArgs) =>
-            {
-                thisObject.expanderHeader.Width = eventArgs.NewSize.Width;
-                thisObject.expanderHeader.Height = eventArgs.NewSize.Height;
-
-
-                elementVisualRelative = buffer.TransformToVisual(thisObject.MainParent);
-                bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
-                ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
-                ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
-            };
-
-            ////// Position action changing
-
-            // TODO : тут должна быть привязка к изменении позици buffer'а
         }
 
         public PourMenu() : base()
@@ -93,15 +90,14 @@ namespace LigricBoardCustomControls.Menus
             this.DefaultStyleKey = typeof(PourMenu);
 
             this.Loaded += OnPourMenuLoaded;
-
-            this.Collapsed += OnPourMenuCollapsed;
-            this.Expanding += OnPourMenuExpanding;
         }
 
         #region Initialization
         private void InitializeState()
         {
-            BufferForm(this, HeaderBuffer);
+            BufferUpdate(this);
+
+            isLoaded = true;
 
             if (this.IsExpanded)
             {
@@ -171,8 +167,11 @@ namespace LigricBoardCustomControls.Menus
         #endregion
 
         #region Expander actions
-        private void OnPourMenuLoaded(object sender, RoutedEventArgs e)
+        private void OnPourMenuLoaded(object s, RoutedEventArgs e)
         {
+            this.Collapsed += OnPourMenuCollapsed;
+            this.Expanding += OnPourMenuExpanding;
+
             sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
             expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
             expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;
@@ -181,7 +180,6 @@ namespace LigricBoardCustomControls.Menus
             TransformInitialize(expanderHeader);
             TransformInitialize(expanderContent);
 
-            isLoaded = true;
             InitializeState();
         }
 

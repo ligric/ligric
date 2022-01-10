@@ -57,11 +57,12 @@
                                       Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       Content="{TemplateBinding Header}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-                                      HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" 
+                                      HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"
+                                      VerticalAlignment="Top" VerticalContentAlignment="Stretch"
+                                      
                                       IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
                                       IsEnabled="{TemplateBinding IsEnabled}" MinHeight="{TemplateBinding MinHeight}" Padding="0" 
-                                      Template="{StaticResource MenuExpanderTemplate}" VerticalContentAlignment="Stretch"
-                                      ContentTemplate="{TemplateBinding HeaderTemplate}"/>
+                                      Template="{StaticResource MenuExpanderTemplate}" ContentTemplate="{TemplateBinding HeaderTemplate}"/>
 
                     </Grid>
                 </ControlTemplate>
