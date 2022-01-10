@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
+    <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj" />
     <ProjectReference Include="..\..\Model\BoardModels\BoardModels.csproj" />
     <ProjectReference Include="..\..\ViewModel\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
     <ProjectReference Include="..\..\ViewModel\LigricMvvmTypes\LigricMvvmTypes.csproj" />
