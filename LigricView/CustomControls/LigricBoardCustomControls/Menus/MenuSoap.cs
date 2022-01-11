@@ -94,33 +94,19 @@ namespace LigricBoardCustomControls.Menus
             this.Loaded += OnMenuSoapLoaded;
         }
 
-        private void OnMenuSoapCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
-        {
-            if (!isLoaded)
-                return;
-
-            ExpanderCollapsing();
-        }
-
-        private void ExpanderCollapsing()
-        {
-            expanderContent.Visibility = Visibility.Collapsed;
-        }
-
         private void OnMenuSoapExpanding(Expander sender, ExpanderExpandingEventArgs args)
         {
             if (!isLoaded)
                 return;
 
-            ExpanderExpanding();
+            ExpanderInitializeExpanding();
         }
 
-        private void ExpanderExpanding()
+        private void ExpanderInitializeExpanding()
         {
-            ((TranslateTransform)expanderContent.RenderTransform).X = MainParent.ActualWidth - this.Padding.Left - this.Padding.Right - expanderContent.ActualWidth + 40;
-
-            expanderContent.Visibility = Visibility.Visible;
-
+            var elementVisualRelative = HeaderBuffer.TransformToVisual(MainParent);
+            Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+            ((TranslateTransform)expanderContent.RenderTransform).X = bufferPostition.X - HeaderBuffer.ActualWidth;
         }
 
 
@@ -132,13 +118,7 @@ namespace LigricBoardCustomControls.Menus
             isLoaded = true;
 
             if (this.IsExpanded)
-            {
-                ExpanderExpanding();
-            }
-            else
-            {
-                ExpanderCollapsing();
-            }
+                ExpanderInitializeExpanding();
         }
 
         private bool TransformInitialize(FrameworkElement element)
@@ -160,7 +140,6 @@ namespace LigricBoardCustomControls.Menus
         private void OnMenuSoapLoaded(object sender, RoutedEventArgs e)
         {
             this.Expanding += OnMenuSoapExpanding;
-            this.Collapsed += OnMenuSoapCollapsed;
 
             expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
             expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;

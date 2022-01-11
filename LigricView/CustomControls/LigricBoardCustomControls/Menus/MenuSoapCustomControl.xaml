@@ -39,16 +39,19 @@
                         </VisualStateManager.VisualStateGroups>
 
 
-                        <Popup Grid.Row="1" IsOpen="True">
+                        <Popup Grid.Row="1" IsLightDismissEnabled="True" 
+                               IsOpen="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+
                             <Border x:Name="ExpanderContent"
-                                    HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                     MinHeight="{TemplateBinding MinHeight}" Padding="{TemplateBinding Padding}">
-                               
+
                                 <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
                                                   Content="{TemplateBinding Content}"
                                                   ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" 
                                                   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                             </Border>
+
                         </Popup>
 
 
