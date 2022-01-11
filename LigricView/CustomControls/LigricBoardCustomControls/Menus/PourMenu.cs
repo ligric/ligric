@@ -1,7 +1,10 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Numerics;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -83,6 +86,19 @@ namespace LigricBoardCustomControls.Menus
             Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
+
+
+            var compositor = Window.Current.Compositor;
+            var visual = ElementCompositionPreview.GetElementVisual(thisObject.sliderBackgroundBorder);
+
+            var actualWidth = (thisObject.MainParent is null ? (FrameworkElement)thisObject.Parent : thisObject.MainParent).ActualWidth;
+
+            var geometry = compositor.CreateRectangleGeometry();
+            geometry.Offset = new System.Numerics.Vector2((float)bufferPostition.X, (float)bufferPostition.Y);
+            geometry.Size = new System.Numerics.Vector2((float)actualWidth - 20, (float)thisObject.MainParent.ActualHeight);
+            var clip = compositor.CreateGeometricClip(geometry);
+
+            visual.Clip = clip;
         }
 
         public PourMenu() : base()
@@ -203,6 +219,21 @@ namespace LigricBoardCustomControls.Menus
         #region Set expander animation
         private void ExpanderCollapsing()
         {
+            //var geometry = compositor.CreateRectangleGeometry();
+            //geometry. = new System.Numerics.Vector2(200, 200);
+            //geometry.Radius = Vector2.Zero;
+            //var clip = compositor.CreateGeometricClip(geometry);
+
+
+
+            //var animation = compositor.CreateVector2KeyFrameAnimation();
+
+            //animation.DelayTime = TimeSpan.FromMilliseconds(10_000);
+            //animation.Duration = TimeSpan.FromMilliseconds(5_000);
+            //animation.InsertKeyFrame(1, new Vector2(50, 100));
+
+            //geometry.StartAnimation(nameof(CompositionEllipseGeometry.Radius), animation);
+
             justStoryboard.Pause();
             justStoryboard = new Storyboard();
 
