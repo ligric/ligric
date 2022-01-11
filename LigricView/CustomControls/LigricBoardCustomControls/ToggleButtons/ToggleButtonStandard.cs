@@ -38,6 +38,18 @@ namespace LigricBoardCustomControls.ToggleButtons
         #region Initialization
         private void InitializeState()
         {
+            isLoaded = true;
+
+            var parent = (FrameworkElement)elipse.Parent;
+            elipse.Width = parent.ActualHeight - 6;
+            elipse.Height = parent.ActualHeight - 6;
+
+            parent.SizeChanged += (s,e) =>
+            {
+                elipse.Width = parent.ActualHeight - 6;
+                elipse.Height = parent.ActualHeight - 6;
+            };
+
             if ((bool)this.IsChecked)
             {
                 ToggleButtonChecked();
@@ -71,7 +83,7 @@ namespace LigricBoardCustomControls.ToggleButtons
             
             TransformInitialize(elipse);
 
-            isLoaded = true;
+            
             InitializeState();
         }
 
@@ -95,17 +107,17 @@ namespace LigricBoardCustomControls.ToggleButtons
 
         private void ToggleButtonChecked()
         {
-            justStoryboard.Stop();
+            justStoryboard.Pause();
             justStoryboard = new Storyboard();
-            ElipseAnimationChecking(TimeSpan.FromMilliseconds(400));
+            ElipseAnimationChecking(TimeSpan.FromMilliseconds(150));
             justStoryboard.Begin();
         }        
        
         private void ToggleButtonUnChecked()
         {
-            justStoryboard.Stop();
+            justStoryboard.Pause();
             justStoryboard = new Storyboard();
-            ElipseAnimationUnChecking(TimeSpan.FromMilliseconds(400));
+            ElipseAnimationUnChecking(TimeSpan.FromMilliseconds(150));
             justStoryboard.Begin();
         }
 

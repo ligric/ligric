@@ -32,8 +32,9 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
 
-                        <Border Background="Transparent" BorderBrush="White" BorderThickness="2" CornerRadius="{TemplateBinding CornerRadius}" Padding="2">
-                            <Ellipse x:Name="Elipse" Fill="White" Stretch="Uniform"/>
+                        <Border Background="Transparent" BorderBrush="White" BorderThickness="2" CornerRadius="{TemplateBinding CornerRadius}" Padding="1"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Ellipse x:Name="Elipse" Fill="#21c497" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         </Border>
                         
                     </Grid>
