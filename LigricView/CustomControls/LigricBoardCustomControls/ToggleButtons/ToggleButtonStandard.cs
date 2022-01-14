@@ -20,45 +20,56 @@ namespace LigricBoardCustomControls.ToggleButtons
         
         public ToggleButtonStandard() : base() 
         {
-            this.SizeChanged += OnToggleButtonStandardSizeChanged;
+            this.DefaultStyleKey = typeof(ToggleButtonStandard);
 
             this.Loaded += OnToggleButtonLoaded;
-
-            this.Checked += OnToggleButtonChecked;
-
-            this.Unchecked += OnToggleButtonUnChecked;
         }
-
-        private void OnToggleButtonStandardSizeChanged(object sender, SizeChangedEventArgs args)
-        {
-            this.CornerRadius = new CornerRadius((double)this.ActualHeight / 2);
-        }
-
 
         #region Initialization
         private void InitializeState()
         {
             isLoaded = true;
 
-            var parent = (FrameworkElement)elipse.Parent;
-            elipse.Width = parent.ActualHeight - 6;
-            elipse.Height = parent.ActualHeight - 6;
+            var elipsePparent = (FrameworkElement)elipse.Parent;
+            var elipseHeight = elipsePparent.ActualHeight - 6 > 0 ? elipsePparent.ActualHeight - 6 : 0;
 
-            parent.SizeChanged += (s,e) =>
+            elipse.Width = elipseHeight;
+            elipse.Height = elipseHeight;
+
+            SizeChanged += (s,e) =>
             {
-                elipse.Width = parent.ActualHeight - 6;
-                elipse.Height = parent.ActualHeight - 6;
+                var newElipsePparent = (FrameworkElement)elipse.Parent;
+                var newElipseHeight = newElipsePparent.ActualHeight - 6 > 0 ? newElipsePparent.ActualHeight - 6 : 0;
+
+                elipse.Width = newElipseHeight;
+                elipse.Height = newElipseHeight;
+
+                if ((bool)this.IsChecked)
+                    CheckedInitialize();
+                else
+                    UncheckedInitialize();
+
+                CornerRadius = new CornerRadius(this.ActualHeight / 2);
             };
 
             if ((bool)this.IsChecked)
-            {
-                ToggleButtonChecked();
-            }
+                CheckedInitialize();
             else
-            {
-                ToggleButtonUnChecked();
-            }
+                UncheckedInitialize();
         }
+
+
+        private void CheckedInitialize()
+        {
+            var newX = ((FrameworkElement)elipse.Parent).ActualWidth - ((FrameworkElement)elipse.Parent).ActualHeight - (elipse.Parent is Border ? ((Border)elipse.Parent).Padding.Right : 0);
+            ((TranslateTransform)elipse.RenderTransform).X = newX;
+        }
+
+        private void UncheckedInitialize()
+        {
+            ((TranslateTransform)elipse.RenderTransform).X = 0;
+        }
+
 
         private bool TransformInitialize(FrameworkElement element)
         {
@@ -79,6 +90,10 @@ namespace LigricBoardCustomControls.ToggleButtons
         #region ToggleButton actions
         private void OnToggleButtonLoaded(object sender, RoutedEventArgs e)
         {
+            this.Checked += OnToggleButtonChecked;
+
+            this.Unchecked += OnToggleButtonUnChecked;
+
             elipse = GetTemplateChild(c_elipse) as FrameworkElement;
             
             TransformInitialize(elipse);
@@ -121,27 +136,21 @@ namespace LigricBoardCustomControls.ToggleButtons
             justStoryboard.Begin();
         }
 
-
-
         private void ElipseAnimationChecking(TimeSpan timeSpan)
         {
             if (!TransformInitialize(elipse) && isLoaded)
                 return;
 
-            var duration = new Duration(timeSpan);
-
             var renderTransform = elipse.RenderTransform as TranslateTransform;
 
-            DoubleAnimation xAnimation = new DoubleAnimation()
-            {
-                EnableDependentAnimation = true,
-                From = 0,
-                To = (elipse.Parent is FrameworkElement ? ((FrameworkElement)elipse.Parent).ActualWidth : this.ActualWidth ) - (elipse.Parent is FrameworkElement ? ((FrameworkElement)elipse.Parent).ActualHeight : elipse.ActualHeight) - (elipse.Parent is Border ? ((Border)elipse.Parent).Padding.Right : 0),
-                Duration = duration
-            };
+            var newPosition = ((FrameworkElement)elipse.Parent).ActualWidth - ((FrameworkElement)elipse.Parent).ActualHeight - (elipse.Parent is Border ? ((Border)elipse.Parent).Padding.Right : 0);
+
+            #region xAnimation
+            DoubleAnimationUsingKeyFrames xAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+            xAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = newPosition, KeyTime = KeyTime.FromTimeSpan(timeSpan) });
             Storyboard.SetTarget(xAnimation, renderTransform);
             Storyboard.SetTargetProperty(xAnimation, "X");
-
+            #endregion
             justStoryboard.Children.Add(xAnimation);
         }
 
@@ -150,20 +159,14 @@ namespace LigricBoardCustomControls.ToggleButtons
             if (!TransformInitialize(elipse) && isLoaded)
                 return;
 
-            var duration = new Duration(timeSpan);
-
             var renderTransform = elipse.RenderTransform as TranslateTransform;
 
-            DoubleAnimation xAnimation = new DoubleAnimation()
-            {
-                EnableDependentAnimation = true,
-                From = (elipse.Parent is FrameworkElement ? ((FrameworkElement)elipse.Parent).ActualWidth : this.ActualWidth) - (elipse.Parent is FrameworkElement ? ((FrameworkElement)elipse.Parent).ActualHeight : elipse.ActualHeight) - (elipse.Parent is Border ? ((Border)elipse.Parent).Padding.Right : 0),
-                To = 0,
-                Duration = duration
-            };
+            #region xAnimation
+            DoubleAnimationUsingKeyFrames xAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+            xAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = 0, KeyTime = KeyTime.FromTimeSpan(timeSpan) });
             Storyboard.SetTarget(xAnimation, renderTransform);
             Storyboard.SetTargetProperty(xAnimation, "X");
-
+            #endregion
             justStoryboard.Children.Add(xAnimation);
         }
     }
