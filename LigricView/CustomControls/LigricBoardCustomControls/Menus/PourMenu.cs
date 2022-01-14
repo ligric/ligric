@@ -1,10 +1,11 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Common.Executions;
+using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Numerics;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -16,10 +17,12 @@ namespace LigricBoardCustomControls.Menus
         private bool isLoaded;
 
         protected readonly string c_sliderBackgroundBorder = "SliderBackgroundBorder";
-        protected readonly string c_expanderHeader = "ExpanderHeader";       
+        protected readonly string c_expanderContentClip = "ExpanderContentClip";
+        protected readonly string c_expanderHeader = "ExpanderHeader";
         protected readonly string c_expanderContent = "ExpanderContent";
 
         private FrameworkElement sliderBackgroundBorder;
+        private FrameworkElement expanderContentClip;
         private FrameworkElement expanderHeader;
         private FrameworkElement expanderContent;
 
@@ -87,18 +90,13 @@ namespace LigricBoardCustomControls.Menus
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).X = bufferPostition.X;
             ((TranslateTransform)thisObject.expanderHeader.RenderTransform).Y = bufferPostition.Y;
 
-
-            var compositor = Window.Current.Compositor;
-            var visual = ElementCompositionPreview.GetElementVisual(thisObject.sliderBackgroundBorder);
-
             var actualWidth = (thisObject.MainParent is null ? (FrameworkElement)thisObject.Parent : thisObject.MainParent).ActualWidth;
-
-            var geometry = compositor.CreateRectangleGeometry();
-            geometry.Offset = new System.Numerics.Vector2((float)bufferPostition.X, (float)bufferPostition.Y);
-            geometry.Size = new System.Numerics.Vector2((float)actualWidth - 20, (float)thisObject.MainParent.ActualHeight);
-            var clip = compositor.CreateGeometricClip(geometry);
-
-            visual.Clip = clip;
+            var actualHeight = (thisObject.MainParent is null ? (FrameworkElement)thisObject.Parent : thisObject.MainParent).ActualHeight;
+            thisObject.expanderContentClip.Clip = new RectangleGeometry()
+            {
+                Rect = new Rect(new Point(bufferPostition.X, bufferPostition.Y),
+                                new Point(actualWidth - bufferPostition.X, actualHeight - bufferPostition.Y))
+            };
         }
 
         public PourMenu() : base()
@@ -127,15 +125,27 @@ namespace LigricBoardCustomControls.Menus
 
         private void ExpanderInitializeExpanding()
         {
+            var actualWidth = (this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent).ActualWidth;
+            var actualHeight = (this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent).ActualHeight;
+
             // Board
             sliderBackgroundBorder.Visibility = Visibility.Visible;
 
             ((TranslateTransform)sliderBackgroundBorder.RenderTransform).X = 0;
             ((TranslateTransform)sliderBackgroundBorder.RenderTransform).Y = 0;
 
-            sliderBackgroundBorder.Height = ((MainParent is null ? (FrameworkElement)this.Parent : MainParent)).ActualHeight;
-            sliderBackgroundBorder.Width = (MainParent is null ? (FrameworkElement)this.Parent : MainParent).ActualWidth;
+            sliderBackgroundBorder.Width = actualWidth;
+            sliderBackgroundBorder.Height = actualHeight;
 
+
+            // Content clip
+            var elementVisualRelative = expanderHeader.TransformToVisual(this);
+            Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+            expanderContentClip.Clip = new RectangleGeometry()
+            {
+                Rect = new Rect(new Point(headerPostition.X, headerPostition.Y),
+                                new Point(actualWidth - headerPostition.X, actualHeight - headerPostition.Y))
+            };
 
             // Content
             expanderContent.Visibility = Visibility.Visible;
@@ -144,11 +154,11 @@ namespace LigricBoardCustomControls.Menus
 
         private void ExpanderInitializeCollapsing()
         {
-            // Board
-            sliderBackgroundBorder.Visibility = Visibility.Collapsed;
-
             var elementVisualRelative = expanderHeader.TransformToVisual(this);
             Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+            // Board
+            sliderBackgroundBorder.Visibility = Visibility.Collapsed;
 
 
             ((TranslateTransform)sliderBackgroundBorder.RenderTransform).X = headerPostition.X;
@@ -157,6 +167,15 @@ namespace LigricBoardCustomControls.Menus
             sliderBackgroundBorder.Height = expanderHeader.ActualHeight;
             sliderBackgroundBorder.Width = expanderHeader.ActualWidth;
 
+
+            // Content clip
+            var actualWidth = (this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent).ActualWidth;
+            var actualHeight = (this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent).ActualHeight;
+            expanderContentClip.Clip = new RectangleGeometry()
+            {
+                Rect = new Rect(new Point(headerPostition.X, headerPostition.Y),
+                                new Point(actualWidth - headerPostition.X, actualHeight - headerPostition.Y))
+            };
 
             // Content
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;
@@ -189,10 +208,12 @@ namespace LigricBoardCustomControls.Menus
             this.Expanding += OnPourMenuExpanding;
 
             sliderBackgroundBorder = GetTemplateChild(c_sliderBackgroundBorder) as FrameworkElement;
+            expanderContentClip = GetTemplateChild(c_expanderContentClip) as FrameworkElement;
             expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
             expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;
 
             TransformInitialize(sliderBackgroundBorder);
+            TransformInitialize(expanderContentClip);
             TransformInitialize(expanderHeader);
             TransformInitialize(expanderContent);
 
@@ -215,38 +236,53 @@ namespace LigricBoardCustomControls.Menus
             ExpanderExpanding();
         }
         #endregion
-    
+
         #region Set expander animation
+        private readonly CancelableExecution sliderAnimationTokenSource = new CancelableExecution();
+        //private Task sliderSecondWidthAnimationTask;
+
         private void ExpanderCollapsing()
         {
-            //var geometry = compositor.CreateRectangleGeometry();
-            //geometry. = new System.Numerics.Vector2(200, 200);
-            //geometry.Radius = Vector2.Zero;
-            //var clip = compositor.CreateGeometricClip(geometry);
-
-
-
-            //var animation = compositor.CreateVector2KeyFrameAnimation();
-
-            //animation.DelayTime = TimeSpan.FromMilliseconds(10_000);
-            //animation.Duration = TimeSpan.FromMilliseconds(5_000);
-            //animation.InsertKeyFrame(1, new Vector2(50, 100));
-
-            //geometry.StartAnimation(nameof(CompositionEllipseGeometry.Radius), animation);
-
+            //sliderAnimationTokenSource.Cancel();
             justStoryboard.Pause();
             justStoryboard = new Storyboard();
 
-            SliderAnimationCollapsing(TimeSpan.FromMilliseconds(300));
-            ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(200));
+            double timeMilliseconds = 300;
 
-            justStoryboard.Begin();
+            SliderAnimationCollapsing(TimeSpan.FromMilliseconds(timeMilliseconds));
+            ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(timeMilliseconds / 1.5));           
 
-            justStoryboard.Completed += (s, e) =>
+            justStoryboard.Completed += async (s, e) =>
             {
-                sliderBackgroundBorder.Visibility = Visibility.Collapsed;
-                expanderContent.Visibility = Visibility.Collapsed;
+                await Task.Run(async () =>
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        justStoryboard.Pause();
+                        justStoryboard = new Storyboard();
+
+                        #region widthAnimation
+                        DoubleAnimationUsingKeyFrames widthAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+                        var halfTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(timeMilliseconds / 2));
+                        widthAnimation.KeyFrames.Add(new SplineDoubleKeyFrame() { Value = expanderHeader.ActualWidth, KeyTime = halfTime });
+                        Storyboard.SetTarget(widthAnimation, sliderBackgroundBorder);
+                        Storyboard.SetTargetProperty(widthAnimation, "Width");
+                        #endregion
+
+                        justStoryboard.Children.Add(widthAnimation);
+
+
+                        justStoryboard.Completed += (ss, ee) =>
+                        {
+                            sliderBackgroundBorder.Visibility = Visibility.Collapsed;
+                            expanderContent.Visibility = Visibility.Collapsed;
+                        };
+
+                        justStoryboard.Begin();
+                    });
+                });
             };
+            justStoryboard.Begin();
         }
 
         private void ExpanderExpanding()
@@ -331,40 +367,37 @@ namespace LigricBoardCustomControls.Menus
             if (!TransformInitialize(sliderBackgroundBorder) && isLoaded)
                 return;
 
-            TimeSpan forFirstPart = TimeSpan.FromMilliseconds(timeSpan.TotalMilliseconds / 2);
+            var actualWidth = (this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent).ActualWidth;
 
             var renderTransform = sliderBackgroundBorder.RenderTransform as TranslateTransform;
 
-            var elementVisualRelative = expanderHeader.TransformToVisual(this);
+            var elementVisualRelative = expanderHeader.TransformToVisual(this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent);
             Point headerPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
 
             #region xAnimation
             DoubleAnimationUsingKeyFrames xAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-            xAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = headerPostition.X, KeyTime = KeyTime.FromTimeSpan(forFirstPart) });
+            xAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = headerPostition.X, KeyTime = KeyTime.FromTimeSpan(timeSpan) });
             Storyboard.SetTarget(xAnimation, renderTransform);
             Storyboard.SetTargetProperty(xAnimation, "X");
             #endregion
 
             #region yAnimation
             DoubleAnimationUsingKeyFrames yAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-            yAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = headerPostition.Y, KeyTime = KeyTime.FromTimeSpan(forFirstPart) });
+            yAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = headerPostition.Y, KeyTime = KeyTime.FromTimeSpan(timeSpan) });
             Storyboard.SetTarget(yAnimation, renderTransform);
             Storyboard.SetTargetProperty(yAnimation, "Y");
             #endregion
 
             #region heightAnimation
             DoubleAnimationUsingKeyFrames heightAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-            heightAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = expanderHeader.ActualHeight, KeyTime = KeyTime.FromTimeSpan(forFirstPart) });
+            heightAnimation.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = expanderHeader.ActualHeight, KeyTime = KeyTime.FromTimeSpan(timeSpan) });
             Storyboard.SetTarget(heightAnimation, sliderBackgroundBorder);
             Storyboard.SetTargetProperty(heightAnimation, "Height");
             #endregion
 
             #region widthAnimation
             DoubleAnimationUsingKeyFrames widthAnimation = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-
-            widthAnimation.KeyFrames.Add(
-                new SplineDoubleKeyFrame() { Value = expanderHeader.ActualWidth, KeyTime = KeyTime.FromTimeSpan(timeSpan), KeySpline = new KeySpline() { ControlPoint1 = new Point(0.5, 0.5), ControlPoint2 = new Point(0.5, 0.0) } });
-
+            widthAnimation.KeyFrames.Add(new SplineDoubleKeyFrame() { Value = actualWidth - 20, KeyTime = KeyTime.FromTimeSpan(timeSpan) });
             Storyboard.SetTarget(widthAnimation, sliderBackgroundBorder);
             Storyboard.SetTargetProperty(widthAnimation, "Width");
             #endregion

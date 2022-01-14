@@ -74,4 +74,9 @@
     <Folder Include="Styles\" />
   </ItemGroup>
   
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
+  </ItemGroup>
+  
 </Project>
