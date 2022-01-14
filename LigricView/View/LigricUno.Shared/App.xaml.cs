@@ -105,39 +105,32 @@ namespace LigricUno
             }
         }
 
-        bool initialized = false;
+        private bool initialized = false;
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            //if (initialized)
-            //    return;
+            if (initialized)
+                return;
 
-            //initialized = true;
+            initialized = true;
 
-            //var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
+            var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
 
-            //Task.Run(async () =>
-            //{
-            //    await Task.Delay(200);
-            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-            //    {
-            //        try
-            //        {
-            //            PrerenderBoardsPages();
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    PrerenderBoardsPages();
 
-            //            var test = new NavigationMenu()
-            //            {
-            //                DataContext = new NavigationMenuViewModel() 
-            //            };
-            //            var test2 = new ReadOnlyCollection<string>(forbiddenPageKeys);
+                    var test = new NavigationMenu()
+                    {
+                        DataContext = new NavigationMenuViewModel()
+                    };
+                    var test2 = new ReadOnlyCollection<string>(forbiddenPageKeys);
 
-            //            Navigation.PinFrontElement(test, test2);
-            //        }
-            //        catch (Exception ex)
-            //        {
-
-            //        }
-            //    });
-            //});
+                    Navigation.PinFrontElement(test, test2);
+                });
+            });
         }
 
         private void PrerenderBoardsPages()
