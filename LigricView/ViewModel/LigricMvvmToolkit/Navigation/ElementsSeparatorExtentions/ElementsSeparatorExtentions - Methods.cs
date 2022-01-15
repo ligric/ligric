@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace LigricMvvmToolkit.Navigation
 {
@@ -20,7 +21,6 @@ namespace LigricMvvmToolkit.Navigation
 
             if (wrappers.TryGetValue(rootKey, out WrapperInfo wrapperInfo))
                 return wrapperInfo.Wrapper;
-
 
             Panel wrapper = new Grid() { Tag = rootKey + "_wrapper" };
             if (parent is UserControl)
@@ -85,6 +85,21 @@ namespace LigricMvvmToolkit.Navigation
             var wrapperInfo = GetWrapperInfo(wrapper);
 
             var count = wrapper.Children.Count;
+
+            addElement.Clip = new RectangleGeometry()
+            {
+                Rect = new Rect(new Point(0, 0),
+                                new Point(wrapper.ActualWidth, wrapper.Height))
+            };
+
+            wrapper.SizeChanged += (s, e) =>
+            {
+                addElement.Clip = new RectangleGeometry()
+                {
+                    Rect = new Rect(new Point(0, 0),
+                    new Point(e.NewSize.Width, e.NewSize.Height))
+                };
+            };
 
             wrapper.Children.Insert(count - wrapperInfo.Pins.Count, addElement);
 

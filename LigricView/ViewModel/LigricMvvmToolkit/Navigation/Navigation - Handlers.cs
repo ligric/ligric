@@ -1,7 +1,6 @@
 ﻿using LigricMvvmToolkit.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
