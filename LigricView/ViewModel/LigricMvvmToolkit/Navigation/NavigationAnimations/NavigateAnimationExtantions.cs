@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LigricMvvmToolkit.Extensions;
+using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,7 +18,7 @@ namespace LigricMvvmToolkit.Navigation
 
             if (firstVisibileElement != null)
             {
-                var fromRenderTransform = TransformInitialize(firstVisibileElement);
+                var fromRenderTransform = firstVisibileElement.GetTransformInitialize();
 
                 #region xAnimation firstElement
                 DoubleAnimationUsingKeyFrames xAnimationFirstElement = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
@@ -30,7 +31,7 @@ namespace LigricMvvmToolkit.Navigation
 
             if (endVisibleElement != null)
             {
-                var toRenderTransform = TransformInitialize(endVisibleElement);
+                var toRenderTransform = endVisibleElement.GetTransformInitialize();
 
                 ((TranslateTransform)endVisibleElement.RenderTransform).X = rootWidth;
                 ((TranslateTransform)endVisibleElement.RenderTransform).Y = 0;
@@ -47,21 +48,6 @@ namespace LigricMvvmToolkit.Navigation
             }
 
             return stroyboard;
-        }
-
-        private static TranslateTransform TransformInitialize(FrameworkElement element)
-        {
-            if (element is null)
-                return null;
-
-            var renderTransform = element.RenderTransform as TranslateTransform;
-
-            if (renderTransform is null)
-            {
-                renderTransform = new TranslateTransform();
-                element.RenderTransform = renderTransform;
-            }
-            return renderTransform;
         }
     }
 }

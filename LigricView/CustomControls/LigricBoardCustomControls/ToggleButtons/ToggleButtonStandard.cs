@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using LigricMvvmToolkit.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -69,22 +70,6 @@ namespace LigricBoardCustomControls.ToggleButtons
         {
             ((TranslateTransform)elipse.RenderTransform).X = 0;
         }
-
-
-        private bool TransformInitialize(FrameworkElement element)
-        {
-            if (element is null)
-                return false;
-
-            var renderTransform = element.RenderTransform as TranslateTransform;
-
-            if (renderTransform is null)
-            {
-                renderTransform = new TranslateTransform();
-                element.RenderTransform = renderTransform;
-            }
-            return true;
-        }
         #endregion
 
         #region ToggleButton actions
@@ -95,8 +80,8 @@ namespace LigricBoardCustomControls.ToggleButtons
             this.Unchecked += OnToggleButtonUnChecked;
 
             elipse = GetTemplateChild(c_elipse) as FrameworkElement;
-            
-            TransformInitialize(elipse);
+
+            elipse.TransformInitialize();
 
             
             InitializeState();
@@ -138,7 +123,7 @@ namespace LigricBoardCustomControls.ToggleButtons
 
         private void ElipseAnimationChecking(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(elipse) && isLoaded)
+            if (!elipse.TransformInitialize() && isLoaded)
                 return;
 
             var renderTransform = elipse.RenderTransform as TranslateTransform;
@@ -156,7 +141,7 @@ namespace LigricBoardCustomControls.ToggleButtons
 
         private void ElipseAnimationUnChecking(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(elipse) && isLoaded)
+            if (!elipse.TransformInitialize() && isLoaded)
                 return;
 
             var renderTransform = elipse.RenderTransform as TranslateTransform;

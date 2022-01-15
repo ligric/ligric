@@ -1,4 +1,5 @@
 ﻿using Common.Executions;
+using LigricMvvmToolkit.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
@@ -184,21 +185,6 @@ namespace LigricBoardCustomControls.Menus
             ((TranslateTransform)expanderContent.RenderTransform).Y = -to;
             expanderContent.Visibility = Visibility.Collapsed;
         }
-
-        private bool TransformInitialize(FrameworkElement element)
-        {
-            if (element is null)
-                return false;
-
-            var renderTransform = element.RenderTransform as TranslateTransform;
-
-            if (renderTransform is null)
-            {
-                renderTransform = new TranslateTransform();
-                element.RenderTransform = renderTransform;
-            }
-            return true;
-        }
         #endregion
 
         #region Expander actions
@@ -212,10 +198,10 @@ namespace LigricBoardCustomControls.Menus
             expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
             expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;
 
-            TransformInitialize(sliderBackgroundBorder);
-            TransformInitialize(expanderContentClip);
-            TransformInitialize(expanderHeader);
-            TransformInitialize(expanderContent);
+            sliderBackgroundBorder.TransformInitialize();
+            expanderContentClip.TransformInitialize();
+            expanderHeader.TransformInitialize();
+            expanderContent.TransformInitialize();
 
             InitializeState();
         }
@@ -300,7 +286,7 @@ namespace LigricBoardCustomControls.Menus
         #region Animations
         private void SliderAnimationExpanding(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(sliderBackgroundBorder) && isLoaded)
+            if (!sliderBackgroundBorder.TransformInitialize() && isLoaded)
                 return;
 
             TimeSpan part = TimeSpan.FromMilliseconds(timeSpan.TotalMilliseconds / 2);
@@ -345,7 +331,7 @@ namespace LigricBoardCustomControls.Menus
         }
         private void ExpanderContentAnimationExpanding(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(expanderContent) && isLoaded)
+            if (!expanderContent.TransformInitialize() && isLoaded)
                 return;
 
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;
@@ -364,7 +350,7 @@ namespace LigricBoardCustomControls.Menus
 
         private void SliderAnimationCollapsing(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(sliderBackgroundBorder) && isLoaded)
+            if (!sliderBackgroundBorder.TransformInitialize() && isLoaded)
                 return;
 
             var actualWidth = (this.MainParent is null ? (FrameworkElement)this.Parent : this.MainParent).ActualWidth;
@@ -409,7 +395,7 @@ namespace LigricBoardCustomControls.Menus
         }
         private void ExpanderContentAnimationCollapsed(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(expanderContent) && isLoaded)
+            if (!expanderContent.TransformInitialize() && isLoaded)
                 return;
 
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;

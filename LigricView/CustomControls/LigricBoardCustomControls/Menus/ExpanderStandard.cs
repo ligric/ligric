@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using LigricMvvmToolkit.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -57,21 +58,6 @@ namespace LigricBoardCustomControls.Menus
             ((TranslateTransform)expanderContent.RenderTransform).Y = -to;
             expanderContent.Visibility = Visibility.Collapsed;
         }
-
-        private bool TransformInitialize(FrameworkElement element)
-        {
-            if (element is null)
-                return false;
-
-            var renderTransform = element.RenderTransform as TranslateTransform;
-
-            if (renderTransform is null)
-            {
-                renderTransform = new TranslateTransform();
-                element.RenderTransform = renderTransform;
-            }
-            return true;
-        }
         #endregion
 
         #region Expander actions
@@ -80,8 +66,8 @@ namespace LigricBoardCustomControls.Menus
             expanderHeader = GetTemplateChild(c_expanderHeader) as FrameworkElement;
             expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;
 
-            TransformInitialize(expanderHeader);
-            TransformInitialize(expanderContent);
+            expanderHeader.TransformInitialize();
+            expanderContent.TransformInitialize();
 
             isLoaded = true;
             InitializeState();
@@ -134,7 +120,7 @@ namespace LigricBoardCustomControls.Menus
         #region Animations
         private void ExpanderContentAnimationExpanding(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(expanderContent) && isLoaded)
+            if (!expanderContent.TransformInitialize() && isLoaded)
                 return;
 
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;
@@ -152,7 +138,7 @@ namespace LigricBoardCustomControls.Menus
 
         private void ExpanderContentAnimationCollapsed(TimeSpan timeSpan)
         {
-            if (!TransformInitialize(expanderContent) && isLoaded)
+            if (!expanderContent.TransformInitialize() && isLoaded)
                 return;
 
             var renderTransform = expanderContent.RenderTransform as TranslateTransform;

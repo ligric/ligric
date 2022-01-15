@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using LigricMvvmToolkit.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -120,21 +121,6 @@ namespace LigricBoardCustomControls.Menus
             if (this.IsExpanded)
                 ExpanderInitializeExpanding();
         }
-
-        private bool TransformInitialize(FrameworkElement element)
-        {
-            if (element is null)
-                return false;
-
-            var renderTransform = element.RenderTransform as TranslateTransform;
-
-            if (renderTransform is null)
-            {
-                renderTransform = new TranslateTransform();
-                element.RenderTransform = renderTransform;
-            }
-            return true;
-        }
         #endregion
 
         private void OnMenuSoapLoaded(object sender, RoutedEventArgs e)
@@ -145,8 +131,8 @@ namespace LigricBoardCustomControls.Menus
             expanderContent = GetTemplateChild(c_expanderContent) as FrameworkElement;
 
 
-            TransformInitialize(expanderHeader);
-            TransformInitialize(expanderContent);
+            expanderHeader.TransformInitialize();
+            expanderContent.TransformInitialize();
 
             InitializeState();
         }
