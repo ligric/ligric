@@ -59,13 +59,7 @@ namespace LigricMvvmToolkit.Navigation
 
         private static Panel AddWrapperInThePanel(this FrameworkElement element, Panel parent, Panel wrapper)
         {
-            foreach (var item in parent.Children)
-            {
-                if (item == element)
-                {
-                    parent.Children.Remove(item);
-                }
-            }
+            parent.Children.Remove(element);
 
             wrapper.Children.Add(element);
 
