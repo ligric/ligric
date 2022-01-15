@@ -135,10 +135,9 @@ namespace LigricUno
 
         private void PrerenderBoardsPages()
         {
-            for (int i = 0; i < 6; i++)
-            {
-                Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + i }, nameof(BoardsPage) + i, new BoardsViewModel());
-            }
+            Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + 0, Background = new SolidColorBrush(Colors.Blue) }, nameof(BoardsPage) + 0, new BoardsViewModel());
+            Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + 1, Background = new SolidColorBrush(Colors.Red) }, nameof(BoardsPage) + 1, new BoardsViewModel());
+            Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + 2, Background = new SolidColorBrush(Colors.Pink) }, nameof(BoardsPage) + 2, new BoardsViewModel());
         }
 
         /// <summary>
