@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LigricMvvmToolkit.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
@@ -86,22 +87,28 @@ namespace LigricMvvmToolkit.Navigation
 
             var count = wrapper.Children.Count;
 
-            addElement.Clip = new RectangleGeometry()
-            {
-                Rect = new Rect(new Point(0, 0),
-                                new Point(wrapper.ActualWidth, wrapper.Height))
-            };
+            //addElement.Clip = new RectangleGeometry()
+            //{
+            //    Rect = new Rect(new Point(0, 0),
+            //                    new Point(wrapper.ActualWidth, wrapper.Height))
+            //};
 
-            wrapper.SizeChanged += (s, e) =>
-            {
-                addElement.Clip = new RectangleGeometry()
-                {
-                    Rect = new Rect(new Point(0, 0),
-                    new Point(e.NewSize.Width, e.NewSize.Height))
-                };
-            };
+            //wrapper.SizeChanged += (s, e) =>
+            //{
+            //    addElement.Clip = new RectangleGeometry()
+            //    {
+            //        Rect = new Rect(new Point(0, 0),
+            //        new Point(e.NewSize.Width, e.NewSize.Height))
+            //    };
+            //};
 
-            wrapper.Children.Insert(count - wrapperInfo.Pins.Count, addElement);
+            wrapper.Children.Insert(0/*count - wrapperInfo.Pins.Count*/, addElement);
+
+            wrapper.Loaded += (s, e) =>
+            {
+                addElement.TransformInitialize();
+                ((TranslateTransform)addElement.RenderTransform).X = -wrapper.ActualWidth;
+            };
 
             return addElement;
         }
