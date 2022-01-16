@@ -116,11 +116,9 @@ namespace LigricMvvmToolkit.Navigation
 
             wrapper.Children.Insert(0/*count - wrapperInfo.Pins.Count*/, addElement);
 
-            wrapper.Loaded += (s, e) =>
-            {
-                addElement.TransformInitialize();
-                ((TranslateTransform)addElement.RenderTransform).X = -wrapper.ActualWidth;
-            };
+            addElement.TransformInitialize();
+            ((TranslateTransform)addElement.RenderTransform).X = -wrapper.ActualWidth;
+            wrapper.SizeChanged += (s, e) => ((TranslateTransform)addElement.RenderTransform).X = -e.NewSize.Width;
 
             return addElement;
         }
