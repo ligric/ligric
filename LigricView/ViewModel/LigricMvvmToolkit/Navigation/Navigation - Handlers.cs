@@ -37,7 +37,7 @@ namespace LigricMvvmToolkit.Navigation
                     throw new ArgumentNullException("Root element is null or root element isn't FrameworkElement.");
                 }
 
-                prerenderPage.Visibility = Visibility.Collapsed;
+                //prerenderPage.Visibility = Visibility.Collapsed;
 
                 rootObject.AddWrapper().AddElementToWrapper(prerenderPage);
             });
@@ -69,7 +69,7 @@ namespace LigricMvvmToolkit.Navigation
                 {
                     throw new ArgumentException("Cannot change the page because new page is null");
                 }
-                newPage.Visibility = Visibility.Collapsed;
+                //newPage.Visibility = Visibility.Collapsed;
 
                 
                 switch (changingVector)
