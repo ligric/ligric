@@ -9,8 +9,7 @@
       xmlns:local="using:LigricUno.Views.Pages"
       xmlns:converters="using:LigricMvvmToolkit.Converters"
       
-      d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}"
-      Background="#cbcbcd">
+      d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}">
     <Page.Resources>
         <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
     </Page.Resources>

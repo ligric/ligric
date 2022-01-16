@@ -87,7 +87,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             IReadOnlyCollection<FrameworkElement> blockedPins;
             blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
-            root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200).Begin();
+            root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000).Begin();
 
             foreach (var item in blockedPins)
             {

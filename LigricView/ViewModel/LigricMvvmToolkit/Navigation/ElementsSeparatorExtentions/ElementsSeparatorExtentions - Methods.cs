@@ -13,6 +13,18 @@ namespace LigricMvvmToolkit.Navigation
     {
         public static Panel AddWrapper(this FrameworkElement element, string rootKey = "root")
         {
+            SolidColorBrush GetSolidColorBrush(string hex)
+            {
+                hex = hex.Replace("#", string.Empty);
+                byte a = (byte)(Convert.ToUInt32(hex.Substring(0, 2), 16));
+                byte r = (byte)(Convert.ToUInt32(hex.Substring(2, 2), 16));
+                byte g = (byte)(Convert.ToUInt32(hex.Substring(4, 2), 16));
+                byte b = (byte)(Convert.ToUInt32(hex.Substring(6, 2), 16));
+                SolidColorBrush myBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(a, r, g, b));
+                return myBrush;
+            }
+
+
             var parent = element.Parent;
             if (parent is null)
                 throw new TypeAccessException("Root parent element is null.");
@@ -23,7 +35,7 @@ namespace LigricMvvmToolkit.Navigation
             if (wrappers.TryGetValue(rootKey, out WrapperInfo wrapperInfo))
                 return wrapperInfo.Wrapper;
 
-            Panel wrapper = new Grid() { Tag = rootKey + "_wrapper" };
+            Panel wrapper = new Grid() { Tag = rootKey + "_wrapper", Background = GetSolidColorBrush("#FFcbcbcd") };
             if (parent is UserControl)
             {
                 wrapper = element.AddWrapperInTheUserControl((UserControl)parent, wrapper);
