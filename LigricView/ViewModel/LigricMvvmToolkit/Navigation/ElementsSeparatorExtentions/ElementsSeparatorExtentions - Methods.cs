@@ -99,21 +99,6 @@ namespace LigricMvvmToolkit.Navigation
 
             var count = wrapper.Children.Count;
 
-            //addElement.Clip = new RectangleGeometry()
-            //{
-            //    Rect = new Rect(new Point(0, 0),
-            //                    new Point(wrapper.ActualWidth, wrapper.Height))
-            //};
-
-            //wrapper.SizeChanged += (s, e) =>
-            //{
-            //    addElement.Clip = new RectangleGeometry()
-            //    {
-            //        Rect = new Rect(new Point(0, 0),
-            //        new Point(e.NewSize.Width, e.NewSize.Height))
-            //    };
-            //};
-
             wrapper.Children.Insert(0/*count - wrapperInfo.Pins.Count*/, addElement);
 
             addElement.TransformInitialize();

@@ -53,13 +53,17 @@ namespace LigricMvvmToolkit.Navigation
             {
                 var toRenderTransform = endVisibleElement.GetTransformInitialize();
 
-                ((TranslateTransform)endVisibleElement.RenderTransform).X = mainWidth;
-                ((TranslateTransform)endVisibleElement.RenderTransform).Y = 0;
                 endVisibleElement.Visibility = Visibility.Visible;
 
                 #region xAnimation secondElement
-                DoubleAnimationUsingKeyFrames xAnimationSecondElement = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-                xAnimationSecondElement.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = 0, KeyTime = KeyTime.FromTimeSpan(timespan) });
+                DoubleAnimation xAnimationSecondElement = new DoubleAnimation()
+                {
+                    EnableDependentAnimation = true,
+                    From = mainWidth,
+                    To = 0,
+                    Duration = new Duration(timespan)
+                };
+
                 Storyboard.SetTarget(xAnimationSecondElement, toRenderTransform);
                 Storyboard.SetTargetProperty(xAnimationSecondElement, "X");
                 #endregion
