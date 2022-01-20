@@ -40,6 +40,11 @@ namespace LigricMvvmToolkit.Navigation
                 //prerenderPage.Visibility = Visibility.Collapsed;
 
                 rootObject.AddWrapper().AddElementToWrapper(prerenderPage);
+
+                prerenderPage.Loaded += (s, e) =>
+                {
+
+                };
             });
         }
 
@@ -69,8 +74,6 @@ namespace LigricMvvmToolkit.Navigation
                 {
                     throw new ArgumentException("Cannot change the page because new page is null");
                 }
-                //newPage.Visibility = Visibility.Collapsed;
-
                 
                 switch (changingVector)
                 {
@@ -87,7 +90,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             IReadOnlyCollection<FrameworkElement> blockedPins;
             blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
-            root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200).Begin();
+            root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000).Begin();
 
             foreach (var item in blockedPins)
             {

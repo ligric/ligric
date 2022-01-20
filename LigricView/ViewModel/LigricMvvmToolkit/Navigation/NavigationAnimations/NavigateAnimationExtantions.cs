@@ -13,36 +13,33 @@ namespace LigricMvvmToolkit.Navigation
     {
         public static Storyboard GetTrainAnimationStrouyboard(this Panel wrapper, FrameworkElement firstVisibileElement = null, FrameworkElement endVisibleElement = null, double timeMilliseconds = 300, bool toRightSide = true)
         {
-            var firstVisibileElementChildren = firstVisibileElement.GetAllChildren().Where(x => x is FrameworkElement);
-
-            double maxWidth = 0;
-            foreach (var item in firstVisibileElementChildren)
-            {
-                var element = item as FrameworkElement;
-                var elementVisualRelative = element.TransformToVisual(wrapper);
-                Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
-
-                var sum = element.ActualWidth + bufferPostition.X;
-                if (sum > maxWidth)
-                    maxWidth = sum;
-            }
-
-            
-            var rootWidth = wrapper.ActualWidth == 0 ? wrapper.Width : wrapper.ActualWidth;
-
-            var mainWidth = rootWidth >= maxWidth ? rootWidth : maxWidth;
-
-
+            double maxWidth = wrapper.ActualWidth == 0 ? wrapper.Width : wrapper.ActualWidth;
             var timespan = TimeSpan.FromMilliseconds(timeMilliseconds);
             Storyboard stroyboard = new Storyboard();
 
             if (firstVisibileElement != null)
             {
-                var fromRenderTransform = firstVisibileElement.GetTransformInitialize();
+                if (firstVisibileElement.Parent is not Border firstElementParent)
+                    throw new ArgumentNullException("First element parent isn't Border. Please use the PrerenderElement method.");
+
+                var firstVisibileElementChildren = firstElementParent.GetAllChildren().Where(x => x is FrameworkElement);
+
+                foreach (var item in firstVisibileElementChildren)
+                {
+                    var element = item as FrameworkElement;
+                    var elementVisualRelative = element.TransformToVisual(wrapper);
+                    Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+                    var sum = element.ActualWidth + bufferPostition.X;
+                    if (sum > maxWidth)
+                        maxWidth = sum;
+                }
+
+                var fromRenderTransform = firstElementParent.GetTransformInitialize();
 
                 #region xAnimation firstElement
                 DoubleAnimationUsingKeyFrames xAnimationFirstElement = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
-                xAnimationFirstElement.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = -(mainWidth), KeyTime = KeyTime.FromTimeSpan(timespan) });
+                xAnimationFirstElement.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = -(maxWidth), KeyTime = KeyTime.FromTimeSpan(timespan) });
                 Storyboard.SetTarget(xAnimationFirstElement, fromRenderTransform);
                 Storyboard.SetTargetProperty(xAnimationFirstElement, "X");
                 #endregion
@@ -51,7 +48,10 @@ namespace LigricMvvmToolkit.Navigation
 
             if (endVisibleElement != null)
             {
-                var toRenderTransform = endVisibleElement.GetTransformInitialize();
+                if (endVisibleElement.Parent is not Border secondElementParent)
+                    throw new ArgumentNullException("First element parent isn't Border. Please use the PrerenderElement method.");
+
+                var toRenderTransform = secondElementParent.GetTransformInitialize();
 
                 endVisibleElement.Visibility = Visibility.Visible;
 
@@ -59,7 +59,7 @@ namespace LigricMvvmToolkit.Navigation
                 DoubleAnimation xAnimationSecondElement = new DoubleAnimation()
                 {
                     EnableDependentAnimation = true,
-                    From = mainWidth,
+                    From = maxWidth,
                     To = 0,
                     Duration = new Duration(timespan)
                 };

@@ -85,7 +85,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             parent.Child = null;
 
-            wrapper.Children.Add(element);
+            wrapper.Children.Add(new Border() { Child = element, Tag = "Element wrapper" } );
 
             parent.Child = wrapper;
 
@@ -95,15 +95,14 @@ namespace LigricMvvmToolkit.Navigation
 
         public static FrameworkElement AddElementToWrapper(this Panel wrapper, FrameworkElement addElement)
         {
+
             var wrapperInfo = GetWrapperInfo(wrapper);
 
             var count = wrapper.Children.Count;
 
-            wrapper.Children.Insert(0/*count - wrapperInfo.Pins.Count*/, addElement);
+            var elementWrapper = new Border() { Visibility = Visibility.Visible, Child = addElement, Tag = "Element wrapper" };
 
-            addElement.TransformInitialize();
-            ((TranslateTransform)addElement.RenderTransform).X = -wrapper.ActualWidth;
-            wrapper.SizeChanged += (s, e) => ((TranslateTransform)addElement.RenderTransform).X = -e.NewSize.Width;
+            wrapper.Children.Insert(0, elementWrapper);
 
             return addElement;
         }
