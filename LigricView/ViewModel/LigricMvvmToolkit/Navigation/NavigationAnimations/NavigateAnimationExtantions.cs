@@ -22,18 +22,9 @@ namespace LigricMvvmToolkit.Navigation
                 if (firstVisibileElement.Parent is not Border firstElementParent)
                     throw new ArgumentNullException("First element parent isn't Border. Please use the PrerenderElement method.");
 
-                var firstVisibileElementChildren = firstElementParent.GetAllChildren().Where(x => x is FrameworkElement);
+                var firstElementRealWidth = firstVisibileElement.GetFulllWidth(wrapper);
 
-                foreach (var item in firstVisibileElementChildren)
-                {
-                    var element = item as FrameworkElement;
-                    var elementVisualRelative = element.TransformToVisual(wrapper);
-                    Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
-
-                    var sum = element.ActualWidth + bufferPostition.X;
-                    if (sum > maxWidth)
-                        maxWidth = sum;
-                }
+                maxWidth = maxWidth > firstElementRealWidth ? maxWidth : firstElementRealWidth;
 
                 var fromRenderTransform = firstElementParent.GetTransformInitialize();
 
@@ -72,6 +63,26 @@ namespace LigricMvvmToolkit.Navigation
             }
 
             return stroyboard;
+        }
+
+        public static double GetFulllWidth(this FrameworkElement element, UIElement transformVisualElement)
+        {
+            var elementChildren = element.GetAllChildren().Where(x => x is FrameworkElement);
+
+            double maxWidth = element.ActualWidth;
+
+            foreach (var item in elementChildren)
+            {
+                var child = item as FrameworkElement;
+                var elementVisualRelative = child.TransformToVisual(transformVisualElement);
+                Point bufferPostition = elementVisualRelative.TransformPoint(new Point(0, 0));
+
+                var sum = child.ActualWidth + bufferPostition.X;
+                if (sum > maxWidth)
+                    maxWidth = sum;
+            }
+
+            return maxWidth;
         }
     }
 }

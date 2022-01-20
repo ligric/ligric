@@ -93,6 +93,8 @@ namespace LigricMvvmToolkit.Navigation
         }
         #endregion
 
+        private static int testCount = 0;
+
         public static FrameworkElement AddElementToWrapper(this Panel wrapper, FrameworkElement addElement)
         {
 
@@ -100,7 +102,22 @@ namespace LigricMvvmToolkit.Navigation
 
             var count = wrapper.Children.Count;
 
-            var elementWrapper = new Border() { Visibility = Visibility.Visible, Child = addElement, Tag = "Element wrapper" };
+            var elementWrapper = new Border() { Visibility = Visibility.Visible, Child = addElement, Tag = "Element wrapper " + testCount++ };
+
+            bool isUpdated = false;
+
+            elementWrapper.LayoutUpdated += (s, e) =>
+            {
+                if (isUpdated)
+                    return;
+
+                elementWrapper.TransformInitialize();
+                var fullWidth = elementWrapper.GetFulllWidth(wrapper);
+                var tag = elementWrapper.Tag;
+                ((TranslateTransform)elementWrapper.RenderTransform).X = wrapper.ActualWidth > fullWidth ? -wrapper.ActualWidth : -fullWidth;
+
+                isUpdated = true;
+            };
 
             wrapper.Children.Insert(0, elementWrapper);
 
