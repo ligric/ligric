@@ -7,8 +7,6 @@ namespace LigricMvvmToolkit.Animations
 {
     public class SyncAnimations
     {
-        private Dictionary<int, Storyboard> pull = new Dictionary<int, Storyboard>();
-        //private Storyboard stroyboard;
         private int oldNumber = -1;
 
         public async Task ExecuteAnimation(int number, Func<Storyboard> storyboardFunc, int milliseconds = 10000)
