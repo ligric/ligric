@@ -5,7 +5,7 @@ namespace Common
 {
     public class SyncMethod
     {
-        private int oldNumber = -1;
+        protected int oldNumber = -1;
 
         public async Task WaitingAnotherMethodsAsync(int number, Func<Task> action, int milliseconds = 10000)
         {

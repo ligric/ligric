@@ -1,10 +1,12 @@
-﻿using LigricMvvmToolkit.Extensions;
+﻿using LigricMvvmToolkit.Animations;
+using LigricMvvmToolkit.Extensions;
 using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricMvvmToolkit.Navigation
 {
@@ -86,16 +88,27 @@ namespace LigricMvvmToolkit.Navigation
             });
         }
 
-        private static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo)
+
+        //private static List<Action> moveNextStack = new List<Action>();
+        private static SyncAnimations syncAnimations = new SyncAnimations();
+        private static int actionNumber = 0;
+        private async static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo)
         {
-            IReadOnlyCollection<FrameworkElement> blockedPins;
-            blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
-            root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000).Begin();
+            IReadOnlyCollection<FrameworkElement> blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
+
+            await syncAnimations.ExecuteAnimation(actionNumber++, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000));
+            //pageMoveStroyboard.Completed += (s, e) =>
+            //{
+            //    var olddPageParent = oldPage.Parent as FrameworkElement;
+            //    olddPageParent.Visibility = Visibility.Collapsed;
+            //};
+            //pageMoveStroyboard.Begin();
 
             foreach (var item in blockedPins)
             {
-                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement:item, timeMilliseconds: 200).Begin();
+                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200);
             }
+
         }
     }
 }
