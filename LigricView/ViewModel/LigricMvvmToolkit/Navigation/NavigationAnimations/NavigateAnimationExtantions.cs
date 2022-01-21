@@ -28,6 +28,9 @@ namespace LigricMvvmToolkit.Navigation
 
                 var fromRenderTransform = firstElementParent.GetTransformInitialize();
 
+                firstVisibileElement.Visibility = Visibility.Visible;
+                firstElementParent.Visibility = Visibility.Visible;
+
                 #region xAnimation firstElement
                 DoubleAnimationUsingKeyFrames xAnimationFirstElement = new DoubleAnimationUsingKeyFrames() { EnableDependentAnimation = true };
                 xAnimationFirstElement.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = -(maxWidth), KeyTime = KeyTime.FromTimeSpan(timespan) });
@@ -45,6 +48,7 @@ namespace LigricMvvmToolkit.Navigation
                 var toRenderTransform = secondElementParent.GetTransformInitialize();
 
                 endVisibleElement.Visibility = Visibility.Visible;
+                secondElementParent.Visibility = Visibility.Visible;
 
                 #region xAnimation secondElement
                 DoubleAnimation xAnimationSecondElement = new DoubleAnimation()

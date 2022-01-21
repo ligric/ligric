@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Animation;
 
-namespace Common
+namespace LigricMvvmToolkit.Animations
 {
-    public class SyncMethod
+    public class SyncAnimations
     {
-        protected int oldNumber = -1;
+        private int oldNumber = -1;
 
-        public async Task WaitingAnotherMethodsAsync(int number, Func<Task> action, int milliseconds = 10000)
+        public async Task ExecuteAnimation(int number, Func<Storyboard> storyboardFunc, int milliseconds = 10000)
         {
             int timeout = 0;
             int еxpectedNumber = number - 1;
@@ -28,11 +30,16 @@ namespace Common
             }
             else
             {
-                await action();
+                var stroyboard = storyboardFunc?.Invoke();
 
-                oldNumber++;
-                if (oldNumber != number)
-                    throw new ArgumentException("Error message: \"Something wrong ;(((.");
+                stroyboard.Completed += (s, e) =>
+                {
+                    oldNumber++;
+
+                    if (oldNumber != number)
+                        throw new ArgumentException("Error message: \"Something wrong ;(((.");
+                };
+                stroyboard.Begin();
             }
         }
     }
