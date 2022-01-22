@@ -135,14 +135,6 @@
       <Project>{fa32bc91-b97d-42ef-ba11-94c3a79f989d}</Project>
       <Name>BoardModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ViewModel\LigricMvvmToolkit\LigricMvvmToolkit.csproj">
-      <Project>{67a3fa98-d1f0-4069-89b8-6869b25d4351}</Project>
-      <Name>LigricMvvmToolkit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ViewModel\LigricMvvmTypes\LigricMvvmTypes.csproj">
-      <Project>{c75d6a21-9f02-4215-a226-2cb9aca4d598}</Project>
-      <Name>LigricMvvmTypes</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
