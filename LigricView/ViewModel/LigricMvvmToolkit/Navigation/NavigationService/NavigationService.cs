@@ -35,6 +35,7 @@ namespace LigricMvvmToolkit.Navigation
         public void GoTo(string pageName, object backPage = null, object nextPage = null) 
             => PageHandler(pageName: pageName, backPage : backPage, nextPage : nextPage, action : PageActionEnum.GoTo);
 
+        private int syncNumber = 0;
         private void PageHandler(object page = null, string pageName = null, object vm = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
         {
             #region preparation
@@ -73,7 +74,7 @@ namespace LigricMvvmToolkit.Navigation
                     }
                     else
                     {
-                        CurrentPageChanged?.Invoke(this, RootElement, oldPage, outPage, PageChangingVectorEnum.Next);
+                        CurrentPageChanged?.Invoke(this, RootElement, oldPage, outPage, PageChangingVectorEnum.Next, syncNumber++);
                         CurrentPage = outPage;
                     }
                     break;

@@ -11,7 +11,7 @@ namespace LigricMvvmToolkit.Navigation
         Next
     }
 
-    public delegate void CurrentPageEventHandler(object sender, object rootElement, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector);
+    public delegate void CurrentPageEventHandler(object sender, object rootElement, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector, int? index);
     public delegate void CollectionEventHandler<T>(object sender, object rootElement, ActionCollectionEnum action, T item);
 
 

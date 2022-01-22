@@ -39,18 +39,11 @@ namespace LigricMvvmToolkit.Navigation
                     throw new ArgumentNullException("Root element is null or root element isn't FrameworkElement.");
                 }
 
-                //prerenderPage.Visibility = Visibility.Collapsed;
-
                 rootObject.AddWrapper().AddElementToWrapper(prerenderPage);
-
-                prerenderPage.Loaded += (s, e) =>
-                {
-
-                };
             });
         }
 
-        private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPageInfo, PageInfo newPageInfo, PageChangingVectorEnum changingVector)
+        private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPageInfo, PageInfo newPageInfo, PageChangingVectorEnum changingVector, int? index)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
@@ -82,33 +75,27 @@ namespace LigricMvvmToolkit.Navigation
                     case PageChangingVectorEnum.Back:
                         break;
                     case PageChangingVectorEnum.Next:
-                        MoveNext(root, oldPage, newPage, newPageInfo);
+                        MoveNext(root, oldPage, newPage, newPageInfo, index);
                         break;
                 }
             });
         }
 
-
-        //private static List<Action> moveNextStack = new List<Action>();
         private static SyncAnimations syncAnimations = new SyncAnimations();
-        private static int actionNumber = 0;
-        private async static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo)
+        private static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo, int? syncIndex)
         {
             IReadOnlyCollection<FrameworkElement> blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
 
-            await syncAnimations.ExecuteAnimation(actionNumber++, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000));
-            //pageMoveStroyboard.Completed += (s, e) =>
-            //{
-            //    var olddPageParent = oldPage.Parent as FrameworkElement;
-            //    olddPageParent.Visibility = Visibility.Collapsed;
-            //};
-            //pageMoveStroyboard.Begin();
+            syncAnimations.ExecuteAnimation((int)syncIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000), () => 
+            {
+                var olddPageParent = oldPage.Parent as FrameworkElement;
+                olddPageParent.Visibility = Visibility.Collapsed;
+            });
 
             foreach (var item in blockedPins)
             {
                 root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200);
             }
-
         }
     }
 }
