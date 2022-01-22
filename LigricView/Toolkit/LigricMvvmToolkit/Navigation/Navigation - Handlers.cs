@@ -86,7 +86,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             IReadOnlyCollection<FrameworkElement> blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
 
-            syncAnimations.ExecuteAnimation((int)syncIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 10_000), () => 
+            syncAnimations.ExecuteAnimation((int)syncIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200), () => 
             {
                 var olddPageParent = oldPage.Parent as FrameworkElement;
                 olddPageParent.Visibility = Visibility.Collapsed;
