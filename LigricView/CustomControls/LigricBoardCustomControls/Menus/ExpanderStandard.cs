@@ -93,7 +93,7 @@ namespace LigricBoardCustomControls.Menus
         #region Set expander animation
         private void ExpanderCollapsing()
         {
-            justStoryboard.Pause();
+            justStoryboard?.Pause();
             justStoryboard = new Storyboard();
 
             ExpanderContentAnimationCollapsed(TimeSpan.FromMilliseconds(200));
@@ -108,7 +108,7 @@ namespace LigricBoardCustomControls.Menus
 
         private void ExpanderExpanding()
         {
-            justStoryboard.Pause();
+            justStoryboard?.Pause();
             justStoryboard = new Storyboard();
 
             ExpanderContentAnimationExpanding(TimeSpan.FromMilliseconds(250));

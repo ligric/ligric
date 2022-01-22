@@ -107,7 +107,7 @@ namespace LigricBoardCustomControls.ToggleButtons
 
         private void ToggleButtonChecked()
         {
-            justStoryboard.Pause();
+            justStoryboard?.Pause();
             justStoryboard = new Storyboard();
             ElipseAnimationChecking(TimeSpan.FromMilliseconds(150));
             justStoryboard.Begin();
@@ -115,7 +115,7 @@ namespace LigricBoardCustomControls.ToggleButtons
        
         private void ToggleButtonUnChecked()
         {
-            justStoryboard.Pause();
+            justStoryboard?.Pause();
             justStoryboard = new Storyboard();
             ElipseAnimationUnChecking(TimeSpan.FromMilliseconds(150));
             justStoryboard.Begin();

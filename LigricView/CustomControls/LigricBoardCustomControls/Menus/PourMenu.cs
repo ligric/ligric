@@ -230,7 +230,7 @@ namespace LigricBoardCustomControls.Menus
         private void ExpanderCollapsing()
         {
             //sliderAnimationTokenSource.Cancel();
-            justStoryboard.Pause();
+            justStoryboard?.Pause();
             justStoryboard = new Storyboard();
 
             double timeMilliseconds = 300;
@@ -244,7 +244,7 @@ namespace LigricBoardCustomControls.Menus
                 {
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
-                        justStoryboard.Pause();
+                        justStoryboard?.Pause();
                         justStoryboard = new Storyboard();
 
                         #region widthAnimation
@@ -273,7 +273,7 @@ namespace LigricBoardCustomControls.Menus
 
         private void ExpanderExpanding()
         {
-            justStoryboard.Pause();
+            justStoryboard?.Pause();
             justStoryboard = new Storyboard();
 
             SliderAnimationExpanding(TimeSpan.FromMilliseconds(150));
