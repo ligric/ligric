@@ -77,7 +77,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
-    <ProjectReference Include="..\..\ViewModel\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
+    <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
   </ItemGroup>
   
 </Project>
