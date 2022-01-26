@@ -1,6 +1,8 @@
 ﻿<Page x:Class="LigricUno.Views.Pages.BoardsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
       d:Height="1334" d:Width="750"      
       
+      xmlns:menus="using:LigricBoardCustomControls.Menus"
+      
       xmlns:boards="using:LigricBoardCustomControls.Boards"
       
       xmlns:data="using:LigricMvvmToolkit.Data"
@@ -15,8 +17,12 @@
     </Page.Resources>
 
     <Grid>
+        
+        <!-- Test -->
+        <menus:SnakeMenu HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                         Height="80"/>
 
-        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}">
+        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Visibility="Collapsed">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Background="Transparent"/>
@@ -36,7 +42,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Grid Background="Pink" VerticalAlignment="Top" Height="30">
+        <Grid Background="Pink" VerticalAlignment="Top" Height="30" Visibility="Collapsed">
 
             <Button Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>

@@ -10,6 +10,7 @@
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/ExpanderStandardCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/MenuSoapCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/PourMenuCustomControl.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/SnakeMenuCustomControl.xaml"/>
 
         
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Items/ItemStandardCustomControl.xaml"/>

@@ -1,0 +1,65 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:LigricBoardCustomControls.Menus">
+
+    <Style TargetType="local:SnakeMenu">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SnakeMenu">
+                    <Grid>
+                        
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ExpandStates">
+                                <VisualState x:Name="ExpandUp">
+                                    <Storyboard>
+                                        <!--Element visibility.--> 
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Boards" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>-->
+
+                                        <!--Animation to up side.--> 
+                                        <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetName="Boards" 
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(Composite.TranslateY)">
+                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="600"/>
+                                        </DoubleAnimationUsingKeyFrames>-->
+                                        
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+
+                        <!-- Background element -->
+                        <Border x:Name="SnakeBackgroundElement" Background="{TemplateBinding Background}" 
+                                CornerRadius="{TemplateBinding CornerRadius}"/>
+
+                        <!-- Main content -->
+                        <Border x:Name="ExpanderContent" CornerRadius="{TemplateBinding CornerRadius}">
+                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                        </Border>
+
+                        <!-- HeaderContent -->
+                        <Border x:Name="HeaderConteiner">
+                            <Grid x:Name="HeaderContent" CornerRadius="{TemplateBinding CornerRadius}">
+                                
+                                <ContentPresenter Content="{TemplateBinding Header}"/>
+
+                                <!-- TODO : Temprary background is transparent -->
+                                <ToggleButton x:Name="ToggleButton" Background="Transparent"/>
+
+                            </Grid>
+                        </Border>
+                        
+       
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+</ResourceDictionary>

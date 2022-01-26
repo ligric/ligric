@@ -35,7 +35,9 @@
     </UserControl.Resources>
 
     <Grid>
-        <menus:ExpanderStandard Margin="20" Background="White" CornerRadius="15"
+        
+        
+        <!--<menus:ExpanderStandard Margin="20" Background="White" CornerRadius="15"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
 
             <controls:Expander.Header>
@@ -88,11 +90,12 @@
                         <Grid Margin="5">
                             <Border Width="50" Height="50" Background="White" CornerRadius="10" HorizontalAlignment="Center"/>
 
-                            <!--<Button Width="50" Height="50" Background="White" CornerRadius="10">
+                            -->
+        <!--<Button Width="50" Height="50" Background="White" CornerRadius="10">
                                     <Button.Content>
                                         <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="15" Fill="#0a1113" Stretch="Uniform" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                                     </Button.Content>
-                            </Button>-->
+                            </Button>--><!--
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -105,6 +108,6 @@
 
             </ListView>
 
-        </menus:ExpanderStandard>
+        </menus:ExpanderStandard>-->
     </Grid>
 </UserControl>
