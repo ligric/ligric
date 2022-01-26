@@ -20,7 +20,7 @@
         
         <!-- Test -->
         <menus:SnakeMenu HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                         Height="80"/>
+                         Background="White"/>
 
         <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Visibility="Collapsed">
             <ItemsControl.ItemsPanel>

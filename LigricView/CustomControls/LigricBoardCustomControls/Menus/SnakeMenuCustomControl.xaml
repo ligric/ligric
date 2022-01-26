@@ -13,22 +13,17 @@
                                 <VisualState x:Name="CollapsingFromTopToBottom">
                                     <Storyboard>
                                         <!-- Screen orientation. -->
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="VerticalAlignment">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="VerticalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <!-- Element visibility. -->
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Visibility">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <!-- [Y Property] Collapse animation to the down side. -->
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="(UIElement.RenderTransform).(Composite.TranslateY)">
-                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="720"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
                                         <!-- [Height Property] Collapse animation to the down side. -->
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Height">
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Height">
                                             <!-- TODO : 80 it's a temprary value -->
                                             <LinearDoubleKeyFrame KeyTime="0:0:3" Value="80"/>
                                         </DoubleAnimationUsingKeyFrames>
@@ -38,24 +33,19 @@
                                 <VisualState x:Name="ExpandingFromBottomToTop">
                                     <Storyboard>
                                         <!-- Screen orientation. -->
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="VerticalAlignment">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="VerticalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <!--Element visibility.-->
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="Visible"/>
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <!-- [Y Property] Collapse animation to the down side. -->
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="(UIElement.RenderTransform).(Composite.TranslateY)">
-                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="600"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
                                         <!-- [Height Property] Collapse animation to the down side. -->
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Height">
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Height">
                                             <!-- TODO : 80 it's a temprary value -->
-                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="200"/>
+                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="300"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -68,16 +58,17 @@
                                 CornerRadius="{TemplateBinding CornerRadius}"/>
 
                         <!-- Main content -->
-                        <Border x:Name="ExpanderContent" CornerRadius="{TemplateBinding CornerRadius}">
-                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                        <Border x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="Red">
+                            <Border.RenderTransform>
+                                <CompositeTransform/>
+                            </Border.RenderTransform>
+
+                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}"/>
                         </Border>
 
                         <!-- HeaderContent -->
                         <Border x:Name="HeaderConteiner">
-                            <Border.RenderTransform>
-                                <CompositeTransform/>
-                            </Border.RenderTransform>
-                            
                             <Grid x:Name="HeaderContent" CornerRadius="{TemplateBinding CornerRadius}">
                                 
                                 <ContentPresenter Content="{TemplateBinding Header}"/>

@@ -15,20 +15,23 @@ namespace LigricBoardCustomControls.Menus
         CollapsedFromTopToBottom,
         CollapsedFromRightToLeft
     }
-
+    
     public partial class SnakeMenu : ContentControl
     {
         private const string SNAKE_BACKGROUND_ELEMENT = "SnakeBackgroundElement";
+        private const string EXPANDER_CONTEINER = "ExpanderContainer";
         private const string EXPANDER_CONTENT = "ExpanderContent";
         private const string HEADER_CONTEINER = "HeaderConteiner";
         private const string HEADER_CONTENT = "HeaderContent";
         private const string TOGGLE_BUTTON = "ToggleButton";
 
-        protected ToggleButton toggleButton;
-        protected ContentControl headerContent;
-        protected Border headerConteiner;
-        protected ContentControl expanderContent;
         protected Border snakeBackgroundElement;
+        protected Border expanderContainer;
+        protected ContentControl expanderContent;
+
+        protected Border headerConteiner;
+        protected Panel headerContent;
+        protected ToggleButton toggleButton;
 
 
 
@@ -43,7 +46,7 @@ namespace LigricBoardCustomControls.Menus
         {
             get;
         } = DependencyProperty.Register("ExpandDirection", typeof(SnakeExpandDirection), typeof(SnakeMenu), 
-                new PropertyMetadata(SnakeExpandDirection.CollapsedFromTopToBottom, propertyChangedCallback: OnExpandDirectionChanged));
+                new PropertyMetadata(SnakeExpandDirection.CollapsedFromTopToBottom/*SnakeExpandDirection.CollapsedFromTopToBottom*/, propertyChangedCallback: OnExpandDirectionChanged));
 
         private static void OnExpandDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -69,11 +72,14 @@ namespace LigricBoardCustomControls.Menus
             _eventSubscriptions.Disposable = null;
             CompositeDisposable disposables = new CompositeDisposable();
 
-            toggleButton = GetTemplateChild(TOGGLE_BUTTON) as ToggleButton;
-            headerContent = GetTemplateChild(HEADER_CONTENT) as ContentControl;
-            headerConteiner = GetTemplateChild(HEADER_CONTEINER) as Border;
-            expanderContent = GetTemplateChild(EXPANDER_CONTENT) as ContentControl;
             snakeBackgroundElement = GetTemplateChild(SNAKE_BACKGROUND_ELEMENT) as Border;
+            expanderContainer = GetTemplateChild(EXPANDER_CONTEINER) as Border;
+            expanderContent = GetTemplateChild(EXPANDER_CONTENT) as ContentControl;
+
+
+            headerConteiner = GetTemplateChild(HEADER_CONTEINER) as Border;
+            headerContent = GetTemplateChild(HEADER_CONTENT) as Panel;
+            toggleButton = GetTemplateChild(TOGGLE_BUTTON) as ToggleButton;
 
 
             UpdateSnakeExpandDirectionState(false);
