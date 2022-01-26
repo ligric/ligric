@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Uno.Disposables;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,11 +9,11 @@ namespace LigricBoardCustomControls.Menus
 {
     public enum SnakeExpandDirection
     {
-        ExpandFromBottomToTop,
-        ExpandFromLeftToRight,
+        ExpandedFromBottomToTop,
+        ExpandedFromLeftToRight,
 
-        CollapseFromTopToBottom,
-        CollapseFromRightToLeft
+        CollapsedFromTopToBottom,
+        CollapsedFromRightToLeft
     }
 
     public partial class SnakeMenu : ContentControl
@@ -41,8 +42,17 @@ namespace LigricBoardCustomControls.Menus
         public static DependencyProperty ExpandDirectionProperty
         {
             get;
-        } = DependencyProperty.Register("ExpandDirection", typeof(SnakeExpandDirection), typeof(SnakeMenu), new PropertyMetadata(null));
+        } = DependencyProperty.Register("ExpandDirection", typeof(SnakeExpandDirection), typeof(SnakeMenu), 
+                new PropertyMetadata(SnakeExpandDirection.CollapsedFromTopToBottom, propertyChangedCallback: OnExpandDirectionChanged));
 
+        private static void OnExpandDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var thisObject = (SnakeMenu)d;
+            if (thisObject == null)
+                return;
+
+            thisObject.UpdateSnakeExpandDirectionState(true);
+        }
 
         public object Header
         {
@@ -65,7 +75,50 @@ namespace LigricBoardCustomControls.Menus
             expanderContent = GetTemplateChild(EXPANDER_CONTENT) as ContentControl;
             snakeBackgroundElement = GetTemplateChild(SNAKE_BACKGROUND_ELEMENT) as Border;
 
+
+            UpdateSnakeExpandDirectionState(false);
+            //_eventSubscriptions.Disposable = disposable;
         }
 
+        private void UpdateSnakeExpandDirectionState(bool useTransitions)
+        {
+            var snakeExpandDirection = ExpandDirection;
+
+            switch(snakeExpandDirection)
+            {
+                ////// Set vertical visual state
+                case SnakeExpandDirection.CollapsedFromTopToBottom:
+                    VisualStateManager.GoToState(this, "CollapsingFromTopToBottom", useTransitions);
+                    break;
+                ////// Set vertical visual state
+                case SnakeExpandDirection.ExpandedFromBottomToTop:
+                    VisualStateManager.GoToState(this, "ExpandingFromBottomToTop", useTransitions);
+                    break;
+                ////// Set horizontal visual state
+                case SnakeExpandDirection.CollapsedFromRightToLeft:
+                    VisualStateManager.GoToState(this, "CollapsingFromRightToLeft", useTransitions);
+                    break;
+                ////// Set horizontal visual state
+                case SnakeExpandDirection.ExpandedFromLeftToRight:
+                    VisualStateManager.GoToState(this, "ExpandingFromLeftToRight", useTransitions);
+                    break;
+                default:
+                    throw new ArgumentException("[404] Uknown state of SnakeExpandDirection");
+            };
+        }
+
+#if NET6_0_ANDROID
+        /// <summary>
+        /// Its needed for Android. Native constructor, do not use explicitly.
+        /// </summary>
+        /// <remarks>
+        /// Used by the Xamarin Runtime to materialize native objects that may have been
+        /// collacted in the manager world.
+        /// </remarks>
+        public SnakeMenu(IntPtr javaRefenerce, Android.Runtime.JniHandleOwnership transfer)
+        {
+
+        }
+#endif
     }
 }

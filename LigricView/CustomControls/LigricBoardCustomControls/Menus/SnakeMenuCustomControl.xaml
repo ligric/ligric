@@ -10,19 +10,53 @@
                         
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ExpandStates">
-                                <VisualState x:Name="ExpandUp">
+                                <VisualState x:Name="CollapsingFromTopToBottom">
                                     <Storyboard>
-                                        <!--Element visibility.--> 
-                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Boards" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <!-- Screen orientation. -->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="VerticalAlignment">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
+                                        </ObjectAnimationUsingKeyFrames>
 
-                                        <!--Animation to up side.--> 
-                                        <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetName="Boards" 
-                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(Composite.TranslateY)">
+                                        <!-- Element visibility. -->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <!-- [Y Property] Collapse animation to the down side. -->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="(UIElement.RenderTransform).(Composite.TranslateY)">
+                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="720"/>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <!-- [Height Property] Collapse animation to the down side. -->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Height">
+                                            <!-- TODO : 80 it's a temprary value -->
+                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="80"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="ExpandingFromBottomToTop">
+                                    <Storyboard>
+                                        <!-- Screen orientation. -->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="VerticalAlignment">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <!--Element visibility.-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <!-- [Y Property] Collapse animation to the down side. -->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="(UIElement.RenderTransform).(Composite.TranslateY)">
                                             <LinearDoubleKeyFrame KeyTime="0:0:3" Value="600"/>
-                                        </DoubleAnimationUsingKeyFrames>-->
-                                        
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <!-- [Height Property] Collapse animation to the down side. -->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderConteiner" Storyboard.TargetProperty="Height">
+                                            <!-- TODO : 80 it's a temprary value -->
+                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="200"/>
+                                        </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -40,6 +74,10 @@
 
                         <!-- HeaderContent -->
                         <Border x:Name="HeaderConteiner">
+                            <Border.RenderTransform>
+                                <CompositeTransform/>
+                            </Border.RenderTransform>
+                            
                             <Grid x:Name="HeaderContent" CornerRadius="{TemplateBinding CornerRadius}">
                                 
                                 <ContentPresenter Content="{TemplateBinding Header}"/>
