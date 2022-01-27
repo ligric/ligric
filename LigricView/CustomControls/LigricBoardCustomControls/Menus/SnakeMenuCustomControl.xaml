@@ -39,7 +39,7 @@
 
                                         <!--Element visibility.-->
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <!-- [Height Property] Collapse animation to the down side. -->
@@ -73,8 +73,9 @@
                                 
                                 <ContentPresenter Content="{TemplateBinding Header}"/>
 
-                                <!-- TODO : Temprary background is transparent -->
-                                <ToggleButton x:Name="ToggleButton" Background="Transparent"/>
+                                <!-- TODO : Temprary background is Blue. Temrary height & width -->
+                                <ToggleButton x:Name="ToggleButton" Background="Blue" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                              Height="30" Width="70"/>
 
                             </Grid>
                         </Border>
