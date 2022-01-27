@@ -7,6 +7,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:SnakeMenu">
                     <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
                         
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ExpandStates">
@@ -19,13 +24,13 @@
 
                                         <!-- Element visibility. -->
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="Collapsed"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <!-- [Height Property] Collapse animation to the down side. -->
                                         <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Height">
                                             <!-- TODO : 80 it's a temprary value -->
-                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="80"/>
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="{TemplateBinding Height}"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -45,7 +50,7 @@
                                         <!-- [Height Property] Collapse animation to the down side. -->
                                         <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Height">
                                             <!-- TODO : 80 it's a temprary value -->
-                                            <LinearDoubleKeyFrame KeyTime="0:0:3" Value="300"/>
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="180"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -54,28 +59,37 @@
 
 
                         <!-- Background element -->
-                        <Border x:Name="SnakeBackgroundElement" Background="{TemplateBinding Background}" 
+                        <Border Grid.RowSpan="2" x:Name="SnakeBackgroundElement" Background="{TemplateBinding Background}" 
                                 CornerRadius="{TemplateBinding CornerRadius}"/>
 
                         <!-- Main content -->
-                        <Border x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}"
-                                Background="Red">
+                        <Border Grid.Row="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}">
                             <Border.RenderTransform>
                                 <CompositeTransform/>
                             </Border.RenderTransform>
 
-                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}"/>
+                            <!-- Temprary height -->
+                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}" Height="180"/>
                         </Border>
 
                         <!-- HeaderContent -->
-                        <Border x:Name="HeaderConteiner">
+                        <Border Grid.Row="1" x:Name="HeaderConteiner">
                             <Grid x:Name="HeaderContent" CornerRadius="{TemplateBinding CornerRadius}">
-                                
+
                                 <ContentPresenter Content="{TemplateBinding Header}"/>
 
-                                <!-- TODO : Temprary background is Blue. Temrary height & width -->
-                                <ToggleButton x:Name="ToggleButton" Background="Blue" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                              Height="30" Width="70"/>
+                                <!-- TODO : Temprary background is Blue. Temrary height & width. Temprary horizontalanightment -->
+                                <ToggleButton x:Name="ToggleButton" Background="#0a1113" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                              Height="50" Width="50" HorizontalAlignment="Right" Padding="0">
+                                    
+                                    <!-- Temprary style -->
+                                    <Button Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Button.Content>
+                                            <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="30" Fill="White" Stretch="Uniform"
+                                                  Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                        </Button.Content>
+                                    </Button>
+                                </ToggleButton>
 
                             </Grid>
                         </Border>

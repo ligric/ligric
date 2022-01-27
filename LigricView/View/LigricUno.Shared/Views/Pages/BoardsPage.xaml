@@ -17,12 +17,6 @@
     </Page.Resources>
 
     <Grid>
-        
-        <!-- Test -->
-        <menus:SnakeMenu HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                         Background="White" CornerRadius="20" Margin="20"
-                         IsExpanded="True"/>
-
         <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Visibility="Collapsed">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
