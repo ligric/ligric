@@ -8,7 +8,7 @@ namespace LigricUno.Shared.Views.Pins
 
         private void TestButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            menu.ExpandDirection = LigricBoardCustomControls.Menus.SnakeExpandDirection.CollapsedFromRightToLeft;
+            menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
         }
     }
 }

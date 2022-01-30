@@ -33,7 +33,7 @@
         <!-- Test -->
         <menus:SnakeMenu x:Name="menu" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                          Background="White" CornerRadius="20" Margin="20"
-                         IsExpanded="False" ExpandDirection="CollapsedFromTopToBottom">
+                         ExpanderSide="Bottom" ExpanderState="Collapsed">
 
             <menus:SnakeMenu.Header>
                 <Grid>

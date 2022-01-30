@@ -37,7 +37,7 @@
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="BufferTransfer">
+                                <VisualState x:Name="ExpandingFromBottomToTop">
                                     <Storyboard>
                                         <!-- Screen orientation. -->
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="VerticalAlignment">
