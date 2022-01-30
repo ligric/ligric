@@ -1,16 +1,10 @@
 ﻿<UserControl x:Class="LigricUno.Shared.Views.Pins.NavigationMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:controls="using:Microsoft.UI.Xaml.Controls"
              xmlns:menus="using:LigricBoardCustomControls.Menus"
              xmlns:templates="using:LigricBoardCustomControls.Templates"
-             xmlns:interactivity="using:Microsoft.Xaml.Interactivity" 
-             xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-
              xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:android="http://uno.ui/android"
-             xmlns:not_win="http://uno.ui/not_win"
-             
-             mc:Ignorable="android not_win">
+             xmlns:android="http://uno.ui/android"            
+             mc:Ignorable="android">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -37,9 +31,9 @@
     <Grid>
 
         <!-- Test -->
-        <menus:SnakeMenu HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+        <menus:SnakeMenu x:Name="menu" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                          Background="White" CornerRadius="20" Margin="20"
-                         IsExpanded="True">
+                         IsExpanded="False" ExpandDirection="CollapsedFromTopToBottom">
 
             <menus:SnakeMenu.Header>
                 <Grid>
@@ -108,6 +102,9 @@
                 </ListView>
             </menus:SnakeMenu.Content>
         </menus:SnakeMenu>
+
+        <Button x:Name="TestButton" Click="TestButton_Click" Height="100" Width="20" Background="Red"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
         <!--<menus:ExpanderStandard Margin="20" Background="White" CornerRadius="15"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom">

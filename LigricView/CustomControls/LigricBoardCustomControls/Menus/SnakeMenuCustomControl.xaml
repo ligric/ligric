@@ -6,7 +6,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SnakeMenu">
-                    <Grid>
+                    <Grid x:Name="root">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -55,6 +55,19 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="AxesTransition">
+                                <VisualState>
+                                    <Storyboard x:Name="BottomToBuffer">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="HorizontalAlignment">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation EnableDependentAnimation="True" From="400" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                    </Storyboard>
+                                </VisualState>
+
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
 
@@ -83,12 +96,16 @@
                                               Height="50" Width="50" HorizontalAlignment="Right" Padding="0">
                                     
                                     <!-- Temprary style -->
-                                    <Button Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <Button.Content>
-                                            <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="30" Fill="White" Stretch="Uniform"
-                                                  Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                                        </Button.Content>
-                                    </Button>
+                                    <ToggleButton.Content>
+                                        <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="30" Fill="White" Stretch="Uniform"
+                                              Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z">
+                                            <Path.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5" CenterX="10" CenterY="10"/>
+                                                </TransformGroup>
+                                            </Path.RenderTransform>
+                                        </Path>
+                                    </ToggleButton.Content>
                                 </ToggleButton>
 
                             </Grid>

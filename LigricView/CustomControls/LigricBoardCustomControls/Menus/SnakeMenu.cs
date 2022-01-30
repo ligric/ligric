@@ -1,9 +1,11 @@
-﻿using System;
+﻿using LigricMvvmToolkit.Animations;
+using System;
 using System.Collections.ObjectModel;
 using Uno.Disposables;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricBoardCustomControls.Menus
 {
@@ -59,10 +61,6 @@ namespace LigricBoardCustomControls.Menus
         } = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SnakeMenu),
                 new PropertyMetadata(defaultValue: false, propertyChangedCallback: OnIsExpandedChanged));
 
-        public SnakeMenu()
-        {
-            base.DefaultStyleKey = typeof(SnakeMenu);
-        }
 
         public object Header
         {
@@ -78,7 +76,7 @@ namespace LigricBoardCustomControls.Menus
 
         protected override void OnApplyTemplate()
         {
-            _eventSubscriptions.Disposable = null;
+             _eventSubscriptions.Disposable = null;
             CompositeDisposable disposables = new CompositeDisposable();
 
             snakeBackgroundElement = GetTemplateChild(SNAKE_BACKGROUND_ELEMENT) as Border;
@@ -100,24 +98,46 @@ namespace LigricBoardCustomControls.Menus
                 //});
             }
 
-            UpdateSnakeExpandDirectionState(false);
+            UpdateSnakeExpandDirectionState(null, ExpandDirection, false);
             //_eventSubscriptions.Disposable = disposable;
         }
 
-        //private void OnToggleButtonChecked(object sender, RoutedEventArgs e)
-        //{
-        //    ExpanderStateChanged?.Invoke(this, this.ExpandDirection);
-        //}
-
-        //private void OnToggleButtonUnchecked(object sender, RoutedEventArgs e)
-        //{
-        //    ExpanderStateChanged?.Invoke(this, this.ExpandDirection);
-        //}
-
-        private void UpdateSnakeExpandDirectionState(bool useTransitions)
+        private void UpdateSnakeExpandDirectionState(SnakeExpandDirection? oldValue, SnakeExpandDirection newValue, bool useTransitions)
         {
-            var snakeExpandDirection = ExpandDirection;
-            SetNewSnakeExpandDirectionState(useTransitions, snakeExpandDirection);
+            if (oldValue == null || oldValue == newValue)
+            {
+                SetNewSnakeExpandDirectionState(useTransitions, newValue);
+            }
+            else
+            {
+                SetNewSnakeAxesTransition((SnakeExpandDirection)oldValue, newValue);
+            }
+           
+        }
+
+        private SyncAnimations syncBufferAnimations = new SyncAnimations();
+        private int syncBufferAnimationIndex = 0;
+        private void SetNewSnakeAxesTransition(SnakeExpandDirection oldSnakeDirectionState, SnakeExpandDirection newSnakeDirectionState)
+        {
+            //syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200), () =>
+            //{
+            //    var olddPageParent = oldPage.Parent as FrameworkElement;
+            //    olddPageParent.Visibility = Visibility.Collapsed;
+            //});
+            //BottomToBuffer
+
+            //VisualStateManager.GoToState(this, "BottomToRight", true);
+            //switch (snakeExpandDirection)
+            //{
+            //    ////// Set vertical visual state
+            //    case SnakeExpandDirection.ExpandedFromBottomToTop:
+            //        //VisualStateManager.GoToState(this, "TopToRight", true);
+            //        break;
+
+            //    default:
+            //        throw new ArgumentException("[404] Uknown state of SnakeExpandDirection");
+            //};
+
         }
 
         private void SetNewSnakeExpandDirectionState(bool useTransitions, SnakeExpandDirection snakeExpandDirection)
@@ -143,6 +163,7 @@ namespace LigricBoardCustomControls.Menus
                 default:
                     throw new ArgumentException("[404] Uknown state of SnakeExpandDirection");
             };
+            ExpanderStateChanged?.Invoke(this, snakeExpandDirection);
         }
 
         private static void OnExpandDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -151,9 +172,11 @@ namespace LigricBoardCustomControls.Menus
             if (thisObject == null)
                 return;
 
-            thisObject.UpdateSnakeExpandDirectionState(true);
-        }
+            var oldValue = e.OldValue;
+            var newValue = e.NewValue;
 
+            thisObject.UpdateSnakeExpandDirectionState((SnakeExpandDirection?)oldValue, (SnakeExpandDirection)newValue, true);
+        }
 
         private static void OnIsExpandedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -194,6 +217,21 @@ namespace LigricBoardCustomControls.Menus
                 }
             }
         }
+
+        public SnakeMenu()
+        {
+            base.DefaultStyleKey = typeof(SnakeMenu);
+
+            // Remove the default entrance transition if existed.
+            RegisterPropertyChangedCallback(HorizontalAlignmentProperty, (s, e) =>
+            {
+                throw new NotImplementedException("HorizontalAlignmentProperty action changed doesn't implemented!!");
+            });
+            //Control.VerticalContentAlignmentProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(VerticalAlignment.Center));
+
+
+        }
+
 #if NET6_0_ANDROID
         /// <summary>
         /// Its needed for Android. Native constructor, do not use explicitly.
@@ -204,7 +242,7 @@ namespace LigricBoardCustomControls.Menus
         /// </remarks>
         public SnakeMenu(IntPtr javaRefenerce, Android.Runtime.JniHandleOwnership transfer)
         {
-
+            base.DefaultStyleKey = typeof(SnakeMenu);
         }
 #endif
     }
