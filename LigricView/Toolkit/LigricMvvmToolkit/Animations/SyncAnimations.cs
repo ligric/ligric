@@ -42,8 +42,9 @@ namespace LigricMvvmToolkit.Animations
 
                     stroyboard.Completed += (s, e) =>
                     {
-                        callBack();
-
+                        if (callBack != null)
+                            callBack();
+ 
                         oldNumber++;
 
                         if (oldNumber != number)

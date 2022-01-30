@@ -119,11 +119,13 @@ namespace LigricBoardCustomControls.Menus
         private int syncBufferAnimationIndex = 0;
         private void SetNewSnakeAxesTransition(SnakeExpandDirection oldSnakeDirectionState, SnakeExpandDirection newSnakeDirectionState)
         {
-            //syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200), () =>
-            //{
-            //    var olddPageParent = oldPage.Parent as FrameworkElement;
-            //    olddPageParent.Visibility = Visibility.Collapsed;
-            //});
+            if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
+            {
+                syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, null );
+                syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
+            }
+
+
             //BottomToBuffer
 
             //VisualStateManager.GoToState(this, "BottomToRight", true);

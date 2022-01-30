@@ -35,7 +35,7 @@
                                     </Storyboard>
                                 </VisualState>
 
-                                <VisualState x:Name="ExpandingFromBottomToTop">
+                                <VisualState x:Name="BufferTransfer">
                                     <Storyboard>
                                         <!-- Screen orientation. -->
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="VerticalAlignment">
@@ -58,12 +58,22 @@
 
                             <VisualStateGroup x:Name="AxesTransition">
                                 <VisualState>
-                                    <Storyboard x:Name="BottomToBuffer">
+                                    <Storyboard x:Name="BottomToBufferStoryboard">
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="HorizontalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" From="400" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:10" From="400" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                    </Storyboard>
+                                </VisualState>                                
+                                
+                                <VisualState>
+                                    <Storyboard x:Name="BufferToLeftSideStoryboard">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="VerticalAlignment">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Stretch"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation EnableDependentAnimation="True" From="50" To="800" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
                                     </Storyboard>
                                 </VisualState>
 
