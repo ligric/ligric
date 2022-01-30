@@ -5,20 +5,46 @@ using Uno.Disposables;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricBoardCustomControls.Menus
 {
-    public enum SnakeExpandDirection
+    public enum ExpanderSide
     {
-        ExpandedFromBottomToTop,
-        ExpandedFromLeftToRight,
-
-        CollapsedFromTopToBottom,
-        CollapsedFromRightToLeft
+        Left,
+        Bottom
     }
 
-    public delegate void ExpanderStateChangedEventArgs(object sender, SnakeExpandDirection newState);
+    public enum ExpanderState
+    {
+        Expanded,
+        Collapsed
+    }
+
+    public class ExpanderStateToBoolenConverter :  IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if ((ExpanderState)value == ExpanderState.Expanded)
+                return true;
+            else if ((ExpanderState)value == ExpanderState.Collapsed)
+                return false;
+            else
+                throw new NotImplementedException("Stranger ExpanderState value.");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            if ((bool)value)
+                return ExpanderState.Expanded;
+            else
+                return ExpanderState.Collapsed;
+        }
+    }
+
+
+    public delegate void ExpanderStateChangedEventArgs(object sender, ExpanderState newState);
 
     public partial class SnakeMenu : ContentControl
     {
@@ -38,28 +64,28 @@ namespace LigricBoardCustomControls.Menus
 
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
-        public SnakeExpandDirection ExpandDirection
+        public ExpanderState ExpanderState
         {
-            get { return (SnakeExpandDirection)GetValue(ExpandDirectionProperty); }
-            set { SetValue(ExpandDirectionProperty, value); }
+            get { return (ExpanderState)GetValue(ExpanderStateProperty); }
+            set { SetValue(ExpanderStateProperty, value); }
         }
-        public static DependencyProperty ExpandDirectionProperty
+        public static DependencyProperty ExpanderStateProperty
         {
             get;
-        } = DependencyProperty.Register("ExpandDirection", typeof(SnakeExpandDirection), typeof(SnakeMenu),
-                new PropertyMetadata(SnakeExpandDirection.CollapsedFromTopToBottom, propertyChangedCallback: OnExpandDirectionChanged));
+        } = DependencyProperty.Register("ExpanderState", typeof(ExpanderState), typeof(SnakeMenu),
+                new PropertyMetadata(ExpanderState.Collapsed, propertyChangedCallback: OnExpandDirectionChanged));
 
 
-        public bool IsExpanded
+        public ExpanderSide ExpanderSide
         {
-            get { return (bool)GetValue(IsExpandedProperty); }
-            set { SetValue(IsExpandedProperty, value); }
+            get { return (ExpanderSide)GetValue(ExpanderSideProperty); }
+            set { SetValue(ExpanderSideProperty, value); }
         }
-        public static DependencyProperty IsExpandedProperty
+        public static DependencyProperty ExpanderSideProperty
         {
             get;
-        } = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SnakeMenu),
-                new PropertyMetadata(defaultValue: false, propertyChangedCallback: OnIsExpandedChanged));
+        } = DependencyProperty.Register("ExpanderSide", typeof(ExpanderSide), typeof(SnakeMenu),
+                new PropertyMetadata(defaultValue: ExpanderSide.Bottom, propertyChangedCallback: OnExpanderSideChanged));
 
 
         public object Header
@@ -98,11 +124,11 @@ namespace LigricBoardCustomControls.Menus
                 //});
             }
 
-            UpdateSnakeExpandDirectionState(null, ExpandDirection, false);
+            UpdateSnakeExpandDirectionState(null, ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
         }
 
-        private void UpdateSnakeExpandDirectionState(SnakeExpandDirection? oldValue, SnakeExpandDirection newValue, bool useTransitions)
+        private void UpdateSnakeExpandDirectionState(ExpanderState? oldValue, ExpanderState newValue, bool useTransitions)
         {
             if (oldValue == null || oldValue == newValue)
             {
@@ -110,14 +136,14 @@ namespace LigricBoardCustomControls.Menus
             }
             else
             {
-                SetNewSnakeAxesTransition((SnakeExpandDirection)oldValue, newValue);
+                SetNewSnakeAxesTransition((ExpanderState)oldValue, newValue);
             }
            
         }
 
         private SyncAnimations syncBufferAnimations = new SyncAnimations();
         private int syncBufferAnimationIndex = 0;
-        private void SetNewSnakeAxesTransition(SnakeExpandDirection oldSnakeDirectionState, SnakeExpandDirection newSnakeDirectionState)
+        private void SetNewSnakeAxesTransition(ExpanderState oldSnakeDirectionState, ExpanderState newSnakeDirectionState)
         {
             if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
             {
@@ -132,39 +158,39 @@ namespace LigricBoardCustomControls.Menus
             //switch (snakeExpandDirection)
             //{
             //    ////// Set vertical visual state
-            //    case SnakeExpandDirection.ExpandedFromBottomToTop:
+            //    case ExpanderState.ExpandedFromBottomToTop:
             //        //VisualStateManager.GoToState(this, "TopToRight", true);
             //        break;
 
             //    default:
-            //        throw new ArgumentException("[404] Uknown state of SnakeExpandDirection");
+            //        throw new ArgumentException("[404] Uknown state of ExpanderState");
             //};
 
         }
 
-        private void SetNewSnakeExpandDirectionState(bool useTransitions, SnakeExpandDirection snakeExpandDirection)
+        private void SetNewSnakeExpandDirectionState(bool useTransitions, ExpanderState snakeExpandDirection)
         {
-            switch (snakeExpandDirection)
-            {
-                ////// Set vertical visual state
-                case SnakeExpandDirection.CollapsedFromTopToBottom:
-                    VisualStateManager.GoToState(this, "CollapsingFromTopToBottom", useTransitions);
-                    break;
-                ////// Set vertical visual state
-                case SnakeExpandDirection.ExpandedFromBottomToTop:
-                    VisualStateManager.GoToState(this, "ExpandingFromBottomToTop", useTransitions);
-                    break;
-                ////// Set horizontal visual state
-                case SnakeExpandDirection.CollapsedFromRightToLeft:
-                    VisualStateManager.GoToState(this, "CollapsingFromRightToLeft", useTransitions);
-                    break;
-                ////// Set horizontal visual state
-                case SnakeExpandDirection.ExpandedFromLeftToRight:
-                    VisualStateManager.GoToState(this, "ExpandingFromLeftToRight", useTransitions);
-                    break;
-                default:
-                    throw new ArgumentException("[404] Uknown state of SnakeExpandDirection");
-            };
+            //switch (snakeExpandDirection)
+            //{
+            //    ////// Set vertical visual state
+            //    case ExpanderState.CollapsedFromTopToBottom:
+            //        VisualStateManager.GoToState(this, "CollapsingFromTopToBottom", useTransitions);
+            //        break;
+            //    ////// Set vertical visual state
+            //    case ExpanderState.ExpandedFromBottomToTop:
+            //        VisualStateManager.GoToState(this, "ExpandingFromBottomToTop", useTransitions);
+            //        break;
+            //    ////// Set horizontal visual state
+            //    case ExpanderState.CollapsedFromRightToLeft:
+            //        VisualStateManager.GoToState(this, "CollapsingFromRightToLeft", useTransitions);
+            //        break;
+            //    ////// Set horizontal visual state
+            //    case ExpanderState.ExpandedFromLeftToRight:
+            //        VisualStateManager.GoToState(this, "ExpandingFromLeftToRight", useTransitions);
+            //        break;
+            //    default:
+            //        throw new ArgumentException("[404] Uknown state of ExpanderState");
+            //};
             ExpanderStateChanged?.Invoke(this, snakeExpandDirection);
         }
 
@@ -177,10 +203,10 @@ namespace LigricBoardCustomControls.Menus
             var oldValue = e.OldValue;
             var newValue = e.NewValue;
 
-            thisObject.UpdateSnakeExpandDirectionState((SnakeExpandDirection?)oldValue, (SnakeExpandDirection)newValue, true);
+            thisObject.UpdateSnakeExpandDirectionState((ExpanderState?)oldValue, (ExpanderState)newValue, true);
         }
 
-        private static void OnIsExpandedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnExpanderSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             bool newValue = (bool)e.NewValue;
 
@@ -193,31 +219,31 @@ namespace LigricBoardCustomControls.Menus
 
         private void IsExpandedUpdated(bool expanded)
         {
-            var stringSnakeExpandDirection = ExpandDirection.ToString();
+           // var stringSnakeExpandDirection = ExpandDirection.ToString();
 
-            if (stringSnakeExpandDirection.Contains("Left") && stringSnakeExpandDirection.Contains("Right"))
-            {
-                if (expanded)
-                {
-                    SetNewSnakeExpandDirectionState(true, SnakeExpandDirection.ExpandedFromLeftToRight);
-                }
-                else
-                {
-                    SetNewSnakeExpandDirectionState(true, SnakeExpandDirection.CollapsedFromRightToLeft);
-                }
+            //if (stringSnakeExpandDirection.Contains("Left") && stringSnakeExpandDirection.Contains("Right"))
+            //{
+            //    if (expanded)
+            //    {
+            //        SetNewSnakeExpandDirectionState(true, ExpanderState.ExpandedFromLeftToRight);
+            //    }
+            //    else
+            //    {
+            //        SetNewSnakeExpandDirectionState(true, ExpanderState.CollapsedFromRightToLeft);
+            //    }
                 
-            }
-            else
-            {
-                if (expanded)
-                {
-                    SetNewSnakeExpandDirectionState(true, SnakeExpandDirection.ExpandedFromBottomToTop);
-                }
-                else
-                {
-                    SetNewSnakeExpandDirectionState(true, SnakeExpandDirection.CollapsedFromTopToBottom);
-                }
-            }
+            //}
+            //else
+            //{
+            //    if (expanded)
+            //    {
+            //        SetNewSnakeExpandDirectionState(true, ExpanderState.ExpandedFromBottomToTop);
+            //    }
+            //    else
+            //    {
+            //        SetNewSnakeExpandDirectionState(true, ExpanderState.CollapsedFromTopToBottom);
+            //    }
+            //}
         }
 
         public SnakeMenu()
@@ -230,8 +256,6 @@ namespace LigricBoardCustomControls.Menus
                 throw new NotImplementedException("HorizontalAlignmentProperty action changed doesn't implemented!!");
             });
             //Control.VerticalContentAlignmentProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(VerticalAlignment.Center));
-
-
         }
 
 #if NET6_0_ANDROID
