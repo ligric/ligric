@@ -10,20 +10,59 @@
                 <ControlTemplate TargetType="local:SnakeMenu">
                     <Grid x:Name="root">
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="Column0" Width="*"/>
+                            <ColumnDefinition x:Name="Column1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition x:Name="Row0" Height="*"/>
+                            <RowDefinition x:Name="Row1" Height="Auto"/>
                         </Grid.RowDefinitions>
                         
                         <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ExpanderStateBottom">
+                                <VisualState x:Name="ExpanderBottomSide">
+                                    <VisualState.Setters>
+                                        <Setter Target="SnakeBackgroundElement.(Grid.ColumnSpan)" Value="1"/>
+                                        <Setter Target="SnakeBackgroundElement.(Grid.RowSpan)" Value="2"/>
+
+                                        <Setter Target="HeaderConteiner.(Grid.Row)" Value="1"/>
+
+
+                                        <Setter Target="Row0.Height" Value="*"/>
+                                        <Setter Target="Row1.Height" Value="Auto"/>
+
+                                        <Setter Target="Column0.Width" Value="*"/>
+                                        <Setter Target="Column1.Width" Value="0"/>
+                                        
+                                        <Setter Target="root.VerticalAlignment" Value="Bottom"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="ExpanderLeftSide">
+                                    <VisualState.Setters>
+                                        <Setter Target="SnakeBackgroundElement.(Grid.ColumnSpan)" Value="2"/>
+                                        <Setter Target="SnakeBackgroundElement.(Grid.RowSpan)" Value="1"/>
+
+                                        <Setter Target="HeaderConteiner.(Grid.Row)" Value="0"/>
+
+
+                                        <Setter Target="Row0.Height" Value="*"/>
+                                        <Setter Target="Row1.Height" Value="0"/>
+
+                                        <Setter Target="Column0.Width" Value="*"/>
+                                        <Setter Target="Column1.Width" Value="Auto"/>
+
+                                        <Setter Target="root.VerticalAlignment" Value="Left"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            
+                            
                             <VisualStateGroup x:Name="ExpandStates">
                                 <VisualState x:Name="CollapsingFromTopToBottom">
                                     <Storyboard>
-                                        <!-- Screen orientation. -->
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="VerticalAlignment">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
-                                        </ObjectAnimationUsingKeyFrames>
-
                                         <!-- Element visibility. -->
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="Collapsed"/>
@@ -31,26 +70,66 @@
 
                                         <!-- [Height Property] Collapse animation to the down side. -->
                                         <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Height">
-                                            <!-- TODO : 80 it's a temprary value -->
+                                            <!-- TODO : 50 it's a temprary value -->
                                             <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="{TemplateBinding Height}"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-
                                 <VisualState x:Name="ExpandingFromBottomToTop">
                                     <Storyboard>
-                                        <!-- Screen orientation. -->
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="VerticalAlignment">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
-                                        </ObjectAnimationUsingKeyFrames>
-
                                         <!--Element visibility.-->
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <!-- [Height Property] Collapse animation to the down side. -->
+                                        <!-- [Height Property] Expand animation to the up side. -->
                                         <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Height">
+                                            <!-- TODO : 50 it's a temprary value -->
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="180"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="CollapsingFromRightToLeft">
+                                    <Storyboard>
+                                        <!-- Element visibility. -->
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <!-- [Width Property] Collapse animation to the left side. -->
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Width">
+                                            <!-- TODO : 50 it's a temprary value -->
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="{TemplateBinding Width}"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+
+
+                                <VisualState x:Name="ExpandingFromLeftToRight">
+                                    <VisualState.Setters>
+                                        <Setter Target="SnakeBackgroundElement.(Grid.ColumnSpan)" Value="2"/>
+                                        <Setter Target="SnakeBackgroundElement.(Grid.RowSpan)" Value="1"/>
+
+                                        <Setter Target="HeaderConteiner.(Grid.Row)" Value="0"/>
+                                        <Setter Target="HeaderConteiner.(Grid.Column)" Value="1"/>
+
+
+                                        <Setter Target="Row0.Height" Value="*"/>
+                                        <Setter Target="Row1.Height" Value="0"/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                        <Setter Target="Column0.Width" Value="*"/>
+                                        <Setter Target="Column1.Width" Value="Auto"/>
+                                    </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <!--Element visibility.-->
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <!-- [Width Property] Expand animation to the right side. -->
+                                        <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Width">
                                             <!-- TODO : 80 it's a temprary value -->
                                             <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="180"/>
                                         </DoubleAnimationUsingKeyFrames>
@@ -67,8 +146,8 @@
 
                                         <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:10" From="400" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
                                     </Storyboard>
-                                </VisualState>                                
-                                
+                                </VisualState>
+
                                 <VisualState>
                                     <Storyboard x:Name="BufferToLeftSideStoryboard">
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="VerticalAlignment">
@@ -82,13 +161,12 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-
                         <!-- Background element -->
-                        <Border Grid.RowSpan="2" x:Name="SnakeBackgroundElement" Background="{TemplateBinding Background}" 
+                        <Border Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="SnakeBackgroundElement" Background="{TemplateBinding Background}" 
                                 CornerRadius="{TemplateBinding CornerRadius}"/>
 
                         <!-- Main content -->
-                        <Border Grid.Row="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border Grid.Row="0" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}">
                             <Border.RenderTransform>
                                 <CompositeTransform/>
                             </Border.RenderTransform>
@@ -98,7 +176,7 @@
                         </Border>
 
                         <!-- HeaderContent -->
-                        <Border Grid.Row="1" x:Name="HeaderConteiner">
+                        <Border Grid.Row="1" Grid.Column="0" x:Name="HeaderConteiner">
                             <Grid x:Name="HeaderContent" CornerRadius="{TemplateBinding CornerRadius}">
 
                                 <ContentPresenter Content="{TemplateBinding Header}"/>
@@ -123,8 +201,6 @@
                             </Grid>
                         </Border>
                         
-       
-
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

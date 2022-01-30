@@ -43,7 +43,6 @@ namespace LigricBoardCustomControls.Menus
         }
     }
 
-
     public delegate void ExpanderStateChangedEventArgs(object sender, ExpanderState newState);
 
     public partial class SnakeMenu : ContentControl
@@ -64,6 +63,8 @@ namespace LigricBoardCustomControls.Menus
 
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
+        public event ExpanderStateChangedEventArgs ExpanderStateChanged;
+
         public ExpanderState ExpanderState
         {
             get { return (ExpanderState)GetValue(ExpanderStateProperty); }
@@ -74,7 +75,6 @@ namespace LigricBoardCustomControls.Menus
             get;
         } = DependencyProperty.Register("ExpanderState", typeof(ExpanderState), typeof(SnakeMenu),
                 new PropertyMetadata(ExpanderState.Collapsed, propertyChangedCallback: OnExpanderStateChanged));
-
 
         public ExpanderSide ExpanderSide
         {
@@ -87,7 +87,6 @@ namespace LigricBoardCustomControls.Menus
         } = DependencyProperty.Register("ExpanderSide", typeof(ExpanderSide), typeof(SnakeMenu),
                 new PropertyMetadata(defaultValue: ExpanderSide.Bottom, propertyChangedCallback: OnExpanderSideChanged));
 
-
         public object Header
         {
             get { return GetValue(HeaderProperty);}
@@ -98,17 +97,14 @@ namespace LigricBoardCustomControls.Menus
             get; 
         } = DependencyProperty.Register("Header", typeof(object), typeof(SnakeMenu), new PropertyMetadata(null));
 
-        public event ExpanderStateChangedEventArgs ExpanderStateChanged;
-
         protected override void OnApplyTemplate()
         {
-             _eventSubscriptions.Disposable = null;
+            _eventSubscriptions.Disposable = null;
             CompositeDisposable disposables = new CompositeDisposable();
 
             snakeBackgroundElement = GetTemplateChild(SNAKE_BACKGROUND_ELEMENT) as Border;
             expanderContainer = GetTemplateChild(EXPANDER_CONTEINER) as Border;
             expanderContent = GetTemplateChild(EXPANDER_CONTENT) as ContentControl;
-
 
             headerConteiner = GetTemplateChild(HEADER_CONTEINER) as Border;
             headerContent = GetTemplateChild(HEADER_CONTENT) as Panel;
@@ -130,18 +126,7 @@ namespace LigricBoardCustomControls.Menus
 
         private void UpdateExpanderState(ExpanderState newValue, bool useTransitions)
         {
-            SetNewExpanderState(useTransitions, newValue);
-
-
-            //if (oldValue == null || oldValue == newValue)
-            //{
-                
-            //}
-            //else
-            //{
-            //    SetNewSnakeAxesTransition((ExpanderState)oldValue, newValue);
-            //}
-           
+            SetNewExpanderState(useTransitions, newValue);           
         }
 
         private SyncAnimations syncBufferAnimations = new SyncAnimations();
@@ -174,9 +159,15 @@ namespace LigricBoardCustomControls.Menus
         private void SetNewExpanderState(bool useTransitions, ExpanderState expanderState)
         {
             if (expanderState == ExpanderState.Collapsed && ExpanderSide == ExpanderSide.Bottom)
+            {
+                VisualStateManager.GoToState(this, "ExpanderBottomSide", false);
                 VisualStateManager.GoToState(this, "CollapsingFromTopToBottom", useTransitions);
+            }
             else if (expanderState == ExpanderState.Expanded && ExpanderSide == ExpanderSide.Bottom)
+            {
+                VisualStateManager.GoToState(this, "ExpanderBottomSide", false);
                 VisualStateManager.GoToState(this, "ExpandingFromBottomToTop", useTransitions);
+            }
             else
                 throw new NotImplementedException("Uknown expander state situation");
 
