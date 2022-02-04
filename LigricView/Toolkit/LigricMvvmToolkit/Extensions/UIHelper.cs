@@ -55,46 +55,46 @@ namespace LigricMvvmToolkit.Extensions
 
     public static partial class DependencyExtensions
     {
-        private class ConstractorExtensions<T> where T : DependencyObject
-        {
-            private static readonly Dictionary<Type, Func<T>> constructors = new Dictionary<Type, Func<T>>();
+        //private class ConstractorExtensions<T> where T : DependencyObject
+        //{
+        //    private static readonly Dictionary<Type, Func<T>> constructors = new Dictionary<Type, Func<T>>();
 
-            private static readonly Type[] emptyTypes = new Type[0];
+        //    private static readonly Type[] emptyTypes = new Type[0];
 
-            public static Func<T> GetConstructor(Type type)
-            {
-                if (!constructors.TryGetValue(type, out var func))
-                {
-                    var constructor = type.GetConstructor
-                        (
-                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
-                            null, emptyTypes, null
-                        );
-                    if (constructor == null)
-                    {
-                        func = new Func<T>(() => default(T));
-                    }
-                    else
-                    {
-                        DynamicMethod dynamic = new DynamicMethod(string.Empty,
-                                    type,
-                                    Type.EmptyTypes,
-                                    type);
-                        ILGenerator il = dynamic.GetILGenerator();
+            //public static Func<T> GetConstructor(Type type)
+            //{
+            //    if (!constructors.TryGetValue(type, out var func))
+            //    {
+            //        var constructor = type.GetConstructor
+            //            (
+            //                BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
+            //                null, emptyTypes, null
+            //            );
+            //        if (constructor == null)
+            //        {
+            //            func = new Func<T>(() => default(T));
+            //        }
+            //        else
+            //        {
+            //            DynamicMethod dynamic = new DynamicMethod(string.Empty,
+            //                        type,
+            //                        Type.EmptyTypes,
+            //                        type);
+            //            ILGenerator il = dynamic.GetILGenerator();
 
-                        il.DeclareLocal(type);
-                        il.Emit(OpCodes.Newobj, constructor);
-                        il.Emit(OpCodes.Stloc_0);
-                        il.Emit(OpCodes.Ldloc_0);
-                        il.Emit(OpCodes.Ret);
+            //            il.DeclareLocal(type);
+            //            il.Emit(OpCodes.Newobj, constructor);
+            //            il.Emit(OpCodes.Stloc_0);
+            //            il.Emit(OpCodes.Ldloc_0);
+            //            il.Emit(OpCodes.Ret);
 
-                        func = (Func<T>)dynamic.CreateDelegate(typeof(Func<T>));
-                    }
-                    constructors.Add(type, func);
-                }
-                return func;
-            }
-        }
+            //            func = (Func<T>)dynamic.CreateDelegate(typeof(Func<T>));
+            //        }
+            //        constructors.Add(type, func);
+            //    }
+            //    return func;
+            //}
+        //}
 
         /// <summary>Создаёт клон экземпляра класса <typeparamref name="T"/>.</summary>
         /// <typeparam name="T">Тип экземплярв.</typeparam>
@@ -160,43 +160,43 @@ namespace LigricMvvmToolkit.Extensions
 
 
 
-        private static readonly Dictionary<Type, Func<object>> constructors = new Dictionary<Type, Func<object>>();
-        private static readonly Type[] emptyTypes = new Type[0];
-        private static Func<T> GetConstructor<T>(Type type)
-            where T : UIElement
-        {
+        //private static readonly Dictionary<Type, Func<object>> constructors = new Dictionary<Type, Func<object>>();
+        //private static readonly Type[] emptyTypes = new Type[0];
+        //private static Func<T> GetConstructor<T>(Type type)
+        //    where T : UIElement
+        //{
             
-            if (!constructors.TryGetValue(type, out var func))
-            {
-                var constructor = type.GetConstructor
-                    (
-                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
-                        null, emptyTypes, null
-                    );
-                if (constructor == null)
-                {
-                    func = new Func<T>(() => null);
-                }
-                else
-                {
-                    DynamicMethod dynamic = new DynamicMethod(string.Empty,
-                                type,
-                                Type.EmptyTypes,
-                                type);
-                    ILGenerator il = dynamic.GetILGenerator();
+        //    if (!constructors.TryGetValue(type, out var func))
+        //    {
+        //        var constructor = type.GetConstructor
+        //            (
+        //                BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
+        //                null, emptyTypes, null
+        //            );
+        //        if (constructor == null)
+        //        {
+        //            func = new Func<T>(() => null);
+        //        }
+        //        else
+        //        {
+        //            DynamicMethod dynamic = new DynamicMethod(string.Empty,
+        //                        type,
+        //                        Type.EmptyTypes,
+        //                        type);
+        //            ILGenerator il = dynamic.GetILGenerator();
 
-                    il.DeclareLocal(type);
-                    il.Emit(OpCodes.Newobj, constructor);
-                    il.Emit(OpCodes.Stloc_0);
-                    il.Emit(OpCodes.Ldloc_0);
-                    il.Emit(OpCodes.Ret);
+        //            il.DeclareLocal(type);
+        //            il.Emit(OpCodes.Newobj, constructor);
+        //            il.Emit(OpCodes.Stloc_0);
+        //            il.Emit(OpCodes.Ldloc_0);
+        //            il.Emit(OpCodes.Ret);
 
-                    func = (Func<T>)dynamic.CreateDelegate(typeof(Func<T>));
-                }
-                constructors.Add(type, func);
-            }
-            return (Func<T>)func;
-        }
+        //            func = (Func<T>)dynamic.CreateDelegate(typeof(Func<T>));
+        //        }
+        //        constructors.Add(type, func);
+        //    }
+        //    return (Func<T>)func;
+        //}
 
 
 
@@ -288,20 +288,20 @@ namespace LigricMvvmToolkit.Extensions
         }
 
         ///<inheritdoc cref="CloneDO{T}(T, Func{T, T})"/>
-        public static T CloneDO<T>(this T dObj)
-            where T : DependencyObject
-        {
-            Func<T> constructor = ConstractorExtensions<T>.GetConstructor(dObj.GetType());
-            T clone = constructor();
-            if (clone == null)
-            {
-                throw new Exception("Не удаётся создать новый экземпляр этого типа.");
-            }
+        //public static T CloneDO<T>(this T dObj)
+        //    where T : DependencyObject
+        //{
+        //    Func<T> constructor = ConstractorExtensions<T>.GetConstructor(dObj.GetType());
+        //    T clone = constructor();
+        //    if (clone == null)
+        //    {
+        //        throw new Exception("Не удаётся создать новый экземпляр этого типа.");
+        //    }
 
-            dObj.CopyDpTo(clone);
+        //    dObj.CopyDpTo(clone);
 
-            return clone;
-        }
+        //    return clone;
+        //}
     }
 
 
