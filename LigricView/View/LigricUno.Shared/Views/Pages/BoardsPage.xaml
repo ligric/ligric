@@ -42,7 +42,7 @@
             <Button Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button.Content>
                     <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="25" Fill="#0a1113" Stretch="Uniform"
-                                          Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                          Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </Button.Content>
             </Button>
         </Grid>

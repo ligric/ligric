@@ -44,6 +44,7 @@ namespace LigricBoardCustomControls.Menus
     }
 
     public delegate void ExpanderStateChangedEventArgs(object sender, ExpanderState newState);
+    public delegate void ExpanderSideChangedEventArgs(object sender, ExpanderSide newSide);
 
     public partial class SnakeMenu : ContentControl
     {
@@ -64,6 +65,7 @@ namespace LigricBoardCustomControls.Menus
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
         public event ExpanderStateChangedEventArgs ExpanderStateChanged;
+        public event ExpanderSideChangedEventArgs ExpanderSideChanged;
 
         public ExpanderState ExpanderState
         {
@@ -208,13 +210,12 @@ namespace LigricBoardCustomControls.Menus
             {
                 if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
                 {
-                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, null);
-
-                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, () =>
+                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
                     {
                         SetNewExpanderState(ExpanderState.Collapsed, true);
+                        ExpanderSideChanged?.Invoke(this, newValue);
+                        syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
                     });
-
                 }
             }
         }
