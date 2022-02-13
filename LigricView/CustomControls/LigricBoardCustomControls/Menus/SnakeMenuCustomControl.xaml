@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SnakeMenu">
-                    <Grid x:Name="root" Background="Pink">
+                    <Grid x:Name="root">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="Column0" Width="*"/>

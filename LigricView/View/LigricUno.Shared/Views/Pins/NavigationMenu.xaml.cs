@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Shared.Views.Pins
 {
@@ -7,21 +8,25 @@ namespace LigricUno.Shared.Views.Pins
         public NavigationMenu()
         {
             this.InitializeComponent();
+
+            //////// TEMPRARY 
             menu.ExpanderSideChanged += OnMenuSideChanged;
         }
 
+        //////// TEMPRARY 
         private void OnMenuSideChanged(object sender, LigricBoardCustomControls.Menus.ExpanderSide newSide)
         {
             if (newSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
             {
-                stackPanel.Orientation = Orientation.Vertical;
+                VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSidee", false);
             }
             else
             {
-                stackPanel.Orientation = Orientation.Horizontal;
+                //VisualStateManager.GoToState(menu, "ExpanderSettingsForBottomSidee", false);
             }
         }
 
+        //////// TEMPRARY 
         private void TestButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;

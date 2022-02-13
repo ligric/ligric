@@ -72,5 +72,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-regular.ttf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\limeniye_icon.JPG" />
   </ItemGroup>
 </Project>
