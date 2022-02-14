@@ -149,7 +149,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="800" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="1000" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
                                     </Storyboard>
                                 </VisualState>
 
