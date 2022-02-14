@@ -12,10 +12,12 @@ namespace LigricUno.Shared.Views.Pins
             this.InitializeComponent();
 
             menu.ExpanderSideChanged += OnMenuSideChanged;
+            ////// TODO : TEMPRARY
             stackPanel.LayoutUpdated += OnStackPanelLayoutUpdated;
             SetSideSettings(menu.ExpanderSide);
         }
 
+        ////// TODO : TEMPRARY
         private void OnStackPanelLayoutUpdated(object sender, object e)
         {
             Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
@@ -23,13 +25,24 @@ namespace LigricUno.Shared.Views.Pins
             double widthArea = rect.Width - userImage.Margin.Left - userImage.Margin.Right;
             double heightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
 
+            double buttonWidthArea = (rect.Width - boards.Margin.Left - boards.Margin.Right) * 1.1;
+            double buttonHeightArea = (rect.Height - boards.Margin.Top - boards.Margin.Bottom) * 1.5;
+
             if (stackPanel.Orientation == Orientation.Horizontal)
             {
                 userImage.Width = heightArea;
+                news.Width = buttonHeightArea;
+                profile.Width = buttonHeightArea;
+                boards.Width = buttonHeightArea;
+                settings.Width = buttonHeightArea;
             }
             else
             {
                 userImage.Height = widthArea;
+                news.Height = buttonWidthArea;
+                profile.Height = buttonWidthArea;
+                boards.Height = buttonWidthArea;
+                settings.Height = buttonWidthArea;
             }
         }
 
@@ -50,9 +63,17 @@ namespace LigricUno.Shared.Views.Pins
             }
         }
 
+        ////// TODO : TEMPRARY
         private void TestButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
+            if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
+            {
+                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
+            }
+            else if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
+            {
+                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
+            }
         }
     }
 }
