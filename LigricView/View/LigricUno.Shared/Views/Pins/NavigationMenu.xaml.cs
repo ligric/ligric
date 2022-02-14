@@ -1,7 +1,7 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace LigricUno.Shared.Views.Pins
 {
@@ -11,12 +11,28 @@ namespace LigricUno.Shared.Views.Pins
         {
             this.InitializeComponent();
 
-            //////// TEMPRARY 
             menu.ExpanderSideChanged += OnMenuSideChanged;
+            stackPanel.LayoutUpdated += OnStackPanelLayoutUpdated;
             SetSideSettings(menu.ExpanderSide);
         }
 
-        //////// TEMPRARY 
+        private void OnStackPanelLayoutUpdated(object sender, object e)
+        {
+            Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
+
+            double widthArea = rect.Width - userImage.Margin.Left - userImage.Margin.Right;
+            double heightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
+
+            if (stackPanel.Orientation == Orientation.Horizontal)
+            {
+                userImage.Width = heightArea;
+            }
+            else
+            {
+                userImage.Height = widthArea;
+            }
+        }
+
         private void OnMenuSideChanged(object sender, LigricBoardCustomControls.Menus.ExpanderSide newSide)
         {
             SetSideSettings(newSide);
@@ -24,26 +40,16 @@ namespace LigricUno.Shared.Views.Pins
 
         private void SetSideSettings(LigricBoardCustomControls.Menus.ExpanderSide newSide)
         {
-            Binding binding = new Binding();
-            binding.ElementName = "stackPanel"; // элемент-источник
-
             if (newSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
             {
                 VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSidee", false);
-
-                binding.Path = new PropertyPath("ActualWidth");
-                userImage.SetBinding(Ellipse.HeightProperty, binding);
             }
             else
             {
                 VisualStateManager.GoToState(menu, "ExpanderSettingsForBottomSidee", false);
-
-                binding.Path = new PropertyPath("ActualHeight");
-                userImage.SetBinding(Ellipse.WidthProperty, binding);
             }
         }
 
-        //////// TEMPRARY 
         private void TestButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;

@@ -40,6 +40,7 @@
 
                         <Setter Target="profile.Visibility" Value="Visible"/>
                         <Setter Target="userOption.Visibility" Value="Collapsed"/>
+
                         <Setter Target="userImage.Height" Value="Auto"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -52,6 +53,7 @@
 
                         <Setter Target="profile.Visibility" Value="Collapsed"/>
                         <Setter Target="userOption.Visibility" Value="Visible"/>
+
                         <Setter Target="userImage.Width" Value="Auto"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -61,8 +63,8 @@
         <menus:SnakeMenu x:Name="menu" Background="White" CornerRadius="20" Margin="20" ExpanderSide="Bottom" ExpanderState="Collapsed">
 
             <menus:SnakeMenu.Header>
-                <StackPanel x:Name="stackPanel" Orientation="Horizontal" Background="Red">
-                    <Grid x:Name="userOption" Visibility="Visible" Background="Orange">
+                <StackPanel x:Name="stackPanel" Orientation="Horizontal">
+                    <Grid x:Name="userOption" Visibility="Visible">
 
                         <Ellipse x:Name="userImage" Margin="10">
                             <Ellipse.Fill>
