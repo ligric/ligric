@@ -59,7 +59,7 @@ namespace LigricUno.Shared.Views.Pins
             }
             else
             {
-                VisualStateManager.GoToState(menu, "ExpanderSettingsForBottomSidee", false);
+                VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSidee", false);
             }
         }
 

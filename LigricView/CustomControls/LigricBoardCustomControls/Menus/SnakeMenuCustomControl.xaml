@@ -153,6 +153,26 @@
                                     </Storyboard>
                                 </VisualState>
 
+
+                                <VisualState>
+                                    <Storyboard x:Name="LeftToBufferStoryboard">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="VerticalAlignment">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="800" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState>
+                                    <Storyboard x:Name="BufferToBottomSideStoryboard">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="HorizontalAlignment">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="450" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                    </Storyboard>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 

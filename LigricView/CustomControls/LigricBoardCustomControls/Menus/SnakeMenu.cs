@@ -1,6 +1,7 @@
 ﻿using LigricMvvmToolkit.Animations;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -126,29 +127,6 @@ namespace LigricBoardCustomControls.Menus
             //_eventSubscriptions.Disposable = disposable;
         }
 
-        private SyncAnimations syncBufferAnimations = new SyncAnimations();
-        private int syncBufferAnimationIndex = 0;
-        private void SetNewSnakeAxesTransition(ExpanderState oldSnakeDirectionState, ExpanderState newSnakeDirectionState)
-        {
-
-
-
-            //BottomToBuffer
-
-            //VisualStateManager.GoToState(this, "BottomToRight", true);
-            //switch (expanderState)
-            //{
-            //    ////// Set vertical visual state
-            //    case ExpanderState.ExpandedFromBottomToTop:
-            //        //VisualStateManager.GoToState(this, "TopToRight", true);
-            //        break;
-
-            //    default:
-            //        throw new ArgumentException("[404] Uknown state of ExpanderState");
-            //};
-
-        }
-
         private void SetNewExpanderState(ExpanderState expanderState, bool useTransitions)
         {
             if (ExpanderSide == ExpanderSide.Left)
@@ -204,6 +182,9 @@ namespace LigricBoardCustomControls.Menus
             thisObject.SetExpanderSide(newValue);
         }
 
+        private readonly SyncAnimations syncBufferAnimations = new SyncAnimations();
+        private int syncBufferAnimationIndex = 0;
+
         private void SetExpanderSide(ExpanderSide newValue)
         {
             if (newValue == ExpanderSide.Left)
@@ -215,6 +196,19 @@ namespace LigricBoardCustomControls.Menus
                         SetNewExpanderState(ExpanderState.Collapsed, true);
                         ExpanderSideChanged?.Invoke(this, newValue);
                         syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
+                    });
+
+                }
+            }
+            else if (newValue == ExpanderSide.Bottom)
+            {
+                if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
+                {
+                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
+                    {
+                        SetNewExpanderState(ExpanderState.Collapsed, true);
+                        ExpanderSideChanged?.Invoke(this, newValue);
+                        syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, null);
                     });
                 }
             }
