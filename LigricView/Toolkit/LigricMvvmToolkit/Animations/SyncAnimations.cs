@@ -1,58 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Common;
+using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricMvvmToolkit.Animations
 {
-    public delegate void ExecuteAnimationEventArgs(object sender, int number);
     public class SyncAnimations
     {
         private int oldNumber = -1;
 
-        private Storyboard stroyboard;
         public async void ExecuteAnimation(int number, Func<Storyboard> storyboardFunc, Action callBack = null, int milliseconds = 10000)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            Storyboard stroyboard;
+            int timeout = 0;
+            int еxpectedNumber = number - 1;
+
+            while (oldNumber < еxpectedNumber && timeout < milliseconds)
             {
-                int timeout = 0;
-                int еxpectedNumber = number - 1;
+                timeout++;
+                await Task.Delay(1);
+            }
 
-                while (oldNumber < еxpectedNumber && timeout < milliseconds)
+            if (oldNumber < еxpectedNumber)
+            {
+                throw new ArgumentException($"Error message: \"Message after the {oldNumber} was lost.\"");
+            }
+            else if (oldNumber > еxpectedNumber)
+            {
+                throw new ArgumentException($"Error message: \"Message after the {oldNumber} already finished.\"");
+            }
+            else
+            {
+                stroyboard = storyboardFunc?.Invoke();
+                stroyboard.Pause();
+
+                EventHandler<object> completed = null;
+
+                completed = (s, e) =>
                 {
-                    timeout++;
-                    await Task.Delay(1);
-                }
+                    oldNumber++;
 
-                if (oldNumber < еxpectedNumber)
-                {
-                    throw new ArgumentException($"Error message: \"Message after the {oldNumber} was lost.\"");
-                }
-                else if (oldNumber > еxpectedNumber)
-                {
-                    throw new ArgumentException($"Error message: \"Message after the {oldNumber} already finished.\"");
-                }
-                else
-                {
-                    stroyboard?.Pause();
+                    if (callBack != null)
+                        callBack();
 
-                    stroyboard = storyboardFunc?.Invoke();
+                    if (oldNumber != number)
+                        throw new ArgumentException($"Error message: \"An error occurred while synchronizing animations ;(((.\n Culprit of this event method: {nameof(ExecuteAnimation)}\"");
 
-                    stroyboard.Completed += (s, e) =>
-                    {
-                        if (callBack != null)
-                            callBack();
- 
-                        oldNumber++;
+                    stroyboard.Completed -= completed;
+                };
 
-                        if (oldNumber != number)
-                            throw new ArgumentException("Error message: \"Something wrong ;(((.");
-                    };
-                    stroyboard.Begin();
-                }
-            });
+                stroyboard.Completed += completed;
+
+                stroyboard.Begin();
+            }
         }
     }
 }
