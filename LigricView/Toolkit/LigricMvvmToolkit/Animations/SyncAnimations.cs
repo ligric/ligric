@@ -1,5 +1,5 @@
-﻿using Common;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -38,15 +38,16 @@ namespace LigricMvvmToolkit.Animations
 
                 completed = (s, e) =>
                 {
+                    stroyboard.Completed -= completed;
                     oldNumber++;
 
                     if (callBack != null)
                         callBack();
 
                     if (oldNumber != number)
+                    {
                         throw new ArgumentException($"Error message: \"An error occurred while synchronizing animations ;(((.\n Culprit of this event method: {nameof(ExecuteAnimation)}\"");
-
-                    stroyboard.Completed -= completed;
+                    }
                 };
 
                 stroyboard.Completed += completed;

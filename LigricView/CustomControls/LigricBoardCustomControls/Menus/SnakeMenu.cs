@@ -195,8 +195,9 @@ namespace LigricBoardCustomControls.Menus
                     {
                         SetNewExpanderState(ExpanderState.Collapsed, true);
                         ExpanderSideChanged?.Invoke(this, newValue);
-                        syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
                     });
+
+                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
 
                 }
             }
@@ -208,8 +209,9 @@ namespace LigricBoardCustomControls.Menus
                     {
                         SetNewExpanderState(ExpanderState.Collapsed, true);
                         ExpanderSideChanged?.Invoke(this, newValue);
-                        syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, null);
                     });
+
+                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, null);
                 }
             }
         }
