@@ -82,7 +82,14 @@ namespace LigricMvvmToolkit.Animations
             else
             {
                 storyboard = storyboardFunc?.Invoke();
-                storyboard.Pause();
+                try
+                {
+                    storyboard.Pause();
+                }
+                catch(Exception ex)
+                {
+
+                }
 
                 EventHandler<object> completed = null;
 

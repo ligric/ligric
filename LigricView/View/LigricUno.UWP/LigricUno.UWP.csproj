@@ -3,13 +3,13 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.11</Version>
+      <Version>6.2.13</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
     <PackageReference Include="Uno.Core" Version="4.0.1" />
-    <PackageReference Include="Uno.UI" Version="4.1.0-dev.617" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+    <PackageReference Include="Uno.UI" Version="4.2.0-dev.83" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.1.22076.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0-preview.1.22076.8" />
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>

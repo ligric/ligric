@@ -65,6 +65,24 @@ namespace Common.Extensions
             return true;
         }
 
+#if NETSTANDARD2_0
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary.Add(key, value);
+                return true;
+            }
+
+            return false;
+        }
+#endif
+
         ///<summary>Удаление из словаря пары: ключ-значение.
         /// Возвращает false, если такого ключа нет и удаление не было выполнено.</summary>
         public static bool RemoveAndShout<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>> action, TKey removeKey, ref int actionNumber)

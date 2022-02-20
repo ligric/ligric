@@ -25,7 +25,7 @@ namespace LigricBoardCustomControls.Menus
             Right,
         }
 
-        private HeaderSideEnum headerSide;
+        //private HeaderSideEnum headerSide;
 
         #region MainParentProperty
         public static DependencyProperty MainParentProperty { get; } = DependencyProperty.Register("MainParent", typeof(FrameworkElement), typeof(MenuSoap), new PropertyMetadata(null, OnMainParentChanged));

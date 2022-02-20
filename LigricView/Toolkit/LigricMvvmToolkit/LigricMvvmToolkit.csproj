@@ -1,6 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.18362;netstandard2.1;net6.0-android</TargetFrameworks>
+    <TargetFrameworks>uap10.0.18362;netstandard2.0;net6.0-android</TargetFrameworks>
     <LangVersion>10.0</LangVersion>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
@@ -21,9 +21,9 @@
     <UpToDateCheckInput Remove="Controls\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity" Version="2.0.5" />
-    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.5" />
-    <PackageReference Include="Uno.UI" Version="4.1.0-dev.617" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity" Version="2.3.0" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.3.0" />
+    <PackageReference Include="Uno.UI" Version="4.2.0-dev.83" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />

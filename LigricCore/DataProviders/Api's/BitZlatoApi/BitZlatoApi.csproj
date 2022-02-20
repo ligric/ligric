@@ -1,12 +1,12 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.18362;netstandard2.1;net6.0-android</TargetFrameworks>
+    <TargetFrameworks>uap10.0.18362;netstandard2.0;net6.0-android</TargetFrameworks>
     <LangVersion>10.0</LangVersion>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JsonWebToken.KeyVault" Version="1.9.3" />
-    <PackageReference Include="Uno.UI" Version="4.1.0-dev.617" />
+    <PackageReference Include="Uno.UI" Version="4.2.0-dev.83" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
