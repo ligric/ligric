@@ -63,6 +63,7 @@ namespace LigricBoardCustomControls.Menus
         protected Panel headerContent;
         protected ToggleButton toggleButton;
 
+        private bool isApplyed;
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
         public event ExpanderStateChangedEventArgs ExpanderStateChanged;
@@ -123,7 +124,9 @@ namespace LigricBoardCustomControls.Menus
                 //});
             }
 
-            SetNewExpanderState(ExpanderState, false);
+            SetExpanderSide(ExpanderSide, false);
+            isApplyed = true;
+            //SetNewExpanderState(ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
         }
 
@@ -166,34 +169,41 @@ namespace LigricBoardCustomControls.Menus
             if (thisObject == null)
                 return;
 
-            var newValue = e.NewValue;
+            if (!thisObject.isApplyed)
+                return;
 
+            var newValue = e.NewValue;
             thisObject.SetNewExpanderState((ExpanderState)newValue, true);
         }
 
         private static void OnExpanderSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ExpanderSide newValue = (ExpanderSide)e.NewValue;
-
             var thisObject = (SnakeMenu)d;
             if (thisObject == null)
                 return;
 
-            thisObject.SetExpanderSide(newValue);
+            if (!thisObject.isApplyed)
+                return;
+
+            ExpanderSide newValue = (ExpanderSide)e.NewValue;
+            thisObject.SetExpanderSide(newValue, true);
         }
 
         private readonly SyncAnimations syncBufferAnimations = new SyncAnimations();
         private int syncBufferAnimationIndex = 0;
 
-        private void SetExpanderSide(ExpanderSide newValue)
+        private void SetExpanderSide(ExpanderSide newValue,bool useTransitions)
         {
             if (newValue == ExpanderSide.Left)
             {
+                var test = GetTemplateChild("BottomToBufferStoryboard");
+                var test2 = GetTemplateChild("BufferToLeftSideStoryboard");
+                
                 if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
                 {
                     syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
                     {
-                        SetNewExpanderState(ExpanderState.Collapsed, true);
+                        SetNewExpanderState(ExpanderState.Collapsed, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
                     });
 
@@ -203,11 +213,14 @@ namespace LigricBoardCustomControls.Menus
             }
             else if (newValue == ExpanderSide.Bottom)
             {
+                var test = GetTemplateChild("LeftToBufferStoryboard");
+                var test2 = GetTemplateChild("BufferToBottomSideStoryboard");
+
                 if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
                 {
                     syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
                     {
-                        SetNewExpanderState(ExpanderState.Collapsed, true);
+                        SetNewExpanderState(ExpanderState.Collapsed, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
                     });
 

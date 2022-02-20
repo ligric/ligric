@@ -24,26 +24,33 @@
                             <VisualStateGroup x:Name="ExpanderStateBottom">
                                 <VisualState x:Name="ExpanderSettingsForBottomSide">
                                     <VisualState.Setters>
+                                        <Setter Target="Row0.Height" Value="*"/>
+                                        <Setter Target="Row1.Height" Value="Auto"/>
+                                        <Setter Target="Column0.Width" Value="*"/>
+                                        <Setter Target="Column1.Width" Value="0"/>
+
                                         <Setter Target="SnakeBackgroundElement.(Grid.ColumnSpan)" Value="1"/>
                                         <Setter Target="SnakeBackgroundElement.(Grid.RowSpan)" Value="2"/>
 
                                         <Setter Target="HeaderConteiner.(Grid.Row)" Value="1"/>
                                         <Setter Target="HeaderConteiner.(Grid.Column)" Value="0"/>
 
-
-                                        <Setter Target="Row0.Height" Value="*"/>
-                                        <Setter Target="Row1.Height" Value="Auto"/>
-
-                                        <Setter Target="Column0.Width" Value="*"/>
-                                        <Setter Target="Column1.Width" Value="0"/>
+                                        <Setter Target="root.Height" Value="Auto"/>
+                                        <Setter Target="root.Width" Value="50"/>
 
                                         <Setter Target="root.VerticalAlignment" Value="Bottom"/>
-                                        <Setter Target="root.HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Target="root.HorizontalAlignment" Value="Left"/>
                                     </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="ExpanderSettingsForLeftSide">
                                     <VisualState.Setters>
+                                        <Setter Target="Row0.Height" Value="*"/>
+                                        <Setter Target="Row1.Height" Value="0"/>
+                                        <Setter Target="Column0.Width" Value="*"/>
+                                        <Setter Target="Column1.Width" Value="Auto"/>
+
+
                                         <Setter Target="SnakeBackgroundElement.(Grid.ColumnSpan)" Value="2"/>
                                         <Setter Target="SnakeBackgroundElement.(Grid.RowSpan)" Value="1"/>
 
@@ -53,20 +60,13 @@
                                         <Setter Target="ExpanderContainer.(Grid.Column)" Value="1"/>
                                         <Setter Target="ExpanderContainer.(Grid.Row)" Value="0"/>
 
-
-                                        <Setter Target="ToggleButton.HorizontalAlignment" Value="Left"/>
+                                        <Setter Target="ToggleButton.HorizontalAlignment" Value="Stretch"/>
                                         <Setter Target="ToggleButton.VerticalAlignment" Value="Bottom"/>
-                                       
 
-                                        <Setter Target="Row0.Height" Value="*"/>
-                                        <Setter Target="Row1.Height" Value="0"/>
-
-                                        <Setter Target="Column0.Width" Value="*"/>
-                                        <Setter Target="Column1.Width" Value="Auto"/>
-
+                                        <Setter Target="root.Height" Value="50"/>
                                         <Setter Target="root.Width" Value="Auto"/>
                                         <Setter Target="root.HorizontalAlignment" Value="Left"/>
-                                        <Setter Target="root.VerticalAlignment" Value="Stretch"/>
+                                        <Setter Target="root.VerticalAlignment" Value="Bottom"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -197,7 +197,7 @@
 
                                 <!-- TODO : Temprary background is Blue. Temrary height & width. Temprary horizontalanightment -->
                                 <ToggleButton x:Name="ToggleButton" Background="#0a1113" IsChecked="{Binding ExpanderState, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ExpanderStateToBoolenConverter}}"
-                                              Height="50" Width="50" HorizontalAlignment="Right" Padding="0">
+                                              HorizontalAlignment="Right" Padding="0">
                                     
                                     <!-- Temprary style -->
                                     <ToggleButton.Content>
