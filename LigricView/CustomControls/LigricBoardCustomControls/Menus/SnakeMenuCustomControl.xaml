@@ -35,9 +35,13 @@
                                         <Setter Target="HeaderConteiner.(Grid.Row)" Value="1"/>
                                         <Setter Target="HeaderConteiner.(Grid.Column)" Value="0"/>
 
+                                        <Setter Target="ToggleButton.HorizontalAlignment" Value="Right"/>
+                                        <Setter Target="ToggleButton.VerticalAlignment" Value="Stretch"/>
+                                        <Setter Target="ToggleButton.Width" Value="50"/>
+                                        <Setter Target="ToggleButton.Height" Value="Auto"/>
+
                                         <Setter Target="root.Height" Value="Auto"/>
                                         <Setter Target="root.Width" Value="50"/>
-
                                         <Setter Target="root.VerticalAlignment" Value="Bottom"/>
                                         <Setter Target="root.HorizontalAlignment" Value="Left"/>
                                     </VisualState.Setters>
@@ -62,6 +66,8 @@
 
                                         <Setter Target="ToggleButton.HorizontalAlignment" Value="Stretch"/>
                                         <Setter Target="ToggleButton.VerticalAlignment" Value="Bottom"/>
+                                        <Setter Target="ToggleButton.Height" Value="50"/>
+                                        <Setter Target="ToggleButton.Width" Value="Auto"/>
 
                                         <Setter Target="root.Height" Value="50"/>
                                         <Setter Target="root.Width" Value="Auto"/>
