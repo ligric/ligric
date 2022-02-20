@@ -31,16 +31,16 @@ namespace BoardModels.BitZlato
             switch (e.Action)
             {
                 case Common.EventArgs.NotifyDictionaryChangedAction.Added:
-                    Task.Run(async () => await syncMethod.WaitingAnotherMethodsAsync(e.Number, async () => await Task.Run(() => AdsRaiseActionAddValue(e.Key, e.NewValue.ConvertToBitZlatoAdDto()))));
+                    syncMethod.WaitingAnotherMethodsAsync(e.Number, () => AdsRaiseActionAddValue(e.Key, e.NewValue.ConvertToBitZlatoAdDto()));
                     break;
                 case Common.EventArgs.NotifyDictionaryChangedAction.Removed:
-                    Task.Run(async () => await syncMethod.WaitingAnotherMethodsAsync(e.Number, async () => await Task.Run(() => AdsRaiseActionRemoveValue(e.Key))));
+                    syncMethod.WaitingAnotherMethodsAsync(e.Number, () => AdsRaiseActionRemoveValue(e.Key));
                     break;
                 case Common.EventArgs.NotifyDictionaryChangedAction.Changed:
-                    Task.Run(async () => await syncMethod.WaitingAnotherMethodsAsync(e.Number, async () => await Task.Run(() => AdsRaiseActionSetValue(e.Key, e.NewValue.ConvertToBitZlatoAdDto()))));
+                    syncMethod.WaitingAnotherMethodsAsync(e.Number, () => AdsRaiseActionSetValue(e.Key, e.NewValue.ConvertToBitZlatoAdDto()));
                     break;
                 case Common.EventArgs.NotifyDictionaryChangedAction.Cleared:
-                    Task.Run(async () => await syncMethod.WaitingAnotherMethodsAsync(e.Number, async () => await Task.Run(() => AdsRaiseActionClear())));
+                    syncMethod.WaitingAnotherMethodsAsync(e.Number, () => AdsRaiseActionClear());
                     break;
                 case Common.EventArgs.NotifyDictionaryChangedAction.Initialized:
                     var newDictionary = new Dictionary<long, BitZlatoAdDto>();
@@ -48,7 +48,7 @@ namespace BoardModels.BitZlato
                     {
                         newDictionary.Add(item.Key, item.Value.ConvertToBitZlatoAdDto());
                     }
-                    Task.Run(async () => await syncMethod.WaitingAnotherMethodsAsync(e.Number, async () => await Task.Run(() => AdsRaiseActionInitialized(newDictionary))));
+                    syncMethod.WaitingAnotherMethodsAsync(e.Number, async () => await Task.Run(() => AdsRaiseActionInitialized(newDictionary)));
                     break;
             }
         }

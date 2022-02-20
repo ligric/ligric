@@ -1,4 +1,5 @@
-﻿using LigricMvvmToolkit.Animations;
+﻿using Common;
+using LigricMvvmToolkit.Animations;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -66,6 +67,10 @@ namespace LigricBoardCustomControls.Menus
         private bool isApplyed;
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
+        private readonly SyncAnimations syncBufferAnimations = new SyncAnimations();
+        private readonly SyncMethod syncMethods = new SyncMethod();
+        private int syncBufferAnimationIndex = 0, syncMethodIndex = 0;
+
         public event ExpanderStateChangedEventArgs ExpanderStateChanged;
         public event ExpanderSideChangedEventArgs ExpanderSideChanged;
 
@@ -124,15 +129,16 @@ namespace LigricBoardCustomControls.Menus
                 //});
             }
 
-            SetExpanderSide(ExpanderSide, false);
+            var expanderSide = ExpanderSide;
+            syncMethods.WaitingAnotherMethodsAsync(syncMethodIndex++, async () => await SetExpanderSide(expanderSide, false));
             isApplyed = true;
             //SetNewExpanderState(ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
         }
 
-        private void SetNewExpanderState(ExpanderState expanderState, bool useTransitions)
+        private void SetNewExpanderState(ExpanderState expanderState, ExpanderSide expanderSide, bool useTransitions)
         {
-            if (ExpanderSide == ExpanderSide.Left)
+            if (expanderSide == ExpanderSide.Left)
             {
                 VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
 
@@ -146,7 +152,7 @@ namespace LigricBoardCustomControls.Menus
                 }
             }
 
-            if (ExpanderSide == ExpanderSide.Bottom)
+            if (expanderSide == ExpanderSide.Bottom)
             {  
                 VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
 
@@ -172,8 +178,9 @@ namespace LigricBoardCustomControls.Menus
             if (!thisObject.isApplyed)
                 return;
 
-            var newValue = e.NewValue;
-            thisObject.SetNewExpanderState((ExpanderState)newValue, true);
+            ExpanderState newValue = (ExpanderState)e.NewValue;
+
+            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, () => thisObject.SetNewExpanderState(newValue, thisObject.ExpanderSide, true));
         }
 
         private static void OnExpanderSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -186,13 +193,11 @@ namespace LigricBoardCustomControls.Menus
                 return;
 
             ExpanderSide newValue = (ExpanderSide)e.NewValue;
-            thisObject.SetExpanderSide(newValue, true);
+
+            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, async () => await thisObject.SetExpanderSide(newValue, true));
         }
 
-        private readonly SyncAnimations syncBufferAnimations = new SyncAnimations();
-        private int syncBufferAnimationIndex = 0;
-
-        private void SetExpanderSide(ExpanderSide newValue,bool useTransitions)
+        private async Task SetExpanderSide(ExpanderSide newValue,bool useTransitions)
         {
             if (newValue == ExpanderSide.Left)
             {
@@ -201,13 +206,13 @@ namespace LigricBoardCustomControls.Menus
                 
                 if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
                 {
-                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
+                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
                     {
-                        SetNewExpanderState(ExpanderState.Collapsed, useTransitions);
+                        SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
                     });
 
-                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
+                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
 
                 }
             }
@@ -218,13 +223,13 @@ namespace LigricBoardCustomControls.Menus
 
                 if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
                 {
-                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
+                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
                     {
-                        SetNewExpanderState(ExpanderState.Collapsed, useTransitions);
+                        SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
                     });
 
-                    syncBufferAnimations.ExecuteAnimation(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, null);
+                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, null);
                 }
             }
         }
