@@ -42,7 +42,9 @@ namespace LigricMvvmToolkit.Animations
                     oldNumber++;
 
                     if (callBack != null)
+                    {
                         callBack();
+                    }
 
                     if (oldNumber != number)
                     {

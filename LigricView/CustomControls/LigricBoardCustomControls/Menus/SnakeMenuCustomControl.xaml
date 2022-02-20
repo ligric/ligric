@@ -67,7 +67,6 @@
                                         <Setter Target="root.Width" Value="Auto"/>
                                         <Setter Target="root.HorizontalAlignment" Value="Left"/>
                                         <Setter Target="root.VerticalAlignment" Value="Stretch"/>
-
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -139,7 +138,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="400" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="450" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
                                     </Storyboard>
                                 </VisualState>
 
@@ -160,7 +159,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="800" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="1000" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
                                     </Storyboard>
                                 </VisualState>
 
