@@ -42,6 +42,12 @@
 
                         <Setter Target="userImage.Height" Value="Auto"/>
                         <Setter Target="userImage.Visibility" Value="Collapsed"/>
+                        
+                        <!-- Temprary -->
+                        <Setter Target="news.Height" Value="Auto"/>
+                        <Setter Target="profile.Height" Value="Auto"/>
+                        <Setter Target="boards.Height" Value="Auto"/>
+                        <Setter Target="settings.Height" Value="Auto"/>
                     </VisualState.Setters>
                 </VisualState>
 
@@ -55,6 +61,12 @@
 
                         <Setter Target="userImage.Width" Value="Auto"/>
                         <Setter Target="userImage.Visibility" Value="Visible"/>
+                        
+                        <!-- Temprary -->
+                        <Setter Target="news.Width" Value="Auto"/>
+                        <Setter Target="profile.Width" Value="Auto"/>
+                        <Setter Target="boards.Width" Value="Auto"/>
+                        <Setter Target="settings.Width" Value="Auto"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
