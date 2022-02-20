@@ -201,9 +201,6 @@ namespace LigricBoardCustomControls.Menus
         {
             if (newValue == ExpanderSide.Left)
             {
-                var test = GetTemplateChild("BottomToBufferStoryboard");
-                var test2 = GetTemplateChild("BufferToLeftSideStoryboard");
-                
                 if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
                 {
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
@@ -218,9 +215,6 @@ namespace LigricBoardCustomControls.Menus
             }
             else if (newValue == ExpanderSide.Bottom)
             {
-                var test = GetTemplateChild("LeftToBufferStoryboard");
-                var test2 = GetTemplateChild("BufferToBottomSideStoryboard");
-
                 if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
                 {
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
