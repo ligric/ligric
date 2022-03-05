@@ -45,6 +45,50 @@ namespace LigricBoardCustomControls.Menus
         }
     }
 
+    public partial class SnakeMenuTemplateSettings : DependencyObject
+    {
+        public double HeaderVerticalHeight
+        {
+            get { return (double)GetValue(HeaderVerticalHeightProperty); }
+            set { SetValue(HeaderVerticalHeightProperty, value); }
+        }
+        public static DependencyProperty HeaderVerticalHeightProperty
+        { 
+            get; 
+        } = DependencyProperty.Register("HeaderVerticalHeight", typeof(double), typeof(SnakeMenuTemplateSettings), new PropertyMetadata(0.0));
+
+        public double HeaderHorizontalHeight
+        {
+            get { return (double)GetValue(HeaderHorizontalHeightProperty); }
+            set { SetValue(HeaderHorizontalHeightProperty, value); }
+        }
+        public static DependencyProperty HeaderHorizontalHeightProperty
+        {
+            get;
+        } = DependencyProperty.Register("HeaderHorizontalHeight", typeof(double), typeof(SnakeMenuTemplateSettings), new PropertyMetadata(0.0));
+
+        public double HeaderVerticalWidth
+        {
+            get { return (double)GetValue(HeaderVerticalWidthProperty); }
+            set { SetValue(HeaderVerticalWidthProperty, value); }
+        }
+        public static DependencyProperty HeaderVerticalWidthProperty
+        {
+            get;
+        } = DependencyProperty.Register("HeaderVerticalWidth", typeof(double), typeof(SnakeMenuTemplateSettings), new PropertyMetadata(0.0));
+
+        public double HeaderHorizontalWidth
+        {
+            get { return (double)GetValue(HeaderHorizontalWidthProperty); }
+            set { SetValue(HeaderHorizontalWidthProperty, value); }
+        }
+        public static DependencyProperty HeaderHorizontalWidthProperty
+        {
+            get;
+        } = DependencyProperty.Register("HeaderHorizontalWidth", typeof(double), typeof(SnakeMenuTemplateSettings), new PropertyMetadata(0.0));
+    }
+
+
     public delegate void ExpanderStateChangedEventArgs(object sender, ExpanderState newState);
     public delegate void ExpanderSideChangedEventArgs(object sender, ExpanderSide newSide);
 
@@ -105,6 +149,17 @@ namespace LigricBoardCustomControls.Menus
         { 
             get; 
         } = DependencyProperty.Register("Header", typeof(object), typeof(SnakeMenu), new PropertyMetadata(null));
+
+        public SnakeMenuTemplateSettings TemplateSettings
+        {
+            get { return (SnakeMenuTemplateSettings)GetValue(TemplateSettingsProperty); }
+            set { SetValue(TemplateSettingsProperty, value); }
+        }
+        public static DependencyProperty TemplateSettingsProperty 
+        { 
+            get; 
+        } = DependencyProperty.Register("TemplateSettings", typeof(SnakeMenuTemplateSettings), typeof(SnakeMenu), new PropertyMetadata(null));
+
 
         protected override void OnApplyTemplate()
         {
@@ -237,6 +292,9 @@ namespace LigricBoardCustomControls.Menus
             {
                 throw new NotImplementedException("HorizontalAlignmentProperty action changed doesn't implemented!!");
             });
+
+            SetValue(TemplateSettingsProperty, new SnakeMenuTemplateSettings());
+
             //Control.VerticalContentAlignmentProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(VerticalAlignment.Center));
         }
 
@@ -251,6 +309,7 @@ namespace LigricBoardCustomControls.Menus
         public SnakeMenu(IntPtr javaRefenerce, Android.Runtime.JniHandleOwnership transfer)
         {
             base.DefaultStyleKey = typeof(SnakeMenu);
+            SetValue(TemplateSettingsProperty, new SnakeMenuTemplateSettings());
         }
 #endif
     }
