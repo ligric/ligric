@@ -95,7 +95,7 @@
                                 <VisualState x:Name="ExpandingFromBottomToTop">
                                     <Storyboard>
                                         <!--Element visibility.-->
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0.4" EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
 
@@ -124,7 +124,7 @@
                                 <VisualState x:Name="ExpandingFromLeftToRight">
                                     <Storyboard>
                                         <!--Element visibility.-->
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0.4" EnableDependentAnimation="True" Storyboard.TargetName="ExpanderContainer" Storyboard.TargetProperty="Visibility">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                                         </ObjectAnimationUsingKeyFrames>
 
@@ -140,7 +140,7 @@
                             <VisualStateGroup x:Name="AxesTransition">
                                 <VisualState>
                                     <Storyboard x:Name="BottomToBufferStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="HorizontalAlignment">
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="HorizontalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
                                         </ObjectAnimationUsingKeyFrames>
 
@@ -161,7 +161,7 @@
 
                                 <VisualState>
                                     <Storyboard x:Name="LeftToBufferStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="VerticalAlignment">
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="VerticalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
@@ -171,7 +171,7 @@
 
                                 <VisualState>
                                     <Storyboard x:Name="BufferToBottomSideStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="HorizontalAlignment">
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="HorizontalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
                                         </ObjectAnimationUsingKeyFrames>
 
