@@ -100,6 +100,7 @@ namespace LigricBoardCustomControls.Menus
         private const string HEADER_CONTEINER = "HeaderConteiner";
         private const string HEADER_CONTENT = "HeaderContent";
         private const string TOGGLE_BUTTON = "ToggleButton";
+        private const string ROOT = "Root";
 
         protected Border snakeBackgroundElement;
         protected Border expanderContainer;
@@ -107,6 +108,7 @@ namespace LigricBoardCustomControls.Menus
         protected Border headerConteiner;
         protected Panel headerContent;
         protected ToggleButton toggleButton;
+        protected FrameworkElement root;
 
         private bool isApplyed;
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
@@ -173,6 +175,10 @@ namespace LigricBoardCustomControls.Menus
             headerConteiner = GetTemplateChild(HEADER_CONTEINER) as Border;
             headerContent = GetTemplateChild(HEADER_CONTENT) as Panel;
             toggleButton = GetTemplateChild(TOGGLE_BUTTON) as ToggleButton;
+            root = GetTemplateChild(ROOT) as FrameworkElement;
+
+            ((FrameworkElement)Parent).LayoutUpdated += OnParentLayoutUpdated;
+
             if (toggleButton != null)
             {
                 //toggleButton.Checked += OnToggleButtonChecked;
@@ -195,7 +201,7 @@ namespace LigricBoardCustomControls.Menus
         {
             if (expanderSide == ExpanderSide.Left)
             {
-                VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
+                root.ClearValue(FrameworkElement.WidthProperty);
 
                 if (expanderState == ExpanderState.Collapsed)
                 {
@@ -208,8 +214,8 @@ namespace LigricBoardCustomControls.Menus
             }
 
             if (expanderSide == ExpanderSide.Bottom)
-            {  
-                VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
+            {
+                root.ClearValue(FrameworkElement.HeightProperty);
 
                 if (expanderState == ExpanderState.Collapsed)
                 {
@@ -260,12 +266,18 @@ namespace LigricBoardCustomControls.Menus
                 {
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
                     {
+                        VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
                         SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
                     });
 
-                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, null);
-
+                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, () =>
+                    {
+                        Binding binding = new Binding();
+                        binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
+                        binding.Source = TemplateSettings;
+                        root.SetBinding(FrameworkElement.HeightProperty, binding);
+                    });
                 }
             }
             else if (newValue == ExpanderSide.Bottom)
@@ -274,11 +286,18 @@ namespace LigricBoardCustomControls.Menus
                 {
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
                     {
+                        VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
                         SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
                     });
 
-                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, null);
+                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, () =>
+                    {
+                        Binding binding = new Binding();
+                        binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
+                        binding.Source = TemplateSettings;
+                        root.SetBinding(FrameworkElement.WidthProperty, binding);
+                    });
                 }
             }
         }
@@ -296,6 +315,13 @@ namespace LigricBoardCustomControls.Menus
             SetValue(TemplateSettingsProperty, new SnakeMenuTemplateSettings());
 
             //Control.VerticalContentAlignmentProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(VerticalAlignment.Center));
+        }
+
+        private void OnParentLayoutUpdated(object sender, object e)
+        {
+            FrameworkElement parent = (FrameworkElement)Parent;
+            TemplateSettings.HeaderVerticalHeight = parent.ActualHeight - Margin.Top - Margin.Bottom;
+            TemplateSettings.HeaderHorizontalWidth = parent.ActualWidth - Margin.Left - Margin.Right;
         }
 
 #if NET6_0_ANDROID

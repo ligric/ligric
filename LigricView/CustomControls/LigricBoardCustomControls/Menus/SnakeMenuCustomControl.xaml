@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SnakeMenu">
-                    <Grid x:Name="root">
+                    <Grid x:Name="Root">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="Column0" Width="*"/>
@@ -40,10 +40,10 @@
                                         <Setter Target="ToggleButton.Width" Value="50"/>
                                         <Setter Target="ToggleButton.Height" Value="Auto"/>
 
-                                        <Setter Target="root.Height" Value="Auto"/>
-                                        <Setter Target="root.Width" Value="50"/>
-                                        <Setter Target="root.VerticalAlignment" Value="Bottom"/>
-                                        <Setter Target="root.HorizontalAlignment" Value="Left"/>
+                                        <Setter Target="Root.Height" Value="Auto"/>
+                                        <Setter Target="Root.Width" Value="50"/>
+                                        <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
+                                        <Setter Target="Root.HorizontalAlignment" Value="Left"/>
                                     </VisualState.Setters>
                                 </VisualState>
 
@@ -69,10 +69,10 @@
                                         <Setter Target="ToggleButton.Height" Value="50"/>
                                         <Setter Target="ToggleButton.Width" Value="Auto"/>
 
-                                        <Setter Target="root.Height" Value="50"/>
-                                        <Setter Target="root.Width" Value="Auto"/>
-                                        <Setter Target="root.HorizontalAlignment" Value="Left"/>
-                                        <Setter Target="root.VerticalAlignment" Value="Bottom"/>
+                                        <Setter Target="Root.Height" Value="50"/>
+                                        <Setter Target="Root.Width" Value="Auto"/>
+                                        <Setter Target="Root.HorizontalAlignment" Value="Left"/>
+                                        <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -140,42 +140,42 @@
                             <VisualStateGroup x:Name="AxesTransition">
                                 <VisualState>
                                     <Storyboard x:Name="BottomToBufferStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="HorizontalAlignment">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="HorizontalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="450" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="{Binding TemplateSettings.HeaderHorizontalWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="50" Storyboard.TargetName="Root" Storyboard.TargetProperty="Width"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState>
                                     <Storyboard x:Name="BufferToLeftSideStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="VerticalAlignment">
+                                        <ObjectAnimationUsingKeyFrames Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="VerticalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="1000" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="{Binding TemplateSettings.HeaderVerticalHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height"/>
                                     </Storyboard>
                                 </VisualState>
 
 
                                 <VisualState>
                                     <Storyboard x:Name="LeftToBufferStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="VerticalAlignment">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="VerticalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Bottom"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="1000" To="50" Storyboard.TargetName="root" Storyboard.TargetProperty="Height"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="{Binding TemplateSettings.HeaderVerticalHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}" To="50" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState>
                                     <Storyboard x:Name="BufferToBottomSideStoryboard">
-                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="root" Storyboard.TargetProperty="HorizontalAlignment">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="HorizontalAlignment">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="450" Storyboard.TargetName="root" Storyboard.TargetProperty="Width"/>
+                                        <DoubleAnimation EnableDependentAnimation="True" Duration="0:0:0.5" From="50" To="{Binding TemplateSettings.HeaderHorizontalWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="Root" Storyboard.TargetProperty="Width"/>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
