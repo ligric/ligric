@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricMvvmToolkit.Animations
@@ -81,38 +83,7 @@ namespace LigricMvvmToolkit.Animations
             }
             else
             {
-
-
                 storyboard = storyboardFunc?.Invoke();
-
-
-
-
-
-
-
-                try
-                {
-                    //storyboard.Pause();
-                }
-                catch(Exception ex)
-                {
-
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 EventHandler<object> completed = null;
 
