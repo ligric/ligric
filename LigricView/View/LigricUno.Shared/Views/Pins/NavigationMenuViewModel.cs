@@ -20,12 +20,18 @@ namespace LigricUno.Shared.Views.Pins
 
         public NavigationMenuViewModel()
         {
-            var test = Navigation.GetPages();
+            Navigation.ActivePagesChanged += OnActivePagesChanged;
+            //var test = Navigation.GetPages();
 
-            foreach (var item in test)
-            {
-                BoardConeiners.Add(item.Key);
-            }
+            //foreach (var item in test)
+            //{
+            //    BoardConeiners.Add(item.Key);
+            //}
+        }
+
+        private void OnActivePagesChanged(string pageKey)
+        {
+            BoardConeiners.Add(pageKey);
         }
 
         protected override void OnPropertyChanged(string propertyName, object oldValue, object newValue)

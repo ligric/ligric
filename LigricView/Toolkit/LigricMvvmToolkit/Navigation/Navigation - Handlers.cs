@@ -10,8 +10,11 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricMvvmToolkit.Navigation
 {
+    public delegate void ActionActivePagesChangedHandler(string pageKey);
     public partial class Navigation
     {
+        public static event ActionActivePagesChangedHandler ActivePagesChanged;
+
         private static async void OnActivePagesChanged(object sender, object rootElement, Common.Enums.ActionCollectionEnum action, PageInfo item)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
@@ -40,6 +43,8 @@ namespace LigricMvvmToolkit.Navigation
                 }
 
                 rootObject.AddWrapper().AddElementToWrapper(prerenderPage);
+
+                ActivePagesChanged?.Invoke(item.PageKey);
             });
         }
 
