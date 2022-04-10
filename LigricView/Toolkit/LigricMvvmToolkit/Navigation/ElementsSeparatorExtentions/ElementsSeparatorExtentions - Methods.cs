@@ -104,20 +104,31 @@ namespace LigricMvvmToolkit.Navigation
 
             var elementWrapper = new Border() { Visibility = Visibility.Visible, Child = addElement, Tag = "Element wrapper " + testCount++ };
 
-            bool isUpdated = false;
 
-            elementWrapper.LayoutUpdated += (s, e) =>
+            // TODO : There can be to math problems.
+            // should to check with add
+
+            EventHandler<object> wrapperLayoutUpdatedstroyboard = null;
+
+            wrapperLayoutUpdatedstroyboard = (s, e) =>
             {
-                if (isUpdated)
-                    return;
+                wrapper.LayoutUpdated -= wrapperLayoutUpdatedstroyboard;
 
-                elementWrapper.TransformInitialize();
-                var fullWidth = elementWrapper.GetFulllWidth(wrapper);
-                var tag = elementWrapper.Tag;
-                ((TranslateTransform)elementWrapper.RenderTransform).X = wrapper.ActualWidth > fullWidth ? -wrapper.ActualWidth : -fullWidth;
+                EventHandler<object> elementWrapperLayoutUpdatedstroyboard = null;
 
-                isUpdated = true;
+                elementWrapperLayoutUpdatedstroyboard = (ss, ee) =>
+                {
+                    elementWrapper.LayoutUpdated -= elementWrapperLayoutUpdatedstroyboard;
+
+                    elementWrapper.TransformInitialize();
+                    var fullWidth = elementWrapper.GetFulllWidth(wrapper);
+                    var tag = elementWrapper.Tag;
+                    ((TranslateTransform)elementWrapper.RenderTransform).X = wrapper.ActualWidth > fullWidth ? -wrapper.ActualWidth : -fullWidth;
+                };
+
+                elementWrapper.LayoutUpdated += elementWrapperLayoutUpdatedstroyboard;
             };
+            wrapper.LayoutUpdated += wrapperLayoutUpdatedstroyboard;
 
             wrapper.Children.Insert(0, elementWrapper);
 
