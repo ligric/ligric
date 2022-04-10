@@ -17,7 +17,7 @@
     </Page.Resources>
 
     <Grid>
-        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}" Visibility="Collapsed">
+        <ItemsControl Name="baseListView" ItemsSource="{Binding Boards}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Background="Transparent"/>
