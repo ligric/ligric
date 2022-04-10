@@ -34,7 +34,7 @@ namespace LigricMvvmToolkit.Animations
             else
             {
                 stroyboard = storyboardFunc?.Invoke();
-                stroyboard.Pause();
+                //stroyboard.Pause();
 
                 EventHandler<object> completed = null;
 
