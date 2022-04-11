@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace LigricUno.Shared.Views.Pages
+namespace LigricUno.Views.Pages
 {
     public sealed partial class NewsPage : Page
     {

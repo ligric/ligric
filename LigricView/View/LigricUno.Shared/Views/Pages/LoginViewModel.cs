@@ -1,7 +1,6 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
-using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Views.Pages
 {
@@ -16,7 +15,12 @@ namespace LigricUno.Views.Pages
 
         private void LoginLaterMethod(object parameter)
         {
-            Navigation.GoTo("BoardsPage0");
+            var firstPageKey = nameof(NewsPage);
+
+            Navigation.PrerenderPage(new NewsPage() { Tag = firstPageKey, /*Background = new SolidColorBrush(Colors.Blue)*/ },
+                firstPageKey, new NewsViewModel());
+
+            Navigation.GoTo(firstPageKey);
         }
     }
 }
