@@ -15,6 +15,8 @@ namespace LigricMvvmToolkit.Navigation
         private enum PageActionEnum { Prerender, GoTo }
 
         private Dictionary<string, PageInfo> activePages = new Dictionary<string, PageInfo>();
+        private Dictionary<string, PinInfo> pins = new Dictionary<string, PinInfo>();
+
         public IReadOnlyDictionary<string, PageInfo> ActivePages { get; }
 
         public event CurrentPageEventHandler CurrentPageChanged;
