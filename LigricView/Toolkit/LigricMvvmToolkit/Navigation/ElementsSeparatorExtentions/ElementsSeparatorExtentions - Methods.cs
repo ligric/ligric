@@ -157,21 +157,26 @@ namespace LigricMvvmToolkit.Navigation
             return wrapper;
         }
 
-        public static IReadOnlyCollection<FrameworkElement> GetBlockedPins(string rootKey, string blockedKey)
+        public static (IReadOnlyCollection<FrameworkElement> BlockedPins, IReadOnlyCollection<FrameworkElement> AvailablePins) GetPins(string rootKey, string pageKey)
         {
             if (!wrappers.TryGetValue(rootKey, out WrapperInfo wrapperInfo))
                 throw new ArgumentException($"[404] Element with \"{rootKey}\" key not found");
 
-            List<FrameworkElement> outputPins = new List<FrameworkElement>();
+            List<FrameworkElement> blockedPins = new List<FrameworkElement>();
+            List<FrameworkElement> availablePins = new List<FrameworkElement>();
             foreach (var pinInfo in wrapperInfo.Pins)
             {
-                if (pinInfo.ForbiddenPageKeys.Contains(blockedKey))
+                if (pinInfo.ForbiddenPageKeys.Contains(pageKey))
                 {
-                    outputPins.Add(pinInfo.Pin);
+                    blockedPins.Add(pinInfo.Pin);
+                }
+                else
+                {
+                    availablePins.Add(pinInfo.Pin);
                 }
             }
 
-            return outputPins;
+            return (blockedPins, availablePins);
         }
 
         private static WrapperInfo GetWrapperInfo(Panel wrapper)
