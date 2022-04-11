@@ -87,10 +87,10 @@ namespace LigricMvvmToolkit.Navigation
             });
         }
 
-        private static SyncAnimations syncAnimations = new SyncAnimations();
+        private static SyncAnimations syncPagesAnimation = new SyncAnimations();
         private static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo, int? syncIndex)
         {
-            syncAnimations.ExecuteAnimation((int)syncIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200), () => 
+            syncPagesAnimation.ExecuteAnimation((int)syncIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200), () => 
             {
                 var olddPageParent = oldPage.Parent as FrameworkElement;
                 olddPageParent.Visibility = Visibility.Collapsed;
@@ -105,11 +105,13 @@ namespace LigricMvvmToolkit.Navigation
 
             foreach (var item in pins.BlockedPins)
             {
-                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200);
+                // TODO : Temporary
+                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200, fromParent: false).Begin();
             }
             foreach (var item in pins.AvailablePins)
             {
-                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200, toRightSide: false);
+                // TODO : Temporary
+                root.AddWrapper().GetTrainAnimationStrouyboard(endVisibleElement: item, timeMilliseconds: 200, toRightSide: false, fromParent: false).Begin();
             }
         }
     }

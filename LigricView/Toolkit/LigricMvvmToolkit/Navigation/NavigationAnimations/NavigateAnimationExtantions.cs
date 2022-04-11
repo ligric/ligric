@@ -11,7 +11,7 @@ namespace LigricMvvmToolkit.Navigation
 {
     public static partial class NavigateAnimationExtensions
     {
-        public static Storyboard GetTrainAnimationStrouyboard(this Panel wrapper, FrameworkElement firstVisibileElement = null, FrameworkElement endVisibleElement = null, double timeMilliseconds = 300, bool toRightSide = true)
+        public static Storyboard GetTrainAnimationStrouyboard(this Panel wrapper, FrameworkElement firstVisibileElement = null, FrameworkElement endVisibleElement = null, double timeMilliseconds = 300, bool toRightSide = true, bool fromParent = true)
         {
             double maxWidth = wrapper.ActualWidth == 0 ? wrapper.Width : wrapper.ActualWidth;
             var timespan = TimeSpan.FromMilliseconds(timeMilliseconds);
@@ -42,13 +42,24 @@ namespace LigricMvvmToolkit.Navigation
 
             if (endVisibleElement != null)
             {
-                if (endVisibleElement.Parent is not Border secondElementParent)
-                    throw new ArgumentNullException("First element parent isn't Border. Please use the PrerenderElement method.");
+                FrameworkElement secondElement = null;
+                if (fromParent)
+                {
+                    if (endVisibleElement.Parent is not FrameworkElement secondElementParent)
+                        throw new ArgumentNullException("End element parent isn't FrameworkElement. Please use the PrerenderElement method.");
 
-                var toRenderTransform = secondElementParent.GetTransformInitialize();
+                    secondElement = secondElementParent;
+                    secondElement.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    secondElement = endVisibleElement;
+                }
+             
+
+                var toRenderTransform = secondElement.GetTransformInitialize();
 
                 endVisibleElement.Visibility = Visibility.Visible;
-                secondElementParent.Visibility = Visibility.Visible;
 
                 #region xAnimation secondElement
                 DoubleAnimation xAnimationSecondElement = new DoubleAnimation()
