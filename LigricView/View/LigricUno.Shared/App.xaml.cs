@@ -100,14 +100,22 @@ namespace LigricUno
             if (args.PrelaunchActivated == false)
 #endif
             {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                   rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
-                }
+                //if (rootFrame.Content == null)
+                //{
+                //    // When the navigation stack isn't restored navigate to the first page,
+                //    // configuring the new page by passing required information as a navigation
+                //    // parameter
+                //   rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
+                //}
                 // Ensure the current window is active
+
+                var firstPageKey = nameof(LoginPage) + 0;
+
+                Navigation.PrerenderPage(new LoginPage() { Tag = firstPageKey, /*Background = new SolidColorBrush(Colors.Blue)*/ },
+                    firstPageKey, new LoginViewModel());
+
+                Navigation.GoTo(firstPageKey);
+
                 _window.Activate();
             }
         }
@@ -127,30 +135,15 @@ namespace LigricUno
                 await Task.Delay(1000);
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                 {
-                    PrerenderBoardsPages();
-
-                    var test = new NavigationMenu()
+                    var navigationMenu= new NavigationMenu()
                     {
                         DataContext = new NavigationMenuViewModel()
                     };
-                    var test2 = new ReadOnlyCollection<string>(forbiddenPageKeys);
+                    var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(forbiddenPageKeys);
 
-                    Navigation.PinFrontElement(test, test2);
+                    Navigation.PinFrontElement(navigationMenu, forbiddenPageKeysReadOnly);
                 });
             });
-        }
-
-        private void PrerenderBoardsPages()
-        {
-            Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + 0, /*Background = new SolidColorBrush(Colors.Blue)*/ }, 
-                nameof(BoardsPage) + 0, 
-                new BoardsViewModel());
-            Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + 1, /*Background = new SolidColorBrush(Colors.Red)*/ },
-                nameof(BoardsPage) + 1,
-                new BoardsViewModel());
-            //Navigation.PrerenderPage(new BoardsPage() { Tag = nameof(BoardsPage) + 2/*, Background = new SolidColorBrush(Colors.Pink)*/ }, 
-            //    nameof(BoardsPage) + 2, 
-            //    new BoardsViewModel());
         }
 
         /// <summary>
