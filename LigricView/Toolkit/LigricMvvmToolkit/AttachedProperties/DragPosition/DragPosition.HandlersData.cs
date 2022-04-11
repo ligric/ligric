@@ -39,7 +39,7 @@ namespace LigricMvvmToolkit.AttachedProperties.DragPosition
             private void OnElementPointerPressed(object sender, PointerRoutedEventArgs e)
             {
 
-                Debug.WriteLine($"OnElementPointerPressed sender: {sender}");
+                // Debug.WriteLine($"OnElementPointerPressed sender: {sender}");
 
                 UIElement top = element.GetTopUIElement();
 
@@ -54,7 +54,7 @@ namespace LigricMvvmToolkit.AttachedProperties.DragPosition
 
             private void OnElementPointerReleased(object sender, PointerRoutedEventArgs e)
             {
-                Debug.WriteLine($"OnElementPointerReleased sender: {sender}");
+                // Debug.WriteLine($"OnElementPointerReleased sender: {sender}");
 
                 UIElement top = element.GetTopUIElement();
                 top.RemoveHandler(UIElement.PointerReleasedEvent, (PointerEventHandler)OnElementPointerReleased);
@@ -69,7 +69,7 @@ namespace LigricMvvmToolkit.AttachedProperties.DragPosition
 
             private void OnMove(object sender, PointerRoutedEventArgs e)
             {
-                Debug.WriteLine($"{countMove++}: {sender}");
+                // Debug.WriteLine($"{countMove++}: {sender}");
                 double zommFactor = 1;
 
                 var pos = e.GetCurrentPoint((UIElement)sender).Position;

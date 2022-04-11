@@ -41,7 +41,7 @@ namespace LigricMvvmToolkit.Data
         private static void OffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // TODO: Отладочный вывод.
-            Debug.WriteLine($"{nameof(Canvas)}.{e.Property}: {e.NewValue}");
+            // Debug.WriteLine($"{nameof(Canvas)}.{e.Property}: {e.NewValue}");
 
             if (d.GetWithParent<Windows.UI.Xaml.Controls.Canvas>() is UIElement canvasItem)
             {
