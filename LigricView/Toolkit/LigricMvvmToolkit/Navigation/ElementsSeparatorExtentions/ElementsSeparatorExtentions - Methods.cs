@@ -104,10 +104,17 @@ namespace LigricMvvmToolkit.Navigation
 
             var elementWrapper = new Border() { Visibility = Visibility.Visible, Child = addElement, Tag = "Element wrapper " + testCount++ };
 
-
             // TODO : There can be to math problems.
             // should to check with add
+            SetElementHidenPosition(wrapper, elementWrapper);
 
+            wrapper.Children.Insert(0, elementWrapper);
+
+            return addElement;
+        }
+
+        private static void SetElementHidenPosition(this Panel wrapper, FrameworkElement elementWrapper)
+        {
             EventHandler<object> wrapperLayoutUpdatedstroyboard = null;
 
             wrapperLayoutUpdatedstroyboard = (s, e) =>
@@ -129,15 +136,19 @@ namespace LigricMvvmToolkit.Navigation
                 elementWrapper.LayoutUpdated += elementWrapperLayoutUpdatedstroyboard;
             };
             wrapper.LayoutUpdated += wrapperLayoutUpdatedstroyboard;
-
-            wrapper.Children.Insert(0, elementWrapper);
-
-            return addElement;
         }
 
-        public static Panel AddPinElement(this Panel wrapper, FrameworkElement element, IReadOnlyCollection<string> forbiddenPageKeys = null)
+        public static Panel AddPinElement(this Panel wrapper, FrameworkElement element, string currentPageKey = null, IReadOnlyCollection<string> forbiddenPageKeys = null)
         {
             var wrapperInfo = GetWrapperInfo(wrapper);
+
+            if (!string.IsNullOrEmpty(currentPageKey) && forbiddenPageKeys != null)
+            {
+                if (forbiddenPageKeys.FirstOrDefault(x => x.Contains(currentPageKey)) != null)
+                {
+                    SetElementHidenPosition(wrapper, element);
+                }
+            }
 
             wrapperInfo.Wrapper.Children.Add(element);
             wrapperInfo.Pins.Add(new PinInfo(wrapper, element, forbiddenPageKeys));

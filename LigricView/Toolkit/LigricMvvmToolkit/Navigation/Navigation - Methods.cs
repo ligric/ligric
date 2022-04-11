@@ -53,7 +53,7 @@ namespace LigricMvvmToolkit.Navigation
         {
             var navigationService = GetNavigationServiceByRootKey(rootKey);
             var root = navigationService.RootElement;
-            ((FrameworkElement)root).AddWrapper(rootKey).AddPinElement(frontElement, forbiddenPageKeys);
+            ((FrameworkElement)root).AddWrapper(rootKey).AddPinElement(frontElement, navigationServices[rootKey].CurrentPage.PageKey, forbiddenPageKeys);
         }
 
 
