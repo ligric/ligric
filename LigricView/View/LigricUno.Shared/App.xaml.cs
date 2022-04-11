@@ -133,7 +133,7 @@ namespace LigricUno
             Task.Run(async () =>
             {
                 await Task.Delay(1000);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var navigationMenu= new NavigationMenu()
                     {

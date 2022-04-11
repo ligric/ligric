@@ -2,6 +2,7 @@
 using LigricMvvmToolkit.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -17,7 +18,7 @@ namespace LigricMvvmToolkit.Navigation
 
         private static async void OnActivePagesChanged(object sender, object rootElement, Common.Enums.ActionCollectionEnum action, PageInfo item)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (item?.Page is null)
                 {
@@ -50,7 +51,7 @@ namespace LigricMvvmToolkit.Navigation
 
         private static async void OnPageChanged(object sender, object rootElement, PageInfo oldPageInfo, PageInfo newPageInfo, PageChangingVectorEnum changingVector, int? index)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var root = rootElement as FrameworkElement;
                 var oldPage = oldPageInfo?.Page as FrameworkElement;
@@ -89,17 +90,26 @@ namespace LigricMvvmToolkit.Navigation
         private static SyncAnimations syncAnimations = new SyncAnimations();
         private static void MoveNext(FrameworkElement root, FrameworkElement oldPage, FrameworkElement newPage, PageInfo newPageInfo, int? syncIndex)
         {
-            IReadOnlyCollection<FrameworkElement> blockedPins = ElementsSeparatorExtensions.GetBlockedPins("root", newPageInfo.PageKey);
-
             syncAnimations.ExecuteAnimation((int)syncIndex, () => root.AddWrapper().GetTrainAnimationStrouyboard(oldPage, newPage, 200), () => 
             {
                 var olddPageParent = oldPage.Parent as FrameworkElement;
                 olddPageParent.Visibility = Visibility.Collapsed;
             });
 
-            foreach (var item in blockedPins)
+            MovetPins(root, newPageInfo.PageKey);
+        }
+
+        private static void MovetPins(FrameworkElement root, string pageKey, string rootKey = "root")
+        {
+            var pins = ElementsSeparatorExtensions.GetPins(rootKey, pageKey);
+
+            foreach (var item in pins.BlockedPins)
             {
                 root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200);
+            }
+            foreach (var item in pins.AvailablePins)
+            {
+                root.AddWrapper().GetTrainAnimationStrouyboard(firstVisibileElement: item, timeMilliseconds: 200, toRightSide: false);
             }
         }
     }

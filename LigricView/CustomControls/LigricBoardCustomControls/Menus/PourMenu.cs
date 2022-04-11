@@ -242,7 +242,7 @@ namespace LigricBoardCustomControls.Menus
             {
                 await Task.Run(async () =>
                 {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         justStoryboard?.Pause();
                         justStoryboard = new Storyboard();
