@@ -19,7 +19,7 @@ namespace LigricUno.Views.Pages
 
             Navigation.PrerenderPage(new NewsPage() { Tag = firstPageKey, /*Background = new SolidColorBrush(Colors.Blue)*/ },
                 firstPageKey, new NewsViewModel());
-
+            //
             Navigation.GoTo(firstPageKey);
         }
     }
