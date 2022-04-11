@@ -37,6 +37,13 @@ namespace LigricMvvmToolkit.Navigation
             navigationService.GoTo(pageName, backPage, nextPage);
         }
 
+        public static void GoTo(FrameworkElement page, string pageName, object vm = null, string rootKey = "root", string title = null, object backPage = null, object nextPage = null)
+        {
+            var navigationService = GetNavigationServiceByRootKey(rootKey);
+            navigationService.GoWithPrerender(page, pageName, vm, title, backPage, nextPage);
+        }
+
+
         public static void PrerenderPage(FrameworkElement page, string pageName = null, object vm = null, string rootKey = "root", string title = null, object backPage = null, object nextPage = null)
         {
             var navigationService = GetNavigationServiceByRootKey(rootKey);

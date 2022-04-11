@@ -15,12 +15,7 @@ namespace LigricUno.Views.Pages
 
         private void LoginLaterMethod(object parameter)
         {
-            var firstPageKey = nameof(NewsPage);
-
-            Navigation.PrerenderPage(new NewsPage() { Tag = firstPageKey, /*Background = new SolidColorBrush(Colors.Blue)*/ },
-                firstPageKey, new NewsViewModel());
-            
-            Navigation.GoTo(firstPageKey);
+            Navigation.GoTo(new NewsPage(), nameof(NewsPage), new NewsViewModel());
         }
     }
 }

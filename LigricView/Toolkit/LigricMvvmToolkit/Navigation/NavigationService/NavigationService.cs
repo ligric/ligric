@@ -12,7 +12,7 @@ namespace LigricMvvmToolkit.Navigation
     {
         public object RootElement { get; }
 
-        private enum PageActionEnum { Prerender, GoTo }
+        private enum PageActionEnum { Prerender, GoTo, GoWithPrerender }
 
         private Dictionary<string, PageInfo> activePages = new Dictionary<string, PageInfo>();
         private Dictionary<string, PinInfo> pins = new Dictionary<string, PinInfo>();
@@ -21,7 +21,7 @@ namespace LigricMvvmToolkit.Navigation
 
         public event CurrentPageEventHandler CurrentPageChanged;
 
-        public event CollectionEventHandler<PageInfo> ActivePagesChanged;
+        public event PagePrerenderEventHandler<PageInfo> ActivePagesChanged;
 
         public PageInfo CurrentPage { get; private set; }
 
@@ -36,6 +36,9 @@ namespace LigricMvvmToolkit.Navigation
 
         public void GoTo(string pageName, object backPage = null, object nextPage = null) 
             => PageHandler(pageName: pageName, backPage : backPage, nextPage : nextPage, action : PageActionEnum.GoTo);
+
+        public void GoWithPrerender(object page, string pageName = null, object vm = null, string title = null, object backPage = null, object nextPage = null)
+            => PageHandler(page, pageName, vm, backPage, nextPage, PageActionEnum.GoWithPrerender, title);
 
         private int syncNumber = 0;
         private void PageHandler(object page = null, string pageName = null, object vm = null, object backPage = null, object nextPage = null, PageActionEnum action = 0, string title = null)
@@ -54,14 +57,10 @@ namespace LigricMvvmToolkit.Navigation
             switch (action)
             {
                 case PageActionEnum.Prerender:
-
-                    if (page is null)
-                    {
-                        throw new NullReferenceException($"Page is null.");
-                    }
-
-                    AddActivePage(prerenderPage);
-
+                    AddActivePage(prerenderPage, PageActiveAction.Prerender);
+                    break;
+                case PageActionEnum.GoWithPrerender:
+                    AddActivePage(prerenderPage, PageActiveAction.GoWithPrerender);
                     break;
                 case PageActionEnum.GoTo:
 
@@ -83,26 +82,21 @@ namespace LigricMvvmToolkit.Navigation
             }
         }
 
-        private bool AddActivePage(PageInfo newPage)
+        private void AddActivePage(PageInfo newPage, PageActiveAction action)
         {
-            try
-            {
-                activePages.Add(newPage.PageKey, newPage);
-                ActivePagesChanged?.Invoke(this, RootElement, ActionCollectionEnum.Added, newPage);
-                newPage.PageClosed += OnPageClosed;
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
+            if (newPage is null)
+                throw new NullReferenceException($"Page is null.");
+
+            activePages.Add(newPage.PageKey, newPage);
+            ActivePagesChanged?.Invoke(this, RootElement, action, newPage);
+            newPage.PageClosed += OnPageClosed;
         }
 
         private void OnPageClosed(PageInfo page)
         {
             if (activePages.Remove(page.PageKey))
             {
-                ActivePagesChanged?.Invoke(this, RootElement, ActionCollectionEnum.Removed, page);
+                ActivePagesChanged?.Invoke(this, RootElement, PageActiveAction.Destroyed, page);
             }            
         }
     }

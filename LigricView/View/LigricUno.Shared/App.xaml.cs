@@ -109,12 +109,7 @@ namespace LigricUno
                 //}
                 // Ensure the current window is active
 
-                var firstPageKey = nameof(LoginPage) + 0;
-
-                Navigation.PrerenderPage(new LoginPage() { Tag = firstPageKey, /*Background = new SolidColorBrush(Colors.Blue)*/ },
-                    firstPageKey, new LoginViewModel());
-
-                Navigation.GoTo(firstPageKey);
+                Navigation.GoTo(new LoginPage(), nameof(LoginPage) + 0, new LoginViewModel());
 
                 _window.Activate();
             }

@@ -16,8 +16,13 @@ namespace LigricMvvmToolkit.Navigation
     {
         public static event ActionActivePagesChangedHandler ActivePagesChanged;
 
-        private static async void OnActivePagesChanged(object sender, object rootElement, Common.Enums.ActionCollectionEnum action, PageInfo item)
+        private static async void OnActivePagesChanged(object sender, object rootElement, PageActiveAction action, PageInfo item)
         {
+            if (action == PageActiveAction.Destroyed)
+            {
+                throw new NotImplementedException();
+            }
+
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (item?.Page is null)
@@ -46,6 +51,11 @@ namespace LigricMvvmToolkit.Navigation
                 rootObject.AddWrapper().AddElementToWrapper(prerenderPage);
 
                 ActivePagesChanged?.Invoke(item.PageKey);
+
+                // TODO : Temporary
+                if (action == PageActiveAction.GoWithPrerender)
+                   GoTo(item.PageKey, "root");
+
             });
         }
 

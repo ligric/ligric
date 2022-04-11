@@ -8,11 +8,20 @@ namespace LigricMvvmToolkit.Navigation
     public enum PageChangingVectorEnum
     {
         Back,
-        Next
+        Next,
+        New
     }
 
+    public enum PageActiveAction
+    {
+        Prerender,
+        GoWithPrerender,
+        Destroyed
+    }
+
+
     public delegate void CurrentPageEventHandler(object sender, object rootElement, PageInfo oldPage, PageInfo newPage, PageChangingVectorEnum changingVector, int? index);
-    public delegate void CollectionEventHandler<T>(object sender, object rootElement, ActionCollectionEnum action, T item);
+    public delegate void PagePrerenderEventHandler<T>(object sender, object rootElement, PageActiveAction action, T item);
 
 
     public interface INavigationService
@@ -23,7 +32,7 @@ namespace LigricMvvmToolkit.Navigation
 
         event CurrentPageEventHandler CurrentPageChanged;
 
-        event CollectionEventHandler<PageInfo> ActivePagesChanged;
+        event PagePrerenderEventHandler<PageInfo> ActivePagesChanged;
 
         void PrerenderPage(object page, string pageName = null, object vm = null, string title = null, object backPage = null, object nextPage = null);
 
