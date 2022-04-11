@@ -31,6 +31,13 @@ namespace LigricMvvmToolkit.Navigation
             return new ReadOnlyDictionary<string, FrameworkElement>(pages);
         }
 
+        public static string GetCurrentPageKey(string rootKey = "root")
+        {
+            var navigationService = GetNavigationServiceByRootKey(rootKey);
+            var pageKey = navigationService.CurrentPage.PageKey;
+            return pageKey;
+        }
+
         public static void GoTo(string pageName, string rootKey = "root", object backPage = null, object nextPage = null)
         {
             var navigationService = GetNavigationServiceByRootKey(rootKey);
