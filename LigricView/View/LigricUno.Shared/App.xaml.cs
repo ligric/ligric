@@ -128,20 +128,15 @@ namespace LigricUno
 
             initialized = true;
 
-            var forbiddenPageKeys = new List<string> { nameof(LoginPage), "LoginPage0", "Settings" };
-
             Task.Run(async () =>
             {
                 await Task.Delay(1000);
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    var navigationMenu= new NavigationMenu()
-                    {
-                        DataContext = new NavigationMenuViewModel()
-                    };
-                    var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(forbiddenPageKeys);
+                    var navigationMenu= new NavigationMenu();
+                    var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(new string[] { nameof(LoginPage), "LoginPage0", "Settings" });
 
-                    Navigation.PinFrontElement(navigationMenu, forbiddenPageKeysReadOnly);
+                    Navigation.Pin(navigationMenu, forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
                 });
             });
         }
