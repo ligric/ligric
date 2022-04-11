@@ -18,15 +18,17 @@ namespace LigricUno.Shared.Views.Pins
 
         public ObservableCollection<string> BoardConeiners { get; } = new ObservableCollection<string>();
 
+
+        private RelayCommand _newsCommand, _profileCommand, _boardsCommand, _settingsCommand;
+        public RelayCommand NewsCommand => _newsCommand ?? (_newsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage))));
+        public RelayCommand ProfileCommand => _profileCommand ?? (_profileCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage))));
+        public RelayCommand BoardsCommand => _boardsCommand ?? (_boardsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage))));
+        public RelayCommand SettingsCommand => _settingsCommand ?? (_settingsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage))));
+
+
         public NavigationMenuViewModel()
         {
             Navigation.ActivePagesChanged += OnActivePagesChanged;
-            //var test = Navigation.GetPages();
-
-            //foreach (var item in test)
-            //{
-            //    BoardConeiners.Add(item.Key);
-            //}
         }
 
         private void OnActivePagesChanged(string pageKey)
