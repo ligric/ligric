@@ -1,7 +1,6 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
-using Microsoft.UI.Xaml.Controls;
 
-namespace LigricUno.Views.Pages
+namespace LigricUno.Views.Pages.Home
 {
     public class HomeViewModel : OnNotifyPropertyChanged
     {

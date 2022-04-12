@@ -2,6 +2,7 @@
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages;
+using LigricUno.Views.Pages.News;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

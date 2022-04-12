@@ -1,8 +1,9 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
+using LigricUno.Views.Pages.News;
 
-namespace LigricUno.Views.Pages
+namespace LigricUno.Views.Pages.Login
 {
     public class LoginViewModel : OnNotifyPropertyChanged
     {

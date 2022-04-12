@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 
-namespace LigricUno.Views.Pages
+namespace LigricUno.Views.Pages.Boards
 {
     public class AdViewModel : OnNotifyPropertyChanged
     {

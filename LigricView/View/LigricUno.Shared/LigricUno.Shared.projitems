@@ -18,41 +18,41 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\HomePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\BoardsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Home\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\HomePageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\LoginPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Home\HomePageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\LoginViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\NewsPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Login\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\News\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\NewsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\News\NewsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenu.xaml.cs">
       <DependentUpon>NavigationMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenuViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\BoardsPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\BoardsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\HomePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Home\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\LoginPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Login\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\NewsPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\News\NewsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -81,5 +81,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\limeniye_icon.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Home\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Login\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\News\" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using LigricMvvmToolkit.Navigation;
 using LigricUno.Shared.Views.Pins;
 using LigricUno.Views.Pages;
+using LigricUno.Views.Pages.Login;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
