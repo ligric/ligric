@@ -1,5 +1,5 @@
 ﻿using LigricMvvmToolkit.Navigation;
-using LigricUno.Shared.Views.Pins;
+using LigricUno.Views.Pins;
 using LigricUno.Views.Pages;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Profile;

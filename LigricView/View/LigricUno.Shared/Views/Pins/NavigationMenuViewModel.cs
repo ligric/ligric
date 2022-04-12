@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace LigricUno.Shared.Views.Pins
+namespace LigricUno.Views.Pins
 {
     public class NavigationMenuViewModel : OnNotifyPropertyChanged
     {

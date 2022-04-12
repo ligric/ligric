@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
-namespace LigricUno.Shared.Views.Pins
+namespace LigricUno.Views.Pins
 {
     public sealed partial class NavigationMenu : UserControl
     {
