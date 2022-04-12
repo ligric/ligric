@@ -3,6 +3,7 @@ using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages;
 using LigricUno.Views.Pages.News;
+using LigricUno.Views.Pages.Profile;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,19 @@ namespace LigricUno.Shared.Views.Pins
 
         private RelayCommand _newsCommand, _profileCommand, _boardsCommand, _settingsCommand;
         public RelayCommand NewsCommand => _newsCommand ?? (_newsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
-        public RelayCommand ProfileCommand => _profileCommand ?? (_profileCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
+        public RelayCommand ProfileCommand => _profileCommand ?? (_profileCommand = new RelayCommand(GoToSelfProfilePageExecute, GoToSelfProfileCanExecute));
+
+        private bool GoToSelfProfileCanExecute(object parameter)
+        {
+            var fasf = Navigation.GetCurrentPageKey().Contains(nameof(SelfProfilePage));
+            return !fasf;
+        }
+
+        private void GoToSelfProfilePageExecute(object parameter)
+        {
+            Navigation.GoTo(nameof(SelfProfilePage));
+        }
+
         public RelayCommand BoardsCommand => _boardsCommand ?? (_boardsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
         public RelayCommand SettingsCommand => _settingsCommand ?? (_settingsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
 

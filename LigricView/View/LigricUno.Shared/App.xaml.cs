@@ -2,6 +2,7 @@
 using LigricUno.Shared.Views.Pins;
 using LigricUno.Views.Pages;
 using LigricUno.Views.Pages.Login;
+using LigricUno.Views.Pages.Profile;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -101,17 +102,8 @@ namespace LigricUno
             if (args.PrelaunchActivated == false)
 #endif
             {
-                //if (rootFrame.Content == null)
-                //{
-                //    // When the navigation stack isn't restored navigate to the first page,
-                //    // configuring the new page by passing required information as a navigation
-                //    // parameter
-                //   rootFrame.Navigate(typeof(BoardsPage), args.Arguments);
-                //}
-                // Ensure the current window is active
-
-                Navigation.GoTo(new LoginPage(), nameof(LoginPage) + 0, new LoginViewModel());
-
+                // TODO : Don't need to create second time
+                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 _window.Activate();
             }
         }
@@ -130,11 +122,15 @@ namespace LigricUno
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var navigationMenu= new NavigationMenu();
-                    var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(new string[] { nameof(LoginPage), "LoginPage0", "Settings" });
-
+                    var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(new string[] { nameof(LoginPage), "Settings" });
                     Navigation.Pin(navigationMenu, forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
                 });
             });
+        }
+
+        private void PagesPrerender()
+        {
+            Navigation.PrerenderPage(new SelfProfilePage(), nameof(SelfProfilePage), new SelfProfileViewModel());
         }
 
         /// <summary>
