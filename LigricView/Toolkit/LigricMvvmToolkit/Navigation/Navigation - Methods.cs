@@ -62,11 +62,10 @@ namespace LigricMvvmToolkit.Navigation
         /// <param name="frontElement">An element that will always appear in front of the screen.</param>
         /// <param name="rootKey"><see cref="RegisterRootElement"/></param>
         /// <param name="forbiddenPageKey">Keys of the pages on which the element will not be displayed.</param>
-        public static void Pin(FrameworkElement frontElement, IReadOnlyCollection<string> forbiddenPageKeys = null, object viewModel = null, string rootKey = "root")
+        public static void Pin(FrameworkElement frontElement, string pinKey, IEnumerable<string> forbiddenPageKeys = null, object viewModel = null, string rootKey = "root")
         {
             var navigationService = GetNavigationServiceByRootKey(rootKey);
-            var root = navigationService.RootElement;
-            ((FrameworkElement)root).AddWrapper(rootKey).AddPinElement(frontElement, navigationServices[rootKey].CurrentPage.PageKey, forbiddenPageKeys);
+            navigationService.Pin(frontElement, pinKey, forbiddenPageKeys, viewModel, rootKey);
         }
 
         private static NavigationService GetNavigationServiceByRootKey(string rootKey)

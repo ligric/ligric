@@ -31,7 +31,7 @@ namespace LigricMvvmToolkit.Navigation
             RootElement = rootElement;
         }
 
-        public void PrerenderPage(object page, string pageName = null, object vm = null, string title = null, object backPage = null, object nextPage = null)
+        public void PrerenderPage(object page, string pageName, object vm = null, string title = null, object backPage = null, object nextPage = null)
             => PageHandler(page, pageName, vm, backPage, nextPage, PageActionEnum.Prerender, title);
 
         public void GoTo(string pageName, object backPage = null, object nextPage = null) 
@@ -80,6 +80,12 @@ namespace LigricMvvmToolkit.Navigation
                     }
                     break;
             }
+        }
+
+        public void Pin(object pinElement, string pinKey, IEnumerable<string> forbiddenPageKeys, object viewModel, string rootKey = "root")
+        {
+            if(pinElement == null)
+                throw new NullReferenceException("Pin element is null");
         }
 
         private void AddActivePage(PageInfo newPage, PageActiveAction action)
