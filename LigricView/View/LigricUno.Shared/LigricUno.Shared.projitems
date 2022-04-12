@@ -6,7 +6,7 @@
     <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>LigricUno.Shared</Import_RootNamespace>
+    <Import_RootNamespace>LigricUno</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -34,6 +34,10 @@
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\News\NewsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\SelfProfilePage.xaml.cs">
+      <DependentUpon>SelfProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\SelfProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenu.xaml.cs">
       <DependentUpon>NavigationMenu.xaml</DependentUpon>
     </Compile>
@@ -53,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\Pages\News\NewsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\SelfProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
