@@ -50,7 +50,6 @@ namespace LigricMvvmToolkit.Navigation
             navigationService.GoWithPrerender(page, pageName, vm, title, backPage, nextPage);
         }
 
-
         public static void PrerenderPage(FrameworkElement page, string pageName = null, object vm = null, string rootKey = "root", string title = null, object backPage = null, object nextPage = null)
         {
             var navigationService = GetNavigationServiceByRootKey(rootKey);
@@ -69,7 +68,6 @@ namespace LigricMvvmToolkit.Navigation
             var root = navigationService.RootElement;
             ((FrameworkElement)root).AddWrapper(rootKey).AddPinElement(frontElement, navigationServices[rootKey].CurrentPage.PageKey, forbiddenPageKeys);
         }
-
 
         private static NavigationService GetNavigationServiceByRootKey(string rootKey)
         {

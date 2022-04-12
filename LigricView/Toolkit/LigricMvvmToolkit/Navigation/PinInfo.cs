@@ -1,18 +1,34 @@
-﻿namespace LigricMvvmToolkit.Navigation
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+namespace LigricMvvmToolkit.Navigation
 {
     public class PinInfo
     {
-        public object Pin { get; }
-        
-        public object ViewModel { get; }
+        public object Element { get; }
 
         public string PinKey { get; }
 
         public bool IsVisible { get; }
 
-        public PinInfo(object pin, string pinKey, bool isVisible = false, object vm = null)
+        public IReadOnlyCollection<string> ForbiddenPageKeys { get; }
+        
+        public object ViewModel { get; }
+
+        public string WrapperKey { get; }
+
+        private static readonly ReadOnlyCollection<string> empty = new ReadOnlyCollection<string>(new string[0]);
+
+        public PinInfo(object element, string pinKey, bool isVisible = false, object vm = null, IEnumerable<string> forbiddenPageKeys = null)
         {
-            Pin = pin; PinKey = pinKey; IsVisible = isVisible; ViewModel = vm;
+            Element = element;
+            PinKey = pinKey;
+            IsVisible = isVisible;
+            ViewModel = vm;
+            ForbiddenPageKeys = forbiddenPageKeys == null
+                                ? empty
+                                : new ReadOnlyCollection<string>(forbiddenPageKeys.ToArray());
         }
     }
 }
