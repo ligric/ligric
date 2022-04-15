@@ -102,30 +102,38 @@ namespace LigricUno
             if (args.PrelaunchActivated == false)
 #endif
             {
-                // TODO : Don't need to create second time
-                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
-                _window.Activate();
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    //rootFrame.Navigate(typeof(LoginPage), args.Arguments);
+                    _window.Activate();
+                    //Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
+                }
             }
         }
 
         private bool initialized = false;
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            if (initialized)
-                return;
+            Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
 
-            initialized = true;
+            //if (initialized)
+            //    return;
 
-            Task.Run(async () =>
-            {
-                await Task.Delay(1000);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var navigationMenu= new NavigationMenu();
-                    var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(new string[] { nameof(LoginPage), "Settings" });
-                    Navigation.Pin(navigationMenu, forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
-                });
-            });
+            //initialized = true;
+
+            //Task.Run(async () =>
+            //{
+            //    await Task.Delay(1000);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        var navigationMenu= new NavigationMenu();
+            //        var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(new string[] { nameof(LoginPage), "Settings" });
+            //        Navigation.Pin(navigationMenu, forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
+            //    });
+            //});
         }
 
         private void PagesPrerender()
