@@ -135,6 +135,10 @@
       <Project>{fa32bc91-b97d-42ef-ba11-94c3a79f989d}</Project>
       <Name>BoardModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Toolkit\CheburchayNavigation\Uno.CheburchayNavigation\Uno.CheburchayNavigation.csproj">
+      <Project>{52C8F50C-E56F-41ED-A0A4-8B1708472523}</Project>
+      <Name>Uno.CheburchayNavigation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj">
       <Project>{80A02429-908A-4BA0-B258-BD8BFFD6AF5C}</Project>
       <Name>LigricMvvmToolkit</Name>
