@@ -109,6 +109,7 @@ namespace LigricUno
                     // parameter
                     //rootFrame.Navigate(typeof(LoginPage), args.Arguments);
                     _window.Activate();
+
                     //Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 }
             }
@@ -117,7 +118,12 @@ namespace LigricUno
         private bool initialized = false;
         private void OnWindowActivated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
+            if (!initialized)
+            {
+                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
+
+                initialized = true;
+            }
 
             //if (initialized)
             //    return;
