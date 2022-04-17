@@ -120,6 +120,8 @@ namespace LigricUno
         {
             if (!initialized)
             {
+                Navigation.PrerenderPage(new LoadingPage(), nameof(LoadingPage));
+
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
 
                 initialized = true;
@@ -140,11 +142,6 @@ namespace LigricUno
             //        Navigation.Pin(navigationMenu, forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
             //    });
             //});
-        }
-
-        private void PagesPrerender()
-        {
-            Navigation.PrerenderPage(new SelfProfilePage(), nameof(SelfProfilePage), new SelfProfileViewModel());
         }
 
         /// <summary>
