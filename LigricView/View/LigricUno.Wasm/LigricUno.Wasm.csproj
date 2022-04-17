@@ -53,6 +53,7 @@
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
     <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj" />
     <ProjectReference Include="..\..\Model\BoardModels\BoardModels.csproj" />
+    <ProjectReference Include="..\..\Toolkit\CheburchayNavigation\Uno.CheburchayNavigation\Uno.CheburchayNavigation.csproj" />
     <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
   </ItemGroup>
   <Import Project="..\LigricUno.Shared\LigricUno.Shared.projitems" Label="Shared" />
