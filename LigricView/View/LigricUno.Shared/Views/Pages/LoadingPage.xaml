@@ -1,8 +1,5 @@
-﻿<Page x:Class="LigricUno.Views.Pages.LoadingPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:LigricUno.Views.Pages">
+﻿<Page x:Class="LigricUno.Views.Pages.LoadingPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <ProgressRing Style="{StaticResource SimpleProgressRing}">
-
-    </ProgressRing>
+    <ProgressRing IsActive="True" Width="100" Height="100"/>
 
 </Page>
