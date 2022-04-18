@@ -1,5 +1,101 @@
-﻿<Page x:Class="LigricUno.Views.Pages.LoadingPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Page x:Class="LigricUno.Views.Pages.LoadingPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:wux="using:Windows.UI.Xaml.Controls">
 
-    <ProgressRing IsActive="True" Width="100" Height="100"/>
+    <Page.Resources>
+        <Storyboard x:Name="customStoryboard">
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point"
+                                        Storyboard.TargetName="StartLine"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="StartLinePoint"
+                                    Value="20,0"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point"
+                                        Storyboard.TargetName="TopLine"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="TopLinePoint" 
+                                    Value="20,100"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point1"
+                                        Storyboard.TargetName="Part1"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="Part1Point1" 
+                                    Value="20,125"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point2"
+                                        Storyboard.TargetName="Part1"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="Part1Point2"
+                                    Value="150,135"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point3"
+                                        Storyboard.TargetName="Part1"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="Part1Point3" 
+                                    Value="150,150"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point1"
+                                        Storyboard.TargetName="Part2"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="Part2Point1" 
+                                    Value="150,165"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point2"
+                                        Storyboard.TargetName="Part2"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="Part2Point2" 
+                                    Value="20,175"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point3"
+                                        Storyboard.TargetName="Part2"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="Part2Point3" 
+                                    Value="20,200"/>
+            </PointAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="Point"
+                                        Storyboard.TargetName="BottomLine"
+                                        EnableDependentAnimation="True">
+                <LinearPointKeyFrame KeyTime="0:0:0.5"
+                                    x:Name="BottomLinePoint" 
+                                    Value="20,1000"/>
+            </PointAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+
+    <Path x:Name="path" Fill="Blue" StrokeThickness="4" Stroke="BlanchedAlmond" PointerMoved="path_PointerMoved">
+        <Path.Data>
+            <PathGeometry>
+                <PathGeometry.Figures>
+                    <PathFigureCollection>
+
+                        <PathFigure StartPoint="0,0">
+                            <PathFigure.Segments>
+                                <PathSegmentCollection>
+                                    <LineSegment Point="20,0" x:Name="StartLine" />
+                                    <LineSegment Point="20,100" x:Name="TopLine"/>
+                                    <BezierSegment Point1="20,125" x:Name="Part1"
+                                                   Point2="80,135"
+                                                   Point3="80,150"/>
+                                    <BezierSegment Point1="80,165" x:Name="Part2"
+                                                   Point2="20,175"
+                                                   Point3="20,200"/>
+                                    <LineSegment Point="20,1000" x:Name="BottomLine"/>
+                                    <LineSegment Point="0,1000" x:Name="EndLine" />
+                                </PathSegmentCollection>
+                            </PathFigure.Segments>
+                        </PathFigure>
+                    </PathFigureCollection>
+                </PathGeometry.Figures>
+            </PathGeometry>
+        </Path.Data>
+    </Path>
+
 
 </Page>
