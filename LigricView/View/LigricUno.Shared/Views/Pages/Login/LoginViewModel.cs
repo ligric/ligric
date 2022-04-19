@@ -5,6 +5,7 @@ using LigricUno.Views.Pages.Boards;
 using LigricUno.Views.Pages.News;
 using LigricUno.Views.Pages.Profile;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,12 +36,22 @@ namespace LigricUno.Views.Pages.Login
             {
                 renderingPagesCount++;
 
+                if (prerenderPageActions.Count > 0)
+                {
+                    var index = prerenderPageActions[0].Index;
+                    var action = prerenderPageActions[0].Action;
+                    prerenderPageActions.RemoveAt(0);
+                    action.Invoke(index);
+                }
+                
                 if (renderingPagesCount == 14)
                 {
                     //Navigation.GoTo(nameof(NewsPage));
                 }
             }
         }
+
+        private readonly List<(Action<int> Action, int Index)> prerenderPageActions = new List<(Action<int> Action, int Index)>();
 
         private async void LoginLaterMethod(object parameter)
         {
@@ -50,16 +61,20 @@ namespace LigricUno.Views.Pages.Login
 
 
             Navigation.PrerenderPage(new NewsPage(), nameof(NewsPage), new NewsViewModel());
-
             Navigation.PrerenderPage(new SelfProfilePage(), nameof(SelfProfilePage), new SelfProfileViewModel());
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                for (int i = 0; i < 20; i++)
+
+                for (int i = 1; i < 20; i++)
                 {
-                    Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + i, new BoardsViewModel());
-                    await Task.Delay(25);
+                    prerenderPageActions.Add(((int j) => 
+                    {
+                        Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + j, new BoardsViewModel());
+                    }, i));
                 }
+
+                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + 0, new BoardsViewModel());
             });
 
         }

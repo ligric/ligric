@@ -1,9 +1,5 @@
-﻿using LigricMvvmToolkit.Navigation;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using LigricMvvmToolkit.BaseMvvm;
+using LigricMvvmToolkit.Navigation;
 
 namespace LigricUno.Views.Pages
 {
