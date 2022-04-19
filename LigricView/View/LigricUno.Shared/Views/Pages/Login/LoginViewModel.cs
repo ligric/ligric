@@ -4,12 +4,16 @@ using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages.Boards;
 using LigricUno.Views.Pages.News;
 using LigricUno.Views.Pages.Profile;
+using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace LigricUno.Views.Pages.Login
 {
-    public class LoginViewModel : OnNotifyPropertyChanged
+    public class LoginViewModel : DispatchedBindableBase
     {
         private string _email;
 
@@ -31,29 +35,33 @@ namespace LigricUno.Views.Pages.Login
             {
                 renderingPagesCount++;
 
-                if (renderingPagesCount == 7)
+                if (renderingPagesCount == 14)
                 {
-                    Navigation.GoTo(nameof(NewsPage));
+                    //Navigation.GoTo(nameof(NewsPage));
                 }
             }
         }
 
-        private void LoginLaterMethod(object parameter)
+        private async void LoginLaterMethod(object parameter)
         {
             Debug.WriteLine("After animation" + Thread.CurrentThread.ManagedThreadId);
 
-            Navigation.GoTo(nameof(LoadingPage));
+            Navigation.GoTo(nameof(LoadingPageTemporary));
 
 
             Navigation.PrerenderPage(new NewsPage(), nameof(NewsPage), new NewsViewModel());
 
             Navigation.PrerenderPage(new SelfProfilePage(), nameof(SelfProfilePage), new SelfProfileViewModel());
 
-
-            for (int i = 0; i < 10; i++)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
             {
-                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + i, new BoardsViewModel());
-            }
+                for (int i = 0; i < 20; i++)
+                {
+                    Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + i, new BoardsViewModel());
+                    await Task.Delay(25);
+                }
+            });
+
         }
     }
 }
