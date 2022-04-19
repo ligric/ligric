@@ -120,9 +120,9 @@ namespace LigricUno
         {
             if (!initialized)
             {
-                //Navigation.PrerenderPage(new LoadingPage(), nameof(LoadingPage));
+                Navigation.PrerenderPage(new LoadingPageTemporary(), nameof(LoadingPageTemporary), new LoadingPageTemporaryViewModel());
 
-                Navigation.GoTo(new LoadingPageTemporary(), nameof(LoadingPageTemporary));
+                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
 
                 initialized = true;
             }
