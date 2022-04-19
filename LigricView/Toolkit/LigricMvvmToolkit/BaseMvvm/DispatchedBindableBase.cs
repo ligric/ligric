@@ -21,8 +21,11 @@ namespace LigricMvvmToolkit.BaseMvvm
         {
             if (EqualityComparer<T>.Default.Equals(backingVariable, value)) return false;
 
+            T oldValue = backingVariable;
             backingVariable = value;
             RaisePropertyChanged(propertyName);
+
+            OnPropertyChanged(propertyName, oldValue, backingVariable);
 
             return true;
         }
@@ -47,5 +50,7 @@ namespace LigricMvvmToolkit.BaseMvvm
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
             }
         }
+
+        protected virtual void OnPropertyChanged(string propertyName, object oldValue, object newValue) { }
     }
 }
