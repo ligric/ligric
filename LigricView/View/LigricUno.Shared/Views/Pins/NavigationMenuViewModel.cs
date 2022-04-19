@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Views.Pins
 {
-    public class NavigationMenuViewModel : OnNotifyPropertyChanged
+    public class NavigationMenuViewModel : DispatchedBindableBase
     {
         private string _currentContainer;
 

@@ -16,7 +16,7 @@ using Windows.Storage;
 
 namespace LigricUno.Views.Pages.Boards
 {
-    public class AdViewModel : OnNotifyPropertyChanged
+    public class AdViewModel : DispatchedBindableBase
     {
         private long _id = 0;
         private string _trader, _paymentMethod, _rate, _limit;
@@ -33,7 +33,7 @@ namespace LigricUno.Views.Pages.Boards
         }
     }
 
-    public class BoardViewModel : OnNotifyPropertyChanged
+    public class BoardViewModel : LigricMvvmToolkit.BaseMvvm.DispatchedBindableBase
     {
         public ObservableCollection<AdViewModel> Ads { get; } = new ObservableCollection<AdViewModel>();
 
@@ -155,7 +155,7 @@ namespace LigricUno.Views.Pages.Boards
         }
     }
 
-    public class BoardsViewModel : OnNotifyPropertyChanged
+    public class BoardsViewModel : LigricMvvmToolkit.BaseMvvm.DispatchedBindableBase
     {
         private double _zoomFactor;
         public double ZoomFactor { get => _zoomFactor; private set => SetProperty(ref _zoomFactor, value); }

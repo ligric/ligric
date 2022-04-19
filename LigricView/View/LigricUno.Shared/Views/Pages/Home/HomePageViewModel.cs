@@ -2,7 +2,7 @@
 
 namespace LigricUno.Views.Pages.Home
 {
-    public class HomeViewModel : OnNotifyPropertyChanged
+    public class HomeViewModel : DispatchedBindableBase
     {
 
     }
