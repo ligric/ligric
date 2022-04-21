@@ -1,7 +1,9 @@
 ﻿using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Login;
+using LigricUno.Views.Pins;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -114,8 +116,9 @@ namespace LigricUno
                 initialized = true;
 
                 //Navigation.PrerenderPage(new LoadingPageTemporary(), nameof(LoadingPageTemporary), new LoadingPageTemporaryViewModel());
-
+                var forbiddenPageKeysReadOnly = new List<string>(new string[] { nameof(LoginPage), "Settings" });
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
+                Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
 
             }
 
