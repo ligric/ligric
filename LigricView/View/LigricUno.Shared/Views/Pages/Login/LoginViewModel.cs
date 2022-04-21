@@ -1,19 +1,9 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
-using LigricUno.Views.Pages.Boards;
 using LigricUno.Views.Pages.News;
-using LigricUno.Views.Pages.Profile;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace LigricUno.Views.Pages.Login
 {
@@ -30,7 +20,7 @@ namespace LigricUno.Views.Pages.Login
 
         private void LoginLaterMethod(object parameter)
         {
-            Navigation.GoTo(new BoardsPage(), nameof(BoardsPage) + 0, new BoardsViewModel());
+            Navigation.GoTo(new NewsPage(), nameof(NewsPage), new NewsViewModel());
         }
     }
 }
