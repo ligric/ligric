@@ -1,7 +1,6 @@
 ﻿using Common;
 using LigricMvvmToolkit.Animations;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Uno.Disposables;
 using Windows.UI.Xaml;
@@ -110,7 +109,7 @@ namespace LigricBoardCustomControls.Menus
         protected ToggleButton toggleButton;
         protected FrameworkElement root;
 
-        private bool isApplyed;
+        private bool isApplyed, isChanging;
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
         private readonly SyncAnimations syncBufferAnimations = new SyncAnimations();
@@ -264,11 +263,13 @@ namespace LigricBoardCustomControls.Menus
             {
                 if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
                 {
+                    isChanging = true;
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
                     {
                         VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
                         SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
+                        isChanging = false;
                     });
 
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, () =>
@@ -284,11 +285,15 @@ namespace LigricBoardCustomControls.Menus
             {
                 if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
                 {
+                    isChanging = true;
+
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
                     {
                         VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
                         SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
                         ExpanderSideChanged?.Invoke(this, newValue);
+
+                        isChanging = false;
                     });
 
                     await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, () =>
@@ -319,9 +324,12 @@ namespace LigricBoardCustomControls.Menus
 
         private void OnParentLayoutUpdated(object sender, object e)
         {
-            FrameworkElement parent = (FrameworkElement)Parent;
-            TemplateSettings.HeaderVerticalHeight = parent.ActualHeight - Margin.Top - Margin.Bottom;
-            TemplateSettings.HeaderHorizontalWidth = parent.ActualWidth - Margin.Left - Margin.Right;
+            if (!isChanging)
+            {
+                FrameworkElement parent = (FrameworkElement)Parent;
+                TemplateSettings.HeaderVerticalHeight = parent.ActualHeight - Margin.Top - Margin.Bottom;
+                TemplateSettings.HeaderHorizontalWidth = parent.ActualWidth - Margin.Left - Margin.Right;
+            }
         }
 
 #if NET6_0_ANDROID
