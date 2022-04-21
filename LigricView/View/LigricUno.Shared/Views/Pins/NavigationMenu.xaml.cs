@@ -10,19 +10,20 @@ namespace LigricUno.Views.Pins
         public NavigationMenu()
         {
             this.InitializeComponent();
+            LayoutUpdated += OnLayoutUpdated;
+        }
 
+        private void OnLayoutUpdated(object sender, object e)
+        {
             menu.ExpanderSideChanged += OnMenuSideChanged;
             ////// TODO : TEMPRARY
             stackPanel.LayoutUpdated += OnStackPanelLayoutUpdated;
             SetSideSettings(menu.ExpanderSide);
-
         }
 
         ////// TODO : TEMPRARY
         private void OnStackPanelLayoutUpdated(object sender, object e)
         {
-
-
             Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
 
             double widthArea = rect.Width - userImage.Margin.Left - userImage.Margin.Right;
@@ -31,22 +32,22 @@ namespace LigricUno.Views.Pins
             double buttonWidthArea = (rect.Width - boards.Margin.Left - boards.Margin.Right) * 1.1;
             double buttonHeightArea = (rect.Height - boards.Margin.Top - boards.Margin.Bottom) * 1.5;
 
-            //if (stackPanel.Orientation == Orientation.Horizontal)
-            //{
-            //    userImage.Width = heightArea;
-            //    news.Width = buttonHeightArea;
-            //    profile.Width = buttonHeightArea;
-            //    boards.Width = buttonHeightArea;
-            //    settings.Width = buttonHeightArea;
-            //}
-            //else
-            //{
-            //    userImage.Height = widthArea;
-            //    news.Height = buttonWidthArea;
-            //    profile.Height = buttonWidthArea;
-            //    boards.Height = buttonWidthArea;
-            //    settings.Height = buttonWidthArea;
-            //}
+            if (stackPanel.Orientation == Orientation.Horizontal)
+            {
+                userImage.Width = heightArea;
+                news.Width = buttonHeightArea;
+                profile.Width = buttonHeightArea;
+                boards.Width = buttonHeightArea;
+                settings.Width = buttonHeightArea;
+            }
+            else
+            {
+                userImage.Height = widthArea;
+                news.Height = buttonWidthArea;
+                profile.Height = buttonWidthArea;
+                boards.Height = buttonWidthArea;
+                settings.Height = buttonWidthArea;
+            }
         }
 
         private void OnMenuSideChanged(object sender, LigricBoardCustomControls.Menus.ExpanderSide newSide)
