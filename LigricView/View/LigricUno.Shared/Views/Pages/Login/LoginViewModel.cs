@@ -53,29 +53,24 @@ namespace LigricUno.Views.Pages.Login
 
         private readonly List<(Action<int> Action, int Index)> prerenderPageActions = new List<(Action<int> Action, int Index)>();
 
-        private async void LoginLaterMethod(object parameter)
+        private void LoginLaterMethod(object parameter)
         {
             Debug.WriteLine("After animation" + Thread.CurrentThread.ManagedThreadId);
 
             Navigation.GoTo(nameof(LoadingPageTemporary));
 
-
             Navigation.PrerenderPage(new NewsPage(), nameof(NewsPage), new NewsViewModel());
             Navigation.PrerenderPage(new SelfProfilePage(), nameof(SelfProfilePage), new SelfProfileViewModel());
 
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            for (int i = 1; i < 20; i++)
             {
-
-                for (int i = 1; i < 20; i++)
+                prerenderPageActions.Add(((int j) =>
                 {
-                    prerenderPageActions.Add(((int j) => 
-                    {
-                        Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + j, new BoardsViewModel());
-                    }, i));
-                }
+                    Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + j, new BoardsViewModel());
+                }, i));
+            }
 
-                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + 0, new BoardsViewModel());
-            });
+            Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage) + 0, new BoardsViewModel());
 
         }
     }

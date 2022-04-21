@@ -3,6 +3,9 @@
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <ProgressBar Value="{Binding Value}" Maximum="100"/>
         <TextBlock Text="{Binding Value}"/>
+
+        <Button Content="Test" HorizontalAlignment="Stretch" Margin="20"
+                Height ="100" Background="#1e1e1e"/>
     </StackPanel>
 
 </Page>
