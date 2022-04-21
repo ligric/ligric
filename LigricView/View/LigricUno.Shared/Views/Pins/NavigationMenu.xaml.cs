@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System.Diagnostics;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -11,15 +12,42 @@ namespace LigricUno.Views.Pins
         {
             this.InitializeComponent();
             LayoutUpdated += OnLayoutUpdated;
-        }
-
-        private void OnLayoutUpdated(object sender, object e)
-        {
-            LayoutUpdated -= OnLayoutUpdated;
             menu.ExpanderSideChanged += OnMenuSideChanged;
             ////// TODO : TEMPRARY
             stackPanel.LayoutUpdated += OnStackPanelLayoutUpdated;
             SetSideSettings(menu.ExpanderSide);
+        }
+
+        private void OnLayoutUpdated(object sender, object e)
+        {
+            // 16 : 9
+            if (ActualHeight / 3.0 >= ActualWidth / 2.0)
+            {
+                if (menu.ExpanderSide != LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
+                {
+                    Debug.WriteLine("Внизу");
+                    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
+                }
+            }
+            else
+            {
+                if (menu.ExpanderSide != LigricBoardCustomControls.Menus.ExpanderSide.Left)
+                {
+                    Debug.WriteLine("Слева");
+
+                    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
+                }
+            }
+
+
+            //if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
+            //{
+            //    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
+            //}
+            //else if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
+            //{
+            //    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
+            //}
         }
 
         ////// TODO : TEMPRARY
@@ -67,19 +95,6 @@ namespace LigricUno.Views.Pins
             else
             {
                 VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSidee", false);
-            }
-        }
-
-        ////// TODO : TEMPRARY
-        private void TestButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
-            {
-                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
-            }
-            else if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
-            {
-                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
             }
         }
     }
