@@ -20,12 +20,10 @@ namespace LigricUno.Views.Pins
 
         private void OnLayoutUpdated(object sender, object e)
         {
-            // 16 : 9
             if (ActualHeight / 3.0 >= ActualWidth / 2.0)
             {
                 if (menu.ExpanderSide != LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
                 {
-                    Debug.WriteLine("Внизу");
                     menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
                 }
             }
@@ -33,21 +31,9 @@ namespace LigricUno.Views.Pins
             {
                 if (menu.ExpanderSide != LigricBoardCustomControls.Menus.ExpanderSide.Left)
                 {
-                    Debug.WriteLine("Слева");
-
                     menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
                 }
             }
-
-
-            //if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
-            //{
-            //    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
-            //}
-            //else if (menu.ExpanderSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
-            //{
-            //    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
-            //}
         }
 
         ////// TODO : TEMPRARY
