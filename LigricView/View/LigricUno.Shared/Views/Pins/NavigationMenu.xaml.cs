@@ -15,6 +15,7 @@ namespace LigricUno.Views.Pins
 
         private void OnLayoutUpdated(object sender, object e)
         {
+            LayoutUpdated -= OnLayoutUpdated;
             menu.ExpanderSideChanged += OnMenuSideChanged;
             ////// TODO : TEMPRARY
             stackPanel.LayoutUpdated += OnStackPanelLayoutUpdated;
@@ -34,7 +35,9 @@ namespace LigricUno.Views.Pins
 
             if (stackPanel.Orientation == Orientation.Horizontal)
             {
-                userImage.Width = heightArea;
+                if (userImage.Visibility != Visibility.Collapsed)
+                    userImage.Width = heightArea;
+
                 news.Width = buttonHeightArea;
                 profile.Width = buttonHeightArea;
                 boards.Width = buttonHeightArea;
