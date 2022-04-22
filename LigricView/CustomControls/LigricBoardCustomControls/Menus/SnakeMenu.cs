@@ -257,53 +257,89 @@ namespace LigricBoardCustomControls.Menus
             thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, async () => await thisObject.SetExpanderSide(newValue, true), newValue.ToString());
         }
 
-        private async Task SetExpanderSide(ExpanderSide newValue,bool useTransitions)
+        private async Task SetExpanderSide(ExpanderSide newSide, bool useTransitions)
         {
-            if (newValue == ExpanderSide.Left)
+            if (newSide == ExpanderSide.Left)
             {
-                if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
-                {
-                    isChanging = true;
-                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
-                    {
-                        VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
-                        SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
-                        ExpanderSideChanged?.Invoke(this, newValue);
-                        isChanging = false;
-                    });
-
-                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, () =>
-                    {
-                        Binding binding = new Binding();
-                        binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
-                        binding.Source = TemplateSettings;
-                        root.SetBinding(FrameworkElement.HeightProperty, binding);
-                    });
-                }
+                await SetLeftSide(newSide, useTransitions);
             }
-            else if (newValue == ExpanderSide.Bottom)
+            else if (newSide == ExpanderSide.Bottom)
             {
-                if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
+                await SetBottomSide(newSide, useTransitions);
+            }
+        }
+
+        private async Task SetLeftSide(ExpanderSide newSide, bool useTransitions)
+        {
+            if (!useTransitions)
+            {
+                VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
+                SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
+                ExpanderSideChanged?.Invoke(this, newSide);
+
+                Binding binding = new Binding();
+                binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
+                binding.Source = TemplateSettings;
+                root.SetBinding(FrameworkElement.HeightProperty, binding);
+                return;
+            }
+
+            if (GetTemplateChild("BottomToBufferStoryboard") is Storyboard bottomToBufferStoryboard && GetTemplateChild("BufferToLeftSideStoryboard") is Storyboard bufferToLeftSideStoryboard)
+            {
+                isChanging = true;
+                await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bottomToBufferStoryboard, () =>
                 {
-                    isChanging = true;
+                    VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
+                    SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
+                    ExpanderSideChanged?.Invoke(this, newSide);
+                    isChanging = false;
+                });
 
-                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
-                    {
-                        VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
-                        SetNewExpanderState(ExpanderState.Collapsed, newValue, useTransitions);
-                        ExpanderSideChanged?.Invoke(this, newValue);
+                await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, () =>
+                {
+                    Binding binding = new Binding();
+                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
+                    binding.Source = TemplateSettings;
+                    root.SetBinding(FrameworkElement.HeightProperty, binding);
+                });
+            }
+        }
 
-                        isChanging = false;
-                    });
+        private async Task SetBottomSide(ExpanderSide newSide, bool useTransitions)
+        {
+            if (!useTransitions)
+            {
+                VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
+                SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
+                ExpanderSideChanged?.Invoke(this, newSide);
 
-                    await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, () =>
-                    {
-                        Binding binding = new Binding();
-                        binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
-                        binding.Source = TemplateSettings;
-                        root.SetBinding(FrameworkElement.WidthProperty, binding);
-                    });
-                }
+                Binding binding = new Binding();
+                binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
+                binding.Source = TemplateSettings;
+                root.SetBinding(FrameworkElement.WidthProperty, binding);
+                return;
+            }
+
+            if (GetTemplateChild("LeftToBufferStoryboard") is Storyboard leftToBufferStoryboard && GetTemplateChild("BufferToBottomSideStoryboard") is Storyboard bufferToBottomSideStoryboard)
+            {
+                isChanging = true;
+
+                await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => leftToBufferStoryboard, () =>
+                {
+                    VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
+                    SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
+                    ExpanderSideChanged?.Invoke(this, newSide);
+
+                    isChanging = false;
+                });
+
+                await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, () =>
+                {
+                    Binding binding = new Binding();
+                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
+                    binding.Source = TemplateSettings;
+                    root.SetBinding(FrameworkElement.WidthProperty, binding);
+                });
             }
         }
 
