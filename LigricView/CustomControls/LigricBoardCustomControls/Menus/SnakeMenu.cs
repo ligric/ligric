@@ -109,7 +109,7 @@ namespace LigricBoardCustomControls.Menus
         protected ToggleButton toggleButton;
         protected FrameworkElement root;
 
-        private bool isApplyed, isChanging;
+        private bool isApplyed, isChanging, useAnimation = false;
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
         private readonly SyncAnimations syncBufferAnimations = new SyncAnimations();
@@ -195,6 +195,7 @@ namespace LigricBoardCustomControls.Menus
                 async () => await SetExpanderSide(expanderSide, false), expanderSide.ToString());
 
             isApplyed = true;
+            useAnimation = true;
             //SetNewExpanderState(ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
         }
@@ -249,7 +250,7 @@ namespace LigricBoardCustomControls.Menus
                 return;
 
             thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
-                () => thisObject.SetNewExpanderState(newValue, thisObject.ExpanderSide, true));
+                () => thisObject.SetNewExpanderState(newValue, thisObject.ExpanderSide, thisObject.useAnimation));
         }
 
         private static void OnExpanderSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -268,7 +269,9 @@ namespace LigricBoardCustomControls.Menus
                 return;
 
             thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
-                async () => await thisObject.SetExpanderSide(newValue, true), newValue.ToString());
+                async () => await thisObject.SetExpanderSide(newValue, thisObject.useAnimation), newValue.ToString());
+
+            thisObject.useAnimation = true;
         }
 
         private async Task SetExpanderSide(ExpanderSide newSide, bool useTransitions)
@@ -281,6 +284,13 @@ namespace LigricBoardCustomControls.Menus
             {
                 await SetBottomSide(newSide, useTransitions);
             }
+        }
+
+
+        public void SetSideWithoutAnimation(ExpanderSide newSide)
+        {
+            useAnimation = false;
+            ExpanderSide = newSide;
         }
 
         private async Task SetLeftSide(ExpanderSide newSide, bool useTransitions)
