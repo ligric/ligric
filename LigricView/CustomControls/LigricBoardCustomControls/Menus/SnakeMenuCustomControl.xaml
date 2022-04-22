@@ -69,11 +69,17 @@
                                         <Setter Target="ToggleButton.Height" Value="50"/>
                                         <Setter Target="ToggleButton.Width" Value="Auto"/>
 
-                                        <Setter Target="Root.Height" Value="50"/>
+                                        <Setter Target="Root.Height" Value="200"/>
                                         <Setter Target="Root.Width" Value="Auto"/>
                                         <Setter Target="Root.HorizontalAlignment" Value="Left"/>
                                         <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
                                     </VisualState.Setters>
+
+                                    <Storyboard x:Name="SetWidthFromHeaderVerticalHeight">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding TemplateSettings.HeaderVerticalHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
 

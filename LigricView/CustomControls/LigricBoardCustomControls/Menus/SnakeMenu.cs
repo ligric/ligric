@@ -259,6 +259,8 @@ namespace LigricBoardCustomControls.Menus
             if (thisObject == null)
                 return;
 
+            var useAnimation = thisObject.useAnimation;
+
             if (!thisObject.isApplyed)
                 return;
 
@@ -266,10 +268,13 @@ namespace LigricBoardCustomControls.Menus
             ExpanderSide oldValue = (ExpanderSide)e.OldValue;
 
             if (newValue == oldValue)
+            {
+                thisObject.useAnimation = true;
                 return;
+            }
 
             thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
-                async () => await thisObject.SetExpanderSide(newValue, thisObject.useAnimation), newValue.ToString());
+                async () => await thisObject.SetExpanderSide(newValue, useAnimation), newValue.ToString());
 
             thisObject.useAnimation = true;
         }
@@ -298,8 +303,12 @@ namespace LigricBoardCustomControls.Menus
             if (!useTransitions)
             {
                 VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
+
+                if (GetTemplateChild("SetWidthFromHeaderVerticalHeight") is Storyboard setWidthFromHeaderVerticalHeight)
+                    setWidthFromHeaderVerticalHeight.Begin();
+
                 SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
-                ExpanderSideChanged?.Invoke(this, newSide);
+                ExpanderSideChanged?.Invoke(this, newSide);                
 
                 Binding binding = new Binding();
                 binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
