@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using LigricMvvmToolkit.Navigation;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,6 +11,8 @@ namespace LigricUno.Views.Pins
 {
     public sealed partial class NavigationMenu : UserControl
     {
+        private bool useAnimation = false;
+
         public NavigationMenu()
         {
             this.InitializeComponent();
@@ -16,18 +21,52 @@ namespace LigricUno.Views.Pins
             ////// TODO : TEMPRARY
             stackPanel.LayoutUpdated += OnStackPanelLayoutUpdated;
             SetSideSettings(menu.ExpanderSide);
+            Navigation.PinsVisibilityChanged += OnPinsVisibilityChanged;
+        }
+
+        private void OnPinsVisibilityChanged(IReadOnlyCollection<string> oldKeys, IReadOnlyCollection<string> newKeys)
+        {
+            if (newKeys.FirstOrDefault(x => x.Equals(nameof(NavigationMenu))) != null)
+            {
+                useAnimation = false;
+                SetExpanderSideFromScreenAspectRatio();
+            }
         }
 
         private void OnLayoutUpdated(object sender, object e)
         {
+            SetExpanderSideFromScreenAspectRatio();
+        }
+
+        private void SetExpanderSideFromScreenAspectRatio()
+        {
+            if (ActualHeight == 0 || ActualWidth == 0)
+                return;
+
             if (ActualHeight / 3.0 >= ActualWidth / 2.0)
             {
-                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
+                if (useAnimation)
+                {
+                    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
+                }
+                else
+                {
+                    menu.SetSideWithoutAnimation(LigricBoardCustomControls.Menus.ExpanderSide.Bottom);
+                }
             }
             else
             {
-                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
+                if (useAnimation)
+                {
+                    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
+                }
+                else
+                {
+                    menu.SetSideWithoutAnimation(LigricBoardCustomControls.Menus.ExpanderSide.Left);
+                }
             }
+
+            useAnimation = true;
         }
 
         ////// TODO : TEMPRARY
@@ -35,17 +74,19 @@ namespace LigricUno.Views.Pins
         {
             Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
 
-            double widthArea = rect.Width - userImage.Margin.Left - userImage.Margin.Right;
+            double widthArea = (rect.Width - userImage.Margin.Left - userImage.Margin.Right);
+            widthArea = widthArea < 0 ? 0 : widthArea;
+
             double heightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
+            heightArea = heightArea < 0 ? 0 : heightArea;
 
             double buttonWidthArea = (rect.Width - boards.Margin.Left - boards.Margin.Right) * 1.1;
             double buttonHeightArea = (rect.Height - boards.Margin.Top - boards.Margin.Bottom) * 1.5;
 
             if (stackPanel.Orientation == Orientation.Horizontal)
             {
-                if (userImage.Visibility != Visibility.Collapsed)
-                    userImage.Width = heightArea;
-
+                //if (userImage.Visibility != Visibility.Collapsed)
+                userImage.Width = heightArea;
                 news.Width = buttonHeightArea;
                 profile.Width = buttonHeightArea;
                 boards.Width = buttonHeightArea;
