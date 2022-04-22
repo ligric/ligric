@@ -335,6 +335,20 @@ namespace LigricMvvmToolkit.Extensions
             }
         }
 
+        public static UIElement FindVisualParent(this UIElement element, Type type)
+        {
+            UIElement parent = element;
+            while (parent != null)
+            {
+                if (type.IsAssignableFrom(parent.GetType()))
+                {
+                    return parent;
+                }
+                parent = VisualTreeHelper.GetParent(parent) as UIElement;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Will navigate down the VisualTree to find an element that is of the provided type.
         /// </summary>

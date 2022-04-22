@@ -1,4 +1,5 @@
-﻿using LigricMvvmToolkit.Navigation;
+﻿using LigricMvvmToolkit.BaseMvvm;
+using LigricMvvmToolkit.Navigation;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
@@ -42,9 +43,19 @@ namespace LigricUno.Views.Pins
         }
     }
 
+    public class TestViewModel : DispatchedBindableBase
+    {
+        private double _testWidth, _testHeight;
+
+        public double TestWidth { get => _testWidth; set => SetProperty(ref _testWidth, value); }
+        public double TestHeight { get => _testHeight; set => SetProperty(ref _testHeight, value); }
+    }
+
     public sealed partial class NavigationMenu : UserControl
     {
         private bool useAnimation = false;
+
+        public TestViewModel Test { get; } = new TestViewModel() { TestWidth = 75, TestHeight = 50 };
 
         public NavigationMenu()
         {
@@ -107,32 +118,25 @@ namespace LigricUno.Views.Pins
         {
             Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
 
-            //double widthArea = (rect.Width - userImage.Margin.Left - userImage.Margin.Right);
-            //widthArea = widthArea < 0 ? 0 : widthArea;
+            double widthArea = (rect.Width - userImage.Margin.Left - userImage.Margin.Right);
+            widthArea = widthArea < 0 ? 0 : widthArea;
 
-            //double heightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
-            //heightArea = heightArea < 0 ? 0 : heightArea;
+            double heightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
+            heightArea = heightArea < 0 ? 0 : heightArea;
 
-            //double buttonWidthArea = (rect.Width - boards.Margin.Left - boards.Margin.Right) * 1.1;
-            //double buttonHeightArea = (rect.Height - boards.Margin.Top - boards.Margin.Bottom) * 1.5;
+            double buttonWidthArea = navigationListHeader.ActualWidth * 1.1;
+            double buttonHeightArea = navigationListHeader.ActualHeight * 1.5;
 
-            //if (stackPanel.Orientation == Orientation.Horizontal)
-            //{
-            //    //if (userImage.Visibility != Visibility.Collapsed)
-            //    userImage.Width = heightArea;
-            //    news.Width = buttonHeightArea;
-            //    profile.Width = buttonHeightArea;
-            //    boards.Width = buttonHeightArea;
-            //    settings.Width = buttonHeightArea;
-            //}
-            //else
-            //{
-            //    userImage.Height = widthArea;
-            //    news.Height = buttonWidthArea;
-            //    profile.Height = buttonWidthArea;
-            //    boards.Height = buttonWidthArea;
-            //    settings.Height = buttonWidthArea;
-            //}
+            if (stackPanel.Orientation == Orientation.Horizontal)
+            {
+                userImage.Width = heightArea;
+                Test.TestWidth = buttonHeightArea;
+            }
+            else
+            {
+                userImage.Height = widthArea;
+                Test.TestHeight = buttonWidthArea;
+            }
         }
 
         private void OnMenuSideChanged(object sender, LigricBoardCustomControls.Menus.ExpanderSide newSide)
