@@ -190,7 +190,10 @@ namespace LigricBoardCustomControls.Menus
             }
 
             var expanderSide = ExpanderSide;
-            syncMethods.WaitingAnotherMethodsAsync(syncMethodIndex++, async () => await SetExpanderSide(expanderSide, false), expanderSide.ToString());
+
+            syncMethods.WaitingAnotherMethodsAsync(syncMethodIndex++, 
+                async () => await SetExpanderSide(expanderSide, false), expanderSide.ToString());
+
             isApplyed = true;
             //SetNewExpanderState(ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
@@ -240,7 +243,13 @@ namespace LigricBoardCustomControls.Menus
 
             ExpanderState newValue = (ExpanderState)e.NewValue;
 
-            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, () => thisObject.SetNewExpanderState(newValue, thisObject.ExpanderSide, true));
+            ExpanderState oldValue = (ExpanderState)e.OldValue;
+
+            if (newValue == oldValue)
+                return;
+
+            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
+                () => thisObject.SetNewExpanderState(newValue, thisObject.ExpanderSide, true));
         }
 
         private static void OnExpanderSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -253,8 +262,13 @@ namespace LigricBoardCustomControls.Menus
                 return;
 
             ExpanderSide newValue = (ExpanderSide)e.NewValue;
+            ExpanderSide oldValue = (ExpanderSide)e.OldValue;
 
-            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, async () => await thisObject.SetExpanderSide(newValue, true), newValue.ToString());
+            if (newValue == oldValue)
+                return;
+
+            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
+                async () => await thisObject.SetExpanderSide(newValue, true), newValue.ToString());
         }
 
         private async Task SetExpanderSide(ExpanderSide newSide, bool useTransitions)

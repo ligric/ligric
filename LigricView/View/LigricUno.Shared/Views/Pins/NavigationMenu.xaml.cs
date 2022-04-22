@@ -22,17 +22,11 @@ namespace LigricUno.Views.Pins
         {
             if (ActualHeight / 3.0 >= ActualWidth / 2.0)
             {
-                if (menu.ExpanderSide != LigricBoardCustomControls.Menus.ExpanderSide.Bottom)
-                {
-                    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
-                }
+                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Bottom;
             }
             else
             {
-                if (menu.ExpanderSide != LigricBoardCustomControls.Menus.ExpanderSide.Left)
-                {
-                    menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
-                }
+                menu.ExpanderSide = LigricBoardCustomControls.Menus.ExpanderSide.Left;
             }
         }
 

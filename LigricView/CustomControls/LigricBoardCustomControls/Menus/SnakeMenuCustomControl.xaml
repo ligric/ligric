@@ -40,7 +40,7 @@
                                         <Setter Target="ToggleButton.Width" Value="50"/>
                                         <Setter Target="ToggleButton.Height" Value="Auto"/>
 
-                                        <Setter Target="Root.Height" Value="Auto"/>
+                                        <Setter Target="Root.Height" Value="50"/>
                                         <Setter Target="Root.Width" Value="50"/>
                                         <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
                                         <Setter Target="Root.HorizontalAlignment" Value="Left"/>
