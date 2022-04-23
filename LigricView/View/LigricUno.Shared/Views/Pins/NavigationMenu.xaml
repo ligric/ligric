@@ -21,6 +21,8 @@
 
             <DataTemplate x:Key="NewsItemTemplate" x:DataType="sys:String">
                 <Button data:RelativeSourceBinding.AncestorType="UserControl"
+                        Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.SelectNavigationItemCommand, RelativeSource={RelativeSource Self}}"
+                        CommandParameter="News"
                         Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                         Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}"
                         Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -33,6 +35,7 @@
 
             <DataTemplate x:Key="ProfileItemTemplate" x:DataType="sys:String">
                 <Button data:RelativeSourceBinding.AncestorType="UserControl"
+                        Command="{Binding SelectNavigationItemCommand}" CommandParameter="Profile"
                         Visibility="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.CurrentMode, RelativeSource={RelativeSource Self},
                                              Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Bottom'}" 
                         Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
@@ -47,6 +50,7 @@
 
             <DataTemplate x:Key="SettingsItemTemplate" x:DataType="sys:String">
                 <Button data:RelativeSourceBinding.AncestorType="UserControl"
+                        Command="{Binding SelectNavigationItemCommand}" CommandParameter="Settings"
                         Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                         Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}" 
                         Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -59,6 +63,7 @@
 
             <DataTemplate x:Key="BoardsItemTemplate" x:DataType="sys:String">
                 <Button data:RelativeSourceBinding.AncestorType="UserControl"
+                        Command="{Binding SelectNavigationItemCommand}" CommandParameter="Boards"
                         Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                         Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}"
                         Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -68,6 +73,11 @@
                     </Button.Content>
                 </Button>
             </DataTemplate>
+
+            <local:NavigationItemsDataTemplateSelector x:Key="NavigationItemsDataTemplateSelector"
+                                                       News="{StaticResource NewsItemTemplate}"
+                                                       Profile="{StaticResource ProfileItemTemplate}"
+                                                       Settings="{StaticResource SettingsItemTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -112,13 +122,8 @@
                         </Ellipse.Fill>
                     </Ellipse>
 
-                    <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding NavigationMenuItems}" Margin="10,0,10,0">
-                        <controls:ItemsRepeater.ItemTemplate>
-                            <local:NavigationItemsDataTemplateSelector News="{StaticResource NewsItemTemplate}"
-                                                                       Profile="{StaticResource ProfileItemTemplate}"
-                                                                       Settings="{StaticResource SettingsItemTemplate}"/>
-                        </controls:ItemsRepeater.ItemTemplate>
-
+                    <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding NavigationMenuItems}" Margin="10,0,10,0"
+                                            ItemTemplate="{StaticResource NavigationItemsDataTemplateSelector}">
                         <controls:ItemsRepeater.Layout>
                             <controls:StackLayout x:Name="headerStackLayout" Orientation="Horizontal" Spacing="10"/>
                         </controls:ItemsRepeater.Layout>

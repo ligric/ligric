@@ -1,14 +1,10 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
-using LigricUno.Views.Pages;
 using LigricUno.Views.Pages.News;
 using LigricUno.Views.Pages.Profile;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace LigricUno.Views.Pins
 {
@@ -18,28 +14,21 @@ namespace LigricUno.Views.Pins
 
         public string CurrentContainer { get => _currentContainer; set => SetProperty(ref _currentContainer, value); }
 
-        public ObservableCollection<string> BoardConeiners { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> NavigationMenuItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Settings" };
+        public ObservableCollection<string> BoardConeiners { get; } = new ObservableCollection<string>();
 
 
-        private RelayCommand _newsCommand, _profileCommand, _boardsCommand, _settingsCommand;
-        public RelayCommand NewsCommand => _newsCommand ?? (_newsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
-        public RelayCommand ProfileCommand => _profileCommand ?? (_profileCommand = new RelayCommand(GoToSelfProfilePageExecute, GoToSelfProfileCanExecute));
+        private RelayCommand<string> _selectNavigationItemCommand;
+        public RelayCommand<string> SelectNavigationItemCommand => _selectNavigationItemCommand ?? (_selectNavigationItemCommand = new RelayCommand<string>(OnSelectExecute, CanSelectExecute));
 
-        private bool GoToSelfProfileCanExecute(object parameter)
+        private void OnSelectExecute(string parameter)
         {
-            var fasf = Navigation.GetCurrentPageKey().Contains(nameof(SelfProfilePage));
-            return !fasf;
+            Navigation.GoTo(parameter + "Page");
         }
-
-        private void GoToSelfProfilePageExecute(object parameter)
+        private bool CanSelectExecute(string parameter)
         {
-            Navigation.GoTo(nameof(SelfProfilePage));
+            return !Navigation.GetCurrentPageKey().Contains(parameter + "Page");
         }
-
-        public RelayCommand BoardsCommand => _boardsCommand ?? (_boardsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
-        public RelayCommand SettingsCommand => _settingsCommand ?? (_settingsCommand = new RelayCommand(() => Navigation.GoTo(nameof(NewsPage)), () => !Navigation.GetCurrentPageKey().Contains(nameof(NewsPage))));
-
 
         public NavigationMenuViewModel()
         {
