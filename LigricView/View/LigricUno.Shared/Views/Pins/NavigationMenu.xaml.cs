@@ -43,19 +43,31 @@ namespace LigricUno.Views.Pins
         }
     }
 
-    public class TestViewModel : DispatchedBindableBase
+    public class NavigationHeaderViewData : DispatchedBindableBase
     {
-        private double _testWidth, _testHeight;
+        public enum Mode
+        {
+            Left,
+            Right,
+            Bottom,
+            Top
+        }
 
-        public double TestWidth { get => _testWidth; set => SetProperty(ref _testWidth, value); }
-        public double TestHeight { get => _testHeight; set => SetProperty(ref _testHeight, value); }
+        private Mode _currentMode;
+        private double _elementsTemplateWidth, _elementsTemplateHeight;
+
+        public double ElementsTemplateWidth { get => _elementsTemplateWidth; set => SetProperty(ref _elementsTemplateWidth, value); }
+        public double ElementsTemplateHeight { get => _elementsTemplateHeight; set => SetProperty(ref _elementsTemplateHeight, value); }
+        public Mode CurrentMode {
+            get => _currentMode; 
+            set => SetProperty(ref _currentMode, value); }
     }
 
     public sealed partial class NavigationMenu : UserControl
     {
         private bool useAnimation = false;
 
-        public TestViewModel Test { get; } = new TestViewModel() { TestWidth = 75, TestHeight = 50 };
+        public NavigationHeaderViewData HeaderData { get; } = new NavigationHeaderViewData() { ElementsTemplateHeight = 50 };
 
         public NavigationMenu()
         {
@@ -118,24 +130,26 @@ namespace LigricUno.Views.Pins
         {
             Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
 
-            double widthArea = (rect.Width - userImage.Margin.Left - userImage.Margin.Right);
-            widthArea = widthArea < 0 ? 0 : widthArea;
+            double userImageWidthArea = (rect.Width - userImage.Margin.Left - userImage.Margin.Right);
+            userImageWidthArea = userImageWidthArea < 0 ? 0 : userImageWidthArea;
 
-            double heightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
-            heightArea = heightArea < 0 ? 0 : heightArea;
+            double userImageHeightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
+            userImageHeightArea = userImageHeightArea < 0 ? 0 : userImageHeightArea;
 
             double buttonWidthArea = navigationListHeader.ActualWidth * 1.1;
             double buttonHeightArea = navigationListHeader.ActualHeight * 1.5;
 
             if (stackPanel.Orientation == Orientation.Horizontal)
             {
-                userImage.Width = heightArea;
-                Test.TestWidth = buttonHeightArea;
+                userImage.Width = userImageHeightArea;
+                HeaderData.ElementsTemplateWidth = buttonHeightArea;
+                HeaderData.CurrentMode = NavigationHeaderViewData.Mode.Bottom;
             }
             else
             {
-                userImage.Height = widthArea;
-                Test.TestHeight = buttonWidthArea;
+                userImage.Height = userImageWidthArea;
+                HeaderData.ElementsTemplateHeight = buttonWidthArea;
+                HeaderData.CurrentMode = NavigationHeaderViewData.Mode.Left;
             }
         }
 
@@ -148,7 +162,7 @@ namespace LigricUno.Views.Pins
         {
             //if (newSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
             //{
-            //    VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSidee", false);
+            //    VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
             //}
             //else
             //{
