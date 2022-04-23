@@ -54,10 +54,10 @@ namespace LigricUno.Views.Pins
         }
 
         private Mode _currentMode;
-        private double _elementsTemplateWidth, _elementsTemplateHeight;
+        private double? _elementsTemplateWidth, _elementsTemplateHeight;
 
-        public double ElementsTemplateWidth { get => _elementsTemplateWidth; set => SetProperty(ref _elementsTemplateWidth, value); }
-        public double ElementsTemplateHeight { get => _elementsTemplateHeight; set => SetProperty(ref _elementsTemplateHeight, value); }
+        public double? ElementsTemplateWidth { get => _elementsTemplateWidth; set => SetProperty(ref _elementsTemplateWidth, value); }
+        public double? ElementsTemplateHeight { get => _elementsTemplateHeight; set => SetProperty(ref _elementsTemplateHeight, value); }
         public Mode CurrentMode {
             get => _currentMode; 
             set => SetProperty(ref _currentMode, value); }
@@ -143,11 +143,13 @@ namespace LigricUno.Views.Pins
             {
                 userImage.Width = userImageHeightArea;
                 HeaderData.ElementsTemplateWidth = buttonHeightArea;
+                HeaderData.ElementsTemplateHeight = null;
                 HeaderData.CurrentMode = NavigationHeaderViewData.Mode.Bottom;
             }
             else
             {
                 userImage.Height = userImageWidthArea;
+                HeaderData.ElementsTemplateWidth = null;
                 HeaderData.ElementsTemplateHeight = buttonWidthArea;
                 HeaderData.CurrentMode = NavigationHeaderViewData.Mode.Left;
             }
