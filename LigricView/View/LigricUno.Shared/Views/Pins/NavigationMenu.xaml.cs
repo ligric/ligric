@@ -160,14 +160,14 @@ namespace LigricUno.Views.Pins
 
         private void SetSideSettings(LigricBoardCustomControls.Menus.ExpanderSide newSide)
         {
-            //if (newSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
-            //{
-            //    VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
-            //}
-            //else
-            //{
-            //    VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSidee", false);
-            //}
+            if (newSide == LigricBoardCustomControls.Menus.ExpanderSide.Left)
+            {
+                VisualStateManager.GoToState(this, "ExpanderHeaderSettingsForLeftSide", false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "ExpanderHeaderSettingsForBottomSide", false);
+            }
         }
     }
 }

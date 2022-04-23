@@ -74,7 +74,7 @@
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="ExpanderSettingsForBottomSidee">
+                <VisualState x:Name="ExpanderHeaderSettingsForBottomSide">
                     <VisualState.Setters>
                         <Setter Target="stackPanel.Width" Value="Auto"/>
                         <Setter Target="stackPanel.Height" Value="50"/>
@@ -85,7 +85,7 @@
                     </VisualState.Setters>
                 </VisualState>
 
-                <VisualState x:Name="ExpanderSettingsForLeftSidee">
+                <VisualState x:Name="ExpanderHeaderSettingsForLeftSide">
                     <VisualState.Setters>
                         <Setter Target="stackPanel.Width" Value="80"/>
                         <Setter Target="stackPanel.Height" Value="Auto"/>
