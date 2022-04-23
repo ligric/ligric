@@ -45,6 +45,12 @@
                                         <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
                                         <Setter Target="Root.HorizontalAlignment" Value="Left"/>
                                     </VisualState.Setters>
+
+                                    <Storyboard x:Name="SetWidthFromHeaderHorizontalWidth">
+                                        <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Width">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding TemplateSettings.HeaderHorizontalWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="ExpanderSettingsForLeftSide">
@@ -75,7 +81,7 @@
                                         <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
                                     </VisualState.Setters>
 
-                                    <Storyboard x:Name="SetWidthFromHeaderVerticalHeight">
+                                    <Storyboard x:Name="SetHeightFromHeaderVerticalHeight">
                                         <ObjectAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="Root" Storyboard.TargetProperty="Height">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding TemplateSettings.HeaderVerticalHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                         </ObjectAnimationUsingKeyFrames>
