@@ -22,10 +22,6 @@
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\BoardsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Home\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Home\HomePageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\LoadingPageTemporary.xaml.cs">
       <DependentUpon>LoadingPageTemporary.xaml</DependentUpon>
     </Compile>
@@ -53,10 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\BoardsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Home\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,7 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Boards\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Home\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Login\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\News\" />
   </ItemGroup>
