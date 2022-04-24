@@ -33,6 +33,7 @@ namespace LigricUno.Views.Pins
         public NavigationMenuViewModel()
         {
             Navigation.ActivePagesChanged += OnActivePagesChanged;
+            Navigation.PageChanged += (pageKey) => SelectNavigationItemCommand.RaiseCanExecuteChanged();
         }
 
         private void OnActivePagesChanged(string pageKey)
