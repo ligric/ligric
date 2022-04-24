@@ -121,8 +121,9 @@ namespace LigricUno
                 Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
 
                 var forbiddenPageKeysReadOnly = new List<string>{ nameof(LoginPage), nameof(SettingsPage) };
-                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
+
+                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
             }
         }
 
