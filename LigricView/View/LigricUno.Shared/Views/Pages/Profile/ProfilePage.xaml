@@ -2,7 +2,7 @@
       xmlns:local="using:LigricUno.Views.Pages.Profile"
       d:DataContext="{d:DesignInstance local:SelfProfileViewModel, IsDesignTimeCreatable=True}">
 
-    <Grid Background="#1e1e1e">
+    <Grid>
 
     </Grid>
 </Page>
