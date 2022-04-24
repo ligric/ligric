@@ -35,7 +35,8 @@
 
             <DataTemplate x:Key="ProfileItemTemplate" x:DataType="sys:String">
                 <Button data:RelativeSourceBinding.AncestorType="UserControl"
-                        Command="{Binding SelectNavigationItemCommand}" CommandParameter="Profile"
+                        Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.SelectNavigationItemCommand, RelativeSource={RelativeSource Self}}"
+                        CommandParameter="Profile"
                         Visibility="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.CurrentMode, RelativeSource={RelativeSource Self},
                                              Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Bottom'}" 
                         Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
@@ -50,7 +51,8 @@
 
             <DataTemplate x:Key="SettingsItemTemplate" x:DataType="sys:String">
                 <Button data:RelativeSourceBinding.AncestorType="UserControl"
-                        Command="{Binding SelectNavigationItemCommand}" CommandParameter="Settings"
+                        Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.SelectNavigationItemCommand, RelativeSource={RelativeSource Self}}"
+                        CommandParameter="Settings"
                         Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                         Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}" 
                         Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

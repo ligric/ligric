@@ -1,5 +1,7 @@
 ﻿using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Login;
+using LigricUno.Views.Pages.Profile;
+using LigricUno.Views.Pages.Settings;
 using LigricUno.Views.Pins;
 using Microsoft.Extensions.Logging;
 using System;
@@ -115,28 +117,13 @@ namespace LigricUno
             {
                 initialized = true;
 
-                //Navigation.PrerenderPage(new LoadingPageTemporary(), nameof(LoadingPageTemporary), new LoadingPageTemporaryViewModel());
+                Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
+                Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
+
                 var forbiddenPageKeysReadOnly = new List<string>(new string[] { nameof(LoginPage), "Settings" });
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
-
             }
-
-            //if (initialized)
-            //    return;
-
-            //initialized = true;
-
-            //Task.Run(async () =>
-            //{
-            //    await Task.Delay(1000);
-            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        var navigationMenu= new NavigationMenu();
-            //        var forbiddenPageKeysReadOnly = new ReadOnlyCollection<string>(new string[] { nameof(LoginPage), "Settings" });
-            //        Navigation.Pin(navigationMenu, forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
-            //    });
-            //});
         }
 
         /// <summary>
