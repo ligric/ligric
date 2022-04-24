@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Themes/Generic.xaml"/>
 
                 <ResourceDictionary Source="/Views/Styles/TextBox.xaml"/>
+                <ResourceDictionary Source="/Views/Styles/Button.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
         </ResourceDictionary>
