@@ -1,6 +1,6 @@
 ﻿namespace LigricUno.Views.Pages.Profile
 {
-    class SelfProfileViewModel
+    public class ProfilePageViewModel
     {
     }
 }

@@ -38,10 +38,10 @@
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\News\NewsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\SelfProfilePage.xaml.cs">
-      <DependentUpon>SelfProfilePage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\SelfProfileViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\NavigationMenu.xaml.cs">
       <DependentUpon>NavigationMenu.xaml</DependentUpon>
     </Compile>
@@ -68,7 +68,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\SelfProfilePage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\Pages\Profile\ProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
