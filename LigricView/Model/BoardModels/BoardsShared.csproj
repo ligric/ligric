@@ -25,7 +25,6 @@
     <ProjectReference Include="..\..\..\LigricCore\DataProviders\Repositories\BoardRepositories\BoardRepositories.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BoardNotifications\Abstractions\" />
-    <Folder Include="BoardNotifications\Interfaces\" />
+    <Folder Include="Notifications\EventArgs\" />
   </ItemGroup>
 </Project>
