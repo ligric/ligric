@@ -1,10 +1,13 @@
-﻿using LigricMvvmToolkit.Navigation;
+﻿using BoardsShared.Abstractions.BoardsAbstractions.Interfaces;
+using BoardsShared.BoardsCore;
+using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Boards;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Messages;
 using LigricUno.Views.Pages.Profile;
 using LigricUno.Views.Pages.Settings;
 using LigricUno.Views.Pins;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,6 +27,11 @@ namespace LigricUno
     public sealed partial class App : Application
     {
         private Window _window;
+
+        public static ServiceProvider ServiceProvider { get; } = new ServiceCollection()
+            .AddLogging()
+            .AddSingleton<IBoardsService, BoardsService>()
+            .BuildServiceProvider();
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -118,17 +126,22 @@ namespace LigricUno
             if (!initialized)
             {
                 initialized = true;
+                var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
 
-                Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
-                Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
-                Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
-                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage), new BoardsViewModel());
+                RegisterDependencyInjections();
+                PrerenderPages();
 
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
-
-                var forbiddenPageKeysReadOnly = new List<string>{ nameof(LoginPage), nameof(SettingsPage) };
                 Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
             }
+        }
+
+        private void PrerenderPages()
+        {
+            Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
+            Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
+            Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
+            Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage), new BoardsViewModel());
         }
 
         /// <summary>
