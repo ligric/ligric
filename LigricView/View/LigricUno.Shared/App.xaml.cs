@@ -128,7 +128,6 @@ namespace LigricUno
                 initialized = true;
                 var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
 
-                RegisterDependencyInjections();
                 PrerenderPages();
 
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
