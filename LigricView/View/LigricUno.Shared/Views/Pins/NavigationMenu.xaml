@@ -108,7 +108,7 @@
                         </Ellipse.Fill>
                     </Ellipse>
 
-                    <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding NavigationMenuItems}" Margin="10,0,10,0"
+                    <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding HeaderItems}" Margin="10,0,10,0"
                                             ItemTemplate="{StaticResource NavigationItemsDataTemplateSelector}">
                         <controls:ItemsRepeater.Layout>
                             <controls:StackLayout x:Name="headerStackLayout" Orientation="Horizontal" Spacing="10"/>
@@ -118,7 +118,7 @@
             </menus:SnakeMenu.Header>
 
             <menus:SnakeMenu.Content>
-                <ListView ItemsSource="{Binding BoardConeiners}" SelectedItem="{Binding CurrentContainer, Mode=TwoWay}">
+                <ListView ItemsSource="{Binding ContentItems}" SelectedItem="{Binding CurrentContainer, Mode=TwoWay}">
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

@@ -15,8 +15,8 @@ namespace LigricUno.Views.Pins
 
         public string CurrentContainer { get => _currentContainer; set => SetProperty(ref _currentContainer, value); }
 
-        public ObservableCollection<string> NavigationMenuItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages", "Settings" };
-        public ObservableCollection<string> BoardConeiners { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages", "Settings" };
+        public ObservableCollection<string> ContentItems { get; } = new ObservableCollection<string>();
 
 
         private RelayCommand<string> _selectNavigationItemCommand;
