@@ -1,4 +1,5 @@
 ﻿using LigricMvvmToolkit.Navigation;
+using LigricUno.Views.Pages.Boards;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Messages;
 using LigricUno.Views.Pages.Profile;
@@ -121,6 +122,7 @@ namespace LigricUno
                 Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
                 Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
                 Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
+                Navigation.PrerenderPage(new BoardsPage(), nameof(BoardsPage), new BoardsViewModel());
 
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
 
