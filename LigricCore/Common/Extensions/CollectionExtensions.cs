@@ -5,6 +5,21 @@ namespace Common.Extensions
 {
     public static class CollectionExtensions
     {
+        public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                return false;
+            }
+            dictionary.Add(key, value);
+            return true;
+        }
+
+        public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, KeyValuePair<TKey, TValue> value)
+        {
+            return TryAdd(dictionary, value.Key, value.Value);
+        }
+
         /// <summary>Добавляет элементы последовательности <paramref name="source"/> в конец коллекции <paramref name="collection"/>.</summary>
         /// <typeparam name="T">Тип элемента коллекции.</typeparam>
         /// <param name="collection">Коллекция в которую добавляются элементы.</param>
