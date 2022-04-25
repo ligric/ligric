@@ -204,12 +204,12 @@
                                 <ContentPresenter Content="{TemplateBinding Header}"/>
 
                                 <!-- TODO : Temprary background is Blue. Temrary height & width. Temprary horizontalanightment -->
-                                <ToggleButton x:Name="ToggleButton" Background="#0a1113" IsChecked="{Binding ExpanderState, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ExpanderStateToBoolenConverter}}"
+                                <ToggleButton x:Name="ToggleButton" Background="White" IsChecked="{Binding ExpanderState, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ExpanderStateToBoolenConverter}}"
                                               HorizontalAlignment="Right" Padding="0">
                                     
                                     <!-- Temprary style -->
                                     <ToggleButton.Content>
-                                        <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="30" Fill="White" Stretch="Uniform"
+                                        <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="30" Fill="#1e1e1e" Stretch="Uniform"
                                               Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z">
                                             <Path.RenderTransform>
                                                 <TransformGroup>
