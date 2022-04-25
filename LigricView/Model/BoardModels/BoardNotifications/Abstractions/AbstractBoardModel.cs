@@ -1,5 +1,5 @@
-﻿using BoardModels.AbstractBoardNotifications.Interfaces;
-using BoardModels.CommonTypes.Entities;
+﻿using BoardsShared.AbstractBoardNotifications.Interfaces;
+using BoardsShared.CommonTypes.Entities;
 using Common;
 using Common.Delegates;
 using Common.Enums;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace BoardModels.AbstractBoardNotifications.Abstractions
+namespace BoardsShared.AbstractBoardNotifications.Abstractions
 {
     public abstract class AbstractBoardModel<TKey, TValue> : IAdDictionaryNotification<TKey, TValue>, IBoardNameNotification, IBoardFiltersNotification, IBoardStateNotification
          where TValue : AdDto

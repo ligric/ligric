@@ -1,5 +1,5 @@
-﻿using BoardModels.AbstractBoardNotifications.Abstractions;
-using BoardModels.BitZlato.Entities;
+﻿using BoardsShared.AbstractBoardNotifications.Abstractions;
+using BoardsShared.BitZlato.Entities;
 using BoardRepositories.Abstractions;
 using BoardRepositories.BitZlato;
 using BoardRepositories.BitZlato.Types;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BoardModels.BitZlato
+namespace BoardsShared.BitZlato
 {
     public class BitZlatoBoardWithTimer : AbstractBoardWithTimerNotifications<long, BitZlatoAdDto>
     {

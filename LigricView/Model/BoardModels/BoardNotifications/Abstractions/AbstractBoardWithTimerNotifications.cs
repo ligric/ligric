@@ -1,11 +1,11 @@
-﻿using BoardModels.AbstractBoardNotifications.Interfaces;
-using BoardModels.BoardNotifications.Interfaces;
-using BoardModels.CommonTypes.Entities;
+﻿using BoardsShared.AbstractBoardNotifications.Interfaces;
+using BoardsShared.BoardNotifications.Interfaces;
+using BoardsShared.CommonTypes.Entities;
 using Common.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace BoardModels.AbstractBoardNotifications.Abstractions
+namespace BoardsShared.AbstractBoardNotifications.Abstractions
 {
     public abstract class AbstractBoardWithTimerNotifications<TKey, TValue> : AbstractBoardModel<TKey, TValue>, IBoardNameNotification, IBoardFiltersNotification
         where TValue : AdDto

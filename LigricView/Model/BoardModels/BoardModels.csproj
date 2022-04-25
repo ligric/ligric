@@ -24,4 +24,7 @@
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
     <ProjectReference Include="..\..\..\LigricCore\DataProviders\Repositories\BoardRepositories\BoardRepositories.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BoardsCore\" />
+  </ItemGroup>
 </Project>

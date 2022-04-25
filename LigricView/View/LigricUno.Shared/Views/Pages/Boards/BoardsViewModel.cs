@@ -1,6 +1,6 @@
-﻿using BoardModels.AbstractBoardNotifications.Abstractions;
-using BoardModels.BitZlato;
-using BoardModels.BitZlato.Entities;
+﻿using BoardsShared.AbstractBoardNotifications.Abstractions;
+using BoardsShared.BitZlato;
+using BoardsShared.BitZlato.Entities;
 using Common.Enums;
 using Common.EventArgs;
 using LigricMvvmToolkit.BaseMvvm;

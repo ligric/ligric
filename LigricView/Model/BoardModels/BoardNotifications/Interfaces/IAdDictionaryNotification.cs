@@ -1,9 +1,9 @@
-﻿using BoardModels.CommonTypes.Entities;
+﻿using BoardsShared.CommonTypes.Entities;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
 
-namespace BoardModels.AbstractBoardNotifications.Interfaces
+namespace BoardsShared.AbstractBoardNotifications.Interfaces
 {
     public interface IAdDictionaryNotification<TKey, TValue> where TValue : AdDto
     {

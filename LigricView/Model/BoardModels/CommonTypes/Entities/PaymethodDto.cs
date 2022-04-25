@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardModels.BitZlato.Entities
+namespace BoardsShared.BitZlato.Entities
 {
     public class PaymethodDto : IEquatable<PaymethodDto>
     {

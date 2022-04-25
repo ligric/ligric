@@ -1,8 +1,8 @@
-﻿using BoardModels.CommonTypes.Entities;
-using BoardModels.CommonTypes.Enums;
+﻿using BoardsShared.CommonTypes.Entities;
+using BoardsShared.CommonTypes.Enums;
 using System;
 
-namespace BoardModels.BitZlato.Entities
+namespace BoardsShared.BitZlato.Entities
 {
     public class BitZlatoAdDto : AdDto, IEquatable<BitZlatoAdDto>
     {
