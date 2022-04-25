@@ -4,7 +4,8 @@
                     xmlns:items="using:LigricBoardCustomControls.Items"
                     xmlns:menus="using:LigricBoardCustomControls.Menus"
                     xmlns:toggleButtons="using:LigricBoardCustomControls.ToggleButtons"
-                    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+                    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+                    xmlns:wuxc="using:Windows.UI.Xaml.Controls">
 
     <Style TargetType="local:BoardStandard">
         <Setter Property="Background" Value="White"/>
@@ -33,7 +34,8 @@
 
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <ItemsStackPanel Margin="0,-2.5,0,-2.5"/>
+                                        <wuxc:VirtualizingStackPanel Margin="0,-2.5,0,-2.5"
+                                                                     VirtualizationMode="Recycling"/>
                                     </ItemsPanelTemplate>
                                 </ListView.ItemsPanel>
 
