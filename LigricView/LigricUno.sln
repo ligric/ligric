@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolkit", "Toolkit", "{1CA4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{36F7085B-E45E-4115-BC6F-45195DCEC8A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardModels", "Model\BoardModels\BoardModels.csproj", "{FA32BC91-B97D-42EF-BA11-94C3A79F989D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardsShared", "Model\BoardModels\BoardsShared.csproj", "{FA32BC91-B97D-42EF-BA11-94C3A79F989D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\LigricCore\Common\Common.csproj", "{39F003B7-5BCF-4E99-AF7A-A67E90585658}"
 EndProject
