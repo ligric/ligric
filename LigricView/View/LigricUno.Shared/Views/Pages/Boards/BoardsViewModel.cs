@@ -1,4 +1,4 @@
-﻿using BoardsShared.AbstractBoardNotifications.Abstractions;
+﻿using BoardsShared.Abstractions.BoardAbstractions.Absctacts;
 using BoardsShared.BitZlato;
 using BoardsShared.BitZlato.Entities;
 using Common.Enums;

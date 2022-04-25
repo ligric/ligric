@@ -1,4 +1,4 @@
-﻿namespace BoardsShared.AbstractBoardNotifications.Interfaces
+﻿namespace BoardsShared.Abstractions.BoardAbstractions.Interfaces
 {
     public delegate void ActionNameHandler(object sender, string name);
 

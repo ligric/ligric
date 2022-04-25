@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardsShared.BoardNotifications.Interfaces
+namespace BoardsShared.Abstractions.BoardAbstractions.Interfaces
 {
     public delegate void ActionTimerIntervalHandler(object sender, TimeSpan time);
 

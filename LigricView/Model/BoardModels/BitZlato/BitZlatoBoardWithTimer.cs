@@ -1,5 +1,4 @@
-﻿using BoardsShared.AbstractBoardNotifications.Abstractions;
-using BoardsShared.BitZlato.Entities;
+﻿using BoardsShared.BitZlato.Entities;
 using BoardRepositories.Abstractions;
 using BoardRepositories.BitZlato;
 using BoardRepositories.BitZlato.Types;
@@ -8,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BoardsShared.Abstractions.BoardAbstractions.Absctacts;
 
 namespace BoardsShared.BitZlato
 {
