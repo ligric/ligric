@@ -204,7 +204,7 @@
                             </Border.RenderTransform>
 
                             <!-- Temprary height -->
-                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}" Height="180"/>
+                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}" Height="0"/>
                         </Border>
 
                         <!-- HeaderContent -->
