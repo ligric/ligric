@@ -155,11 +155,8 @@ namespace LigricUno.Views.Pages.Boards
         }
     }
 
-    public class BoardsViewModel : LigricMvvmToolkit.BaseMvvm.DispatchedBindableBase
+    public class BoardsViewModel : DispatchedBindableBase
     {
-        private double _zoomFactor;
-        public double ZoomFactor { get => _zoomFactor; private set => SetProperty(ref _zoomFactor, value); }
-
         public ObservableCollection<BoardViewModel> Boards { get; } = new ObservableCollection<BoardViewModel>();
 
         public BoardsViewModel()
@@ -179,8 +176,8 @@ namespace LigricUno.Views.Pages.Boards
                 new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
             };
 
-            var fist = new BitzlatoBoardViewModel(0, "First BitZlato", 10, 60);
-            var second = new BitzlatoBoardViewModel(1, "Second BitZlato", 280, 60);
+            var fist = new BitzlatoBoardViewModel(0, "BTC BitZlato", 10, 60);
+            var second = new BitzlatoBoardViewModel(1, "ETH Binance", 280, 60);
 
             foreach (var item in testAds)
             {
