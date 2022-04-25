@@ -14,6 +14,7 @@ namespace LigricUno.Views.Pins
         public DataTemplate News { get; set; }
         public DataTemplate Profile { get; set; }
         public DataTemplate Settings { get; set; }
+        public DataTemplate Messages { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
@@ -38,6 +39,9 @@ namespace LigricUno.Views.Pins
 
             if (string.Equals(key, nameof(Settings)))
                 return Settings;
+            
+            if (string.Equals(key, nameof(Messages)))
+                return Messages;
 
             throw new System.NotImplementedException($"Uknown DataTemplate key. \nType: {nameof(NavigationItemsDataTemplateSelector)}\nKey: {key}");
         }
