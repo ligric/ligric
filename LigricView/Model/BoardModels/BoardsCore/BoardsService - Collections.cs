@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using BoardsShared.Abstractions.BoardsAbstractions.Interfaces;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace BoardsShared.BoardsCore
 {
-    public sealed partial class BoardsService
+    public sealed partial class BoardsService : IBoardsService
     {
         private readonly Dictionary<string, string> boards = new Dictionary<string, string>();
         public IReadOnlyDictionary<string, string> Boards { get; } = new Dictionary<string, string>();
