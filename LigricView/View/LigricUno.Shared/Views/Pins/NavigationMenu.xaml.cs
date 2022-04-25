@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace LigricUno.Views.Pins
 {
-    public class NavigationItemsDataTemplateSelector : DataTemplateSelector
+    public class NavigationHeaderItemsDataTemplateSelector : DataTemplateSelector
     {
         public DataTemplate News { get; set; }
         public DataTemplate Profile { get; set; }
@@ -23,7 +23,7 @@ namespace LigricUno.Views.Pins
                 return SelectTemplateCore(key);
             }
 
-            throw new System.NotImplementedException($"Uknown DataTemplate parameter. \nType: {nameof(NavigationItemsDataTemplateSelector)}\nParametr: {item}");
+            throw new System.NotImplementedException($"Uknown DataTemplate parameter. \nType: {nameof(NavigationHeaderItemsDataTemplateSelector)}\nParametr: {item}");
         }
 
         private DataTemplate SelectTemplateCore(string key)
@@ -39,11 +39,11 @@ namespace LigricUno.Views.Pins
 
             if (string.Equals(key, nameof(Settings)))
                 return Settings;
-            
+
             if (string.Equals(key, nameof(Messages)))
                 return Messages;
 
-            throw new System.NotImplementedException($"Uknown DataTemplate key. \nType: {nameof(NavigationItemsDataTemplateSelector)}\nKey: {key}");
+            throw new System.NotImplementedException($"Uknown DataTemplate key. \nType: {nameof(NavigationHeaderItemsDataTemplateSelector)}\nKey: {key}");
         }
     }
 

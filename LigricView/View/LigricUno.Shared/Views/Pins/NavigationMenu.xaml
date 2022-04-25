@@ -59,11 +59,11 @@
                         CommandParameter="Boards"/>
             </DataTemplate>
 
-            <local:NavigationItemsDataTemplateSelector x:Key="NavigationItemsDataTemplateSelector"
-                                                       News="{StaticResource NewsItemTemplate}"
-                                                       Profile="{StaticResource ProfileItemTemplate}"
-                                                       Settings="{StaticResource SettingsItemTemplate}"
-                                                       Messages="{StaticResource MessagesItemTemplate}"/>
+            <local:NavigationHeaderItemsDataTemplateSelector x:Key="NavigationHeaderItemsDataTemplateSelector"
+                                                             News="{StaticResource NewsItemTemplate}"
+                                                             Profile="{StaticResource ProfileItemTemplate}"
+                                                             Settings="{StaticResource SettingsItemTemplate}"
+                                                             Messages="{StaticResource MessagesItemTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -109,7 +109,7 @@
                     </Ellipse>
 
                     <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding HeaderItems}" Margin="10,0,10,0"
-                                            ItemTemplate="{StaticResource NavigationItemsDataTemplateSelector}">
+                                            ItemTemplate="{StaticResource NavigationHeaderItemsDataTemplateSelector}">
                         <controls:ItemsRepeater.Layout>
                             <controls:StackLayout x:Name="headerStackLayout" Orientation="Horizontal" Spacing="10"/>
                         </controls:ItemsRepeater.Layout>
@@ -118,28 +118,32 @@
             </menus:SnakeMenu.Header>
 
             <menus:SnakeMenu.Content>
-                <ListView ItemsSource="{Binding ContentItems}" SelectedItem="{Binding SelectedContentItem, Mode=TwoWay}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="5">
-                                <Border Width="50" Height="50" Background="#0a1113" CornerRadius="10" HorizontalAlignment="Center"/>
-                                <!--<Button Width="50" Height="50" Background="White" CornerRadius="10">
-                                    <Button.Content>
-                                        <Path Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="15" Fill="#0a1113" Stretch="Uniform" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                                    </Button.Content>
-                                </Button>-->
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <controls:ItemsRepeater ItemsSource="{Binding ContentItems}" Margin="20">
+                            <controls:ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Button data:RelativeSourceBinding.AncestorType="UserControl" Width="50" Height="50"
+                                            Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.SelectNavigationItemCommand, RelativeSource={RelativeSource Self}}"
+                                            CommandParameter="{Binding}" Background="#1e1e1e"/>
+                                </DataTemplate>
+                            </controls:ItemsRepeater.ItemTemplate>
+                            <controls:ItemsRepeater.Layout>
+                                <controls:UniformGridLayout MaximumRowsOrColumns="4" ItemsStretch="Fill"
+                                                            MinColumnSpacing="2" MinRowSpacing="1"/>
+                            </controls:ItemsRepeater.Layout>
+                        </controls:ItemsRepeater>
+                    </ScrollViewer>
 
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
 
-                </ListView>
+                    <Button Grid.Row="1" Background="#302c4f" CornerRadius="8" Margin="20,3,20,6" Content="Add"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White"/>
+                </Grid>
             </menus:SnakeMenu.Content>
         </menus:SnakeMenu>
     </Grid>
