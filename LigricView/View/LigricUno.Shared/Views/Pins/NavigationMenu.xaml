@@ -118,7 +118,7 @@
             </menus:SnakeMenu.Header>
 
             <menus:SnakeMenu.Content>
-                <ListView ItemsSource="{Binding ContentItems}" SelectedItem="{Binding CurrentContainer, Mode=TwoWay}">
+                <ListView ItemsSource="{Binding ContentItems}" SelectedItem="{Binding SelectedContentItem, Mode=TwoWay}">
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

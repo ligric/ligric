@@ -11,22 +11,22 @@ namespace LigricUno.Views.Pins
 {
     public class NavigationMenuViewModel : DispatchedBindableBase
     {
-        private string _currentContainer;
+        private string _selectedContentItem;
 
-        public string CurrentContainer { get => _currentContainer; set => SetProperty(ref _currentContainer, value); }
+        public string SelectedContentItem { get => _selectedContentItem; set => SetProperty(ref _selectedContentItem, value); }
 
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages", "Settings" };
         public ObservableCollection<string> ContentItems { get; } = new ObservableCollection<string>();
 
 
         private RelayCommand<string> _selectNavigationItemCommand;
-        public RelayCommand<string> SelectNavigationItemCommand => _selectNavigationItemCommand ?? (_selectNavigationItemCommand = new RelayCommand<string>(OnSelectExecute, CanSelectExecute));
+        public RelayCommand<string> SelectNavigationItemCommand => _selectNavigationItemCommand ?? (_selectNavigationItemCommand = new RelayCommand<string>(OnSelectedExecute, CanSelectedExecute));
 
-        private void OnSelectExecute(string parameter)
+        private void OnSelectedExecute(string parameter)
         {
             Navigation.GoTo(parameter + "Page");
         }
-        private bool CanSelectExecute(string parameter)
+        private bool CanSelectedExecute(string parameter)
         {
             return !Navigation.GetCurrentPageKey().Contains(parameter + "Page");
         }
@@ -40,7 +40,7 @@ namespace LigricUno.Views.Pins
         {
             base.OnPropertyChanged(propertyName, oldValue, newValue);
 
-            if (propertyName == nameof(CurrentContainer))
+            if (propertyName == nameof(SelectedContentItem))
             {
                 var newValueString = newValue as string;
                 if (newValueString != null)
