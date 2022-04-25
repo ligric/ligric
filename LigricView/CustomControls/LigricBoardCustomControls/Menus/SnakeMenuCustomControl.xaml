@@ -24,15 +24,15 @@
                             <VisualStateGroup x:Name="ExpanderStateBottom">
                                 <VisualState x:Name="ExpanderSettingsForBottomSide">
                                     <VisualState.Setters>
-                                        <Setter Target="Row0.Height" Value="*"/>
-                                        <Setter Target="Row1.Height" Value="Auto"/>
+                                        <Setter Target="Row0.Height" Value="Auto"/>
+                                        <Setter Target="Row1.Height" Value="*"/>
                                         <Setter Target="Column0.Width" Value="*"/>
                                         <Setter Target="Column1.Width" Value="0"/>
 
                                         <Setter Target="SnakeBackgroundElement.(Grid.ColumnSpan)" Value="1"/>
                                         <Setter Target="SnakeBackgroundElement.(Grid.RowSpan)" Value="2"/>
 
-                                        <Setter Target="HeaderConteiner.(Grid.Row)" Value="1"/>
+                                        <Setter Target="HeaderConteiner.(Grid.Row)" Value="0"/>
                                         <Setter Target="HeaderConteiner.(Grid.Column)" Value="0"/>
 
                                         <Setter Target="ToggleButton.HorizontalAlignment" Value="Right"/>
@@ -75,7 +75,7 @@
                                         <Setter Target="ToggleButton.Height" Value="50"/>
                                         <Setter Target="ToggleButton.Width" Value="Auto"/>
 
-                                        <Setter Target="Root.Height" Value="200"/>
+                                        <Setter Target="Root.Height" Value="50"/>
                                         <Setter Target="Root.Width" Value="Auto"/>
                                         <Setter Target="Root.HorizontalAlignment" Value="Left"/>
                                         <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
@@ -197,18 +197,8 @@
                         <Border Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="SnakeBackgroundElement" Background="{TemplateBinding Background}" 
                                 CornerRadius="{TemplateBinding CornerRadius}"/>
 
-                        <!-- Main content -->
-                        <Border Grid.Row="0" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}">
-                            <Border.RenderTransform>
-                                <CompositeTransform/>
-                            </Border.RenderTransform>
-
-                            <!-- Temprary height -->
-                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}" Height="0"/>
-                        </Border>
-
                         <!-- HeaderContent -->
-                        <Border Grid.Row="1" Grid.Column="0" x:Name="HeaderConteiner">
+                        <Border Grid.Row="0" Grid.Column="0" x:Name="HeaderConteiner">
                             <Grid x:Name="HeaderContent" CornerRadius="{TemplateBinding CornerRadius}">
 
                                 <ContentPresenter Content="{TemplateBinding Header}"/>
@@ -231,6 +221,16 @@
                                 </ToggleButton>
 
                             </Grid>
+                        </Border>
+
+                        <!-- Main content -->
+                        <Border Grid.Row="1" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}">
+                            <Border.RenderTransform>
+                                <CompositeTransform/>
+                            </Border.RenderTransform>
+
+                            <!-- Temprary height -->
+                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}" Height="0"/>
                         </Border>
 
                     </Grid>
