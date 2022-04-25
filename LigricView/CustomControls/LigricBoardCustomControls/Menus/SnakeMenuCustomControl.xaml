@@ -224,13 +224,13 @@
                         </Border>
 
                         <!-- Main content -->
-                        <Border Grid.Row="1" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border Grid.Row="1" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}" Background="Red">
                             <Border.RenderTransform>
                                 <CompositeTransform/>
                             </Border.RenderTransform>
 
                             <!-- Temprary height -->
-                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}" Height="0"/>
+                            <ContentPresenter x:Name="ExpanderContent" Content="{TemplateBinding Content}"/>
                         </Border>
 
                     </Grid>
