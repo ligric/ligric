@@ -28,11 +28,6 @@ namespace LigricUno
     {
         private Window _window;
 
-        public static ServiceProvider ServiceProvider { get; } = new ServiceCollection()
-            .AddLogging()
-            .AddSingleton<IBoardsService, BoardsService>()
-            .BuildServiceProvider();
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -118,6 +113,7 @@ namespace LigricUno
                     //Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 }
             }
+            IocService.Initialize();
         }
 
         private bool initialized = false;
