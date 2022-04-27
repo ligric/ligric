@@ -85,6 +85,26 @@ namespace LigricUno.Views.Pins
             }
         }
 
+        private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardsShared.CommonTypes.Entities.Board.BoardDto> e)
+        {
+            switch (e.Action)
+            {
+                case Common.EventArgs.NotifyDictionaryChangedAction.Added:
+                    ContentItems.Add(e.NewValue.Id);
+                    break;
+                case Common.EventArgs.NotifyDictionaryChangedAction.Removed:
+                    break;
+                case Common.EventArgs.NotifyDictionaryChangedAction.Changed:
+                    break;
+                case Common.EventArgs.NotifyDictionaryChangedAction.Cleared:
+                    break;
+                case Common.EventArgs.NotifyDictionaryChangedAction.Initialized:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         protected override void OnPropertyChanged(string propertyName, object oldValue, object newValue)
         {
             base.OnPropertyChanged(propertyName, oldValue, newValue);
