@@ -1,4 +1,5 @@
-﻿using Common.EventArgs;
+﻿using BoardsShared.CommonTypes.Entities.Board;
+using Common.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,12 +8,12 @@ namespace BoardsShared.Abstractions.BoardsAbstractions.Interfaces
 {
     public interface IBoardsService
     {
-        event EventHandler<NotifyDictionaryChangedEventArgs<string, string>> BoardsChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<byte, BoardDto>> BoardsChanged;
 
-        IReadOnlyDictionary<string, string> Boards { get; }
+        IReadOnlyDictionary<byte, BoardDto> Boards { get; }
 
-        Task AddBoard(string key, string value);
+        Task AddBoard(IEnumerable<BoardEntityConteinerDto> Entities);
 
-        Task RemoveBoard(string key, string value);
+        Task RemoveBoard(byte key);
     }
 }
