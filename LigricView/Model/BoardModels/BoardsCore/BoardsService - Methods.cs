@@ -37,13 +37,13 @@ namespace BoardsShared.BoardsCore
 
             lock (((ICollection)boards).SyncRoot)
             {
-                lastKey = boards.Keys.Last();
+                lastKey = (byte)(boards.Count > 0 ? boards.Keys.Last() + 1 : 0);
 
-                if (lastKey >= sizeof(byte))
+                if (lastKey >= 255)
                     throw new StackOverflowException($"Last boards key is {lastKey}");
             }
             
-            return lastKey++;
+            return lastKey;
         }
     }
 }
