@@ -13,7 +13,7 @@ namespace LigricUno.Views.Pins
     {
         private string _selectedContentItem;
         private RelayCommand<string> _selectHeaderNavigationItemCommand;
-        private RelayCommand<byte> _selectContentNavigationItemCommand;
+        private RelayCommand<byte?> _selectContentNavigationItemCommand;
 
 
         public string SelectedContentItem { get => _selectedContentItem; set => SetProperty(ref _selectedContentItem, value); }
@@ -36,25 +36,25 @@ namespace LigricUno.Views.Pins
             return !Navigation.GetCurrentPageKey().Contains(parameter + "Page");
         }
 
-        public RelayCommand<byte> SelectContentNavigationItemCommand => _selectContentNavigationItemCommand ??
+        public RelayCommand<byte?> SelectContentNavigationItemCommand => _selectContentNavigationItemCommand ??
             (_selectContentNavigationItemCommand =
-                new RelayCommand<byte>(OnSelectedContentExecute, CanSelectedContentExecute));
+                new RelayCommand<byte?>(OnSelectedContentExecute, CanSelectedContentExecute));
 
 
-        private void OnSelectedContentExecute(byte parameter)
+        private void OnSelectedContentExecute(byte? parameter)
         {
             if (!Navigation.GetCurrentPageKey().Contains(nameof(BoardPage)))
             {
                 Navigation.GoTo(nameof(BoardPage));
             }
         }
-        private bool CanSelectedContentExecute(byte parameter)
+        private bool CanSelectedContentExecute(byte? parameter)
         {
+            if (parameter is null)
+                return false;
+
             return true;
         }
-
-
-
 
         public NavigationMenuViewModel()
         {
@@ -83,26 +83,8 @@ namespace LigricUno.Views.Pins
                 default:
                     break;
             }
-        }
 
-        private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardsShared.CommonTypes.Entities.Board.BoardDto> e)
-        {
-            switch (e.Action)
-            {
-                case Common.EventArgs.NotifyDictionaryChangedAction.Added:
-                    ContentItems.Add(e.NewValue.Id);
-                    break;
-                case Common.EventArgs.NotifyDictionaryChangedAction.Removed:
-                    break;
-                case Common.EventArgs.NotifyDictionaryChangedAction.Changed:
-                    break;
-                case Common.EventArgs.NotifyDictionaryChangedAction.Cleared:
-                    break;
-                case Common.EventArgs.NotifyDictionaryChangedAction.Initialized:
-                    break;
-                default:
-                    break;
-            }
+            SelectContentNavigationItemCommand.RaiseCanExecuteChanged();
         }
 
         protected override void OnPropertyChanged(string propertyName, object oldValue, object newValue)
