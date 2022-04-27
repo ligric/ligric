@@ -12,7 +12,7 @@ namespace BoardsShared.Abstractions.BoardsAbstractions.Interfaces
 
         IReadOnlyDictionary<byte, BoardDto> Boards { get; }
 
-        Task AddBoard(IEnumerable<BoardEntityConteinerDto> Entities);
+        Task AddBoard(IEnumerable<BoardEntityConteinerDto> Entities = null);
 
         Task RemoveBoard(byte key);
     }

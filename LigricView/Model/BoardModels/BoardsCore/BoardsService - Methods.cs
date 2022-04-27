@@ -10,7 +10,7 @@ namespace BoardsShared.BoardsCore
 {
     public sealed partial class BoardsService
     {
-        public Task AddBoard(IEnumerable<BoardEntityConteinerDto> entities)
+        public Task AddBoard(IEnumerable<BoardEntityConteinerDto> entities = null)
         {
             var newKey = GetFreeKey();
             var newBoard = new BoardDto(newKey, entities);
