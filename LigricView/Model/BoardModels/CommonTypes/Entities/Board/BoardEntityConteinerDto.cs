@@ -1,6 +1,6 @@
-﻿using BoardsShared.CommonTypes.Enums;
+﻿using BoardsCore.CommonTypes.Enums;
 
-namespace BoardsShared.CommonTypes.Entities.Board
+namespace BoardsCore.CommonTypes.Entities.Board
 {
     public class BoardEntityConteinerDto
     {

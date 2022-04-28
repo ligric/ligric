@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace BoardsShared.CommonTypes.Entities.Board
+namespace BoardsCore.CommonTypes.Entities.Board
 {
     public class BoardDto
     {

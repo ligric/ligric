@@ -21,7 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
     <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj" />
-    <ProjectReference Include="..\..\Model\BoardModels\BoardsShared.csproj" />
+    <ProjectReference Include="..\..\Model\BoardModels\BoardsCore.csproj" />
     <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
   </ItemGroup>
   <Import Project="..\LigricUno.Shared\LigricUno.Shared.projitems" Label="Shared" />

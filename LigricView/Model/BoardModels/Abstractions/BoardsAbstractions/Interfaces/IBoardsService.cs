@@ -1,10 +1,10 @@
-﻿using BoardsShared.CommonTypes.Entities.Board;
+﻿using BoardsCore.CommonTypes.Entities.Board;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BoardsShared.Abstractions.BoardsAbstractions.Interfaces
+namespace BoardsCore.Abstractions.BoardsAbstractions.Interfaces
 {
     public interface IBoardsService
     {

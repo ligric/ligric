@@ -1,4 +1,4 @@
-﻿namespace BoardsShared.CommonTypes.Enums
+﻿namespace BoardsCore.CommonTypes.Enums
 {
     public enum CurrencyTypeEnum
     {

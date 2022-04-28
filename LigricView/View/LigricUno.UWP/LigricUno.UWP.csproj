@@ -132,9 +132,9 @@
       <Project>{c5517c02-22bc-4386-8967-57345de1c330}</Project>
       <Name>LigricBoardCustomControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Model\BoardModels\BoardsShared.csproj">
+    <ProjectReference Include="..\..\Model\BoardModels\BoardsCore.csproj">
       <Project>{fa32bc91-b97d-42ef-ba11-94c3a79f989d}</Project>
-      <Name>BoardsShared</Name>
+      <Name>BoardsCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Toolkit\CheburchayNavigation\Uno.CheburchayNavigation\Uno.CheburchayNavigation.csproj">
       <Project>{52C8F50C-E56F-41ED-A0A4-8B1708472523}</Project>

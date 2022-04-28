@@ -1,9 +1,9 @@
-﻿using BoardsShared.Abstractions.BoardsAbstractions.Interfaces;
-using BoardsShared.CommonTypes.Entities.Board;
+﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
+using BoardsCore.CommonTypes.Entities.Board;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace BoardsShared
+namespace BoardsCore
 {
     public sealed partial class BoardsService : IBoardsService
     {

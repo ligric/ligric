@@ -1,4 +1,4 @@
-﻿namespace BoardsShared.Abstractions.BoardAbstractions.Interfaces
+﻿namespace BoardsCore.Abstractions.BoardAbstractions.Interfaces
 {
     public delegate void ActionNameHandler(object sender, string name);
 

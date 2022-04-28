@@ -1,4 +1,4 @@
-﻿namespace BoardsShared.Notifications.Delegates
+﻿namespace BoardsCore.Notifications.Delegates
 {
     public class BoardDelegates
     {

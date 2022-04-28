@@ -1,6 +1,6 @@
-﻿using BoardsShared.Abstractions.BoardAbstractions.Absctacts;
-using BoardsShared.BitZlato;
-using BoardsShared.BitZlato.Entities;
+﻿using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
+using BoardsCore.BitZlato;
+using BoardsCore.BitZlato.Entities;
 using Common.Enums;
 using Common.EventArgs;
 using LigricMvvmToolkit.BaseMvvm;

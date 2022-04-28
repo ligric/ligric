@@ -1,8 +1,8 @@
-﻿using BoardsShared.CommonTypes.Entities.Board;
+﻿using BoardsCore.CommonTypes.Entities.Board;
 using Common.EventArgs;
 using System;
 
-namespace BoardsShared
+namespace BoardsCore
 {
     public sealed partial class BoardsService
     {

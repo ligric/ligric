@@ -1,7 +1,7 @@
 ﻿using Common.Delegates;
 using Common.Enums;
 
-namespace BoardsShared.Abstractions.BoardAbstractions.Interfaces
+namespace BoardsCore.Abstractions.BoardAbstractions.Interfaces
 {
     public interface IBoardStateNotification
     {

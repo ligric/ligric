@@ -1,7 +1,7 @@
-﻿using BoardsShared.CommonTypes.Enums;
+﻿using BoardsCore.CommonTypes.Enums;
 using System;
 
-namespace BoardsShared.BitZlato.Entities
+namespace BoardsCore.BitZlato.Entities
 {
     public class CurrencyDto : IEquatable<CurrencyDto>
     {

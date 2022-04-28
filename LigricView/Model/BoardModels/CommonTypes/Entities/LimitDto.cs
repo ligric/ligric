@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardsShared.BitZlato.Entities
+namespace BoardsCore.BitZlato.Entities
 {
     public class LimitDto : IEquatable<LimitDto>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardsShared.CommonTypes.Entities
+namespace BoardsCore.CommonTypes.Entities
 {
     public class AdDto : IEquatable<AdDto>
     {

@@ -1,4 +1,4 @@
-﻿using BoardsShared.Abstractions.BoardsAbstractions.Interfaces;
+﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
 using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
@@ -65,7 +65,7 @@ namespace LigricUno.Views.Pins
             boardsService.AddBoard();
         }
 
-        private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardsShared.CommonTypes.Entities.Board.BoardDto> e)
+        private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardsCore.CommonTypes.Entities.Board.BoardDto> e)
         {
             switch (e.Action)
             {

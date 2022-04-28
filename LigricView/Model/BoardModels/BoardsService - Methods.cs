@@ -1,4 +1,4 @@
-﻿using BoardsShared.CommonTypes.Entities.Board;
+﻿using BoardsCore.CommonTypes.Entities.Board;
 using Common.EventArgs;
 using System;
 using System.Collections;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BoardsShared
+namespace BoardsCore
 {
     public sealed partial class BoardsService
     {

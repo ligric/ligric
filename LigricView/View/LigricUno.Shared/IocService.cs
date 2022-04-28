@@ -1,5 +1,5 @@
-﻿using BoardsShared.Abstractions.BoardsAbstractions.Interfaces;
-using BoardsShared.BoardsCore;
+﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
+using BoardsCore.BoardsCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LigricUno
