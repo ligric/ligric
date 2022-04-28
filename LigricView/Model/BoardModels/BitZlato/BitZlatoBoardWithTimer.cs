@@ -2,12 +2,12 @@
 using BoardRepositories.Abstractions;
 using BoardRepositories.BitZlato;
 using BoardRepositories.BitZlato.Types;
-using Common.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
+using BoardsCommon.Enums;
+using Common.Enums;
 
 namespace BoardsCore.BitZlato
 {
@@ -59,11 +59,11 @@ namespace BoardsCore.BitZlato
         public static BitZlatoAdDto ConvertToBitZlatoAdDto(this Ad ad) => new BitZlatoAdDto(ad.Id,
             new TraderDto(ad.Trader.Name, ad.Trader.Balance, ad.Trader.LastActivity, ad.Trader.Verificated, ad.Trader.Trusted),
             new PaymethodDto(ad.Paymethod.Id, ad.Paymethod.Name),
-            new RateDto(new CurrencyDto(ad.Rate.LeftCurrency.Name, ad.Rate.LeftCurrency.Symbol, (CommonTypes.Enums.CurrencyTypeEnum)ad.Rate.LeftCurrency.Type),
-                        new CurrencyDto(ad.Rate.RightCurrency.Name, ad.Rate.RightCurrency.Symbol, (CommonTypes.Enums.CurrencyTypeEnum)ad.Rate.RightCurrency.Type),
+            new RateDto(new CurrencyDto(ad.Rate.LeftCurrency.Name, ad.Rate.LeftCurrency.Symbol, (CurrencyTypeEnum)ad.Rate.LeftCurrency.Type),
+                        new CurrencyDto(ad.Rate.RightCurrency.Name, ad.Rate.RightCurrency.Symbol, (CurrencyTypeEnum)ad.Rate.RightCurrency.Type),
                         ad.Rate.Value),
             new LimitDto(ad.LimitCurrencyLeft.From, ad.LimitCurrencyLeft.To, ad.LimitCurrencyLeft.RealMax),
             new LimitDto(ad.LimitCurrencyRight.From, ad.LimitCurrencyRight.To, ad.LimitCurrencyRight.RealMax),
-            (CommonTypes.Enums.AdTypeEnum)ad.Type, ad.SafeMode);
+            (AdTypeEnum)ad.Type, ad.SafeMode);
     }
 }

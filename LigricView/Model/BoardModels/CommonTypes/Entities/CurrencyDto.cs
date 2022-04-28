@@ -1,4 +1,4 @@
-﻿using BoardsCore.CommonTypes.Enums;
+﻿using BoardsCommon.Enums;
 using System;
 
 namespace BoardsCore.BitZlato.Entities

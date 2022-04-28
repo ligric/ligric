@@ -1,4 +1,4 @@
-﻿using BoardsCore.CommonTypes.Enums;
+﻿using BoardsCommon.Enums;
 
 namespace BoardsCore.CommonTypes.Entities.Board
 {

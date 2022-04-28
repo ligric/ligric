@@ -1,5 +1,5 @@
 ﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
-using BoardsCore.BoardsCore;
+using BoardsCore;
 using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Board;
 using LigricUno.Views.Pages.Login;
