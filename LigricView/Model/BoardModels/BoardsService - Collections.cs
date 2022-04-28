@@ -1,12 +1,9 @@
 ﻿using BoardsShared.Abstractions.BoardsAbstractions.Interfaces;
 using BoardsShared.CommonTypes.Entities.Board;
-using Common.EventArgs;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
-namespace BoardsShared.BoardsCore
+namespace BoardsShared
 {
     public sealed partial class BoardsService : IBoardsService
     {

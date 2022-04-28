@@ -2,7 +2,7 @@
 using Common.EventArgs;
 using System;
 
-namespace BoardsShared.BoardsCore
+namespace BoardsShared
 {
     public sealed partial class BoardsService
     {
