@@ -33,7 +33,7 @@ namespace LigricUno.Views.Pages.Board
         }
     }
 
-    public class BoardViewModel : LigricMvvmToolkit.BaseMvvm.DispatchedBindableBase
+    public class BoardEntityViewModel : DispatchedBindableBase
     {
         public ObservableCollection<AdViewModel> Ads { get; } = new ObservableCollection<AdViewModel>();
 
@@ -81,13 +81,13 @@ namespace LigricUno.Views.Pages.Board
         }
         #endregion
 
-        public BoardViewModel(long id, string titel, double positionX = 0, double positionY = 0)
+        public BoardEntityViewModel(long id, string titel, double positionX = 0, double positionY = 0)
         {
             Id = id; Title = titel ?? "Uknown"; ; PositionX = positionX; PositionY = positionY;
         }
     }
 
-    public class BitzlatoBoardViewModel : BoardViewModel
+    public class BitzlatoAdBoardViewModel : BoardEntityViewModel
     {
         #region IBitZlatoRequestsService initialization
         private static string apiKey = "{" +
@@ -111,7 +111,7 @@ namespace LigricUno.Views.Pages.Board
         #endregion
 
         private readonly AbstractBoardWithTimerNotifications<long, BitZlatoAdDto> model;
-        public BitzlatoBoardViewModel(long id, string name, double positionX = 0, double positionY = 0) :
+        public BitzlatoAdBoardViewModel(long id, string name, double positionX = 0, double positionY = 0) :
             base(id, name, positionX, positionY)
         {
             model = new BitZlatoBoardWithTimer(name, apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Stoped);
@@ -157,7 +157,7 @@ namespace LigricUno.Views.Pages.Board
 
     public class BoardsViewModel : DispatchedBindableBase
     {
-        public ObservableCollection<BoardViewModel> Boards { get; } = new ObservableCollection<BoardViewModel>();
+        public ObservableCollection<BoardEntityViewModel> CurrentEntities { get; } = new ObservableCollection<BoardEntityViewModel>();
 
         public BoardsViewModel()
         {
@@ -176,8 +176,8 @@ namespace LigricUno.Views.Pages.Board
                 new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
             };
 
-            var fist = new BitzlatoBoardViewModel(0, "BTC BitZlato", 10, 60);
-            var second = new BitzlatoBoardViewModel(1, "ETH Binance", 280, 60);
+            var fist = new BitzlatoAdBoardViewModel(0, "BTC BitZlato", 10, 60);
+            var second = new BitzlatoAdBoardViewModel(1, "ETH Binance", 280, 60);
 
             foreach (var item in testAds)
             {
@@ -185,8 +185,8 @@ namespace LigricUno.Views.Pages.Board
                 second.Ads.Add(item);
             }
 
-            Boards.Add(fist) ;
-            Boards.Add(second);
+            CurrentEntities.Add(fist) ;
+            CurrentEntities.Add(second);
         }
     }
 }
