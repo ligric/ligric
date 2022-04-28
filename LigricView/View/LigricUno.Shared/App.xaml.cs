@@ -57,6 +57,7 @@ namespace LigricUno
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
+#if WINDOWS_UWP
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
 
@@ -64,6 +65,8 @@ namespace LigricUno
 
             var appTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
             appTitleBar.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+#endif
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
