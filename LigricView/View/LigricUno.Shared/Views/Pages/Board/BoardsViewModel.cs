@@ -1,4 +1,5 @@
-﻿using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
+﻿using BoardsCommon.Enums;
+using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
 using BoardsCore.BitZlato;
 using BoardsCore.BitZlato.Entities;
 using Common.Enums;
@@ -157,25 +158,50 @@ namespace LigricUno.Views.Pages.Board
 
     public class BoardsViewModel : DispatchedBindableBase
     {
+        private RelayCommand<BoardEntityType> _addBoardEntityCommand;
+
+        private static List<AdViewModel> testAds = new List<AdViewModel>()
+        {
+            new AdViewModel(0, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(1, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(2, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(3, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(4, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(5, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(6, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(7, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+            new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
+        };
+
         public ObservableCollection<BoardEntityViewModel> CurrentEntities { get; } = new ObservableCollection<BoardEntityViewModel>();
+
+        public RelayCommand<BoardEntityType> AddBoardEntityCommand 
+            => _addBoardEntityCommand ?? (_addBoardEntityCommand =
+                new RelayCommand<BoardEntityType>(OnAddBoardEntityExecute));
+
+        private void OnAddBoardEntityExecute(BoardEntityType parameter)
+        {
+            switch (parameter)
+            {
+                case BoardEntityType.Ad:
+                    var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
+
+                    foreach (var item in testAds)
+                        third.Ads.Add(item);
+
+                    CurrentEntities.Add(third);
+                    break;
+                case BoardEntityType.Chart:
+                    break;
+                default:
+                    break;
+            }
+        }
 
         public BoardsViewModel()
         {
-            var testAds = new List<AdViewModel>()
-            {
-                new AdViewModel(0, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(1, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(2, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(3, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(4, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(5, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(6, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(7, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-                new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            };
-
             var fist = new BitzlatoAdBoardViewModel(0, "BTC BitZlato", 10, 60);
             var second = new BitzlatoAdBoardViewModel(1, "ETH Binance", 280, 60);
 
@@ -185,7 +211,7 @@ namespace LigricUno.Views.Pages.Board
                 second.Ads.Add(item);
             }
 
-            CurrentEntities.Add(fist) ;
+            CurrentEntities.Add(fist);
             CurrentEntities.Add(second);
         }
     }

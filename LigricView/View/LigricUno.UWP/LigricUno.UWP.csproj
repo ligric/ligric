@@ -128,6 +128,10 @@
       <Project>{39f003b7-5bcf-4e99-af7a-a67e90585658}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\BoardsCommon\BoardsCommon.csproj">
+      <Project>{D212681F-1607-4BFC-9FD9-6492BA64D6C6}</Project>
+      <Name>BoardsCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj">
       <Project>{c5517c02-22bc-4386-8967-57345de1c330}</Project>
       <Name>LigricBoardCustomControls</Name>
