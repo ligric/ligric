@@ -18,7 +18,7 @@ namespace LigricUno.Views.Pins
 
         public string SelectedContentItem { get => _selectedContentItem; set => SetProperty(ref _selectedContentItem, value); }
 
-        public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages", "Settings" };
+        public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
         public ObservableCollection<byte> ContentItems { get; } = new ObservableCollection<byte>();
 
 
