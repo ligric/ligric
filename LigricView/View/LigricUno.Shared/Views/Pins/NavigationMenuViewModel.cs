@@ -13,11 +13,8 @@ namespace LigricUno.Views.Pins
 {
     public class NavigationMenuViewModel : DispatchedBindableBase
     {
-        private string _selectedContentItem;
         private RelayCommand<string> _selectHeaderNavigationItemCommand, _selectHeaderOptionItemCommand;
         private RelayCommand<byte?> _selectContentNavigationItemCommand;
-
-        public string SelectedContentItem { get => _selectedContentItem; set => SetProperty(ref _selectedContentItem, value); }
 
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
         public ObservableCollection<string> HeaderOptionItems { get; } = new ObservableCollection<string>();
@@ -121,23 +118,6 @@ namespace LigricUno.Views.Pins
             }
 
             SelectContentNavigationItemCommand.RaiseCanExecuteChanged();
-        }
-
-        protected override void OnPropertyChanged(string propertyName, object oldValue, object newValue)
-        {
-            base.OnPropertyChanged(propertyName, oldValue, newValue);
-
-            if (propertyName == nameof(SelectedContentItem))
-            {
-                var newValueString = newValue as string;
-                if (newValueString != null)
-                {
-                    if (newValueString.Contains(nameof(BoardPage)))
-                    {
-                        Navigation.GoTo(nameof(BoardPage));
-                    }
-                }
-            }
         }
     }
 }
