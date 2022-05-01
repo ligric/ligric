@@ -2,6 +2,7 @@
 using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
+using LigricUno.LocalViewServices;
 using LigricUno.Views.Pages.Board;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -31,7 +32,7 @@ namespace LigricUno.Views.Pins
                 new RelayCommand<string>(OnSelectedHeaderExecute, CanSelectedHeaderExecute));
 
         private void OnSelectedHeaderExecute(string parameter)
-        {
+        { 
             Navigation.GoTo(parameter + "Page");
         }
 
