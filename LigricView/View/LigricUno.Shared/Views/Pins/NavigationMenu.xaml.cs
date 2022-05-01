@@ -28,9 +28,6 @@ namespace LigricUno.Views.Pins
 
         private DataTemplate SelectTemplateCore(string key)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new System.NullReferenceException(key);
-
             if (string.Equals(key, nameof(News)))
                 return News;
 
@@ -46,6 +43,34 @@ namespace LigricUno.Views.Pins
             throw new System.NotImplementedException($"Uknown DataTemplate key. \nType: {nameof(NavigationHeaderItemsDataTemplateSelector)}\nKey: {key}");
         }
     }
+
+    public class NavigationHeaderOptionItemDataTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate ProfileSettings { get; set; }
+        public DataTemplate BoardSettings { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
+        {
+            if (item is string key)
+            {
+                return SelectTemplateCore(key);
+            }
+
+            throw new System.NotImplementedException($"Uknown DataTemplate parameter. \nType: {nameof(NavigationHeaderItemsDataTemplateSelector)}\nParametr: {item}");
+        }
+
+        private DataTemplate SelectTemplateCore(string key)
+        {
+            if (string.Equals(key, nameof(ProfileSettings)))
+                return ProfileSettings;
+
+            if (string.Equals(key, nameof(BoardSettings)))
+                return BoardSettings;
+
+            throw new System.NotImplementedException($"Uknown DataTemplate key. \nType: {nameof(NavigationHeaderItemsDataTemplateSelector)}\nKey: {key}");
+        }
+    }
+
 
     public class NavigationHeaderViewData : DispatchedBindableBase
     {

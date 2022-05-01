@@ -4,6 +4,7 @@ using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages.Board;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -11,35 +12,39 @@ namespace LigricUno.Views.Pins
 {
     public class NavigationMenuViewModel : DispatchedBindableBase
     {
-        private string _selectedContentItem;
-        private RelayCommand<string> _selectHeaderNavigationItemCommand;
+        private string _selectedContentItem, _headerOptionItemType;
+        private RelayCommand<string> _selectHeaderNavigationItemCommand, _selectHeaderOptionItemCommand;
         private RelayCommand<byte?> _selectContentNavigationItemCommand;
 
-
         public string SelectedContentItem { get => _selectedContentItem; set => SetProperty(ref _selectedContentItem, value); }
+        public string HeaderOptionItemType { get => _headerOptionItemType; set => SetProperty(ref _headerOptionItemType, value); }
 
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
         public ObservableCollection<byte> ContentItems { get; } = new ObservableCollection<byte>();
 
 
-        public RelayCommand<string> SelectHeaderNavigationItemCommand => _selectHeaderNavigationItemCommand ?? 
-            (_selectHeaderNavigationItemCommand = 
+        #region Commands
+
+        #region SelectHeaderNavigationItemCommand
+        public RelayCommand<string> SelectHeaderNavigationItemCommand => _selectHeaderNavigationItemCommand ?? (
+            _selectHeaderNavigationItemCommand =
                 new RelayCommand<string>(OnSelectedHeaderExecute, CanSelectedHeaderExecute));
 
         private void OnSelectedHeaderExecute(string parameter)
         {
-            Navigation.GoTo(parameter + "Page");           
+            Navigation.GoTo(parameter + "Page");
         }
 
         private bool CanSelectedHeaderExecute(string parameter)
         {
             return !Navigation.GetCurrentPageKey().Contains(parameter + "Page");
         }
+        #endregion
 
-        public RelayCommand<byte?> SelectContentNavigationItemCommand => _selectContentNavigationItemCommand ??
-            (_selectContentNavigationItemCommand =
+        #region SelectContentNavigationItemCommand
+        public RelayCommand<byte?> SelectContentNavigationItemCommand => _selectContentNavigationItemCommand ?? (
+            _selectContentNavigationItemCommand =
                 new RelayCommand<byte?>(OnSelectedContentExecute, CanSelectedContentExecute));
-
 
         private void OnSelectedContentExecute(byte? parameter)
         {
@@ -48,6 +53,7 @@ namespace LigricUno.Views.Pins
                 Navigation.GoTo(nameof(BoardPage));
             }
         }
+
         private bool CanSelectedContentExecute(byte? parameter)
         {
             if (parameter is null)
@@ -55,14 +61,42 @@ namespace LigricUno.Views.Pins
 
             return true;
         }
+        #endregion
+
+        #region SelectHeaderOptionItemCommand
+        public RelayCommand<string> SelectHeaderOptionItemCommand => _selectHeaderOptionItemCommand ?? (
+            _selectHeaderOptionItemCommand =
+                new RelayCommand<string>(OnSelectedHeaderOptionalItemExecute));
+
+        private void OnSelectedHeaderOptionalItemExecute(string parameter)
+        {
+
+        }
+        #endregion
+
+        #endregion
+
 
         public NavigationMenuViewModel()
         {
-            Navigation.PageChanged += (pageKey) => SelectHeaderNavigationItemCommand.RaiseCanExecuteChanged();
+            Navigation.PageChanged += OnPageChanged; ;
 
             var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
             boardsService.BoardsChanged += OnBoardsChanged;
             boardsService.AddBoard();
+        }
+
+        private void OnPageChanged(string obj)
+        {
+            if (string.Equals(obj, nameof(BoardPage)))
+            {
+                HeaderOptionItemType = "BoardSettings";
+            }
+            else
+            {
+                HeaderOptionItemType = string.Empty;
+            }
+            SelectHeaderNavigationItemCommand.RaiseCanExecuteChanged();
         }
 
         private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardsCore.CommonTypes.Entities.Board.BoardDto> e)
