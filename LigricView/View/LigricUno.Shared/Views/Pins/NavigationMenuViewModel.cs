@@ -12,14 +12,14 @@ namespace LigricUno.Views.Pins
 {
     public class NavigationMenuViewModel : DispatchedBindableBase
     {
-        private string _selectedContentItem, _headerOptionItemType;
+        private string _selectedContentItem;
         private RelayCommand<string> _selectHeaderNavigationItemCommand, _selectHeaderOptionItemCommand;
         private RelayCommand<byte?> _selectContentNavigationItemCommand;
 
         public string SelectedContentItem { get => _selectedContentItem; set => SetProperty(ref _selectedContentItem, value); }
-        public string HeaderOptionItemType { get => _headerOptionItemType; set => SetProperty(ref _headerOptionItemType, value); }
 
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
+        public ObservableCollection<string> HeaderOptionItems { get; } = new ObservableCollection<string>();
         public ObservableCollection<byte> ContentItems { get; } = new ObservableCollection<byte>();
 
 
@@ -90,11 +90,12 @@ namespace LigricUno.Views.Pins
         {
             if (string.Equals(obj, nameof(BoardPage)))
             {
-                HeaderOptionItemType = "BoardSettings";
+                HeaderOptionItems.Clear();
+                HeaderOptionItems.Add("BoardSettings");
             }
             else
             {
-                HeaderOptionItemType = string.Empty;
+                HeaderOptionItems.Clear();
             }
             SelectHeaderNavigationItemCommand.RaiseCanExecuteChanged();
         }
