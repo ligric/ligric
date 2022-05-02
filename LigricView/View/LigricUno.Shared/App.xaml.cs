@@ -18,6 +18,8 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using LigricUno.Views.Pins.BoardSettings;
+using LigricUno.Views.Pages.News;
 
 namespace LigricUno
 {
@@ -131,6 +133,10 @@ namespace LigricUno
 
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
+
+
+                var forbiddenTestPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage), nameof(MessagesPage), nameof(ProfilePage), nameof(NewsPage) };
+                Navigation.Pin(new BoardSettings() { Width = 200, Height = 200 }, nameof(BoardSettings), forbiddenTestPageKeysReadOnly, null);
             }
         }
 
