@@ -19,7 +19,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SuctionCup">
-                    <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" Background="{TemplateBinding Background}" BackgroundSizing="{TemplateBinding BackgroundSizing}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" CornerRadius="{TemplateBinding CornerRadius}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                    <Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -178,9 +178,115 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
+                                
+                                
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                    </ContentPresenter>
+
+                        <ContentPresenter x:Name="ContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw" 
+                                          Background="{TemplateBinding Background}" 
+                                          BackgroundSizing="{TemplateBinding BackgroundSizing}" 
+                                          BorderBrush="{TemplateBinding BorderBrush}" 
+                                          BorderThickness="{TemplateBinding BorderThickness}" 
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                          CornerRadius="{TemplateBinding CornerRadius}" 
+                                          Content="{TemplateBinding Content}" 
+                                          ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Padding="{TemplateBinding Padding}" 
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+
+                        <Popup IsLightDismissEnabled="False" Margin="0,-150,0,0"
+                               IsOpen="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+
+                            <StackPanel>
+                                
+                                <ContentControl Content="{TemplateBinding PopupContent}"
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+
+                                <Path x:Name="path" Fill="Green">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigureCollection>
+                                                    <PathFigure StartPoint="0,0">
+                                                        <PathFigure.Segments>
+                                                            <PathSegmentCollection>
+                                                                <LineSegment x:Name="StartLine" Point="0,5"/>
+                                                                
+                                                                
+                                                                <LineSegment x:Name="TopLine" Point="10,10"/>
+                                                                <BezierSegment x:Name="Part1" Point1="20,10" Point2="40,35" Point3="50,35"/>
+                                                                <BezierSegment x:Name="Part2" Point1="60,35" Point2="80,10" 
+                                                                               Point3="90,10"/>
+
+                                                                
+                                                                <LineSegment x:Name="BottomLine" Point="100,5"/>
+                                                                <LineSegment x:Name="EndLine" Point="100, 0"/>
+                                                            </PathSegmentCollection>
+                                                        </PathFigure.Segments>
+                                                    </PathFigure>
+                                                </PathFigureCollection>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </StackPanel>
+                            
+                            
+                        </Popup>
+
+
+                        <!-- To right side -->
+                        <!--<Path x:Name="path2"
+                                Stroke="Red"
+                                Fill="Red"
+                                StrokeThickness="2">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigureCollection>
+
+                                            <PathFigure StartPoint="0,0">
+                                                <PathFigure.Segments>
+                                                    <PathSegmentCollection>
+                                                        <LineSegment Point="20,0"
+                                                x:Name="StartLine" />
+                                                        <LineSegment Point="20,100"
+                                                x:Name="TopLine"/>
+                        
+                        
+                        
+                                                        <BezierSegment Point1="20,125"
+                                                x:Name="Part1"
+                                                Point2="80,135"
+                                                Point3="80,150" />
+                                                        <BezierSegment Point1="80,165"
+                                                    Point2="20,175"
+                                                    Point3="20,200" />
+                        
+                        
+                        
+                        
+                                                        <LineSegment Point="20,1000" x:Name="BottomLine"
+                                                />
+                                                        <LineSegment Point="0,1000"
+                                                x:Name="EndLine" />
+                                                    </PathSegmentCollection>
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathFigureCollection>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>-->
+
+
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
