@@ -198,35 +198,37 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
 
 
-                        <Popup IsLightDismissEnabled="False" Margin="0,-150,0,0"
+                        <Popup IsLightDismissEnabled="True" Margin="0,-218,0,0"
                                IsOpen="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
                             <StackPanel>
-                                
-                                <ContentControl Content="{TemplateBinding PopupContent}"
-                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+                                <Border Background="White" CornerRadius="20">
+                                    <ContentControl Content="{TemplateBinding PopupContent}"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                                </Border>
 
 
-                                <Path x:Name="path" Fill="Green">
+                                <Path x:Name="path" Fill="White">
                                     <Path.Data>
                                         <PathGeometry>
                                             <PathGeometry.Figures>
                                                 <PathFigureCollection>
-                                                    <PathFigure StartPoint="0,0">
+                                                    <PathFigure StartPoint="20,0">
                                                         <PathFigure.Segments>
                                                             <PathSegmentCollection>
-                                                                <LineSegment x:Name="StartLine" Point="0,5"/>
-                                                                
-                                                                
-                                                                <LineSegment x:Name="TopLine" Point="10,10"/>
-                                                                <BezierSegment x:Name="Part1" Point1="20,10" Point2="40,35" Point3="50,35"/>
-                                                                <BezierSegment x:Name="Part2" Point1="60,35" Point2="80,10" 
-                                                                               Point3="90,10"/>
+                                                                <LineSegment x:Name="StartLine" Point="20,0"/>
 
-                                                                
-                                                                <LineSegment x:Name="BottomLine" Point="100,5"/>
-                                                                <LineSegment x:Name="EndLine" Point="100, 0"/>
+
+                                                                <LineSegment x:Name="TopLine" Point="15,0"/>
+                                                                <BezierSegment x:Name="Part1" Point1="35,5" Point2="45,15" Point3="50,15"/>
+                                                                <BezierSegment x:Name="Part2" Point1="55,15" Point2="70,5" 
+                                                                               Point3="85,0"/>
+
+
+                                                                <LineSegment x:Name="BottomLine" Point="80,0"/>
+                                                                <LineSegment x:Name="EndLine" Point="80, 0"/>
                                                             </PathSegmentCollection>
                                                         </PathFigure.Segments>
                                                     </PathFigure>
@@ -236,8 +238,6 @@
                                     </Path.Data>
                                 </Path>
                             </StackPanel>
-                            
-                            
                         </Popup>
 
 
