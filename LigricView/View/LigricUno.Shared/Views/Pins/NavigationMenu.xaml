@@ -67,7 +67,9 @@
                                                              Messages="{StaticResource MessagesItemTemplate}"/>
 
             <DataTemplate x:Key="BoardSettingsItemTemplate" x:DataType="sys:String">
-]
+                <Grid Background="Red">
+                    
+                </Grid>
             </DataTemplate>
 
             <local:NavigationHeaderOptionItemDataTemplateSelector x:Key="NavigationHeaderOptionItemDataTemplateSelector"
