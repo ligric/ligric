@@ -1,25 +1,20 @@
-﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
-using BoardsCore;
-using LigricMvvmToolkit.Navigation;
+﻿using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Board;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Messages;
 using LigricUno.Views.Pages.Profile;
 using LigricUno.Views.Pages.Settings;
 using LigricUno.Views.Pins;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.UI;
+using Windows.UI;S
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using LigricUno.Views.Pins.BoardSettings;
-using LigricUno.Views.Pages.News;
 
 namespace LigricUno
 {
@@ -133,10 +128,6 @@ namespace LigricUno
 
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
-
-
-                var forbiddenTestPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage), nameof(MessagesPage), nameof(ProfilePage), nameof(NewsPage) };
-                Navigation.Pin(new BoardSettings() { Width = 200, Height = 200 }, nameof(BoardSettings), forbiddenTestPageKeysReadOnly, null, false);
             }
         }
 
