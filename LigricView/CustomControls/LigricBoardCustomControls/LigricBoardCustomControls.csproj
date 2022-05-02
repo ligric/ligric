@@ -22,6 +22,7 @@
     <None Remove="Menus\ExpanderStandardCustomControl.xaml" />
     <None Remove="Menus\MenuSoapCustomControl.xaml" />
     <None Remove="Menus\SnakeMenuCustomControl.xaml" />
+    <None Remove="Menus\SuctionCupCustomControl.xaml" />
     <None Remove="Templates\ComboBox.xaml" />
     <None Remove="Themes\Generic.xaml" />
   </ItemGroup>
@@ -32,6 +33,7 @@
     <UpToDateCheckInput Remove="Menus\MenuSoapCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\PourMenuCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\SnakeMenuCustomControl.xaml" />
+    <UpToDateCheckInput Remove="Menus\SuctionCupCustomControl.xaml" />
     <UpToDateCheckInput Remove="Templates\ComboBox.xaml" />
     <UpToDateCheckInput Remove="Themes\Generic.xaml" />
     <UpToDateCheckInput Remove="ToggleButtons\ToggleButtonStandardCustomControl.xaml" />
@@ -53,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Menus\PourMenuCustomControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Menus\SuctionCupCustomControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ToggleButton - Copy.xaml">
@@ -84,6 +89,21 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
     <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
+  </ItemGroup>
+  
+  
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Menus\SuctionCupCustomControl.xaml" />
+  </ItemGroup>
+  
+  
+  <ItemGroup>
+    <Resource Remove="Menus\SuctionCupCustomControl.xaml" />
+  </ItemGroup>
+  
+  
+  <ItemGroup>
+    <SourceGeneratorInput Remove="Menus\SuctionCupCustomControl.xaml" />
   </ItemGroup>
   
 </Project>
