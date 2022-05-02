@@ -68,7 +68,8 @@ namespace LigricUno.Views.Pins
 
         private void OnSelectedHeaderOptionalItemExecute(string parameter)
         {
-            NavigationItemsService.RaiseItemSelectedAction(parameter);
+            //NavigationItemsService.RaiseItemSelectedAction(parameter);
+            Navigation.TurnOnPin(parameter);
         }
         #endregion
 

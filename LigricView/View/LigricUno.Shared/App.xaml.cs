@@ -136,7 +136,7 @@ namespace LigricUno
 
 
                 var forbiddenTestPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage), nameof(MessagesPage), nameof(ProfilePage), nameof(NewsPage) };
-                Navigation.Pin(new BoardSettings() { Width = 200, Height = 200 }, nameof(BoardSettings), forbiddenTestPageKeysReadOnly, null);
+                Navigation.Pin(new BoardSettings() { Width = 200, Height = 200 }, nameof(BoardSettings), forbiddenTestPageKeysReadOnly, null, false);
             }
         }
 
