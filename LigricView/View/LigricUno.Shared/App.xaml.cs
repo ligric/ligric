@@ -1,10 +1,12 @@
-﻿using LigricMvvmToolkit.Navigation;
+﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
+using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Board;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Messages;
 using LigricUno.Views.Pages.Profile;
 using LigricUno.Views.Pages.Settings;
 using LigricUno.Views.Pins;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -133,10 +135,11 @@ namespace LigricUno
 
         private void PrerenderPages()
         {
+            var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
             Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
             Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
             Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
-            Navigation.PrerenderPage(new BoardPage(), nameof(BoardPage), new BoardsViewModel());
+            Navigation.PrerenderPage(new BoardPage(), nameof(BoardPage), new BoardsViewModel(boardsService));
         }
 
         /// <summary>

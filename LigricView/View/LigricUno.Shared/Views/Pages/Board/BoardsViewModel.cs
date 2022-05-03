@@ -1,5 +1,6 @@
 ﻿using BoardsCommon.Enums;
 using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
+using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
 using BoardsCore.BitZlato;
 using BoardsCore.BitZlato.Entities;
 using Common.Enums;
@@ -158,6 +159,8 @@ namespace LigricUno.Views.Pages.Board
 
     public class BoardsViewModel : DispatchedBindableBase
     {
+        private readonly IBoardsService _boardService;
+
         private RelayCommand<BoardEntityType> _addBoardEntityCommand;
 
         private static List<AdViewModel> testAds = new List<AdViewModel>()
@@ -200,8 +203,10 @@ namespace LigricUno.Views.Pages.Board
             }
         }
 
-        public BoardsViewModel()
+        public BoardsViewModel(IBoardsService boardsService)
         {
+            _boardService = boardsService;
+
             var fist = new BitzlatoAdBoardViewModel(0, "BTC BitZlato", 10, 60);
             var second = new BitzlatoAdBoardViewModel(1, "ETH Binance", 280, 60);
 

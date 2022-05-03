@@ -1,4 +1,6 @@
 ﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
+using BoardsCore.Board;
+using BoardsCore.CommonTypes.Entities;
 using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
@@ -96,7 +98,7 @@ namespace LigricUno.Views.Pins
             SelectHeaderNavigationItemCommand.RaiseCanExecuteChanged();
         }
 
-        private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardsCore.CommonTypes.Entities.Board.BoardDto> e)
+        private void OnBoardsChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<byte, BoardService> e)
         {
             switch (e.Action)
             {
