@@ -2,7 +2,6 @@
 using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
-using LigricUno.LocalViewServices;
 using LigricUno.Views.Pages.Board;
 using Microsoft.Extensions.DependencyInjection;
 using System;
