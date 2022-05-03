@@ -198,12 +198,12 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
 
 
-                        <Popup IsLightDismissEnabled="True" Margin="0,-218,0,0"
+                        <Popup x:Name="Popup" IsLightDismissEnabled="True"
                                IsOpen="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}">
 
-                            <StackPanel>
+                            <StackPanel x:Name="PopupContent">
 
-                                <Border Background="White" CornerRadius="20">
+                                <Border Background="White" CornerRadius="20" MinWidth="100">
                                     <ContentControl Content="{TemplateBinding PopupContent}"
                                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
