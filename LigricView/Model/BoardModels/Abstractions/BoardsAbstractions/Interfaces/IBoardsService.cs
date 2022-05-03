@@ -1,4 +1,4 @@
-﻿using BoardsCore.CommonTypes.Entities.Board;
+﻿using BoardsCore.Board;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
@@ -8,11 +8,11 @@ namespace BoardsCore.Abstractions.BoardsAbstractions.Interfaces
 {
     public interface IBoardsService
     {
-        event EventHandler<NotifyDictionaryChangedEventArgs<byte, BoardDto>> BoardsChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<byte, BoardService>> BoardsChanged;
 
-        IReadOnlyDictionary<byte, BoardDto> Boards { get; }
+        IReadOnlyDictionary<byte, BoardService> Boards { get; }
 
-        Task AddBoard(IEnumerable<BoardEntityConteinerDto> Entities = null);
+        Task AddBoard();
 
         Task RemoveBoard(byte key);
     }

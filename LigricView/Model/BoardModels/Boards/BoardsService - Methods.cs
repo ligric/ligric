@@ -1,22 +1,22 @@
-﻿using BoardsCore.CommonTypes.Entities.Board;
+﻿using BoardsCore.Board;
+using BoardsCore.CommonTypes.Entities.Board;
 using Common.EventArgs;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BoardsCore
+namespace BoardsCore.Boards
 {
     public sealed partial class BoardsService
     {
-        public Task AddBoard(IEnumerable<BoardEntityConteinerDto> entities = null)
+        public Task AddBoard()
         {
             var newKey = GetFreeKey();
-            var newBoard = new BoardDto(newKey, entities);
+            var newBoard = new BoardService(newKey);
             boards.Add(newKey, newBoard);
 
-            BoardsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<byte, BoardDto>(newKey, newBoard, 0, 0));
+            BoardsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<byte, BoardService>(newKey, newBoard, 0, 0));
 
             return Task.CompletedTask;
         }
@@ -26,10 +26,11 @@ namespace BoardsCore
             if (!boards.Remove(key))
                 throw new ArgumentException($"Unable to куьщму {key} key from dictionary.");
 
-            BoardsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.RemoveKeyValuePair<byte, BoardDto>(key, 0, 0));
+            BoardsChanged?.Invoke(this, NotifyActionDictionaryChangedEventArgs.RemoveKeyValuePair<byte, BoardService>(key, 0, 0));
 
             return Task.CompletedTask;
         }
+
 
         private byte GetFreeKey()
         {
