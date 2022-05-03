@@ -161,8 +161,6 @@ namespace LigricUno.Views.Pages.Board
     {
         private readonly IBoardsService _boardService;
 
-        private RelayCommand<BoardEntityType> _addBoardEntityCommand;
-
         private static List<AdViewModel> testAds = new List<AdViewModel>()
         {
             new AdViewModel(0, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
@@ -179,10 +177,6 @@ namespace LigricUno.Views.Pages.Board
         };
 
         public ObservableCollection<BoardEntityViewModel> CurrentEntities { get; } = new ObservableCollection<BoardEntityViewModel>();
-
-        public RelayCommand<BoardEntityType> AddBoardEntityCommand 
-            => _addBoardEntityCommand ?? (_addBoardEntityCommand =
-                new RelayCommand<BoardEntityType>(OnAddBoardEntityExecute));
 
         private void OnAddBoardEntityExecute(BoardEntityType parameter)
         {
