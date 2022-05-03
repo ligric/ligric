@@ -1,5 +1,4 @@
 ﻿using BoardsCore.Board;
-using BoardsCore.CommonTypes.Entities.Board;
 using Common.EventArgs;
 using System;
 using System.Collections;
@@ -10,6 +9,8 @@ namespace BoardsCore.Boards
 {
     public sealed partial class BoardsService
     {
+        public BoardService CurrentBoard { get; private set; }
+
         public Task AddBoard()
         {
             var newKey = GetFreeKey();
@@ -31,6 +32,18 @@ namespace BoardsCore.Boards
             return Task.CompletedTask;
         }
 
+        public Task SetNewCurrentBoard(byte key)
+        {
+            if (boards.TryGetValue(key, out BoardService newBoardService))
+                throw new ArgumentNullException($"Board with key {key} is not found.");
+
+            var oldBoard = CurrentBoard;
+            CurrentBoard = newBoardService;
+
+            CurrentBoardChanged?.Invoke(this, oldBoard, newBoardService);
+
+            return Task.CompletedTask;
+        }
 
         private byte GetFreeKey()
         {

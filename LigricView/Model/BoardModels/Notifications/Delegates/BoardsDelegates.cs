@@ -1,6 +1,4 @@
 ﻿namespace BoardsCore.Notifications.Delegates
 {
-    public class BoardsDelegates
-    {
-    }
+    public delegate void ElementChangedHandler<T>(object sender, T oldElement, T newElement);
 }

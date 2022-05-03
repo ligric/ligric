@@ -1,4 +1,5 @@
 ﻿using BoardsCore.Board;
+using BoardsCore.Notifications.Delegates;
 using Common.EventArgs;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ namespace BoardsCore.Abstractions.BoardsAbstractions.Interfaces
 {
     public interface IBoardsService
     {
+        BoardService CurrentBoard { get; }
+
+        event ElementChangedHandler<BoardService> CurrentBoardChanged;
         event EventHandler<NotifyDictionaryChangedEventArgs<byte, BoardService>> BoardsChanged;
 
         IReadOnlyDictionary<byte, BoardService> Boards { get; }
