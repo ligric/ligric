@@ -22,7 +22,7 @@
                     <Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
+                                <!--<VisualState x:Name="Normal">
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
                                     </Storyboard>
@@ -177,7 +177,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushIndeterminateDisabled}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
-                                </VisualState>
+                                </VisualState>-->
                                 
                                 
                             </VisualStateGroup>

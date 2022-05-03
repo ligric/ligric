@@ -40,7 +40,7 @@ namespace LigricBoardCustomControls.Menus
         private void UpdatePopupMargin()
         {
             var contentHeight = _popupContent.ActualHeight;
-            _popup.Margin = new Thickness(0, -contentHeight, 0, 0);
+            _popup.Margin = new Thickness(-10, -contentHeight, 0, 0);
         }
 
         public SuctionCup()

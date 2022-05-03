@@ -69,7 +69,7 @@
                                                              Messages="{StaticResource MessagesItemTemplate}"/>
 
             <DataTemplate x:Key="BoardSettingsItemTemplate" x:DataType="sys:String">
-                <menus:SuctionCup data:RelativeSourceBinding.AncestorType="UserControl" Background="#1e1e1e" Padding="0" Margin="0"
+                <menus:SuctionCup data:RelativeSourceBinding.AncestorType="UserControl" Background="Transparent" Padding="0" Margin="0"
                                   Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                                   Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}">
                     <menus:SuctionCup.Content>
