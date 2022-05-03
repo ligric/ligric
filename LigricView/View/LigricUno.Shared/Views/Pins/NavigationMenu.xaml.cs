@@ -200,5 +200,10 @@ namespace LigricUno.Views.Pins
                 VisualStateManager.GoToState(this, "ExpanderHeaderSettingsForBottomSide", false);
             }
         }
+
+        private void OnContentClicked(object sender, RoutedEventArgs e)
+        {
+            menu.ExpanderState = LigricBoardCustomControls.Menus.ExpanderState.Collapsed;
+        }
     }
 }

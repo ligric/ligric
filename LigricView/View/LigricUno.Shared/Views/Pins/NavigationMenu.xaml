@@ -187,6 +187,7 @@
                             <controls:ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
                                     <Button data:RelativeSourceBinding.AncestorType="UserControl" Width="50" Height="50"
+                                            Click="OnContentClicked"
                                             Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.SelectContentNavigationItemCommand, RelativeSource={RelativeSource Self}}"
                                             CommandParameter="{Binding}" Background="#1e1e1e"/>
                                 </DataTemplate>
