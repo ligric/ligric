@@ -10,12 +10,10 @@
       xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
       
       xmlns:local="using:LigricUno.Views.Pages.Board"
-      xmlns:boardCommonEnums="using:BoardsCommon.Enums"
       xmlns:converters="using:LigricMvvmToolkit.Converters"
       
       d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}">
     <Page.Resources>
-        <boardCommonEnums:BoardEntityType x:Key="BoardAdEntityType">Ad</boardCommonEnums:BoardEntityType>
         <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
     </Page.Resources>
 
@@ -39,38 +37,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-
-        <Grid Height="35" VerticalAlignment="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="150"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="1" Margin="10,0,10,0" Background="#FFFFFF" CornerRadius="5" BorderBrush="#1c1c1c" BorderThickness="2">
-                <StackPanel Spacing="2" Orientation="Horizontal">
-                    <Button VerticalAlignment="Stretch" Width="38" Margin="1" Padding="0" 
-                            Background="Transparent" BorderBrush="#1c1c1c"
-                            Command="{Binding AddBoardEntityCommand}"
-                            CommandParameter="{StaticResource BoardAdEntityType}">
-                        <Button.Content>
-                            <Path Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}" Width="20" Fill="#1e1e1e" Stretch="Uniform"
-                                      Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                        </Button.Content>
-                    </Button>
-                    
-                    <Button VerticalAlignment="Stretch" Width="38" Margin="1" Padding="0" 
-                            Background="Transparent" BorderBrush="#1c1c1c"
-                            Command="{Binding AddBoardEntityCommand}"
-                            CommandParameter="{StaticResource BoardAdEntityType}">
-                        <Button.Content>
-                            <Path Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}" Width="16" Fill="#1e1e1e" Stretch="Uniform"
-                                  Data="M20,16V10H22V16A2,2 0 0,1 20,18H8C6.89,18 6,17.1 6,16V4C6,2.89 6.89,2 8,2H16V4H8V16H20M10.91,7.08L14,10.17L20.59,3.58L22,5L14,13L9.5,8.5L10.91,7.08M16,20V22H4A2,2 0 0,1 2,20V7H4V20H16Z" />
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </Grid>
     </Grid>
 </Page>
