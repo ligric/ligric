@@ -34,7 +34,7 @@ namespace BoardsCore.Boards
 
         public Task SetNewCurrentBoard(byte key)
         {
-            if (boards.TryGetValue(key, out BoardService newBoardService))
+            if (!boards.TryGetValue(key, out BoardService newBoardService))
                 throw new ArgumentNullException($"Board with key {key} is not found.");
 
             var oldBoard = CurrentBoard;

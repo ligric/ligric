@@ -19,5 +19,7 @@ namespace BoardsCore.Abstractions.BoardsAbstractions.Interfaces
         Task AddBoard();
 
         Task RemoveBoard(byte key);
+
+        Task SetNewCurrentBoard(byte key);
     }
 }
