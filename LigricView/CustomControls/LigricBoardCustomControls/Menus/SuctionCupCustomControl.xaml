@@ -204,9 +204,10 @@
                             <StackPanel x:Name="PopupContent">
 
                                 <Border Background="White" CornerRadius="20" MinWidth="100" MinHeight="100">
-                                    <ContentControl Content="{TemplateBinding PopupContent}"
-                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+                                    <ContentPresenter Content="{TemplateBinding PopupContent}"
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                                 </Border>
 
 

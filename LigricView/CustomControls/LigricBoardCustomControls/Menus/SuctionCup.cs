@@ -12,7 +12,6 @@ namespace LigricBoardCustomControls.Menus
         protected Popup _popup;
         protected FrameworkElement _popupContent;
 
-
         public object PopupContent
         {
             get { return GetValue(PopupContentProperty); }

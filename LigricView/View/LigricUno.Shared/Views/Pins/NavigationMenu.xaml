@@ -69,7 +69,7 @@
                                                              Messages="{StaticResource MessagesItemTemplate}"/>
 
             <DataTemplate x:Key="BoardSettingsItemTemplate" x:DataType="sys:String">
-                <menus:SuctionCup data:RelativeSourceBinding.AncestorType="UserControl" Background="Transparent" Padding="0" Margin="0"
+                <menus:SuctionCup x:Name="keklol" data:RelativeSourceBinding.AncestorType="UserControl" Background="Transparent" Padding="0" Margin="0"
                                   Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                                   Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}">
                     <menus:SuctionCup.Content>
@@ -82,7 +82,7 @@
                             <Button data:RelativeSourceBinding.AncestorType="UserControl"
                                     HorizontalAlignment="Center" Margin="1" Padding="0" Background="White" BorderBrush="#1c1c1c"
                                     Width="50" Height="50"  CornerRadius="17"
-                                    Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.AddNewBoardEntityCommand, RelativeSource={RelativeSource Self}}"
+                                    Command="{Binding ElementName=keklol, Path=(data:RelativeSourceBinding.Ancestor).DataContext.AddNewBoardEntityCommand, RelativeSource={RelativeSource Self}}"
                                     CommandParameter="{StaticResource BoardAdEntityType}">
                                 <Button.Content>
                                     <Path Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}" Width="20" Fill="#1e1e1e" Stretch="Uniform"
