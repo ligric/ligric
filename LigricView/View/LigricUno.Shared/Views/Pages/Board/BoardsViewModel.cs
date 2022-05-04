@@ -3,6 +3,7 @@ using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
 using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
 using BoardsCore.BitZlato;
 using BoardsCore.BitZlato.Entities;
+using BoardsCore.CommonTypes.Entities;
 using Common.Enums;
 using Common.EventArgs;
 using LigricMvvmToolkit.BaseMvvm;
@@ -200,6 +201,7 @@ namespace LigricUno.Views.Pages.Board
         public BoardsViewModel(IBoardsService boardsService)
         {
             _boardService = boardsService;
+            _boardService.CurrentBoardChanged += OnCurrentBoardChanged;
 
             var fist = new BitzlatoAdBoardViewModel(0, "BTC BitZlato", 10, 60);
             var second = new BitzlatoAdBoardViewModel(1, "ETH Binance", 280, 60);
@@ -212,6 +214,16 @@ namespace LigricUno.Views.Pages.Board
 
             CurrentEntities.Add(fist);
             CurrentEntities.Add(second);
+        }
+
+        private void OnCurrentBoardChanged(object sender, BoardsCore.Board.BoardService oldElement, BoardsCore.Board.BoardService newElement)
+        {
+            CurrentEntities.Clear();
+
+            foreach (var item in newElement.Entities)
+            {
+                CurrentEntities.Add(new BoardEntityViewModel(item.Key, "Hello World!"));
+            }
         }
     }
 }
