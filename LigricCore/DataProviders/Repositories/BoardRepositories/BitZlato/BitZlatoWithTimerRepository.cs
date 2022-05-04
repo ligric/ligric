@@ -45,7 +45,7 @@ namespace BoardRepositories.BitZlato
             initializeRates.EndInit();
         }
 
-        protected override void RenderAds(object sender = null, ElapsedEventArgs e = null)
+        protected async override void RenderAds(object sender = null, ElapsedEventArgs e = null)
         {
             timer.Stop();
             if (CurrentState != StateEnum.Active)
@@ -53,10 +53,10 @@ namespace BoardRepositories.BitZlato
 
             try
             {
-                var result = Task.Run(async() => await GetAdsAsync());
+                var result = await GetAdsAsync();
                 if (result != null)
                 {
-                    ads.NewElementsHandler(this, result.Result, privateAdsChanged, ref actionNumber);
+                    ads.NewElementsHandler(this, result, privateAdsChanged, ref actionNumber);
                     timer.Start();
                 }
                 else
@@ -71,7 +71,7 @@ namespace BoardRepositories.BitZlato
                 if (tryAgain < 5)
                 {
                     ++tryAgain;
-                    Task.Run(async() => await Task.Delay(100));
+                    await Task.Delay(100);
                     timer.Start();
                     // TODO : нельзя использовать throw new ArgumentException в "void"
                     throw new ArgumentException($"Ой, мы упали, девочки :(\nПопытка запуститься ещё раз: {tryAgain}/5\nMessage: {ex.Message}\nClass: {nameof(BitZlatoWithTimerRepository)}\nMethod: {nameof(RenderAds)}");

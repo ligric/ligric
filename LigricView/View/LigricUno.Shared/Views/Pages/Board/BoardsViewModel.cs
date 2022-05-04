@@ -14,8 +14,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI.Core;
 
 namespace LigricUno.Views.Pages.Board
 {
@@ -117,16 +119,16 @@ namespace LigricUno.Views.Pages.Board
         public BitzlatoAdBoardViewModel(long id, string name, double positionX = 0, double positionY = 0) :
             base(id, name, positionX, positionY)
         {
-            model = new BitZlatoBoardWithTimer(name, apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Stoped);
+            model = new BitZlatoBoardWithTimer(name, apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
 
             foreach (var newValue in model.Ads.Values)
             {
                 Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
             }
-            //model.AdsChanged += Model_AdsChanged;
+            model.AdsChanged += Model_AdsChanged;
         }
 
-        private void Model_AdsChanged(object sender, NotifyDictionaryChangedEventArgs<long, BitZlatoAdDto> e)
+        private async void Model_AdsChanged(object sender, NotifyDictionaryChangedEventArgs<long, BitZlatoAdDto> e)
         {
             var newValue = e.NewValue;
             var oldValue = e.OldValue;
@@ -134,7 +136,10 @@ namespace LigricUno.Views.Pages.Board
             switch (e.Action)
             {
                 case NotifyDictionaryChangedAction.Added:
-                    Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
+                    });
                     break;
                 case NotifyDictionaryChangedAction.Changed:
                     var index = Ads.IndexOf(Ads.FirstOrDefault(x => x.Id == newValue.Id));
@@ -190,6 +195,7 @@ namespace LigricUno.Views.Pages.Board
         private void OnEntitiesChanged(object sender, NotifyDictionaryChangedEventArgs<long, BoardsCore.CommonTypes.Entities.Board.BoardEntityConteinerDto> e)
         {
             var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
+            third.Ads.Add(new AdViewModel(123, "kek", "lol", "123", "123-111"));
             CurrentEntities.Add(third);
         }
     }

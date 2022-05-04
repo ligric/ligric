@@ -19,7 +19,7 @@ namespace BoardRepositories.BitZlato
             {
                 lock (((ICollection)ads).SyncRoot)
                 {
-                    value?.Invoke(this, NotifyActionDictionaryChangedEventArgs.InitializeKeyValuePairs(new Dictionary<long, Ad>(ads), actionNumber, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                    value?.Invoke(this, NotifyActionDictionaryChangedEventArgs.InitializeKeyValuePairs(new Dictionary<long, Ad>(ads), actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
                     privateAdsChanged += value;
                 }
             }

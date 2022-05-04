@@ -58,7 +58,7 @@ namespace Common.Extensions
         /// Возвращает false, если такой ключ уже есть и добавление не было выполнено.</summary>
         public static bool AddAndShout<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>> action, TKey addKey, TValue addValue, ref int actionNumber)
         {
-            if (currentEntities.TryAdd(addKey, addValue))
+            if (!currentEntities.TryAdd(addKey, addValue))
                 return false;
 
             action?.Invoke(sender, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(addKey, addValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
