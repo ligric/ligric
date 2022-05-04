@@ -124,18 +124,20 @@ namespace LigricUno
             if (!initialized)
             {
                 initialized = true;
+
+                var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
+
                 var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
 
-                PrerenderPages();
+                PrerenderPages(boardsService);
 
                 Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
-                Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
+                Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel(boardsService));
             }
         }
 
-        private void PrerenderPages()
+        private void PrerenderPages(IBoardsService boardsService)
         {
-            var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
             Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
             Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
             Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());

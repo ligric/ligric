@@ -201,7 +201,8 @@
 
 
                     <Button Grid.Row="1" Background="#302c4f" CornerRadius="8" Margin="20,3,20,6" Content="Add"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White"/>
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White"
+                            Command="{Binding AddNewBoardCommand}"/>
                 </Grid>
             </menus:SnakeMenu.Content>
         </menus:SnakeMenu>

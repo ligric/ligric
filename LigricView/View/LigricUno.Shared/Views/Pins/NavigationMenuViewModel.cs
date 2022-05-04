@@ -14,8 +14,11 @@ namespace LigricUno.Views.Pins
 {
     public class NavigationMenuViewModel : DispatchedBindableBase
     {
+        private readonly IBoardsService _boardsService;
+
         private RelayCommand<string> _selectHeaderNavigationItemCommand, _selectHeaderOptionItemCommand;
         private RelayCommand<byte?> _selectContentNavigationItemCommand;
+        private RelayCommand _addNewBoardCommand;
 
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
         public ObservableCollection<string> HeaderOptionItems { get; } = new ObservableCollection<string>();
@@ -72,16 +75,27 @@ namespace LigricUno.Views.Pins
         }
         #endregion
 
+        #region AddNewBoardCommand
+        public RelayCommand AddNewBoardCommand => _addNewBoardCommand ?? (
+            _addNewBoardCommand =
+                new RelayCommand(OnAddNewElementExecute));
+
+        private void OnAddNewElementExecute(object parameter)
+        {
+            _boardsService.AddBoard();
+        }
+        #endregion
+
         #endregion
 
 
-        public NavigationMenuViewModel()
+        public NavigationMenuViewModel(IBoardsService boardsService)
         {
-            Navigation.PageChanged += OnPageChanged; ;
+            _boardsService = boardsService;
+            _boardsService.BoardsChanged += OnBoardsChanged;
+            _boardsService.AddBoard();
 
-            var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
-            boardsService.BoardsChanged += OnBoardsChanged;
-            boardsService.AddBoard();
+            Navigation.PageChanged += OnPageChanged;
         }
 
         private void OnPageChanged(string obj)
