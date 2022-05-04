@@ -162,21 +162,6 @@ namespace LigricUno.Views.Pages.Board
     {
         private readonly IBoardsService _boardService;
 
-        private static List<AdViewModel> testAds = new List<AdViewModel>()
-        {
-            new AdViewModel(0, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(1, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(2, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(3, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(4, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(5, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(6, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(7, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-            new AdViewModel(8, "Idrak", "Monobank", "10 000" + " - " + "100 000", "100 000 000"),
-        };
-
         public ObservableCollection<BoardEntityViewModel> CurrentEntities { get; } = new ObservableCollection<BoardEntityViewModel>();
 
         private void OnAddBoardEntityExecute(BoardEntityType parameter)
@@ -185,10 +170,6 @@ namespace LigricUno.Views.Pages.Board
             {
                 case BoardEntityType.Ad:
                     var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
-
-                    foreach (var item in testAds)
-                        third.Ads.Add(item);
-
                     CurrentEntities.Add(third);
                     break;
                 case BoardEntityType.Chart:
@@ -202,18 +183,6 @@ namespace LigricUno.Views.Pages.Board
         {
             _boardService = boardsService;
             _boardService.CurrentBoardChanged += OnCurrentBoardChanged;
-
-            var fist = new BitzlatoAdBoardViewModel(0, "BTC BitZlato", 10, 60);
-            var second = new BitzlatoAdBoardViewModel(1, "ETH Binance", 280, 60);
-
-            foreach (var item in testAds)
-            {
-                fist.Ads.Add(item);
-                second.Ads.Add(item);
-            }
-
-            CurrentEntities.Add(fist);
-            CurrentEntities.Add(second);
         }
 
         private void OnCurrentBoardChanged(object sender, BoardsCore.Board.BoardService oldElement, BoardsCore.Board.BoardService newElement)
