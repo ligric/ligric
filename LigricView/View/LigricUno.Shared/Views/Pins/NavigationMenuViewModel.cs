@@ -50,6 +50,8 @@ namespace LigricUno.Views.Pins
 
         private void OnSelectedContentExecute(byte? parameter)
         {
+            _boardsService.SetNewCurrentBoard((byte)parameter);
+
             if (!Navigation.GetCurrentPageKey().Contains(nameof(BoardPage)))
             {
                 Navigation.GoTo(nameof(BoardPage));
