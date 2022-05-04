@@ -79,9 +79,10 @@
 
                     <menus:SuctionCup.PopupContent>
                         <StackPanel Spacing="5" Orientation="Vertical" Background="White" Margin="0,20,0,20">
-                            <Button HorizontalAlignment="Center" Margin="1" Padding="0" Background="White" BorderBrush="#1c1c1c"
+                            <Button data:RelativeSourceBinding.AncestorType="UserControl"
+                                    HorizontalAlignment="Center" Margin="1" Padding="0" Background="White" BorderBrush="#1c1c1c"
                                     Width="50" Height="50"  CornerRadius="17"
-                                    Command="{Binding AddBoardEntityCommand}"
+                                    Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.AddNewBoardEntityCommand, RelativeSource={RelativeSource Self}}"
                                     CommandParameter="{StaticResource BoardAdEntityType}">
                                 <Button.Content>
                                     <Path Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}" Width="20" Fill="#1e1e1e" Stretch="Uniform"
@@ -89,7 +90,8 @@
                                 </Button.Content>
                             </Button>
 
-                            <Button HorizontalAlignment="Center" Margin="1" Padding="0" Background="Transparent" BorderBrush="#1c1c1c"
+                            <Button data:RelativeSourceBinding.AncestorType="UserControl"
+                                    HorizontalAlignment="Center" Margin="1" Padding="0" Background="Transparent" BorderBrush="#1c1c1c"
                                     Width="50" Height="50" CornerRadius="17">
                                 <Button.Content> 
                                     <Path Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}" Width="16" Fill="#1e1e1e" Stretch="Uniform"

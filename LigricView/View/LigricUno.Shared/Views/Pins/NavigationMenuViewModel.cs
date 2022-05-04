@@ -1,4 +1,5 @@
-﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
+﻿using BoardsCommon.Enums;
+using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
 using BoardsCore.Board;
 using BoardsCore.CommonTypes.Entities;
 using LigricMvvmToolkit.BaseMvvm;
@@ -19,6 +20,7 @@ namespace LigricUno.Views.Pins
         private RelayCommand<string> _selectHeaderNavigationItemCommand, _selectHeaderOptionItemCommand;
         private RelayCommand<byte?> _selectContentNavigationItemCommand;
         private RelayCommand _addNewBoardCommand;
+        private RelayCommand<BoardEntityType> _addNewBoardEntityCommand;
 
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
         public ObservableCollection<string> HeaderOptionItems { get; } = new ObservableCollection<string>();
@@ -85,6 +87,17 @@ namespace LigricUno.Views.Pins
         private void OnAddNewElementExecute(object parameter)
         {
             _boardsService.AddBoard();
+        }
+        #endregion
+
+        #region AddNewBoardEntityCommand
+        public RelayCommand<BoardEntityType> AddNewBoardEntityCommand => _addNewBoardEntityCommand ?? (
+            _addNewBoardEntityCommand =
+                new RelayCommand<BoardEntityType>(OnAddNewBoardEntityExecute));
+
+        private void OnAddNewBoardEntityExecute(BoardEntityType parameter)
+        {
+            _boardsService.CurrentBoard.AddEntity(parameter);
         }
         #endregion
 

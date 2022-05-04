@@ -164,21 +164,6 @@ namespace LigricUno.Views.Pages.Board
 
         public ObservableCollection<BoardEntityViewModel> CurrentEntities { get; } = new ObservableCollection<BoardEntityViewModel>();
 
-        private void OnAddBoardEntityExecute(BoardEntityType parameter)
-        {
-            switch (parameter)
-            {
-                case BoardEntityType.Ad:
-                    var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
-                    CurrentEntities.Add(third);
-                    break;
-                case BoardEntityType.Chart:
-                    break;
-                default:
-                    break;
-            }
-        }
-
         public BoardsViewModel(IBoardsService boardsService)
         {
             _boardService = boardsService;
@@ -189,10 +174,23 @@ namespace LigricUno.Views.Pages.Board
         {
             CurrentEntities.Clear();
 
+            if (oldElement != null)
+            {
+                oldElement.EntitiesChanged -= OnEntitiesChanged;
+            }
+
+            newElement.EntitiesChanged += OnEntitiesChanged;
+
             foreach (var item in newElement.Entities)
             {
                 CurrentEntities.Add(new BoardEntityViewModel(item.Key, "Hello World!"));
             }
+        }
+
+        private void OnEntitiesChanged(object sender, NotifyDictionaryChangedEventArgs<long, BoardsCore.CommonTypes.Entities.Board.BoardEntityConteinerDto> e)
+        {
+            var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
+            CurrentEntities.Add(third);
         }
     }
 }
