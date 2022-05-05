@@ -21,18 +21,18 @@
             <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
 
             <DataTemplate x:Key="ItemDataTemplate" x:DataType="local:AdViewModel">
-                <Grid ColumnSpacing="5" CornerRadius="20">
+                <Grid Background="#e9f0f3" ColumnSpacing="5" CornerRadius="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="{Binding Trader}" 
+                    <TextBlock Grid.Column="0" Foreground="#0a1113" Text="{Binding Trader}" 
                                VerticalAlignment="Center" HorizontalTextAlignment="Left" Margin="5,0,0,0"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Rate}" 
+                    <TextBlock Grid.Column="1" Foreground="#0a1113" Text="{Binding Rate}" 
                                VerticalAlignment="Center" HorizontalTextAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="{Binding Limit}" 
+                    <TextBlock Grid.Column="2" Foreground="#0a1113" Text="{Binding Limit}" 
                                VerticalAlignment="Center" HorizontalTextAlignment="Right" Margin="0,0,5,0"/>
                 </Grid>
             </DataTemplate>
@@ -41,7 +41,7 @@
     </Page.Resources>
 
     <Grid>
-        <ItemsControl Name="baseListView" ItemsSource="{Binding CurrentEntities}">
+        <ItemsControl ItemsSource="{Binding CurrentEntities}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Background="Transparent"/>
@@ -57,7 +57,7 @@
                                           data:Canvas.OffsetY="{Binding PositionY}"
                                           dragAp:DragPosition.IsDrop="True">
 
-                        <boards:BoardStandard>
+                        <boards:BoardStandard.Content>
                             <ListView Margin="10"
                                       ItemsSource="{Binding Ads}"
                                       IsItemClickEnabled="False" SelectionMode="None"
@@ -88,12 +88,14 @@
 
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ItemDataTemplate}"/>
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ItemDataTemplate}"
+                                                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ListView>
-                        </boards:BoardStandard>
-                        
+
+                        </boards:BoardStandard.Content>
+
                         <boards:BoardStandard.FiltersContent>
                             <ScrollViewer>
                                 <StackPanel Spacing="3">
@@ -326,6 +328,7 @@
                                 </StackPanel>
                             </ScrollViewer>
                         </boards:BoardStandard.FiltersContent>
+
 
                         <boards:BoardStandard.BoardOptionsContent>
                             <Grid RowSpacing="10" Padding="10" Width="180"  Height="60" Background="#171925" CornerRadius="10" Margin="0,5,0,0">
