@@ -18,7 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Boards\BoardStandardCustomControl.xaml" />
-    <None Remove="Items\ItemStandardCustomControl.xaml" />
     <None Remove="Menus\ExpanderStandardCustomControl.xaml" />
     <None Remove="Menus\MenuSoapCustomControl.xaml" />
     <None Remove="Menus\SnakeMenuCustomControl.xaml" />
@@ -28,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="Boards\BoardStandardCustomControl.xaml" />
-    <UpToDateCheckInput Remove="Items\ItemStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\ExpanderStandardCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\MenuSoapCustomControl.xaml" />
     <UpToDateCheckInput Remove="Menus\PourMenuCustomControl.xaml" />
