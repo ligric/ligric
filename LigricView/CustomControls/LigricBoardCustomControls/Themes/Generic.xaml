@@ -14,7 +14,6 @@
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/SnakeMenuCustomControl.xaml"/>
 
         
-        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Items/ItemStandardCustomControl.xaml"/>
         <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Boards/BoardStandardCustomControl.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
