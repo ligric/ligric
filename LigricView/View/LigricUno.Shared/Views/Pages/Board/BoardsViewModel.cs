@@ -25,7 +25,7 @@ namespace LigricUno.Views.Pages.Board
     {
         private long _id = 0;
         private string _trader, _paymentMethod, _rate, _limit;
-        
+
         public long Id { get => _id; private set => SetProperty(ref _id, value); }
         public string Trader { get => _trader; set => SetProperty(ref _trader, value); }
         public string PaymentMethod { get => _paymentMethod; set => SetProperty(ref _paymentMethod, value); }
@@ -68,21 +68,21 @@ namespace LigricUno.Views.Pages.Board
 
         #region Commands
         private RelayCommand<Point> _savePositionCommand;
-        public RelayCommand<Point> SavePositionCommand => _savePositionCommand ?? (_savePositionCommand = new RelayCommand<Point>(async (e) => await OnSavePositionExecuteAsync(e)));        
-        
+        public RelayCommand<Point> SavePositionCommand => _savePositionCommand ?? (_savePositionCommand = new RelayCommand<Point>(async (e) => await OnSavePositionExecuteAsync(e)));
+
         private RelayCommand<bool> _menuOptionSwitchCommand;
         public RelayCommand<bool> MenuOptionSwitchCommand => _menuOptionSwitchCommand ?? (_menuOptionSwitchCommand = new RelayCommand<bool>(OnMenuOptionSwitchExecuteAsync));
 
         private void OnMenuOptionSwitchExecuteAsync(bool e)
         {
-            
+
         }
 
         private async Task OnSavePositionExecuteAsync(Point parameter)
         {
             var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             var folder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
-            File.WriteAllText(Path.Combine(folder.Path, "Settings.txt"), $"Board:{Id}\nX:{parameter.X }\nY:{parameter.Y}");
+            File.WriteAllText(Path.Combine(folder.Path, "Settings.txt"), $"Board:{Id}\nX:{parameter.X}\nY:{parameter.Y}");
         }
         #endregion
 
@@ -125,41 +125,42 @@ namespace LigricUno.Views.Pages.Board
             {
                 Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
             }
-            model.AdsChanged += Model_AdsChanged;
+            model.AdsChanged += OnAdsChanged;
         }
 
-        private async void Model_AdsChanged(object sender, NotifyDictionaryChangedEventArgs<long, BitZlatoAdDto> e)
+        private async void OnAdsChanged(object sender, NotifyDictionaryChangedEventArgs<long, BitZlatoAdDto> e)
         {
             var newValue = e.NewValue;
             var oldValue = e.OldValue;
 
-            switch (e.Action)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case NotifyDictionaryChangedAction.Added:
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
+                switch (e.Action)
+                {
+                    case NotifyDictionaryChangedAction.Added:
                         Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
-                    });
-                    break;
-                case NotifyDictionaryChangedAction.Changed:
-                    var index = Ads.IndexOf(Ads.FirstOrDefault(x => x.Id == newValue.Id));
-                    Ads[index] = new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString());
-                    break;
-                case NotifyDictionaryChangedAction.Removed:
-                    Ads.Remove(Ads.FirstOrDefault(x => x.Id == newValue.Id));
-                    break;
-                case NotifyDictionaryChangedAction.Cleared:
-                    Ads.Clear();
-                    break;
-                case NotifyDictionaryChangedAction.Initialized:
-                    Ads.Clear();
 
-                    foreach (var item in e.NewDictionary.Values.Select(x => new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString())))
-                    {
-                        Ads.Add(item);
-                    }
-                    break;
-            }
+                        break;
+                    case NotifyDictionaryChangedAction.Changed:
+                        var index = Ads.IndexOf(Ads.FirstOrDefault(x => x.Id == newValue.Id));
+                        Ads[index] = new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString());
+                        break;
+                    case NotifyDictionaryChangedAction.Removed:
+                        Ads.Remove(Ads.FirstOrDefault(x => x.Id == newValue.Id));
+                        break;
+                    case NotifyDictionaryChangedAction.Cleared:
+                        Ads.Clear();
+                        break;
+                    case NotifyDictionaryChangedAction.Initialized:
+                        Ads.Clear();
+
+                        foreach (var item in e.NewDictionary.Values.Select(x => new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString())))
+                        {
+                            Ads.Add(item);
+                        }
+                        break;
+                }
+            });
         }
     }
 
@@ -195,7 +196,6 @@ namespace LigricUno.Views.Pages.Board
         private void OnEntitiesChanged(object sender, NotifyDictionaryChangedEventArgs<long, BoardsCore.CommonTypes.Entities.Board.BoardEntityConteinerDto> e)
         {
             var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
-            third.Ads.Add(new AdViewModel(123, "kek", "lol", "123", "123-111"));
             CurrentEntities.Add(third);
         }
     }
