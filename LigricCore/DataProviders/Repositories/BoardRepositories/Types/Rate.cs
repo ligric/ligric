@@ -21,8 +21,8 @@ namespace BoardRepositories.Types
 
         public bool Equals(Rate other)
         {
-            return Equals(LeftCurrency, other.LeftCurrency) &&
-                   Equals(RightCurrency, other.RightCurrency) &&
+            return Equals(other.LeftCurrency, LeftCurrency) &&
+                   Equals(other.RightCurrency, RightCurrency) &&
                    Value == other.Value;
         }
 

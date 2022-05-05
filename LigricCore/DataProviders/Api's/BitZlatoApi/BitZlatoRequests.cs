@@ -15,7 +15,7 @@ namespace BitZlatoApi
     public class BitZlatoRequests : IBitZlatoRequests
     {
         private readonly IRequestSender requestSender;
-        private const string _url = "https://bitzlato.com/api/p2p";
+        private const string URL = "https://bitzlato.com/api/p2p";
 
         public BitZlatoRequests(string apiKey, string email)
         {
@@ -27,9 +27,9 @@ namespace BitZlatoApi
             string url = string.Empty;
 
             if (filters == null)
-                url = $"{_url}/public/exchange/dsa/";
+                url = $"{URL}/public/exchange/dsa/";
             else
-                url = $"{_url}/public/exchange/dsa/?{string.Join("&", filters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"))}";
+                url = $"{URL}/public/exchange/dsa/?{string.Join("&", filters.Select(kvp => $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"))}";
 
             var response = await requestSender.SendHttpRequestAsync<ResponseJson<AdJson[]>, object>(url, HttpMethod.Get, null);
             return response;

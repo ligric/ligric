@@ -22,7 +22,7 @@ namespace BoardRepositories.Types
 
         public bool Equals(Currency other)
         {
-            return Name == other.Name && Symbol == other.Symbol && Type == other.Type;
+            return Equals(other.Name, Name) && Equals(other.Symbol, Symbol) && Equals(other.Type, Type);
         }
 
         public override bool Equals(object obj)

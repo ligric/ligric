@@ -19,7 +19,7 @@ namespace BoardRepositories.Types
 
         public bool Equals(Paymethod other)
         {
-            return Id == other.Id && Name == other.Name;
+            return Id == other.Id && Equals(other.Name, Name);
         }
 
         public override bool Equals(object obj)

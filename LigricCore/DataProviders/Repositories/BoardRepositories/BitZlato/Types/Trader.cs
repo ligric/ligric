@@ -25,7 +25,7 @@ namespace BoardRepositories.BitZlato.Types
 
         public bool Equals(Trader other)
         {
-            return Name == other.Name && Balance == other.Balance && LastActivity == other.LastActivity && Verificated == other.Verificated && Trusted == other.Trusted;
+            return Equals(other.Name, Name) && Balance == other.Balance && LastActivity == other.LastActivity && Verificated == other.Verificated && Trusted == other.Trusted;
         }
 
         public override bool Equals(object obj)
