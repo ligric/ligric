@@ -22,19 +22,11 @@
                         <Border Grid.RowSpan="2" CornerRadius="{TemplateBinding CornerRadius}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="-1"/>
 
                         <Grid Grid.Row="1">
-                            <ContentControl x:Name="ContentPresenter" 
-                                            AutomationProperties.AccessibilityView="Raw" 
-                                            Background="{TemplateBinding Background}" 
-                                            BackgroundSizing="{TemplateBinding BackgroundSizing}" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            BorderThickness="{TemplateBinding BorderThickness}" 
-                                            ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                            CornerRadius="{TemplateBinding CornerRadius}" 
+                            <ContentControl ContentTemplate="{TemplateBinding ContentTemplate}"
                                             Content="{TemplateBinding Content}" 
-                                            ContentTransitions="{TemplateBinding ContentTransitions}" 
-                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                            Padding="{TemplateBinding Padding}" 
-                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                         </Grid>
                             
                         <!-- Title -->
@@ -96,8 +88,8 @@
 
                                 <Grid RowSpacing="10" Padding="10">
                                     <ContentControl Content="{TemplateBinding FiltersContent}"
-                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                                 </Grid>
 
                             </menus:PourMenu>
@@ -109,8 +101,8 @@
                                             MainParent="{Binding ElementName=root}" HeaderBuffer="{Binding ElementName=boardMenuBuffer}">
 
                                 <ContentControl Content="{TemplateBinding BoardOptionsContent}"
-                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                             </menus:MenuSoap>
                         </Grid>
 
