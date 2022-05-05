@@ -22,19 +22,19 @@
                         <Border Grid.RowSpan="2" CornerRadius="{TemplateBinding CornerRadius}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Margin="-1"/>
 
                         <Grid Grid.Row="1">
-                            <ContentPresenter x:Name="ContentPresenter" 
-                                              AutomationProperties.AccessibilityView="Raw" 
-                                              Background="{TemplateBinding Background}" 
-                                              BackgroundSizing="{TemplateBinding BackgroundSizing}" 
-                                              BorderBrush="{TemplateBinding BorderBrush}" 
-                                              BorderThickness="{TemplateBinding BorderThickness}" 
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                              CornerRadius="{TemplateBinding CornerRadius}" 
-                                              Content="{TemplateBinding Content}" 
-                                              ContentTransitions="{TemplateBinding ContentTransitions}" 
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                              Padding="{TemplateBinding Padding}" 
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentControl x:Name="ContentPresenter" 
+                                            AutomationProperties.AccessibilityView="Raw" 
+                                            Background="{TemplateBinding Background}" 
+                                            BackgroundSizing="{TemplateBinding BackgroundSizing}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" 
+                                            ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                            CornerRadius="{TemplateBinding CornerRadius}" 
+                                            Content="{TemplateBinding Content}" 
+                                            ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                            Padding="{TemplateBinding Padding}" 
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Grid>
                             
                         <!-- Title -->
@@ -95,7 +95,7 @@
                                 </controls:Expander.Header>
 
                                 <Grid RowSpacing="10" Padding="10">
-                                    <ContentPresenter Content="{TemplateBinding FiltersContent}"
+                                    <ContentControl Content="{TemplateBinding FiltersContent}"
                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                       HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                                 </Grid>
@@ -108,7 +108,7 @@
                                             VerticalAlignment="Top" HorizontalAlignment="Left"
                                             MainParent="{Binding ElementName=root}" HeaderBuffer="{Binding ElementName=boardMenuBuffer}">
 
-                                <ContentPresenter Content="{TemplateBinding BoardOptionsContent}"
+                                <ContentControl Content="{TemplateBinding BoardOptionsContent}"
                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
                             </menus:MenuSoap>
