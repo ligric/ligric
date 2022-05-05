@@ -6,15 +6,38 @@
       xmlns:boards="using:LigricBoardCustomControls.Boards"
       
       xmlns:data="using:LigricMvvmToolkit.Data"
-      xmlns:dragAp="using:LigricMvvmToolkit.AttachedProperties.DragPosition"
       xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
+      xmlns:dragAp="using:LigricMvvmToolkit.AttachedProperties.DragPosition"
+      xmlns:toggleButtons="using:LigricBoardCustomControls.ToggleButtons"
       
+      xmlns:wuxc="using:Windows.UI.Xaml.Controls"
       xmlns:local="using:LigricUno.Views.Pages.Board"
       xmlns:converters="using:LigricMvvmToolkit.Converters"
       
       d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}">
     <Page.Resources>
-        <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
+        <ResourceDictionary>
+            
+            <converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>
+
+            <DataTemplate x:Key="ItemDataTemplate" x:DataType="local:AdViewModel">
+                <Grid ColumnSpacing="5" CornerRadius="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="{Binding Trader}" 
+                               VerticalAlignment="Center" HorizontalTextAlignment="Left" Margin="5,0,0,0"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Rate}" 
+                               VerticalAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="{Binding Limit}" 
+                               VerticalAlignment="Center" HorizontalTextAlignment="Right" Margin="0,0,5,0"/>
+                </Grid>
+            </DataTemplate>
+            
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
@@ -28,11 +51,330 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
-                    <boards:BoardStandard Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4"
-                                          Title="{Binding Title}" Ads="{Binding Ads, Converter={StaticResource CollectionToUniqueCollectionConverter}}"
+                    <boards:BoardStandard Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4" 
+                                          Title="{Binding Title}"
                                           data:Canvas.OffsetX="{Binding PositionX}"
                                           data:Canvas.OffsetY="{Binding PositionY}"
-                                          dragAp:DragPosition.IsDrop="True"/>
+                                          dragAp:DragPosition.IsDrop="True">
+
+                        <boards:BoardStandard>
+                            <ListView Margin="10"
+                                      ItemsSource="{Binding Ads}"
+                                      IsItemClickEnabled="False" SelectionMode="None"
+                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                      ScrollViewer.VerticalScrollMode="Enabled"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <wuxc:VirtualizingStackPanel Margin="0,-2.5,0,-2.5"
+                                                                     VirtualizationMode="Recycling"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Height" Value="60"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="0,2.5,0,2.5" />
+
+                                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ItemDataTemplate}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ListView>
+                        </boards:BoardStandard>
+                        
+                        <boards:BoardStandard.FiltersContent>
+                            <ScrollViewer>
+                                <StackPanel Spacing="3">
+                                    <ComboBox HorizontalAlignment="Stretch" Height="40"
+                                              Style="{StaticResource ComboBoxSimpleTemplate}">
+                                        <ComboBoxItem>Купить</ComboBoxItem>
+                                        <ComboBoxItem>Продать</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <ComboBox PlaceholderText="Что покупаем" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                              HorizontalAlignment="Stretch" Height="40">
+                                        <ComboBoxItem>BTC</ComboBoxItem>
+                                        <ComboBoxItem>ETH</ComboBoxItem>
+                                        <ComboBoxItem>BCH</ComboBoxItem>
+                                        <ComboBoxItem>LTC</ComboBoxItem>
+                                        <ComboBoxItem>DASH</ComboBoxItem>
+                                        <ComboBoxItem>DOGE</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <ComboBox PlaceholderText="Список валют" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                              HorizontalAlignment="Stretch" Height="40">
+                                        <ComboBoxItem>RUB</ComboBoxItem>
+                                        <ComboBoxItem>UAH</ComboBoxItem>
+                                        <ComboBoxItem>USD</ComboBoxItem>
+                                        <ComboBoxItem>AED</ComboBoxItem>
+                                        <ComboBoxItem>AFN</ComboBoxItem>
+                                        <ComboBoxItem>ALL</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <ComboBox PlaceholderText="Сумма" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                              HorizontalAlignment="Stretch" Height="40">
+                                        <ComboBoxItem>BTC</ComboBoxItem>
+                                        <ComboBoxItem>RUB</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <ComboBox PlaceholderText="Способ оплаты" Style="{StaticResource ComboBoxSimpleTemplate}"
+                                                      HorizontalAlignment="Stretch" Height="40">
+                                        <ComboBoxItem>Сбербанк</ComboBoxItem>
+                                        <ComboBoxItem>Тинькофф</ComboBoxItem>
+                                        <ComboBoxItem>С карты на карту</ComboBoxItem>
+                                        <ComboBoxItem>Альфа-Банк</ComboBoxItem>
+                                        <ComboBoxItem>ВТБ</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                        <ComboBoxItem>MASTERCARD</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <Grid ColumnSpacing="20" Height="40">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Только активные" Foreground="White" 
+                                                   TextWrapping="WrapWholeWords"
+                                                   VerticalAlignment="Center"/>
+
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+
+                                            <toggleButtons:ToggleButtonStandard Grid.Row="1"/>
+
+                                        </Grid>
+
+                                    </Grid>
+
+                                    <Grid ColumnSpacing="20" Height="40">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Проверенные пользователи" Foreground="White"
+                                                   TextWrapping="WrapWholeWords"
+                                                   VerticalAlignment="Center"/>
+
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+
+                                            <toggleButtons:ToggleButtonStandard Grid.Row="1"/>
+
+                                        </Grid>
+
+                                    </Grid>
+
+                                    <Grid ColumnSpacing="20" Height="40">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Доверенные пользователи" Foreground="White"
+                                                   TextWrapping="WrapWholeWords"
+                                                   VerticalAlignment="Center"/>
+
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+
+                                            <toggleButtons:ToggleButtonStandard Grid.Row="1"/>
+
+                                        </Grid>
+
+                                    </Grid>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </boards:BoardStandard.FiltersContent>
+
+                        <boards:BoardStandard.BoardOptionsContent>
+                            <Grid RowSpacing="10" Padding="10" Width="180"  Height="60" Background="#171925" CornerRadius="10" Margin="0,5,0,0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10*"/>
+
+                                    <ColumnDefinition Width="100*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="50*"/>
+
+                                    <ColumnDefinition Width="10*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="1" Background="White" CornerRadius="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0" Background="Transparent" BorderThickness="0"
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Path Margin="3" Stretch="Uniform" Fill="Red" 
+                                                  Data="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8.46,11.88L9.87,10.47L12,12.59L14.12,10.47L15.53,11.88L13.41,14L15.53,16.12L14.12,17.53L12,15.41L9.88,17.53L8.47,16.12L10.59,14L8.46,11.88M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z"/>
+                                    </Button>
+
+                                    <Button Grid.Column="1" Background="Transparent" BorderThickness="0.2"
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Path Margin="3" Stretch="Uniform" Fill="#4fa34f" 
+                                                  Data="M8,5.14V19.14L19,12.14L8,5.14Z"/>
+                                    </Button>
+                                </Grid>
+
+                                <Grid Grid.Column="3" Background="White" CornerRadius="10">
+
+                                    <Button Grid.Column="0" Background="Transparent" BorderThickness="0"
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                        <Path Margin="1" Stretch="Uniform" Fill="#4fa34f" 
+                                                  Data="M9.64,13.4C8.63,12.5 7.34,12.03 6,12V15L2,11L6,7V10C7.67,10 9.3,10.57 10.63,11.59C10.22,12.15 9.89,12.76 9.64,13.4M18,15V12C17.5,12 13.5,12.16 13.05,16.2C14.61,16.75 15.43,18.47 14.88,20.03C14.33,21.59 12.61,22.41 11.05,21.86C9.5,21.3 8.67,19.59 9.22,18.03C9.5,17.17 10.2,16.5 11.05,16.2C11.34,12.61 14.4,9.88 18,10V7L22,11L18,15M13,19A1,1 0 0,0 12,18A1,1 0 0,0 11,19A1,1 0 0,0 12,20A1,1 0 0,0 13,19M11,11.12C11.58,10.46 12.25,9.89 13,9.43V5H16L12,1L8,5H11V11.12Z"/>
+
+                                    </Button>
+
+                                </Grid>
+
+                            </Grid>
+                        </boards:BoardStandard.BoardOptionsContent>
+                        
+                    </boards:BoardStandard>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
