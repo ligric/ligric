@@ -2,35 +2,51 @@
       xmlns:local="using:LigricUno.Views.Pages.Profile"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
-      d:DataContext="{d:DesignInstance local:SelfProfileViewModel, IsDesignTimeCreatable=True}">
+      d:DataContext="{d:DesignInstance local:ProfilePageViewModel, IsDesignTimeCreatable=True}">
 
 
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="FolderTemplate" x:DataType="local:CurrencyItem">
-                <muxc:TreeViewItem ItemsSource="{Binding BinanceCurrencyItems}">
+            <DataTemplate x:Key="CurrencyItemTemplate" x:DataType="local:CurrencyItem">
+                <muxc:TreeViewItem>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="0">
-                            <StackPanel>
-                                <TextBlock Text="LUNA" FontSize="16" Foreground="#86868d"/>
-                                <TextBlock Text="Terra" FontSize="20" Foreground="White"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding FullName}" FontSize="20" Foreground="White"
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock Text="{Binding Name}" FontSize="16" Foreground="#86868d"
+                                           HorizontalAlignment="Left"/>
                             </StackPanel>
                         </Grid>
 
                         <Grid Grid.Column="1">
-                            <StackPanel>
-                                <TextBlock Text="0.00690000" FontSize="16" Foreground="#86868d"/>
-                                <TextBlock Text="2,391.65 $" FontSize="20" Foreground="White"/>
+                            <StackPanel HorizontalAlignment="Right">
+                                <TextBlock Text="{Binding Amount}" FontSize="20" Foreground="White"
+                                           HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding Rate}" FontSize="16" Foreground="#86868d"
+                                           HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
                 </muxc:TreeViewItem>
             </DataTemplate>
+
+            <DataTemplate x:Key="HeaderItemTemplate" x:DataType="local:FinancialExchange">
+                <muxc:TreeViewItem ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Name}" FontSize="20" Foreground="White"
+                               HorizontalAlignment="Left"/>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+
+            <local:TreeViewItemsDataTemplateSelector x:Key="TreeViewItemsDataTemplateSelector"
+                                                     HeaderItemTemplate="{StaticResource HeaderItemTemplate}"
+                                                     ContentItemTemplate="{StaticResource CurrencyItemTemplate}"/>
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -83,47 +99,20 @@
                 </Grid>
 
                 <!-- c46c85 705b7a -->
-                <StackPanel Grid.Row="1" Spacing="10" Margin="0,20,0,0">
-                    <muxc:TreeView Background="#c46c85">
 
+            
+
+                <Grid Grid.Row="1" Margin="0,20,0,0">
+                    <muxc:TreeView ItemsSource="{Binding FinancialExchangeItems}"
+                                   ItemTemplateSelector="{StaticResource TreeViewItemsDataTemplateSelector}">
                         <muxc:TreeView.ItemContainerStyle>
                             <Style TargetType="muxc:TreeViewItem">
-                                <Setter Property="CollapsedGlyph" Value="&#xE948;"/>
-                                <Setter Property="ExpandedGlyph" Value="&#xE949;"/>
-                                <Setter Property="GlyphBrush" Value="DarkOrange"/>
+                                <Setter Property="GlyphBrush" Value="Orange"/>
                             </Style>
                         </muxc:TreeView.ItemContainerStyle>
 
-                        <muxc:TreeView.RootNodes>
-                            <muxc:TreeViewNode Content="BitZlato"
-                                               IsExpanded="True">
-                                <muxc:TreeViewNode.Children>
-                                    <muxc:TreeViewNode>
-                                        <muxc:TreeViewNode.Children>
-                                            
-                                           
-                                        </muxc:TreeViewNode.Children>
-                                    </muxc:TreeViewNode>
-                                    <muxc:TreeViewNode Content="ETH"/>
-                                    <muxc:TreeViewNode Content="USDT"/>
-                                </muxc:TreeViewNode.Children>
-                            </muxc:TreeViewNode>
-                        </muxc:TreeView.RootNodes>
                     </muxc:TreeView>
-
-                    <muxc:TreeView Background="#705b7a">
-                        <muxc:TreeView.RootNodes>
-                            <muxc:TreeViewNode Content="Binance"
-                                               IsExpanded="True">
-                                <muxc:TreeViewNode.Children>
-                                    <muxc:TreeViewNode Content="BTC"/>
-                                    <muxc:TreeViewNode Content="ETH"/>
-                                    <muxc:TreeViewNode Content="USDT"/>
-                                </muxc:TreeViewNode.Children>
-                            </muxc:TreeViewNode>
-                        </muxc:TreeView.RootNodes>
-                    </muxc:TreeView>
-                </StackPanel>
+                </Grid>
                 
             </Grid>
         </StackPanel>
