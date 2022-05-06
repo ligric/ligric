@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JsonWebToken.KeyVault" Version="1.9.3" />
-    <PackageReference Include="Uno.UI" Version="4.2.0-dev.83" />
+    <PackageReference Include="Uno.UI" Version="4.2.6" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />

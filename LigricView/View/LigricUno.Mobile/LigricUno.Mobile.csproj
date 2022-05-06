@@ -14,7 +14,7 @@
     <IsUnoHead>true</IsUnoHead>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="4.2.0-dev.83" />
+    <PackageReference Include="Uno.UI" Version="4.2.6" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.1.22076.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0-preview.1.22076.8" />
     <PackageReference Include="Xamarin.AndroidX.Browser" Version="1.4.0.1" />
