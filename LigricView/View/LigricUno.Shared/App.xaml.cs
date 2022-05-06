@@ -26,6 +26,7 @@ namespace LigricUno
     public sealed partial class App : Application
     {
         private Window _window;
+        private Frame _rootFrame;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -80,16 +81,16 @@ namespace LigricUno
             _window = Windows.UI.Xaml.Window.Current;
 #endif
 
-            var rootFrame = _window.Content as Frame;
+            _rootFrame = _window.Content as Frame;
             _window.Activated += OnWindowActivated;
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (_rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                _rootFrame = new Frame();
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                _rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -97,14 +98,14 @@ namespace LigricUno
                 }
 
                 // Place the frame in the current Window
-                _window.Content = rootFrame;
+                _window.Content = _rootFrame;
             }
 
 #if !(NET6_0_OR_GREATER && WINDOWS)
             if (args.PrelaunchActivated == false)
 #endif
             {
-                if (rootFrame.Content == null)
+                if (_rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
@@ -115,7 +116,6 @@ namespace LigricUno
                     //Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
                 }
             }
-            IocService.Initialize();
         }
 
         private bool initialized = false;
@@ -125,15 +125,24 @@ namespace LigricUno
             {
                 initialized = true;
 
-                var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
-
-                var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
-
-                PrerenderPages(boardsService);
-
-                Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
-                Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel(boardsService));
+                _rootFrame.LayoutUpdated += OnRootLayoutUpdated;
             }
+        }
+
+        private void OnRootLayoutUpdated(object sender, object e)
+        {
+            _rootFrame.LayoutUpdated -= OnRootLayoutUpdated;
+
+            IocService.Initialize();
+
+            var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
+
+            var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
+
+            PrerenderPages(boardsService);
+
+            Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
+            Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel(boardsService));
         }
 
         private void PrerenderPages(IBoardsService boardsService)
