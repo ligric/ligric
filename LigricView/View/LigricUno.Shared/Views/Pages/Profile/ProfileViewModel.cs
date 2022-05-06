@@ -19,12 +19,30 @@ namespace LigricUno.Views.Pages.Profile
         }
     }
 
-    public class ProfilePageViewModel
+    public class FinancialExchange
     {
-        public ObservableCollection<CurrencyItem> BinanceCurrencyItems { get; } = new ObservableCollection<CurrencyItem>()
+        public string Name { get; }
+
+        public ObservableCollection<CurrencyItem> Items { get; } = new ObservableCollection<CurrencyItem>()
         {
             new CurrencyItem("BTC", "Bitcoin", 0.00000126m, 4439.123m),
             new CurrencyItem("LUNA", "Terra", 0.0069m, 1734.15213m)
+        };
+
+        public FinancialExchange(string name)
+        {
+            Name = name;
+        }
+    }
+
+
+
+    public class ProfilePageViewModel
+    {
+        public ObservableCollection<FinancialExchange> FinancialExchangeItems { get; } = new ObservableCollection<FinancialExchange>()
+        {
+            new FinancialExchange("BitZlato"),
+            new FinancialExchange("Binance")
         };
     }
 }
