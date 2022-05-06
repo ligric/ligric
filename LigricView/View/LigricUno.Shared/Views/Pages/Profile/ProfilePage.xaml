@@ -1,8 +1,134 @@
 ﻿<Page x:Class="LigricUno.Views.Pages.Profile.ProfilePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
       xmlns:local="using:LigricUno.Views.Pages.Profile"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
       d:DataContext="{d:DesignInstance local:SelfProfileViewModel, IsDesignTimeCreatable=True}">
 
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="FolderTemplate" x:DataType="local:CurrencyItem">
+                <muxc:TreeViewItem ItemsSource="{Binding BinanceCurrencyItems}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <StackPanel>
+                                <TextBlock Text="LUNA" FontSize="16" Foreground="#86868d"/>
+                                <TextBlock Text="Terra" FontSize="20" Foreground="White"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <StackPanel>
+                                <TextBlock Text="0.00690000" FontSize="16" Foreground="#86868d"/>
+                                <TextBlock Text="2,391.65 $" FontSize="20" Foreground="White"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <!-- 3d5a7c 2a3950 2f4550 171925 2c2c2c2c 1f2630 -->
     <Grid>
+        <StackPanel>
+
+            <Grid Background="#171925" MinHeight="200" Margin="20" CornerRadius="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse ap:FrmElem.WidthToHeight="1" Margin="10,10,0,10"
+                         HorizontalAlignment="Left">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="ms-appx:///Assets/Images/limeniye_icon.JPG" Stretch="UniformToFill"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
+                    <Border Background="#1f2630" Margin="5" Padding="10" CornerRadius="10">
+                        <TextBlock Text="Танго в одиночестве" FontSize="18" Foreground="White" TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Border Background="#1f2630" Margin="5" Padding="10" CornerRadius="10">
+                        <TextBlock Text="@limeniye" FontSize="18" Foreground="White" TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Border Background="#1f2630" Margin="5" Padding="10" CornerRadius="10">
+                        <TextBlock Text="Мы с истёкшим сроком годности" FontSize="18" Foreground="White" TextWrapping="Wrap"/>
+                    </Border>
+
+                </StackPanel>
+                
+            </Grid>
+
+            <Grid Background="#171e26" Height="400" CornerRadius="50" Margin="20" Padding="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <StackPanel>
+                        <TextBlock Text="Total balance" FontSize="16" Foreground="#86868d"/>
+                        <TextBlock Text="14,682.45 $" FontSize="20" Foreground="White"/>
+                        <Border Background="#415266" HorizontalAlignment="Stretch" Height="1" Margin="10,20,10,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- c46c85 705b7a -->
+                <StackPanel Grid.Row="1" Spacing="10" Margin="0,20,0,0">
+                    <muxc:TreeView Background="#c46c85">
+
+                        <muxc:TreeView.ItemContainerStyle>
+                            <Style TargetType="muxc:TreeViewItem">
+                                <Setter Property="CollapsedGlyph" Value="&#xE948;"/>
+                                <Setter Property="ExpandedGlyph" Value="&#xE949;"/>
+                                <Setter Property="GlyphBrush" Value="DarkOrange"/>
+                            </Style>
+                        </muxc:TreeView.ItemContainerStyle>
+
+                        <muxc:TreeView.RootNodes>
+                            <muxc:TreeViewNode Content="BitZlato"
+                                               IsExpanded="True">
+                                <muxc:TreeViewNode.Children>
+                                    <muxc:TreeViewNode>
+                                        <muxc:TreeViewNode.Children>
+                                            
+                                           
+                                        </muxc:TreeViewNode.Children>
+                                    </muxc:TreeViewNode>
+                                    <muxc:TreeViewNode Content="ETH"/>
+                                    <muxc:TreeViewNode Content="USDT"/>
+                                </muxc:TreeViewNode.Children>
+                            </muxc:TreeViewNode>
+                        </muxc:TreeView.RootNodes>
+                    </muxc:TreeView>
+
+                    <muxc:TreeView Background="#705b7a">
+                        <muxc:TreeView.RootNodes>
+                            <muxc:TreeViewNode Content="Binance"
+                                               IsExpanded="True">
+                                <muxc:TreeViewNode.Children>
+                                    <muxc:TreeViewNode Content="BTC"/>
+                                    <muxc:TreeViewNode Content="ETH"/>
+                                    <muxc:TreeViewNode Content="USDT"/>
+                                </muxc:TreeViewNode.Children>
+                            </muxc:TreeViewNode>
+                        </muxc:TreeView.RootNodes>
+                    </muxc:TreeView>
+                </StackPanel>
+                
+            </Grid>
+        </StackPanel>
+        
+        
 
     </Grid>
 </Page>
