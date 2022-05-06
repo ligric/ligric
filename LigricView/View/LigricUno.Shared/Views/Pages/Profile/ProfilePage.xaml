@@ -37,7 +37,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="HeaderItemTemplate" x:DataType="local:FinancialExchange">
-                <muxc:TreeViewItem ItemsSource="{Binding Items}">
+                <muxc:TreeViewItem ItemsSource="{Binding Items}" IsExpanded="True">
                     <TextBlock Text="{Binding Name}" FontSize="20" Foreground="White"
                                HorizontalAlignment="Left"/>
                 </muxc:TreeViewItem>
@@ -110,7 +110,6 @@
                                 <Setter Property="GlyphBrush" Value="Orange"/>
                             </Style>
                         </muxc:TreeView.ItemContainerStyle>
-
                     </muxc:TreeView>
                 </Grid>
                 
