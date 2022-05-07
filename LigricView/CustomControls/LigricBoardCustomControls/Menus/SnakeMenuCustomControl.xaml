@@ -35,12 +35,15 @@
                                         <Setter Target="HeaderConteiner.(Grid.Row)" Value="0"/>
                                         <Setter Target="HeaderConteiner.(Grid.Column)" Value="0"/>
 
+                                        <Setter Target="ExpanderContainer.(Grid.Column)" Value="0"/>
+                                        <Setter Target="ExpanderContainer.(Grid.Row)" Value="1"/>
+
                                         <Setter Target="ToggleButton.HorizontalAlignment" Value="Right"/>
                                         <Setter Target="ToggleButton.VerticalAlignment" Value="Stretch"/>
                                         <Setter Target="ToggleButton.Width" Value="50"/>
                                         <Setter Target="ToggleButton.Height" Value="Auto"/>
 
-                                        <Setter Target="Root.Height" Value="50"/>
+                                        <Setter Target="Root.Height" Value="Auto"/>
                                         <Setter Target="Root.Width" Value="50"/>
                                         <Setter Target="Root.VerticalAlignment" Value="Bottom"/>
                                         <Setter Target="Root.HorizontalAlignment" Value="Left"/>
