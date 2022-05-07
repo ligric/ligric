@@ -25,7 +25,7 @@ namespace LigricBoardCustomControls.Menus
         Collapsed
     }
 
-    public class ExpanderStateToBoolenConverter :  IValueConverter
+    public class ExpanderStateToBoolenConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -54,8 +54,8 @@ namespace LigricBoardCustomControls.Menus
             set { SetValue(HeaderVerticalHeightProperty, value); }
         }
         public static DependencyProperty HeaderVerticalHeightProperty
-        { 
-            get; 
+        {
+            get;
         } = DependencyProperty.Register("HeaderVerticalHeight", typeof(double), typeof(SnakeMenuTemplateSettings), new PropertyMetadata(0.0));
 
         public double HeaderHorizontalHeight
@@ -145,12 +145,12 @@ namespace LigricBoardCustomControls.Menus
 
         public object Header
         {
-            get { return GetValue(HeaderProperty);}
+            get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
         public static DependencyProperty HeaderProperty
-        { 
-            get; 
+        {
+            get;
         } = DependencyProperty.Register("Header", typeof(object), typeof(SnakeMenu), new PropertyMetadata(null));
 
         public SnakeMenuTemplateSettings TemplateSettings
@@ -158,15 +158,15 @@ namespace LigricBoardCustomControls.Menus
             get { return (SnakeMenuTemplateSettings)GetValue(TemplateSettingsProperty); }
             set { SetValue(TemplateSettingsProperty, value); }
         }
-        public static DependencyProperty TemplateSettingsProperty 
-        { 
-            get; 
+        public static DependencyProperty TemplateSettingsProperty
+        {
+            get;
         } = DependencyProperty.Register("TemplateSettings", typeof(SnakeMenuTemplateSettings), typeof(SnakeMenu), new PropertyMetadata(null));
 
 
         protected override void OnApplyTemplate()
         {
-            ElementAddFinished(this, () => 
+            ElementAddFinished(this, () =>
             {
                 _eventSubscriptions.Disposable = null;
                 CompositeDisposable disposables = new CompositeDisposable();
@@ -202,7 +202,7 @@ namespace LigricBoardCustomControls.Menus
                 useAnimation = true;
             });
 
-            
+
             //SetNewExpanderState(ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
         }
@@ -256,7 +256,7 @@ namespace LigricBoardCustomControls.Menus
             if (newValue == oldValue)
                 return;
 
-            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
+            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++,
                 () => thisObject.SetNewExpanderState(newValue, thisObject.ExpanderSide, thisObject.useAnimation));
         }
 
@@ -280,7 +280,7 @@ namespace LigricBoardCustomControls.Menus
                 return;
             }
 
-            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++, 
+            thisObject.syncMethods.WaitingAnotherMethodsAsync(thisObject.syncMethodIndex++,
                 async () => await thisObject.SetExpanderSide(newValue, useAnimation), newValue.ToString());
 
             thisObject.useAnimation = true;
@@ -301,8 +301,11 @@ namespace LigricBoardCustomControls.Menus
 
         public void SetSideWithoutAnimation(ExpanderSide newSide)
         {
-            useAnimation = false;
-            ExpanderSide = newSide;
+            if (ExpanderSide != newSide)
+            {
+                useAnimation = false;
+                ExpanderSide = newSide;
+            }
         }
 
         private async Task SetLeftSide(ExpanderSide newSide, bool useTransitions)
@@ -369,7 +372,7 @@ namespace LigricBoardCustomControls.Menus
                     binding.Source = TemplateSettings;
                     root.SetBinding(FrameworkElement.WidthProperty, binding);
                 });
-              
+
                 return;
             }
 
