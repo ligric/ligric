@@ -3,6 +3,8 @@ using LigricMvvmToolkit.Animations;
 using System;
 using System.Threading.Tasks;
 using Uno.Disposables;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -307,18 +309,23 @@ namespace LigricBoardCustomControls.Menus
         {
             if (!useTransitions)
             {
-                VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    VisualStateManager.GoToState(this, "ExpanderSettingsForLeftSide", false);
 
-                if (GetTemplateChild("SetHeightFromHeaderVerticalHeight") is Storyboard setHeightFromHeaderVerticalHeight)
-                    setHeightFromHeaderVerticalHeight.Begin();
+                    if (GetTemplateChild("SetHeightFromHeaderVerticalHeight") is Storyboard setHeightFromHeaderVerticalHeight)
+                        setHeightFromHeaderVerticalHeight.Begin();
 
-                SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
-                ExpanderSideChanged?.Invoke(this, newSide);                
+                    SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
 
-                Binding binding = new Binding();
-                binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
-                binding.Source = TemplateSettings;
-                root.SetBinding(FrameworkElement.HeightProperty, binding);
+                    ExpanderSideChanged?.Invoke(this, newSide);
+
+                    Binding binding = new Binding();
+                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
+                    binding.Source = TemplateSettings;
+                    root.SetBinding(FrameworkElement.HeightProperty, binding);
+                });
+
                 return;
             }
 
@@ -347,19 +354,22 @@ namespace LigricBoardCustomControls.Menus
         {
             if (!useTransitions)
             {
-                VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    VisualStateManager.GoToState(this, "ExpanderSettingsForBottomSide", useTransitions);
 
-                if (GetTemplateChild("SetWidthFromHeaderHorizontalWidth") is Storyboard setWidthFromHeaderVerticalHeight)
-                    setWidthFromHeaderVerticalHeight.Begin();
+                    if (GetTemplateChild("SetWidthFromHeaderHorizontalWidth") is Storyboard setWidthFromHeaderVerticalHeight)
+                        setWidthFromHeaderVerticalHeight.Begin();
 
-                SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
-                ExpanderSideChanged?.Invoke(this, newSide);
+                    SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
+                    ExpanderSideChanged?.Invoke(this, newSide);
 
-
-                Binding binding = new Binding();
-                binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
-                binding.Source = TemplateSettings;
-                root.SetBinding(FrameworkElement.WidthProperty, binding);
+                    Binding binding = new Binding();
+                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
+                    binding.Source = TemplateSettings;
+                    root.SetBinding(FrameworkElement.WidthProperty, binding);
+                });
+              
                 return;
             }
 
