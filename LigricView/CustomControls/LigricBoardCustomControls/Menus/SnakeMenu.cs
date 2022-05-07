@@ -164,38 +164,43 @@ namespace LigricBoardCustomControls.Menus
 
         protected override void OnApplyTemplate()
         {
-            _eventSubscriptions.Disposable = null;
-            CompositeDisposable disposables = new CompositeDisposable();
-
-            snakeBackgroundElement = GetTemplateChild(SNAKE_BACKGROUND_ELEMENT) as Border;
-            expanderContainer = GetTemplateChild(EXPANDER_CONTEINER) as Border;
-            expanderContent = GetTemplateChild(EXPANDER_CONTENT) as ContentControl;
-
-            headerConteiner = GetTemplateChild(HEADER_CONTEINER) as Border;
-            headerContent = GetTemplateChild(HEADER_CONTENT) as Panel;
-            toggleButton = GetTemplateChild(TOGGLE_BUTTON) as ToggleButton;
-            root = GetTemplateChild(ROOT) as FrameworkElement;
-
-            ((FrameworkElement)Parent).LayoutUpdated += OnParentLayoutUpdated;
-
-            if (toggleButton != null)
+            ElementAddFinished(this, () => 
             {
-                //toggleButton.Checked += OnToggleButtonChecked;
-                //toggleButton.Unchecked += OnToggleButtonUnchecked;
-                //disposables.Add(delegate
-                //{
-                //    toggleButton.Checked -= OnToggleButtonChecked;
-                //    toggleButton.Unchecked -= OnToggleButtonUnchecked;
-                //});
-            }
+                _eventSubscriptions.Disposable = null;
+                CompositeDisposable disposables = new CompositeDisposable();
 
-            var expanderSide = ExpanderSide;
+                snakeBackgroundElement = GetTemplateChild(SNAKE_BACKGROUND_ELEMENT) as Border;
+                expanderContainer = GetTemplateChild(EXPANDER_CONTEINER) as Border;
+                expanderContent = GetTemplateChild(EXPANDER_CONTENT) as ContentControl;
 
-            syncMethods.WaitingAnotherMethodsAsync(syncMethodIndex++, 
-                async () => await SetExpanderSide(expanderSide, false), expanderSide.ToString());
+                headerConteiner = GetTemplateChild(HEADER_CONTEINER) as Border;
+                headerContent = GetTemplateChild(HEADER_CONTENT) as Panel;
+                toggleButton = GetTemplateChild(TOGGLE_BUTTON) as ToggleButton;
+                root = GetTemplateChild(ROOT) as FrameworkElement;
 
-            isApplyed = true;
-            useAnimation = true;
+                ((FrameworkElement)Parent).LayoutUpdated += OnParentLayoutUpdated;
+
+                if (toggleButton != null)
+                {
+                    //toggleButton.Checked += OnToggleButtonChecked;
+                    //toggleButton.Unchecked += OnToggleButtonUnchecked;
+                    //disposables.Add(delegate
+                    //{
+                    //    toggleButton.Checked -= OnToggleButtonChecked;
+                    //    toggleButton.Unchecked -= OnToggleButtonUnchecked;
+                    //});
+                }
+
+                var expanderSide = ExpanderSide;
+
+                syncMethods.WaitingAnotherMethodsAsync(syncMethodIndex++,
+                    async () => await SetExpanderSide(expanderSide, false), expanderSide.ToString());
+
+                isApplyed = true;
+                useAnimation = true;
+            });
+
+            
             //SetNewExpanderState(ExpanderState, false);
             //_eventSubscriptions.Disposable = disposable;
         }
@@ -404,6 +409,18 @@ namespace LigricBoardCustomControls.Menus
                 TemplateSettings.HeaderVerticalHeight = parent.ActualHeight - Margin.Top - Margin.Bottom;
                 TemplateSettings.HeaderHorizontalWidth = parent.ActualWidth - Margin.Left - Margin.Right;
             }
+        }
+
+        private void ElementAddFinished(FrameworkElement element, Action addFinished)
+        {
+            EventHandler<object> wrapperLayoutUpdatedstroyboard = null;
+
+            wrapperLayoutUpdatedstroyboard = (s, e) =>
+            {
+                element.LayoutUpdated -= wrapperLayoutUpdatedstroyboard;
+                addFinished?.Invoke();
+            };
+            element.LayoutUpdated += wrapperLayoutUpdatedstroyboard;
         }
 
 #if NET6_0_ANDROID
