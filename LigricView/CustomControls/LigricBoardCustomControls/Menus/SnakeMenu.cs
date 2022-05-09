@@ -323,10 +323,7 @@ namespace LigricBoardCustomControls.Menus
 
                     ExpanderSideChanged?.Invoke(this, newSide);
 
-                    Binding binding = new Binding();
-                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
-                    binding.Source = TemplateSettings;
-                    root.SetBinding(FrameworkElement.HeightProperty, binding);
+                    SetRootHeightBinding();
                 });
 
                 return;
@@ -345,10 +342,7 @@ namespace LigricBoardCustomControls.Menus
 
                 await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToLeftSideStoryboard, () =>
                 {
-                    Binding binding = new Binding();
-                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
-                    binding.Source = TemplateSettings;
-                    root.SetBinding(FrameworkElement.HeightProperty, binding);
+                    SetRootHeightBinding();
                 });
             }
         }
@@ -367,10 +361,7 @@ namespace LigricBoardCustomControls.Menus
                     SetNewExpanderState(ExpanderState.Collapsed, newSide, useTransitions);
                     ExpanderSideChanged?.Invoke(this, newSide);
 
-                    Binding binding = new Binding();
-                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
-                    binding.Source = TemplateSettings;
-                    root.SetBinding(FrameworkElement.WidthProperty, binding);
+                    SetRootWidthBinding();
                 });
 
                 return;
@@ -391,12 +382,33 @@ namespace LigricBoardCustomControls.Menus
 
                 await syncBufferAnimations.ExecuteAnimationAsync(syncBufferAnimationIndex++, () => bufferToBottomSideStoryboard, () =>
                 {
-                    Binding binding = new Binding();
-                    binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
-                    binding.Source = TemplateSettings;
-                    root.SetBinding(FrameworkElement.WidthProperty, binding);
+                    SetRootWidthBinding();
                 });
             }
+        }
+
+        private void SetRootWidthBinding()
+        {
+#if HAS_UNO
+            root.SetValue(FrameworkElement.WidthProperty, TemplateSettings.HeaderHorizontalWidth, DependencyPropertyValuePrecedences.Animations);
+#else
+            Binding binding = new Binding();
+            binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderHorizontalWidth));
+            binding.Source = TemplateSettings;
+            root.SetBinding(FrameworkElement.WidthProperty, binding);
+#endif
+        }
+
+        private void SetRootHeightBinding()
+        {
+#if HAS_UNO
+            root.SetValue(FrameworkElement.HeightProperty, TemplateSettings.HeaderVerticalHeight, DependencyPropertyValuePrecedences.Animations);
+#else
+            Binding binding = new Binding();
+            binding.Path = new PropertyPath(nameof(SnakeMenuTemplateSettings.HeaderVerticalHeight));
+            binding.Source = TemplateSettings;
+            root.SetBinding(FrameworkElement.HeightProperty, binding);
+#endif
         }
 
         public SnakeMenu()
@@ -419,8 +431,22 @@ namespace LigricBoardCustomControls.Menus
             if (!isChanging)
             {
                 FrameworkElement parent = (FrameworkElement)Parent;
-                TemplateSettings.HeaderVerticalHeight = parent.ActualHeight - Margin.Top - Margin.Bottom;
-                TemplateSettings.HeaderHorizontalWidth = parent.ActualWidth - Margin.Left - Margin.Right;
+                var headerVerticalHeight = parent.ActualHeight - Margin.Top - Margin.Bottom;
+                var headerHorizontalWidth = parent.ActualWidth - Margin.Left - Margin.Right;
+
+                TemplateSettings.HeaderVerticalHeight = headerVerticalHeight;
+                TemplateSettings.HeaderHorizontalWidth = headerHorizontalWidth;
+
+#if HAS_UNO
+                if (ExpanderSide == ExpanderSide.Bottom)
+                {
+                    SetRootWidthBinding();
+                }
+                else
+                {
+                    SetRootHeightBinding();
+                }
+#endif
             }
         }
 
