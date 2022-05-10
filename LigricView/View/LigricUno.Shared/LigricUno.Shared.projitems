@@ -113,7 +113,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-regular.ttf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Alexey True.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\elen.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Gogo.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\limeniye_icon.JPG" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Даня Караконстантин.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Login\" />
