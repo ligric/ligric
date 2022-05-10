@@ -122,11 +122,26 @@
                         <Setter Target="stackPanel.Width" Value="Auto"/>
                         <Setter Target="stackPanel.Height" Value="50"/>
                         <Setter Target="stackPanel.Orientation" Value="Horizontal"/>
-                        
+
+                        <Setter Target="HeaderColumn0.Width" Value="*"/>
+                        <Setter Target="HeaderColumn1.Width" Value="Auto"/>
+                        <Setter Target="HeaderRow0.Height" Value="Auto"/>
+                        <Setter Target="HeaderRow1.Height" Value="0"/>
+
+
+                        <Setter Target="HeaderMainItemsConteiner.(Grid.Column)" Value="0"/>
+                        <Setter Target="HeaderMainItemsConteiner.(Grid.Row)" Value="0"/>
+
+                        <Setter Target="HeaderOptionItemsConteiner.(Grid.Column)" Value="1"/>
+                        <Setter Target="HeaderOptionItemsConteiner.(Grid.Row)" Value="0"/>
+
+                        <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,50,0"/>
+
                         <Setter Target="userImage.Height" Value="Auto"/>
                         <Setter Target="userImage.Visibility" Value="Collapsed"/>
-                        
-                        <Setter Target="headerStackLayout.Orientation" Value="Horizontal"/>
+
+                        <Setter Target="HeaderStackLayout.Orientation" Value="Horizontal"/>
+                        <Setter Target="HeaderOptionStackLayout.Orientation" Value="Horizontal"/>
                     </VisualState.Setters>
                 </VisualState>
 
@@ -135,11 +150,26 @@
                         <Setter Target="stackPanel.Width" Value="80"/>
                         <Setter Target="stackPanel.Height" Value="Auto"/>
                         <Setter Target="stackPanel.Orientation" Value="Vertical"/>
-                        
+
+                        <Setter Target="HeaderColumn0.Width" Value="Auto"/>
+                        <Setter Target="HeaderColumn1.Width" Value="0"/>
+                        <Setter Target="HeaderRow0.Height" Value="*"/>
+                        <Setter Target="HeaderRow1.Height" Value="Auto"/>
+
+
+                        <Setter Target="HeaderMainItemsConteiner.(Grid.Column)" Value="0"/>
+                        <Setter Target="HeaderMainItemsConteiner.(Grid.Row)" Value="0"/>
+
+                        <Setter Target="HeaderOptionItemsConteiner.(Grid.Column)" Value="0"/>
+                        <Setter Target="HeaderOptionItemsConteiner.(Grid.Row)" Value="1"/>
+
+                        <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,0,50"/>
+
                         <Setter Target="userImage.Width" Value="Auto"/>
                         <Setter Target="userImage.Visibility" Value="Visible"/>
 
-                        <Setter Target="headerStackLayout.Orientation" Value="Vertical"/>
+                        <Setter Target="HeaderStackLayout.Orientation" Value="Vertical"/>
+                        <Setter Target="HeaderOptionStackLayout.Orientation" Value="Vertical"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -151,30 +181,38 @@
                 <Grid>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition x:Name="Column0" Width="*"/>
-                        <ColumnDefinition x:Name="Column1" Width="Auto"/>
+                        <ColumnDefinition x:Name="HeaderColumn0" Width="*"/>
+                        <ColumnDefinition x:Name="HeaderColumn1" Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <StackPanel x:Name="stackPanel" Background="White" Orientation="Horizontal">
-                        <Ellipse x:Name="userImage" Margin="10" Visibility="Collapsed">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="ms-appx:///Assets/Images/limeniye_icon.JPG" Stretch="UniformToFill"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
 
-                        <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding HeaderItems}" Margin="10,0,10,0"
-                                                ItemTemplate="{StaticResource NavigationHeaderItemsDataTemplateSelector}">
-                            <controls:ItemsRepeater.Layout>
-                                <controls:StackLayout x:Name="headerStackLayout" Orientation="Horizontal" Spacing="10"/>
-                            </controls:ItemsRepeater.Layout>
-                        </controls:ItemsRepeater>
-                    </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="HeaderRow0" Height="Auto"/>
+                        <RowDefinition x:Name="HeaderRow1" Height="0"/>
+                    </Grid.RowDefinitions>
 
-                    <Grid Grid.Column="1" Margin="0,0,50,0">
+                    <Grid x:Name="HeaderMainItemsConteiner" Grid.Column="0" Grid.Row="0">
+                        <StackPanel x:Name="stackPanel" Background="White" Orientation="Horizontal">
+                            <Ellipse x:Name="userImage" Margin="10" Visibility="Collapsed">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="ms-appx:///Assets/Images/limeniye_icon.JPG" Stretch="UniformToFill"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+
+                            <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding HeaderItems}" Margin="10,0,10,0"
+                                                    ItemTemplate="{StaticResource NavigationHeaderItemsDataTemplateSelector}">
+                                <controls:ItemsRepeater.Layout>
+                                    <controls:StackLayout x:Name="HeaderStackLayout" Orientation="Horizontal" Spacing="10"/>
+                                </controls:ItemsRepeater.Layout>
+                            </controls:ItemsRepeater>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <Grid x:Name="HeaderOptionItemsConteiner" Grid.Column="1" Grid.Row="0" Margin="0,0,50,0">
                         <controls:ItemsRepeater ItemsSource="{Binding HeaderOptionItems}"
                                                 ItemTemplate="{StaticResource NavigationHeaderOptionItemDataTemplateSelector}">
                             <controls:ItemsRepeater.Layout>
-                                <controls:StackLayout Orientation="Horizontal" Spacing="10"/>
+                                <controls:StackLayout x:Name="HeaderOptionStackLayout" Orientation="Horizontal" Spacing="10"/>
                             </controls:ItemsRepeater.Layout>
                         </controls:ItemsRepeater>
                     </Grid>
