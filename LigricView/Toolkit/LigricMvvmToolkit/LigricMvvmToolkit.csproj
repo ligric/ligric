@@ -105,4 +105,7 @@
   <ItemGroup>
     <SourceGeneratorInput Remove="Data\RelativeSourceBinding.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <SourceGeneratorInput Remove="Converters\ZeroToVisibilityConverter.cs" />
+  </ItemGroup>
 </Project>
