@@ -50,7 +50,7 @@
         </ResourceDictionary>
     </Page.Resources>
     
-    <Grid Margin="0,20,0,0">
+    <Grid Margin="10,30,10,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MaxWidth="550"/>
             <ColumnDefinition Width="Auto"/>

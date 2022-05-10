@@ -117,7 +117,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\elen.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Gogo.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\limeniye_icon.JPG" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Алексей Шевцов.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Даня Караконстантин.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Игорёк.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Views\Pages\Login\" />

@@ -13,7 +13,9 @@ namespace LigricUno.Views.Pages.Messages
             new MessageItem("ms-appx:///Assets/Images/Gogo.jpg", "Gogo 郭", "ty", DateTime.Now),
             new MessageItem("ms-appx:///Assets/Images/elen.jpg", "elen.", "😸", DateTime.Now),
             new MessageItem(String.Empty, "Trip Ray", "🙏🙏🙏", DateTime.Now),
-            new MessageItem("ms-appx:///Assets/Images/Даня Караконстантин.jpg", "Даня Караконстантин", "ыыыы", DateTime.Now, 3)
+            new MessageItem("ms-appx:///Assets/Images/Даня Караконстантин.jpg", "Даня Караконстантин", "ыыыы", DateTime.Now, 3),
+            new MessageItem("ms-appx:///Assets/Images/Игорёк.jpg", "Игорёк", "угу", DateTime.Now),
+            new MessageItem("ms-appx:///Assets/Images/Алексей Шевцов.jpg", "Алексей Шевцов", "Какое же лютое мракобесие...", DateTime.Now, 9)
         };
     }
 
