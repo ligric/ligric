@@ -222,8 +222,8 @@
             <menus:SnakeMenu.Content>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
 
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
