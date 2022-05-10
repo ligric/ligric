@@ -227,8 +227,7 @@
                         </Border>
 
                         <!-- Main content -->
-                        <Border Grid.Row="1" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}" 
-                                Height="0" Visibility="Collapsed">
+                        <Border Grid.Row="1" Grid.Column="0" x:Name="ExpanderContainer" CornerRadius="{TemplateBinding CornerRadius}" Visibility="Collapsed">
                             <Border.RenderTransform>
                                 <CompositeTransform/>
                             </Border.RenderTransform>
