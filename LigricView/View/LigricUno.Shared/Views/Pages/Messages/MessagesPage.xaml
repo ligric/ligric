@@ -19,7 +19,7 @@
                              ap:FrmElem.WidthToHeight="1" 
                              HorizontalAlignment="Left">
                         <Ellipse.Fill>
-                            <ImageBrush ImageSource="ms-appx:///Assets/Images/limeniye_icon.JPG" Stretch="UniformToFill"/>
+                            <ImageBrush ImageSource="{Binding ImageUri}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
                     </Ellipse>
 
@@ -39,7 +39,7 @@
                         <Rectangle Fill="#5399bc" Height="30" RadiusX="15" RadiusY="15"
                                    HorizontalAlignment="Stretch"/>
 
-                        <TextBlock Text="1" Margin="15" FontSize="15" Foreground="White"
+                        <TextBlock Text="{Binding UnreadedMessagesCount}" Margin="15" FontSize="15" Foreground="White"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </Grid>
