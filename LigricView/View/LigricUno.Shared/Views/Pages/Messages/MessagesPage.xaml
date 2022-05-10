@@ -8,6 +8,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+            <local:NameToFirsSymbolsConveter x:Key="NameToFirsSymbolsConveter"/>
 
             <DataTemplate x:Key="MessageItemTemplate" x:DataType="local:MessageItem">
                 <Grid Height="80" Background="#425b67" ColumnSpacing="10" CornerRadius="20">
@@ -17,6 +18,15 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
+                    <!-- Temporary!! Should be trigger. -->
+                    <Ellipse Grid.Column="0" Margin="10,10,0,10"
+                             ap:FrmElem.WidthToHeight="1" 
+                             HorizontalAlignment="Left" Fill="#4a7b60"/>
+
+                    <TextBlock Text="{Binding Name, Converter={StaticResource NameToFirsSymbolsConveter}}" Foreground="White" Margin="10,10,5,10"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
 
                     <Ellipse Grid.Column="0" Margin="10,10,0,10"
                              ap:FrmElem.WidthToHeight="1" 
@@ -50,7 +60,7 @@
         </ResourceDictionary>
     </Page.Resources>
     
-    <Grid Margin="10,30,10,0">
+    <Grid Margin="10,30,10,65">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MaxWidth="550"/>
             <ColumnDefinition Width="Auto"/>
