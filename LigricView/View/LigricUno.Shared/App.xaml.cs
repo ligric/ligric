@@ -148,8 +148,8 @@ namespace LigricUno
         private void PrerenderPages(IBoardsService boardsService)
         {
             Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
-            Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
-            Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
+            //Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
+            //Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
             Navigation.PrerenderPage(new BoardPage(), nameof(BoardPage), new BoardsViewModel(boardsService));
         }
 

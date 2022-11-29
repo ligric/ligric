@@ -97,7 +97,7 @@
                             <Button data:RelativeSourceBinding.AncestorType="UserControl"
                                     HorizontalAlignment="Center" Margin="1" Padding="0" Background="Transparent" BorderBrush="#1c1c1c"
                                     Width="50" Height="50" CornerRadius="17">
-                                <Button.Content> 
+                                <Button.Content>
                                     <Path Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}" Width="16" Fill="#1e1e1e" Stretch="Uniform"
                                           Data="M20,16V10H22V16A2,2 0 0,1 20,18H8C6.89,18 6,17.1 6,16V4C6,2.89 6.89,2 8,2H16V4H8V16H20M10.91,7.08L14,10.17L20.59,3.58L22,5L14,13L9.5,8.5L10.91,7.08M16,20V22H4A2,2 0 0,1 2,20V7H4V20H16Z" />
                                 </Button.Content>
@@ -111,7 +111,6 @@
                                                                   BoardSettings="{StaticResource BoardSettingsItemTemplate}"/>
 
         </ResourceDictionary>
-        
     </UserControl.Resources>
 
     <Grid>
@@ -136,9 +135,6 @@
                         <Setter Target="HeaderOptionItemsConteiner.(Grid.Row)" Value="0"/>
 
                         <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,50,0"/>
-
-                        <Setter Target="userImage.Height" Value="Auto"/>
-                        <Setter Target="userImage.Visibility" Value="Collapsed"/>
 
                         <Setter Target="HeaderStackLayout.Orientation" Value="Horizontal"/>
                         <Setter Target="HeaderOptionStackLayout.Orientation" Value="Horizontal"/>
@@ -165,9 +161,6 @@
 
                         <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,0,50"/>
 
-                        <Setter Target="userImage.Width" Value="Auto"/>
-                        <Setter Target="userImage.Visibility" Value="Visible"/>
-
                         <Setter Target="HeaderStackLayout.Orientation" Value="Vertical"/>
                         <Setter Target="HeaderOptionStackLayout.Orientation" Value="Vertical"/>
                     </VisualState.Setters>
@@ -192,12 +185,6 @@
 
                     <Grid x:Name="HeaderMainItemsConteiner" Grid.Column="0" Grid.Row="0">
                         <StackPanel x:Name="stackPanel" Background="White" Orientation="Horizontal">
-                            <Ellipse x:Name="userImage" Margin="10" Visibility="Collapsed">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="ms-appx:///Assets/Images/limeniye_icon.JPG" Stretch="UniformToFill"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-
                             <controls:ItemsRepeater x:Name="navigationListHeader" ItemsSource="{Binding HeaderItems}" Margin="10,0,10,0"
                                                     ItemTemplate="{StaticResource NavigationHeaderItemsDataTemplateSelector}">
                                 <controls:ItemsRepeater.Layout>
@@ -231,29 +218,39 @@
                             <controls:ItemsRepeater.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
-                                        <not_win:Button Width="50" Height="50"
-                                                        Click="OnContentClicked"
+                                        <not_win:Button Height="50" HorizontalAlignment="Stretch"
+                                                        Click="OnContentClicked" CornerRadius="20" Content="{Binding Name}" Foreground="White"
                                                         Command="{Binding ElementName=self, Path=DataContext.SelectContentNavigationItemCommand}"
                                                         CommandParameter="{Binding}" Background="#1e1e1e"/>
 
-                                        <win:Button data:RelativeSourceBinding.AncestorType="UserControl" Width="50" Height="50"
-                                                    Click="OnContentClicked"
+                                        <win:Button data:RelativeSourceBinding.AncestorType="UserControl" Height="50" Content="{Binding Name}" Foreground="White"
+                                                    Click="OnContentClicked" HorizontalAlignment="Stretch" CornerRadius="20"
                                                     Command="{Binding Path=(data:RelativeSourceBinding.Ancestor).DataContext.SelectContentNavigationItemCommand, RelativeSource={RelativeSource Self}}"
                                                     CommandParameter="{Binding}" Background="#1e1e1e"/>
                                     </Grid>
                                 </DataTemplate>
                             </controls:ItemsRepeater.ItemTemplate>
                             <controls:ItemsRepeater.Layout>
-                                <controls:UniformGridLayout MaximumRowsOrColumns="4" ItemsStretch="Fill"
-                                                            MinColumnSpacing="2" MinRowSpacing="1"/>
+                                <controls:StackLayout Orientation="Vertical" Spacing="10"/>
                             </controls:ItemsRepeater.Layout>
                         </controls:ItemsRepeater>
                     </ScrollViewer>
 
+                    <ToggleButton x:Name="addNewBoard" Grid.Row="1" Background="#302c4f" CornerRadius="8" Margin="20,3,20,6" Content="Add"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White"/>
 
-                    <Button Grid.Row="1" Background="#302c4f" CornerRadius="8" Margin="20,3,20,6" Content="Add"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White"
-                            Command="{Binding AddNewBoardCommand}"/>
+                    <Popup Grid.Row="1" IsLightDismissEnabled="True" Margin="0, -200"
+                           IsOpen="{Binding ElementName=addNewBoard, Path=IsChecked, Mode=TwoWay}">
+
+                        <StackPanel Height="200" Width="200" CornerRadius="20" Background="#7160e8" Padding="20" Spacing="5">
+                            <TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name"/>
+                            <TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key"/>
+                            <TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key"/>
+                            <Button Width="160" Height="35" Content="Add"
+                                    Command="{Binding AddNewBoardCommand}"
+                                    CommandParameter="{Binding AddingApi}"/>
+                        </StackPanel>
+                    </Popup>
                 </Grid>
             </menus:SnakeMenu.Content>
         </menus:SnakeMenu>

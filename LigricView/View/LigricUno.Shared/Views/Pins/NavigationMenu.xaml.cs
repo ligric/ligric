@@ -157,27 +157,17 @@ namespace LigricUno.Views.Pins
         ////// TODO : TEMPRARY
         private void OnStackPanelLayoutUpdated(object sender, object e)
         {
-            Rect rect = LayoutInformation.GetLayoutSlot(stackPanel);
-
-            double userImageWidthArea = (rect.Width - userImage.Margin.Left - userImage.Margin.Right);
-            userImageWidthArea = userImageWidthArea < 0 ? 0 : userImageWidthArea;
-
-            double userImageHeightArea = rect.Height - userImage.Margin.Top - userImage.Margin.Bottom;
-            userImageHeightArea = userImageHeightArea < 0 ? 0 : userImageHeightArea;
-
             double buttonWidthArea = navigationListHeader.ActualWidth * 1.1;
             double buttonHeightArea = navigationListHeader.ActualHeight * 1.5;
 
             if (stackPanel.Orientation == Orientation.Horizontal)
             {
-                userImage.Width = userImageHeightArea;
                 HeaderData.ElementsTemplateWidth = buttonHeightArea;
                 HeaderData.ElementsTemplateHeight = null;
                 HeaderData.CurrentMode = NavigationHeaderViewData.Mode.Bottom;
             }
             else
             {
-                userImage.Height = userImageWidthArea;
                 HeaderData.ElementsTemplateWidth = null;
                 HeaderData.ElementsTemplateHeight = buttonWidthArea;
                 HeaderData.CurrentMode = NavigationHeaderViewData.Mode.Left;

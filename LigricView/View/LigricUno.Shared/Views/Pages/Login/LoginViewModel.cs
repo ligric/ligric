@@ -1,6 +1,7 @@
 ﻿using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
+using LigricUno.Views.Pages.Board;
 using LigricUno.Views.Pages.News;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace LigricUno.Views.Pages.Login
 
         private void LoginLaterMethod(object parameter)
         {
-            Navigation.GoTo(new NewsPage(), nameof(NewsPage), new NewsViewModel());
+            Navigation.GoTo(nameof(BoardPage));
         }
     }
 }

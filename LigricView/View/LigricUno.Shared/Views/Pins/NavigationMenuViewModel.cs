@@ -1,19 +1,17 @@
 ﻿using BoardsCommon.Enums;
 using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
 using BoardsCore.Board;
-using BoardsCore.CommonTypes.Entities;
-using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages.Board;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Uno.Extensions;
 
 namespace LigricUno.Views.Pins
 {
-    public class NavigationMenuViewModel : DispatchedBindableBase
+    public class NavigationMenuViewModel
     {
         private readonly IBoardsService _boardsService;
 
@@ -22,7 +20,8 @@ namespace LigricUno.Views.Pins
         private RelayCommand _addNewBoardCommand;
         private RelayCommand<BoardEntityType> _addNewBoardEntityCommand;
 
-        public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { "News", "Profile", "Messages" };
+        public ApiKeyViewModel AddingApi { get; } = new ApiKeyViewModel();
+        public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { };
         public ObservableCollection<string> HeaderOptionItems { get; } = new ObservableCollection<string>();
         public ObservableCollection<byte> ContentItems { get; } = new ObservableCollection<byte>();
 
@@ -52,7 +51,7 @@ namespace LigricUno.Views.Pins
 
         private void OnSelectedContentExecute(byte? parameter)
         {
-            _boardsService.SetNewCurrentBoard((byte)parameter);
+            //_boardsService.SetNewCurrentBoard((byte)parameter);
 
             if (!Navigation.GetCurrentPageKey().Contains(nameof(BoardPage)))
             {
@@ -82,11 +81,24 @@ namespace LigricUno.Views.Pins
         #region AddNewBoardCommand
         public RelayCommand AddNewBoardCommand => _addNewBoardCommand ?? (
             _addNewBoardCommand =
-                new RelayCommand(OnAddNewElementExecute));
+                new RelayCommand(OnAddNewElementExecute, CanAddNewElementExecute));
 
         private void OnAddNewElementExecute(object parameter)
         {
             _boardsService.AddBoard();
+            AddingApi.Name = "";
+            AddingApi.PublicKey = "";
+            AddingApi.PrivateKey = "";
+        }      
+        
+        private bool CanAddNewElementExecute(object parameter)
+        {
+            if (string.IsNullOrEmpty(AddingApi?.PublicKey)
+                || string.IsNullOrEmpty(AddingApi?.Name)
+                || string.IsNullOrEmpty(AddingApi?.PrivateKey))
+                return false;
+
+            return true;
         }
         #endregion
 
@@ -111,6 +123,11 @@ namespace LigricUno.Views.Pins
             _boardsService.AddBoard();
 
             Navigation.PageChanged += OnPageChanged;
+
+            AddingApi.PropertyChanged += (s, e) =>
+            {
+                AddNewBoardCommand.RaiseCanExecuteChanged();
+            };
         }
 
         private void OnPageChanged(string obj)
