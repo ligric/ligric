@@ -2,7 +2,6 @@
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages.Board;
-using LigricUno.Views.Pages.News;
 using System;
 using System.Collections.Generic;
 
@@ -10,16 +9,18 @@ namespace LigricUno.Views.Pages.Login
 {
     public class LoginViewModel : DispatchedBindableBase
     {
-        private string _email;
+        private string _login, _password;
 
-        public string Email { get => _email; set => SetProperty(ref _email, value); }
+        public string Login { get => _login; set => SetProperty(ref _login, value); }
+        public string Password { get => _password; set => SetProperty(ref _password, value); }
 
-        private RelayCommand _loginLaterCommand;
-        public RelayCommand LoginLaterCommand => _loginLaterCommand ?? (_loginLaterCommand = new RelayCommand(LoginLaterMethod));
+
+        private RelayCommand _loginCommand;
+        public RelayCommand LoginCommand => _loginCommand ?? (_loginCommand = new RelayCommand(LoginMethod));
 
         private readonly List<(Action<int> Action, int Index)> prerenderPageActions = new List<(Action<int> Action, int Index)>();
 
-        private void LoginLaterMethod(object parameter)
+        private void LoginMethod(object parameter)
         {
             Navigation.GoTo(nameof(BoardPage));
         }
