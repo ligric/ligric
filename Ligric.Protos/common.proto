@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Ligric.Protos";
+
+package Ligric.Protos;
+
+message ResponseResult {
+	bool isSuccess = 1;
+	string errorKey = 2;
+    google.protobuf.Timestamp occurredOn = 3;
+}

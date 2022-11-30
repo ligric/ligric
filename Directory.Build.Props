@@ -1,0 +1,13 @@
+<Project>
+	<PropertyGroup>
+		<Copyright>Copyright © limeniye 2022</Copyright>
+		<Authors>limeniye</Authors>
+	</PropertyGroup>
+
+	<!-- Common Project Properties -->
+	<PropertyGroup>
+		<LangVersion>10.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<NoWarn>$(NoWarn);NU1008;NU1701</NoWarn>
+	</PropertyGroup>
+</Project>

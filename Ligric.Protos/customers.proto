@@ -1,0 +1,57 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+option csharp_namespace = "Ligric.Protos";
+
+package Ligric.Protos;
+
+service Customers 
+{
+	rpc GetAll(CustomersRequest) returns (stream CustomersStreamResponse);
+	rpc Add(CustomerAddRequest) returns (CustomerResponse);
+	rpc Remove(CustomerRemoveRequest) returns (ResponseResult);
+}
+
+message Customer {
+	string guid = 1;
+	string name = 2;
+	string companyName = 3;
+	string email = 4;
+	string phone = 5;
+}
+
+message CustomerAddRequest{
+	string name = 1;
+	string companyName = 2;
+	string email = 3;
+	string phone = 4;
+}
+
+message CustomerRemoveRequest{
+	string guid = 1;
+}
+
+message CustomerResponse {
+	ResponseResult result = 1;
+	string guid = 2;
+}
+
+message CustomersFilterRequest {
+	string name = 1;
+	string companyName = 2;
+	string email = 3;
+	string phone = 4;
+	string flags = 5;
+}
+
+message CustomersRequest {
+	CustomersFilterRequest filter = 1;
+}
+
+message CustomersStreamResponse {
+	ResponseResult result = 1;
+	string requestId = 2;
+	Customer customer = 3;
+}
