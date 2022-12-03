@@ -59,6 +59,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Protos", "..\Ligric.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.GrpcServer", "..\Ligric.GrpcServer\Ligric.GrpcServer.csproj", "{DFF24031-611C-4658-B373-89B5D953D0FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Server.Domain", "..\Ligric.Server.Domain\Ligric.Server.Domain.csproj", "{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Server.Domain.Base", "..\Ligric.Server.Domain.Base\Ligric.Server.Domain.Base.csproj", "{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -513,6 +517,46 @@ Global
 		{DFF24031-611C-4658-B373-89B5D953D0FC}.Release|x64.Build.0 = Release|Any CPU
 		{DFF24031-611C-4658-B373-89B5D953D0FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{DFF24031-611C-4658-B373-89B5D953D0FC}.Release|x86.Build.0 = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|x64.Build.0 = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Debug|x86.Build.0 = Debug|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|ARM.Build.0 = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|ARM64.Build.0 = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|x64.ActiveCfg = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|x64.Build.0 = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|x86.ActiveCfg = Release|Any CPU
+		{22E167E5-BB71-4142-9C3C-E3E0A82B5DB8}.Release|x86.Build.0 = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Debug|x86.Build.0 = Debug|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|ARM.Build.0 = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|ARM64.Build.0 = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|x64.Build.0 = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{1EC9D236-E5CD-4601-ADE6-16C6136E33E6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
