@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Grpc.Core" Version="2.46.3" />
+	<PackageReference Include="Grpc.Net.Client" Version="2.48.0" />
+	<PackageReference Include="Grpc.Net.Client.Web" Version="2.48.0" />
+	<PackageReference Include="System.Interactive.Async" Version="6.0.1" />
+	<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
+    <ProjectReference Include="..\LigricView\Ligric.Common\Ligric.Common.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
+  </ItemGroup>
+</Project>
