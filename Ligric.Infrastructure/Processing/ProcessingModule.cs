@@ -3,11 +3,10 @@ using MediatR;
 using Ligric.Application.Configuration.Commands;
 using Ligric.Application.Configuration.Processing;
 using Ligric.Infrastructure.Logging;
-using Ligric.Infrastructure.Processing.InternalCommands;
 
 namespace Ligric.Infrastructure.Processing
 {
-    public class ProcessingModule : Autofac.Module
+    public class ProcessingModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
