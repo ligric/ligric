@@ -1,6 +1,6 @@
 ﻿using System;
 using Ligric.Server.Domain.Entities.Users;
-using Ligric.Common.Dto;
+using Ligric.Common.Types;
 
 namespace Ligric.Infrastructure.Domain.Users
 {
@@ -10,13 +10,20 @@ namespace Ligric.Infrastructure.Domain.Users
         {
         }
 
-        public void Delete(long id)
+        public UserDto Get(long? id)
         {
             throw new NotImplementedException();
         }
 
-        public UserDto Get(long? id)
+        public UserDto Get(string? username)
         {
+            throw new NotImplementedException();
+        }
+
+        public UserEntity GetEntity(string? username)
+        {
+
+
             throw new NotImplementedException();
         }
 
@@ -26,6 +33,11 @@ namespace Ligric.Infrastructure.Domain.Users
         }
 
         public object Save(UserEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(long id)
         {
             throw new NotImplementedException();
         }
