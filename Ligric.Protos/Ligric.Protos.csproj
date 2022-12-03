@@ -6,7 +6,6 @@
 
 	<ItemGroup>
 	  <None Remove="common.proto" />
-	  <None Remove="customers.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -21,7 +20,6 @@
 
 	<ItemGroup>
 		<Protobuf Include="common.proto" />
-		<Protobuf Include="customers.proto" />
 		<Protobuf Include="authorization.proto" />
 	</ItemGroup>
 </Project>

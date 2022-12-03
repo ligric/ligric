@@ -1,6 +1,5 @@
 ﻿syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
 import "common.proto";
 
 option csharp_namespace = "Ligric.Protos";
@@ -20,10 +19,9 @@ message SignInRequest {
 }
 
 message SignInResponse {
-	ResponseResult result = 1;
-	string userGuid = 2;
-	string jwtToken = 3;
-    google.protobuf.Timestamp tokenExpiration = 4;
+	string userId = 1;
+	JwtToken jwtToken = 2;
+	ResponseResult result = 3;
 }
 
 message SignUpRequest {
@@ -32,10 +30,9 @@ message SignUpRequest {
 }
 
 message SignUpResponse {
-	ResponseResult result = 1;
-	string userGuid = 2;
-	string jwtToken = 3;
-    google.protobuf.Timestamp tokenExpiration = 4;
+	string userId = 1;
+	JwtToken jwtToken = 2;
+	ResponseResult result = 3;
 }
 
 message CheckExistsRequest {
@@ -43,6 +40,6 @@ message CheckExistsRequest {
 }
 
 message CheckExistsResponse {
-	ResponseResult result = 1;
-	bool isUnique = 2;
+	bool isUnique = 1;
+	ResponseResult result = 2;
 }

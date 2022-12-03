@@ -11,3 +11,8 @@ message ResponseResult {
 	string errorKey = 2;
     google.protobuf.Timestamp occurredOn = 3;
 }
+
+message JwtToken {
+	string Token = 1;
+    google.protobuf.Timestamp Expiration = 2;
+}
