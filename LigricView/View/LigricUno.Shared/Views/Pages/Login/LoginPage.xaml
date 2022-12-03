@@ -23,10 +23,16 @@
         <!--attached:ElementStartupFocus.StartupFocus="False"-->
         <!-- Login Content -->
         <Grid Grid.Row="1" HorizontalAlignment="Center">
-            <Border Background="White" CornerRadius="20" MinWidth="400"
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="3" Background="White" CornerRadius="20" MinWidth="400"
                     BorderBrush="#1e1e1e" BorderThickness="4"/>
 
-            <StackPanel Padding="40" VerticalAlignment="Center">
+            <StackPanel Grid.Row="1" Padding="40,30">
                 <TextBox Style="{StaticResource SimpleTextBoxStyle}" Height="50"
                           Text="{Binding Login, Mode=TwoWay}"
                           Foreground="Black" BorderBrush="#5d5d5d"
@@ -38,11 +44,17 @@
                              Foreground="Black" BorderBrush="#5d5d5d"
                              PlaceholderText="Password" BorderThickness="0,0,0,1" />
 
-                <Button Content="Login" Margin="0,20,0,0"
+                <Button Content="Login" Margin="0,20,0,0" MinWidth="150"
                         HorizontalAlignment="Center"
                         Command="{Binding LoginCommand}"/>
             </StackPanel>
-        
+
+
+            <Button Grid.Row="2" Style="{StaticResource EmptyButtonStyle}" 
+                    Content="Create new" Foreground="Black"
+                    VerticalAlignment="Top" HorizontalAlignment="Center">
+
+            </Button>
         </Grid>
 
     </Grid>
