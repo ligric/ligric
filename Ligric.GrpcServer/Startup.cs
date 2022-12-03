@@ -96,7 +96,6 @@ namespace Ligric.GrpcServer
                 endpoints.MapControllers();
 
                 endpoints.MapGrpcService<AuthorizationService>().EnableGrpcWeb();
-                endpoints.MapGrpcService<CustomersService>().EnableGrpcWeb();
 
                 endpoints.MapGet("/", async context =>
                 {

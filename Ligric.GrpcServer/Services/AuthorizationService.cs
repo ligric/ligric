@@ -8,10 +8,10 @@ using System.Text;
 using Ligric.Protos;
 using Ligric.GrpcServer.Data;
 using MediatR;
-using Ligric.Application.Users;
 using Ligric.Application.Users.CheckUserExists;
-using Ligric.Application.Users.RegisterUser;
 using Google.Protobuf.WellKnownTypes;
+using Ligric.Application.Users.LoginCustomer;
+using Ligric.Common.Types;
 
 namespace Ligric.GrpcServer.Services;
 
@@ -41,26 +41,43 @@ public class AuthorizationService : Authorization.AuthorizationBase
     }
 
     [AllowAnonymous]
-    public override Task<SignInResponse> SignIn(SignInRequest request, ServerCallContext context)
+    public override async Task<SignInResponse> SignIn(SignInRequest request, ServerCallContext context)
     {
-        throw new NotImplementedException();
+        var registerCommand = new LoginUserCommand(request.Login, request.Password);
+        var user = await _mediator.Send(registerCommand);
+
+        var userRoles = new List<string> { "Admin" };
+        var token = GetJwtToken(user, userRoles);
+
+        return new SignInResponse
+        {
+            UserId = user.Id.ToString(),
+            Result = ResponseExtensions.GetSuccessResponseResult(),
+            JwtToken = new JwtToken
+            {
+                Token = token.JwtToken,
+                Expiration = Timestamp.FromDateTime(token.Expiration)
+            }
+        };
     }
 
     [AllowAnonymous]
     public override async Task<SignUpResponse> SignUp(SignUpRequest request, ServerCallContext context)
     {
-        var registerCommand = new RegisterUserCommand(request.Login, request.Password);
-        var customer = await _mediator.Send(registerCommand);
-        var userRoles = new List<string> { "User" };
-        var token = GetJwtToken(customer, userRoles);
+        throw new NotImplementedException();
 
-        return new SignUpResponse()
-        {
-            Result = ResponseExtensions.GetSuccessResponseResult(),
-            UserGuid = customer.Id.ToString(),
-            JwtToken = token.JwtToken,
-            TokenExpiration = Timestamp.FromDateTime(token.Expiration)
-        };
+        //var registerCommand = new RegisterUserCommand(request.Login, request.Password);
+        //var customer = await _mediator.Send(registerCommand);
+        //var userRoles = new List<string> { "User" };
+        //var token = GetJwtToken(customer, userRoles);
+
+        //return new SignUpResponse()
+        //{
+        //    Result = ResponseExtensions.GetSuccessResponseResult(),
+        //    UserGuid = customer.Id.ToString(),
+        //    JwtToken = token.JwtToken,
+        //    TokenExpiration = Timestamp.FromDateTime(token.Expiration)
+        //};
     }
 
     #region #HARD_CODE. Reason: deadline.
@@ -82,8 +99,8 @@ public class AuthorizationService : Authorization.AuthorizationBase
     {
         return new[]
         {
-            new Claim(JwtRegisteredClaimNames.UniqueName, userDto.Login),
-            new Claim("Guid", userDto.Id.ToString())
+            new Claim(JwtRegisteredClaimNames.UniqueName, userDto.UserName),
+            new Claim(JwtRegisteredClaimNames.NameId, userDto.Id.ToString())
         };
     }
 
