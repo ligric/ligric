@@ -3,10 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyInjection;
-using Quartz;
 using Quartz.Impl;
 using Ligric.Application.Configuration;
 using Ligric.Infrastructure.Caching;
@@ -14,10 +11,7 @@ using Ligric.Infrastructure.Database;
 using Ligric.Infrastructure.Domain;
 using Ligric.Infrastructure.Logging;
 using Ligric.Infrastructure.Processing;
-using Ligric.Infrastructure.Processing.InternalCommands;
-using Ligric.Infrastructure.Processing.Outbox;
 using Ligric.Infrastructure.Quartz;
-using Ligric.Infrastructure.SeedWork;
 using Serilog;
 
 namespace Ligric.Infrastructure
@@ -109,24 +103,24 @@ namespace Ligric.Infrastructure
 
             scheduler.Start().GetAwaiter().GetResult();
 
-            var processOutboxJob = JobBuilder.Create<ProcessOutboxJob>().Build();
-            var trigger =
-                TriggerBuilder
-                    .Create()
-                    .StartNow()
-                    .WithCronSchedule("0/15 * * ? * *")
-                    .Build();
+            //var processOutboxJob = JobBuilder.Create<ProcessOutboxJob>().Build();
+            //var trigger =
+            //    TriggerBuilder
+            //        .Create()
+            //        .StartNow()
+            //        .WithCronSchedule("0/15 * * ? * *")
+            //        .Build();
 
-            scheduler.ScheduleJob(processOutboxJob, trigger).GetAwaiter().GetResult();
+            //scheduler.ScheduleJob(processOutboxJob, trigger).GetAwaiter().GetResult();
 
-            var processInternalCommandsJob = JobBuilder.Create<ProcessInternalCommandsJob>().Build();
-            var triggerCommandsProcessing =
-                TriggerBuilder
-                    .Create()
-                    .StartNow()
-                    .WithCronSchedule("0/15 * * ? * *")
-                    .Build();
-            scheduler.ScheduleJob(processInternalCommandsJob, triggerCommandsProcessing).GetAwaiter().GetResult();
+            //var processInternalCommandsJob = JobBuilder.Create<ProcessInternalCommandsJob>().Build();
+            //var triggerCommandsProcessing =
+            //    TriggerBuilder
+            //        .Create()
+            //        .StartNow()
+            //        .WithCronSchedule("0/15 * * ? * *")
+            //        .Build();
+            //scheduler.ScheduleJob(processInternalCommandsJob, triggerCommandsProcessing).GetAwaiter().GetResult();
         }
     }
 }
