@@ -1,30 +1,44 @@
-﻿namespace Ligric.Application.Users.LoginCustomer
+﻿using Ligric.Application.Configuration.Commands;
+using Ligric.Application.Users.LoginCustomer;
+using Ligric.Common.Types;
+using Ligric.Server.Domain.Entities.Users;
+using Ligric.Server.Domain.TypeExtensions;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Ligric.Application.Users.LoginUser
 {
-    //public class LoginCustomerCommandHandler : ICommandHandler<LoginCustomerCommand, CustomerDto>
-    //{
-    //    private readonly IUserRepository _customerRepository;
-    //    private readonly IUserUniquenessChecker _customerUniquenessChecker;
-    //    private readonly IUnitOfWork _unitOfWork;
+    public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, UserDto>
+    {
+        private readonly IUserRepository _userRepository;
+        private readonly IUserUniquenessChecker _userUniquenessChecker;
 
-    //    public LoginCustomerCommandHandler(
-    //        IUserRepository customerRepository, 
-    //        IUserUniquenessChecker customerUniquenessChecker, 
-    //        IUnitOfWork unitOfWork)
-    //    {
-    //        this._customerRepository = customerRepository;
-    //        _customerUniquenessChecker = customerUniquenessChecker;
-    //        _unitOfWork = unitOfWork;
-    //    }
+        public LoginUserCommandHandler(
+            IUserRepository userRepository,
+            IUserUniquenessChecker userUniquenessChecker)
+        {
+            this._userRepository = userRepository;
+            _userUniquenessChecker = userUniquenessChecker;
+        }
 
-    //    public async Task<CustomerDto> Handle(LoginCustomerCommand request, CancellationToken cancellationToken)
-    //    {
-    //        var customer = User.(request.Name, request.CompanyName, request.Phone, request.Email, this._customerUniquenessChecker);
+        public Task<UserDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        {
+            UserEntity user = this._userRepository.GetEntity(request.UserName);
 
-    //        await this._customerRepository.AddAsync(customer);
+            if (user == null) 
+            {
+                // TODO : Should be normal exception
+                throw new ArgumentException("User not found.");
+            }
 
-    //        await this._unitOfWork.CommitAsync(cancellationToken);
+            if (user.Password == request.Password)
+            {
+                return Task.FromResult(user.ToUserDto());
+            }
 
-    //        return new CustomerDto { Id = customer.Id.Value };
-    //    }
-    //}
+            // TODO : Should be normal exception
+            throw new ArgumentException("Wrong password.");
+        }
+    }
 }

@@ -1,17 +1,18 @@
 ﻿using Ligric.Application.Configuration.Commands;
+using Ligric.Common.Types;
 
 namespace Ligric.Application.Users.LoginCustomer
 {
-    //public class LoginCustomerCommand : CommandBase<CustomerDto>
-    //{
-    //    public string Login { get; }
+    public class LoginUserCommand : CommandBase<UserDto>
+    {
+        public string UserName { get; }
 
-    //    public string Password { get; }
+        public string Password { get; }
 
-    //    public LoginCustomerCommand(string login, string password)
-    //    {
-    //        Login = login;
-    //        Password = password;
-    //    }
-    //}
+        public LoginUserCommand(string userName, string password)
+        {
+            UserName = userName;
+            Password = password;
+        }
+    }
 }

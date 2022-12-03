@@ -1,5 +1,5 @@
 ﻿using Ligric.Application.Configuration.Commands;
-using Ligric.Common.Dto;
+using Ligric.Common.Types;
 
 namespace Ligric.Application.Users.RegisterUser
 {

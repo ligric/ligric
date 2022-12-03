@@ -1,16 +1,12 @@
-﻿using Ligric.Application.Configuration.Data;
-using Ligric.Server.Domain.Entities.Users;
+﻿using Ligric.Server.Domain.Entities.Users;
 using System;
 
 namespace Ligric.Application.Users.DomainServices
 {
     public class UserUniquenessChecker : IUserUniquenessChecker
     {
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
-
-        public UserUniquenessChecker(ISqlConnectionFactory sqlConnectionFactory)
+        public UserUniquenessChecker()
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
         }
 
         public bool IsLoginUnique(string userLogin)
