@@ -1,6 +1,6 @@
 ﻿using System;
+using Ligric.Server.Domain.SeedWork;
 using Newtonsoft.Json;
-using Ligric.Domain.SeedWork;
 
 namespace Ligric.Application.Configuration.DomainEvents
 {

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <ProjectReference Include="..\Ligric.Domain\Ligric.Domain.csproj" />
+    <ProjectReference Include="..\Ligric.Server.Domain\Ligric.Server.Domain.csproj" />
   </ItemGroup>
 
 </Project>

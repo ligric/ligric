@@ -94,16 +94,16 @@ namespace Ligric.Infrastructure
             container.RegisterModule(new ProcessingModule());
 
             container.RegisterInstance(executionContextAccessor);
-            container.Register(c =>
-            {
-                var dbContextOptionsBuilder = new DbContextOptionsBuilder<DevPaceContext>();
-                dbContextOptionsBuilder.UseSqlServer(connectionString);
+            //container.Register(c =>
+            //{
+            //    var dbContextOptionsBuilder = new DbContextOptionsBuilder<DevPaceContext>();
+            //    dbContextOptionsBuilder.UseSqlServer(connectionString);
 
-                dbContextOptionsBuilder
-                    .ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>();
+            //    dbContextOptionsBuilder
+            //        .ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>();
 
-                return new DevPaceContext(dbContextOptionsBuilder.Options);
-            }).AsSelf().InstancePerLifetimeScope();
+            //    return new DevPaceContext(dbContextOptionsBuilder.Options);
+            //}).AsSelf().InstancePerLifetimeScope();
 
             scheduler.JobFactory = new JobFactory(container.Build());
 

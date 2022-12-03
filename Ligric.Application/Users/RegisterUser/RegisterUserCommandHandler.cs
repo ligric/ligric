@@ -1,9 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ligric.Application.Configuration.Commands;
-using Ligric.Domain.Users;
-using Ligric.Domain.SeedWork;
 using System;
+using Ligric.Common.Dto;
+using Ligric.Server.Domain.Entities.Users;
+using Ligric.Server.Domain.SeedWork;
 
 namespace Ligric.Application.Users.RegisterUser
 {

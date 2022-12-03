@@ -1,33 +1,31 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Ligric.Domain.Users;
-using Ligric.Infrastructure.Database;
+using Ligric.Server.Domain.Entities.Users;
+using Ligric.Common.Dto;
 
 namespace Ligric.Infrastructure.Domain.Users
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DevPaceContext _context;
-
-        public UserRepository(DevPaceContext context)
+        public UserRepository()
         {
-            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<User> GetByIdAsync(UserId id)
+        public void Delete(long id)
         {
-            return await this._context.Users
-                .SingleAsync(x => x.Id == id);
-        }
-
-        public Task SignInAsync(User user)
-        {
-            //await this._context.Users.AddAsync(user);
             throw new NotImplementedException();
         }
 
-        public Task SignUpAsync(User user)
+        public UserDto Get(long? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsUserNameUnique(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Save(UserEntity entity)
         {
             throw new NotImplementedException();
         }

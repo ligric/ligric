@@ -31,7 +31,7 @@ public class AuthorizationService : Authorization.AuthorizationBase
     [AllowAnonymous]
     public override async Task<CheckExistsResponse> IsLoginUnique(CheckExistsRequest request, ServerCallContext context)
     {
-        var loginIsUniqueQuery = new LoginIsUniqueQuery(request.Value);
+        var loginIsUniqueQuery = new UserNameIsUniqueQuery(request.Value);
         bool isUnique = await _mediator.Send(loginIsUniqueQuery);
         return new CheckExistsResponse 
         {

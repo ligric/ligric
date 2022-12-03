@@ -11,21 +11,21 @@ namespace Ligric.Infrastructure.Processing
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<DomainEventsDispatcher>()
-               .As<IDomainEventsDispatcher>()
-               .InstancePerLifetimeScope();
+            //builder.RegisterType<DomainEventsDispatcher>()
+            //   .As<IDomainEventsDispatcher>()
+            //   .InstancePerLifetimeScope();
 
             builder.RegisterGenericDecorator(
                 typeof(DomainEventsDispatcherNotificationHandlerDecorator<>),
                 typeof(INotificationHandler<>));
 
-            builder.RegisterGenericDecorator(
-                typeof(UnitOfWorkCommandHandlerDecorator<>),
-                typeof(ICommandHandler<>));
+            //builder.RegisterGenericDecorator(
+            //    typeof(UnitOfWorkCommandHandlerDecorator<>),
+            //    typeof(ICommandHandler<>));
 
-            builder.RegisterGenericDecorator(
-                typeof(UnitOfWorkCommandHandlerWithResultDecorator<,>),
-                typeof(ICommandHandler<,>));
+            //builder.RegisterGenericDecorator(
+            //    typeof(UnitOfWorkCommandHandlerWithResultDecorator<,>),
+            //    typeof(ICommandHandler<,>));
 
             //builder.RegisterType<CommandsDispatcher>()
             //    .As<ICommandsDispatcher>()

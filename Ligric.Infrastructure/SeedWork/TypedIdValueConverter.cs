@@ -1,6 +1,6 @@
 ﻿using System;
+using Ligric.Server.Domain.SeedWork;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Ligric.Domain.SeedWork;
 
 namespace Ligric.Infrastructure.SeedWork
 {

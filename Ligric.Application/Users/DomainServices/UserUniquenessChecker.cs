@@ -1,6 +1,6 @@
-﻿using Dapper;
-using Ligric.Application.Configuration.Data;
-using Ligric.Domain.Users;
+﻿using Ligric.Application.Configuration.Data;
+using Ligric.Server.Domain.Entities.Users;
+using System;
 
 namespace Ligric.Application.Users.DomainServices
 {
@@ -15,18 +15,19 @@ namespace Ligric.Application.Users.DomainServices
 
         public bool IsLoginUnique(string userLogin)
         {
-            var connection = this._sqlConnectionFactory.GetOpenConnection();
+            throw new NotImplementedException();
+            //var connection = this._sqlConnectionFactory.GetOpenConnection();
 
-            const string sql = "SELECT TOP 1 1" +
-                               "FROM [devPace].[Users] AS [User] " +
-                               "WHERE [User].[Login] = @Login";
-            var usersNumber = connection.QuerySingleOrDefault<int?>(sql,
-                            new
-                            {
-                                Login = userLogin
-                            });
+            //const string sql = "SELECT TOP 1 1" +
+            //                   "FROM [devPace].[Users] AS [User] " +
+            //                   "WHERE [User].[Login] = @Login";
+            //var usersNumber = connection.QuerySingleOrDefault<int?>(sql,
+            //                new
+            //                {
+            //                    Login = userLogin
+            //                });
 
-            return !usersNumber.HasValue;
+            //return !usersNumber.HasValue;
         }
     }
 }

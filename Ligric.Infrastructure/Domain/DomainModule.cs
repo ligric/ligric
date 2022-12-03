@@ -1,8 +1,6 @@
 ﻿using Autofac;
-using Ligric.Application.Cusomers.DomainServices;
 using Ligric.Application.Users.DomainServices;
-using Ligric.Domain.Customers;
-using Ligric.Domain.Users;
+using Ligric.Server.Domain.Entities.Users;
 
 namespace Ligric.Infrastructure.Domain
 {
@@ -14,9 +12,9 @@ namespace Ligric.Infrastructure.Domain
                 .As<IUserUniquenessChecker>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<CustomerUniquenessChecker>()
-                .As<ICustomerUniquenessChecker>()
-                .InstancePerLifetimeScope();
+            //builder.RegisterType<CustomerUniquenessChecker>()
+            //    .As<ICustomerUniquenessChecker>()
+            //    .InstancePerLifetimeScope();
         }
     }
 }
