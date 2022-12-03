@@ -1,10 +1,14 @@
-﻿using Ligric.Common.Dto;
+﻿using Ligric.Common.Types;
 
 namespace Ligric.Server.Domain.Entities.Users
 {
     public interface IUserRepository
     {
         UserDto Get(long? id);
+
+        UserDto Get(string? username);
+
+        UserEntity GetEntity(string? username);
 
         bool IsUserNameUnique(string username);
 
