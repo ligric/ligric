@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ligric.Server.Domain\Ligric.Server.Domain.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>

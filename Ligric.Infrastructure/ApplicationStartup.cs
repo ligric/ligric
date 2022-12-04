@@ -52,6 +52,8 @@ namespace Ligric.Infrastructure
 
             container.Populate(services);
 
+            container.RegisterType<DefaultCryptoProvider>().As<ICryptoProvider>().InstancePerLifetimeScope();
+
             container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());

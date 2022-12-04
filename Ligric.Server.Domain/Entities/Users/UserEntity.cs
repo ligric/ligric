@@ -7,6 +7,8 @@ namespace Ligric.Server.Domain.Entities.Users
     {
         public virtual string? UserName { get; set; }
 
+        public virtual string? Salt { get; set; }
+
         public virtual string? Password { get; set; }
     }
 }

@@ -24,6 +24,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
@@ -31,6 +32,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Ligric.Infrastructure\Ligric.Infrastructure.csproj" />
     <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Data.SqlServerCe">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\Shared\Packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -13,6 +13,7 @@ namespace Ligric.Server.Domain.Mapping
 
             Map(x => x.UserName);
             Map(x => x.Password);
+            Map(x => x.Salt);
         }
     }
 }

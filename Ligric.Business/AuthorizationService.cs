@@ -45,8 +45,7 @@ namespace Ligric.Business
 
         public void SignIn(string login, string password)
         {
-            var passHash = SecurePasswordHasher.Hash(password);
-            var authReply = _client.SignIn(new SignInRequest { Login = login, Password = passHash });
+            var authReply = _client.SignIn(new SignInRequest { Login = login, Password = password });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
             _metadataRepos.SetMetadata(metadata);
@@ -58,8 +57,7 @@ namespace Ligric.Business
 
         public async Task SignInAsync(string login, string password)
         {
-            var passHash = SecurePasswordHasher.Hash(password);
-            var authReply = await _client.SignInAsync(new SignInRequest { Login = login, Password = passHash });
+            var authReply = await _client.SignInAsync(new SignInRequest { Login = login, Password = password });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
             _metadataRepos.SetMetadata(metadata);
@@ -71,8 +69,7 @@ namespace Ligric.Business
 
         public void SignUp(string login, string password)
         {
-            var passHash = SecurePasswordHasher.Hash(password);
-            var authReply = _client.SignUp(new SignUpRequest { Login = login, Password = passHash });
+            var authReply = _client.SignUp(new SignUpRequest { Login = login, Password = password });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
             _metadataRepos.SetMetadata(metadata);
@@ -84,8 +81,7 @@ namespace Ligric.Business
 
         public async Task SignUpAsync(string login, string password)
         {
-            var passHash = SecurePasswordHasher.Hash(password);
-            var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = passHash });
+            var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = password });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
             _metadataRepos.SetMetadata(metadata);
