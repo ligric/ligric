@@ -14,13 +14,11 @@ namespace Ligric.Server.Data.Base
     {
 	    protected readonly string ConnectionString;
 	    protected readonly List<IConvention> Conventions;
-	    protected readonly IInterceptor Interceptor;
 
 	    protected ISessionFactory Factory;
 
-        protected DataProvider(IConnectionSettingsProvider connectionSettingsProvider, IInterceptor interceptor)
+        protected DataProvider(IConnectionSettingsProvider connectionSettingsProvider)
         {
-	        Interceptor = interceptor;
 	        Conventions = new List<IConvention>();
 
 	        Conventions.AddRange(new IConvention[] { new TableNameConvention() });

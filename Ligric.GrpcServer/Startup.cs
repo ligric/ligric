@@ -19,7 +19,7 @@ namespace Ligric.GrpcServer
     {
         private readonly IConfiguration _configuration;
 
-        private const string CustomersConnectionString = "CustomersConnectionString";
+        private const string LigricConnectionString = "LigricConnectionString";
 
         private static ILogger _logger;
 
@@ -68,7 +68,7 @@ namespace Ligric.GrpcServer
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
             return ApplicationStartup.Initialize(
                 services,
-                this._configuration[CustomersConnectionString],
+                this._configuration[LigricConnectionString],
                 new MemoryCacheStore(memoryCache, cachingConfiguration),
                 ConfigureLogger(),
                 executionContextAccessor);

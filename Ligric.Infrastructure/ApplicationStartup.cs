@@ -13,6 +13,11 @@ using Ligric.Infrastructure.Logging;
 using Ligric.Infrastructure.Processing;
 using Ligric.Infrastructure.Quartz;
 using Serilog;
+using Ligric.Infrastructure.Domain.Users;
+using Ligric.Server.Domain.Entities.Users;
+using Ligric.Server.Data.Base;
+using NHibernate;
+using Ligric.Application.Providers.Security;
 
 namespace Ligric.Infrastructure
 {
@@ -34,7 +39,7 @@ namespace Ligric.Infrastructure
             services.AddSingleton(cacheStore);
 
             var serviceProvider = CreateAutofacServiceProvider(
-                services, 
+                services,
                 connectionString,
                 logger,
                 executionContextAccessor);
@@ -54,6 +59,12 @@ namespace Ligric.Infrastructure
 
             container.RegisterType<DefaultCryptoProvider>().As<ICryptoProvider>().InstancePerLifetimeScope();
 
+            container.RegisterType<QbDataInterceptor>().As<IInterceptor>().SingleInstance();
+            container.RegisterType<ConnectionSettingsProvider>().As<IConnectionSettingsProvider>().SingleInstance();
+            container.RegisterType<NhInitFactory>().SingleInstance();
+            container.RegisterType<CoreDataProvider>().As<DataProvider>().InstancePerLifetimeScope();
+            container.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+
             container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
@@ -63,7 +74,7 @@ namespace Ligric.Infrastructure
             container.RegisterInstance(executionContextAccessor);
 
             var buildContainer = container.Build();
-            
+
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(buildContainer));
 
             var serviceProvider = new AutofacServiceProvider(buildContainer);

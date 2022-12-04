@@ -4,8 +4,8 @@
 	{
 		string ConnectionString { get; }
 
-		string MongoConnectionString { get; }
+		//string MongoConnectionString { get; }
 
-		string MongoDatabaseName { get; }
+		//string MongoDatabaseName { get; }
 	}
 }

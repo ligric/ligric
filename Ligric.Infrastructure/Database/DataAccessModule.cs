@@ -26,9 +26,9 @@ namespace Ligric.Infrastructure.Database
             //    .As<IUnitOfWork>()
             //    .InstancePerLifetimeScope();
 
-            builder.RegisterType<UserRepository>()
-                .As<IUserRepository>()
-                .InstancePerLifetimeScope();
+            //builder.RegisterType<UserRepository>()
+            //    .As<IUserRepository>()
+            //    .InstancePerLifetimeScope();
 
             builder.RegisterType<StronglyTypedIdValueConverterSelector>()
                 .As<IValueConverterSelector>()

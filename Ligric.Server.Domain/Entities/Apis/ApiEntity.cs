@@ -1,6 +1,6 @@
 ﻿using Ligric.Server.Domain.Base;
 
-namespace Ligric.Server.Domain.Entities.Apis
+namespace Ligric.Server.Domain.Entities.Apies
 {
     public class ApiEntity : EntityBase
     {
