@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+using Grpc.Net.Client.Web;
 using System;
 using System.Net.Http;
 
@@ -22,13 +23,15 @@ namespace LigricUno
                 return errors == System.Net.Security.SslPolicyErrors.None;
             };
 
-            HttpClient httpClient = null;
-
-            httpClient = new(httpClientHandler);
-
             return GrpcChannel.ForAddress(address, new GrpcChannelOptions
             {
-                HttpClient = httpClient,
+#if WINDOWS_UWP
+                HttpHandler = new GrpcWebHandler(httpClientHandler),
+
+#else
+                HttpClient = new HttpClient(httpClientHandler),
+
+#endif
                 Credentials = ChannelCredentials.SecureSsl
             });
         }
