@@ -21,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GrpcChannelHalper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IocService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MetadataRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\ApiKeyModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\ApiKeyViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Board\BoardPage.xaml.cs">
       <DependentUpon>BoardPage.xaml</DependentUpon>
     </Compile>
