@@ -49,7 +49,7 @@ public class AuthorizationService : Authorization.AuthorizationBase
         var userRoles = new List<string> { "Admin" };
         var token = GetJwtToken(user, userRoles);
 
-        return new SignInResponse
+        var result = new SignInResponse
         {
             UserId = user.Id.ToString(),
             Result = ResponseExtensions.GetSuccessResponseResult(),
@@ -59,6 +59,7 @@ public class AuthorizationService : Authorization.AuthorizationBase
                 Expiration = Timestamp.FromDateTime(token.Expiration)
             }
         };
+        return result;
     }
 
     [AllowAnonymous]

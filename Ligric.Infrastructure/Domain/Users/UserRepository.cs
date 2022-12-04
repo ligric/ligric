@@ -1,13 +1,17 @@
 ﻿using System;
 using Ligric.Server.Domain.Entities.Users;
 using Ligric.Common.Types;
+using Ligric.Server.Data.Base;
+using NHibernate.Criterion;
 
 namespace Ligric.Infrastructure.Domain.Users
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
     {
-        public UserRepository()
+        public UserRepository(DataProvider dataProvider)
+            : base(dataProvider)
         {
+
         }
 
         public UserDto Get(long? id)
@@ -22,9 +26,11 @@ namespace Ligric.Infrastructure.Domain.Users
 
         public UserEntity GetEntity(string? username)
         {
+            var user = DataProvider.QueryOver<UserEntity>()
+             .WhereRestrictionOn(x => x.UserName).IsInsensitiveLike(username, MatchMode.Exact)
+             .SingleOrDefault();
 
-
-            throw new NotImplementedException();
+            return user;
         }
 
         public bool IsUserNameUnique(string username)
