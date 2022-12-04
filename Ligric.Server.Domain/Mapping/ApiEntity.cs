@@ -1,6 +1,6 @@
 ﻿using FluentNHibernate.Mapping;
 using Ligric.Server.Domain.Base;
-using Ligric.Server.Domain.Entities.Apis;
+using Ligric.Server.Domain.Entities.Apies;
 
 namespace Ligric.Server.Domain.Mapping
 {

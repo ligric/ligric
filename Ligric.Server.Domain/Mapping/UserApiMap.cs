@@ -8,7 +8,7 @@ namespace Ligric.Server.Domain.Mapping
     {
         public UserApiMap()
         {
-            Table("[UserApis]");
+            Table("[UserApies]");
             this.MapBase();
 
             Map(x => x.UserId);
