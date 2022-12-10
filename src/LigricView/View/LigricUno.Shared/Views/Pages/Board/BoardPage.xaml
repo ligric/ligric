@@ -1,0 +1,121 @@
+﻿<Page x:Class="LigricUno.Views.Pages.Board.BoardPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+      d:Height="1334" d:Width="750"      
+      
+      xmlns:menus="using:LigricBoardCustomControls.Menus"
+      xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+      
+      xmlns:boards="using:LigricBoardCustomControls.Boards"
+      
+      xmlns:data="using:LigricMvvmToolkit.Data"
+      xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
+      xmlns:dragAp="using:LigricMvvmToolkit.AttachedProperties.DragPosition"
+      xmlns:toggleButtons="using:LigricBoardCustomControls.ToggleButtons"
+      
+      xmlns:wuxc="using:Windows.UI.Xaml.Controls"
+      xmlns:local="using:LigricUno.Views.Pages.Board"
+      xmlns:converters="using:LigricMvvmToolkit.Converters"
+      
+      d:DataContext="{d:DesignInstance local:BoardsViewModel, IsDesignTimeCreatable=True}">
+    <Page.Resources>
+        <ResourceDictionary>
+
+            <!--<converters:CollectionToUniqueCollectionConverter x:Key="CollectionToUniqueCollectionConverter"/>-->
+
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <ItemsControl ItemsSource="{Binding CurrentEntities}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Background="Transparent"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid>
+                        <!--<boards:BoardStandard Width="250" Height="400" BorderBrush="#2c2c2c" BorderThickness="4" 
+                                          Title="{Binding Title}"
+                                          data:Canvas.OffsetX="{Binding PositionX}"
+                                          data:Canvas.OffsetY="{Binding PositionY}"
+                                          dragAp:DragPosition.IsDrop="True"/>-->
+
+                        <Border Width="400" MaxHeight="500" Background="White" CornerRadius="20"
+                                BorderThickness="8" BorderBrush="#2c2c2c"
+                                data:Canvas.OffsetX="{Binding PositionX}"
+                                data:Canvas.OffsetY="{Binding PositionY}"
+                                dragAp:DragPosition.IsDrop="True">
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Margin="10"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <Run Text="{Binding Symbol}"/>
+                                    <Run Text="{Binding Price}"/>
+                                </TextBlock>
+
+                                <Border Grid.Row="1" Background="#f2f5fa" CornerRadius="20">
+                                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                        <controls:ItemsRepeater ItemsSource="{Binding Orders}" Margin="10">
+                                            <controls:ItemsRepeater.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border CornerRadius="20" Background="#dc729f" Padding="20">
+                                                        <TextBlock Foreground="White">
+                                                            <Run Text="{Binding Symbol}"/>
+                                                            <Run Text="{Binding Side}"/>
+                                                            <Run Text="{Binding Quantity}"/>
+                                                            <Run Text="{Binding Price}"/>
+                                                            <Run Text="{Binding Order}"/>
+                                                            <Run Text="{Binding Value}"/>
+                                                        </TextBlock>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </controls:ItemsRepeater.ItemTemplate>
+                                            <controls:ItemsRepeater.Layout>
+                                                <controls:StackLayout Orientation="Vertical" Spacing="10"/>
+                                            </controls:ItemsRepeater.Layout>
+                                        </controls:ItemsRepeater>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border Grid.Row="3" Background="#f2f5fa" CornerRadius="20">
+                                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                        <controls:ItemsRepeater ItemsSource="{Binding Positions}" Margin="10">
+                                            <controls:ItemsRepeater.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border CornerRadius="20" Background="#3888cd" Padding="20">
+                                                        <TextBlock Foreground="White">
+                                                            <Run Text="{Binding Symbol}"/>
+                                                            <Run Text="{Binding Side}"/>
+                                                            <Run Text="{Binding Quantity}"/>
+                                                            <Run Text="{Binding CurrentPrice}"/>
+                                                            <Run Text="{Binding PnL}"/>
+                                                            <Run Text="{Binding PnLPercent}"/>
+                                                        </TextBlock>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </controls:ItemsRepeater.ItemTemplate>
+                                            <controls:ItemsRepeater.Layout>
+                                                <controls:StackLayout Orientation="Vertical" Spacing="10"/>
+                                            </controls:ItemsRepeater.Layout>
+                                        </controls:ItemsRepeater>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Page>

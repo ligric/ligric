@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Templates/ToggleButton.xaml"/>
+        
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Styles/ComboBox.xaml"/>
+
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/ToggleButtons/ToggleButtonStandardCustomControl.xaml"/>
+
+        
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/ExpanderStandardCustomControl.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/MenuSoapCustomControl.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/SuctionCupCustomControl.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/PourMenuCustomControl.xaml"/>
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Menus/SnakeMenuCustomControl.xaml"/>
+
+        
+        <ResourceDictionary Source="ms-appx:///LigricBoardCustomControls/Boards/BoardStandardCustomControl.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

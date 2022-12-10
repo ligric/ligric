@@ -1,0 +1,83 @@
+﻿<Page x:Class="LigricUno.Views.Pages.Messages.MessagesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="using:LigricUno.Views.Pages.Messages"
+      xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+      xmlns:converters="using:LigricMvvmToolkit.Converters"
+      xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
+      mc:Ignorable="d" d:DataContext="{d:DesignInstance local:MessagesViewModel, IsDesignTimeCreatable=True}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+            <local:NameToFirsSymbolsConveter x:Key="NameToFirsSymbolsConveter"/>
+
+            <DataTemplate x:Key="MessageItemTemplate" x:DataType="local:MessageItem">
+                <Grid Height="80" Background="#425b67" ColumnSpacing="10" CornerRadius="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Temporary!! Should be trigger. -->
+                    <Ellipse Grid.Column="0" Margin="10,10,0,10"
+                             ap:FrmElem.WidthToHeight="1" 
+                             HorizontalAlignment="Left" Fill="#4a7b60"/>
+
+                    <TextBlock Text="{Binding Name, Converter={StaticResource NameToFirsSymbolsConveter}}" Foreground="White" Margin="10,10,5,10"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+                    <Ellipse Grid.Column="0" Margin="10,10,0,10"
+                             ap:FrmElem.WidthToHeight="1" 
+                             HorizontalAlignment="Left">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding ImageUri}" Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" FontSize="20" Text="{Binding Name}" 
+                                   VerticalAlignment="Bottom" Foreground="White"/>
+                        <TextBlock Grid.Row="1" FontSize="18" Text="{Binding LastMessage}" 
+                                   VerticalAlignment="Top" Foreground="White"/>
+                    </Grid>
+
+                    <Grid Grid.Column="2" Visibility="{Binding UnreadedMessagesCount, Converter={StaticResource ZeroToVisibilityConverter}}">
+                        <Rectangle Fill="#5399bc" Height="30" RadiusX="15" RadiusY="15"
+                                   HorizontalAlignment="Stretch"/>
+
+                        <TextBlock Text="{Binding UnreadedMessagesCount}" Margin="15" FontSize="15" Foreground="White"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid Margin="10,30,10,65">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MaxWidth="550"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <controls:ItemsRepeater ItemsSource="{Binding Messages}"
+                                    ItemTemplate="{StaticResource MessageItemTemplate}">
+                <controls:ItemsRepeater.Layout>
+                    <controls:StackLayout Orientation="Vertical" Spacing="5"/>
+                </controls:ItemsRepeater.Layout>
+            </controls:ItemsRepeater>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            
+        </Grid>
+        
+    </Grid>
+</Page>

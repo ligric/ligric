@@ -1,0 +1,122 @@
+﻿<Page x:Class="LigricUno.Views.Pages.Profile.ProfilePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+      xmlns:local="using:LigricUno.Views.Pages.Profile"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:ap="using:LigricMvvmToolkit.AttachedProperties"
+      d:DataContext="{d:DesignInstance local:ProfilePageViewModel, IsDesignTimeCreatable=True}">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="CurrencyItemTemplate" x:DataType="local:CurrencyItem">
+                <muxc:TreeViewItem>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <StackPanel HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding FullName}" FontSize="20" Foreground="White"
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock Text="{Binding Name}" FontSize="16" Foreground="#86868d"
+                                           HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <StackPanel HorizontalAlignment="Right">
+                                <TextBlock Text="{Binding Amount}" FontSize="20" Foreground="White"
+                                           HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding Rate}" FontSize="16" Foreground="#86868d"
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HeaderItemTemplate" x:DataType="local:FinancialExchange">
+                <muxc:TreeViewItem ItemsSource="{Binding Items}" IsExpanded="True">
+                    <TextBlock Text="{Binding Name}" FontSize="20" Foreground="White"
+                               HorizontalAlignment="Left"/>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+
+            <local:TreeViewItemsDataTemplateSelector x:Key="TreeViewItemsDataTemplateSelector"
+                                                     HeaderItemTemplate="{StaticResource HeaderItemTemplate}"
+                                                     ContentItemTemplate="{StaticResource CurrencyItemTemplate}"/>
+
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <!-- 3d5a7c 2a3950 2f4550 171925 2c2c2c2c 1f2630 -->
+    <Grid>
+        <StackPanel>
+
+            <Grid Background="#171925" MinHeight="200" Margin="20" CornerRadius="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse ap:FrmElem.WidthToHeight="1" Margin="10,10,0,10"
+                         HorizontalAlignment="Left">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="ms-appx:///Assets/Images/limeniye_icon.JPG" Stretch="UniformToFill"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
+                    <Border Background="#1f2630" Margin="5" Padding="10" CornerRadius="10">
+                        <TextBlock Text="Танго в одиночестве" FontSize="18" Foreground="White" TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Border Background="#1f2630" Margin="5" Padding="10" CornerRadius="10">
+                        <TextBlock Text="@limeniye" FontSize="18" Foreground="White" TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Border Background="#1f2630" Margin="5" Padding="10" CornerRadius="10">
+                        <TextBlock Text="Мы с истёкшим сроком годности" FontSize="18" Foreground="White" TextWrapping="Wrap"/>
+                    </Border>
+
+                </StackPanel>
+                
+            </Grid>
+
+            <Grid Background="#171e26" Height="400" CornerRadius="50" Margin="20" Padding="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <StackPanel>
+                        <TextBlock Text="Total balance" FontSize="16" Foreground="#86868d"/>
+                        <TextBlock Text="14,682.45 $" FontSize="20" Foreground="White"/>
+                        <Border Background="#415266" HorizontalAlignment="Stretch" Height="1" Margin="10,20,10,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- c46c85 705b7a -->
+
+            
+
+                <Grid Grid.Row="1" Margin="0,20,0,0">
+                    <muxc:TreeView ItemsSource="{Binding FinancialExchangeItems}"
+                                   ItemTemplateSelector="{StaticResource TreeViewItemsDataTemplateSelector}">
+                        <muxc:TreeView.ItemContainerStyle>
+                            <Style TargetType="muxc:TreeViewItem">
+                                <Setter Property="GlyphBrush" Value="Orange"/>
+                            </Style>
+                        </muxc:TreeView.ItemContainerStyle>
+                    </muxc:TreeView>
+                </Grid>
+                
+            </Grid>
+        </StackPanel>
+        
+        
+
+    </Grid>
+</Page>

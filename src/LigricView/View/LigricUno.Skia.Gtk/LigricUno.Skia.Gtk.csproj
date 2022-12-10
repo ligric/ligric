@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+    <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup Condition="exists('..\LigricUno.UWP')">
+    <EmbeddedResource Include="..\LigricUno.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+    <Content Include="..\LigricUno.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\LigricUno.Shared\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.1.22076.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0-preview.1.22076.8" />
+    <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.2.6" />
+    <PackageReference Include="Uno.UI.RemoteControl" Version="4.2.6" Condition="'$(Configuration)'=='Debug'" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
+    <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj" />
+    <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
+  </ItemGroup>
+  <Import Project="..\LigricUno.Shared\LigricUno.Shared.projitems" Label="Shared" />
+</Project>

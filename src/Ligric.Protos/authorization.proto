@@ -1,0 +1,45 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+
+option csharp_namespace = "Ligric.Protos";
+
+package Ligric.Protos;
+
+service Authorization {
+	rpc SignIn(SignInRequest) returns (SignInResponse);
+	rpc SignUp(SignUpRequest) returns (SignUpResponse);
+
+	rpc IsLoginUnique(CheckExistsRequest) returns (CheckExistsResponse);
+}
+
+message SignInRequest {
+	string login = 1;
+	string password = 2; 
+}
+
+message SignInResponse {
+	string userId = 1;
+	JwtToken jwtToken = 2;
+	ResponseResult result = 3;
+}
+
+message SignUpRequest {
+	string login = 1;
+	string password = 2;
+}
+
+message SignUpResponse {
+	string userId = 1;
+	JwtToken jwtToken = 2;
+	ResponseResult result = 3;
+}
+
+message CheckExistsRequest {
+	string Value = 1;
+}
+
+message CheckExistsResponse {
+	bool isUnique = 1;
+	ResponseResult result = 2;
+}

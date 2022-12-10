@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Ligric.UI.Uno.Windows": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
