@@ -1,7 +1,7 @@
 ﻿using Ligric.Application.Configuration.Commands;
 using Ligric.Application.Providers.Security;
 using Ligric.Application.Users.LoginCustomer;
-using Ligric.Common.Types;
+using Ligric.Common.Types.User;
 using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Domain.TypeExtensions;
 using System;

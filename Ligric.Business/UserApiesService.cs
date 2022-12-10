@@ -2,7 +2,7 @@
 using Common.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
-using Ligric.Common.Types;
+using Ligric.Common.Types.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;

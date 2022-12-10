@@ -11,8 +11,8 @@ using MediatR;
 using Ligric.Application.Users.CheckUserExists;
 using Google.Protobuf.WellKnownTypes;
 using Ligric.Application.Users.LoginCustomer;
-using Ligric.Common.Types;
 using Ligric.GrpcServer.Services.LocalTemporary;
+using Ligric.Common.Types.User;
 
 namespace Ligric.GrpcServer.Services;
 

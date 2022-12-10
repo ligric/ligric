@@ -1,4 +1,4 @@
-﻿using Ligric.Common.Types;
+﻿using Ligric.Common.Types.User;
 
 namespace Ligric.Server.Domain.Entities.Users
 {

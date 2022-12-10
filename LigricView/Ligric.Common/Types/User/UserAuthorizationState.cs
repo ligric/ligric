@@ -1,4 +1,4 @@
-﻿namespace Ligric.Common.Types
+﻿namespace Ligric.Common.Types.User
 {
     public enum UserAuthorizationState
     {

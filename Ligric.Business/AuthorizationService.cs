@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Ligric.Protos;
 using Grpc.Net.Client;
 using Ligric.Common.Abstractions;
-using Ligric.Common.Types;
 using Utils.Cryptography;
 using static Ligric.Protos.Authorization;
+using Ligric.Common.Types.User;
 
 namespace Ligric.Business
 {

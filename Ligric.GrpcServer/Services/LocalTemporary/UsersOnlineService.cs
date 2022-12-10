@@ -1,4 +1,5 @@
 ﻿using Ligric.Common.Types;
+using Ligric.Common.Types.User;
 using System.Reactive.Linq;
 
 namespace Ligric.GrpcServer.Services.LocalTemporary
