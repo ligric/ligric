@@ -12,6 +12,7 @@ using System.Text;
 using Ligric.GrpcServer.Services;
 using System.Reflection;
 using MediatR;
+using Ligric.GrpcServer.Services.LocalTemporary;
 
 namespace Ligric.GrpcServer
 {
@@ -48,6 +49,9 @@ namespace Ligric.GrpcServer
             services.AddControllers();
 
             services.AddMemoryCache();
+
+            services.AddSingleton<UsersOnlineService>();
+            services.AddSingleton<UserapiesLocalService>();
 
 
 
@@ -96,6 +100,7 @@ namespace Ligric.GrpcServer
                 endpoints.MapControllers();
 
                 endpoints.MapGrpcService<AuthorizationService>().EnableGrpcWeb();
+                endpoints.MapGrpcService<UserApiesService>().EnableGrpcWeb();
 
                 endpoints.MapGet("/", async context =>
                 {

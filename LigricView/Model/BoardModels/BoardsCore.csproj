@@ -22,10 +22,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
-    <ProjectReference Include="..\..\..\LigricCore\DataProviders\Repositories\BoardRepositories\BoardRepositories.csproj" />
-    <ProjectReference Include="..\..\BoardsCommon\BoardsCommon.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Abstractions\BoardsAbstractions\Interfaces\" />
     <Folder Include="Notifications\EventArgs\" />
   </ItemGroup>
 </Project>

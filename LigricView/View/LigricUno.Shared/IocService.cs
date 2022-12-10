@@ -1,7 +1,4 @@
-﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
-using BoardsCore;
-using Microsoft.Extensions.DependencyInjection;
-using BoardsCore.Boards;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace LigricUno
 {
@@ -13,10 +10,10 @@ namespace LigricUno
 
         public static void Initialize()
         {
-            _serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .AddSingleton<IBoardsService, BoardsService>()
-                .BuildServiceProvider();
+            //_serviceProvider = new ServiceCollection()
+            //    .AddLogging()
+            //    .AddSingleton<IBoardsRepository, BoardsRespository>()
+            //    .BuildServiceProvider();
         }
     }
 }

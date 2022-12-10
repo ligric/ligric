@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 	  <None Remove="common.proto" />
+	  <None Remove="userApies.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -19,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="userApies.proto" />
 		<Protobuf Include="common.proto" />
 		<Protobuf Include="authorization.proto" />
 	</ItemGroup>

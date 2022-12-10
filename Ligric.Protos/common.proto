@@ -16,3 +16,10 @@ message JwtToken {
 	string Token = 1;
     google.protobuf.Timestamp Expiration = 2;
 }
+
+enum Action
+{
+	ADDED = 0;
+	REMOVED = 1;
+	CHANGED = 2;
+}

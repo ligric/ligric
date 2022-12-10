@@ -1,202 +1,224 @@
-﻿using BoardsCommon.Enums;
-using BoardsCore.Abstractions.BoardAbstractions.Absctacts;
-using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
-using BoardsCore.BitZlato;
-using BoardsCore.BitZlato.Entities;
-using BoardsCore.CommonTypes.Entities;
+﻿using Binance.Net.Enums;
+using Binance.Net.Ligric.Business;
 using Common.Enums;
-using Common.EventArgs;
+using Ligric.Common.Types;
 using LigricMvvmToolkit.BaseMvvm;
-using LigricMvvmToolkit.RelayCommand;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Storage;
 using Windows.UI.Core;
 
 namespace LigricUno.Views.Pages.Board
 {
-    public class AdViewModel : DispatchedBindableBase
+
+    public class OrderViewModel : DispatchedBindableBase
     {
-        private long _id = 0;
-        private string _trader, _paymentMethod, _rate, _limit;
+        private string _symbol, _side, _quantity, _price, _order, _value;
 
-        public long Id { get => _id; private set => SetProperty(ref _id, value); }
-        public string Trader { get => _trader; set => SetProperty(ref _trader, value); }
-        public string PaymentMethod { get => _paymentMethod; set => SetProperty(ref _paymentMethod, value); }
-        public string Rate { get => _rate; set => SetProperty(ref _rate, value); }
-        public string Limit { get => _limit; set => SetProperty(ref _limit, value); }
-
-        public AdViewModel(long id, string trader, string paymentMethod, string rate, string limit)
+        public OrderViewModel(string clientOrderId)
         {
-            Id = id; Trader = trader; PaymentMethod = paymentMethod; Rate = rate; Limit = limit;
+            ClientOrderId = clientOrderId;
         }
+
+        public string ClientOrderId { get; }
+
+        public string Symbol { get => _symbol; set => SetProperty(ref _symbol, value); }
+        public string Side { get => _side; set => SetProperty(ref _side, value); }
+        public string Quantity { get => _quantity; set => SetProperty(ref _quantity, value); }
+        public string Price { get => _price; set => SetProperty(ref _price, value); }
+        public string Order { get => _order; set => SetProperty(ref _order, value); }
+        public string Value { get => _value; set => SetProperty(ref _value, value); }
     }
 
-    public class BoardEntityViewModel : DispatchedBindableBase
+    public class PositionViewModel : DispatchedBindableBase
     {
-        public ObservableCollection<AdViewModel> Ads { get; } = new ObservableCollection<AdViewModel>();
+        private string _symbol, _side, _quantity, _openPrice, _currentPrice, _pnL, _pnLPercent;
+
+        public string Symbol { get => _symbol; set => SetProperty(ref _symbol, value); }
+        public string Side { get => _side; set => SetProperty(ref _side, value); }
+        public string Quantity { get => _quantity; set => SetProperty(ref _quantity, value); }
+        public string OpenPrice { get => _openPrice; set => SetProperty(ref _openPrice, value); }
+        public string CurrentPrice { get => _currentPrice; set => SetProperty(ref _currentPrice, value); }
+        public string PnL { get => _pnL; set => SetProperty(ref _pnL, value); }
+        public string PnLPercent { get => _pnLPercent; set => SetProperty(ref _pnLPercent, value); }
+    }
+
+    public class FutureEntityViewModel : DispatchedBindableBase
+    {
+        //public ObservableCollection<AdViewModel> Orders { get; } = new ObservableCollection<AdViewModel>();
 
         #region Private fields
-        private long _id;
-        private string _title;
+        private double _positionX, _positionY;
+        private decimal _price;
+
+        private string _symbol;
         private Point _position;
         #endregion
 
+        public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
+        public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
+
+        public FutureEntityViewModel(string symbol, double positionX = 0, double positionY = 0)
+        {
+            Symbol = symbol ?? "Uknown"; PositionX = positionX; PositionY = positionY;
+        }
+
         #region Properties
-        public long Id { get => _id; private set => SetProperty(ref _id, value); }
-        public string Title { get => _title; set => SetProperty(ref _title, value); }
+        public string Symbol { get => _symbol; set => SetProperty(ref _symbol, value); }
+        public decimal Price { get => _price; set => SetProperty(ref _price, value); }
         public Point Position { get => _position; set => SetProperty(ref _position, value); }
-
-
-        #region Test position
-        private double _positionX, _positionY;
-
-
         public double PositionX { get => _positionX; set => SetProperty(ref _positionX, value); }
         public double PositionY { get => _positionY; set => SetProperty(ref _positionY, value); }
 
-
         #endregion
-
-        #endregion
-
-        #region Commands
-        private RelayCommand<Point> _savePositionCommand;
-        public RelayCommand<Point> SavePositionCommand => _savePositionCommand ?? (_savePositionCommand = new RelayCommand<Point>(async (e) => await OnSavePositionExecuteAsync(e)));
-
-        private RelayCommand<bool> _menuOptionSwitchCommand;
-        public RelayCommand<bool> MenuOptionSwitchCommand => _menuOptionSwitchCommand ?? (_menuOptionSwitchCommand = new RelayCommand<bool>(OnMenuOptionSwitchExecuteAsync));
-
-        private void OnMenuOptionSwitchExecuteAsync(bool e)
-        {
-
-        }
-
-        private async Task OnSavePositionExecuteAsync(Point parameter)
-        {
-            var localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var folder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
-            File.WriteAllText(Path.Combine(folder.Path, "Settings.txt"), $"Board:{Id}\nX:{parameter.X}\nY:{parameter.Y}");
-        }
-        #endregion
-
-        public BoardEntityViewModel(long id, string titel, double positionX = 0, double positionY = 0)
-        {
-            Id = id; Title = titel ?? "Uknown"; ; PositionX = positionX; PositionY = positionY;
-        }
-    }
-
-    public class BitzlatoAdBoardViewModel : BoardEntityViewModel
-    {
-        #region IBitZlatoRequestsService initialization
-        private static string apiKey = "{" +
-                        "\"kty\":\"EC\"," +
-                        "\"alg\":\"ES256\"," +
-                        "\"crv\":\"P-256\"," +
-                        "\"x\":\"WnVJnRzpTUo0mYEdkiDSuyGqfDZtBVLepkzqHk7O8SE\"," +
-                        "\"y\":\"J9P-SkGy4qyyL6f-T9KHtJzwiTASHcxAxmwtWiUVF1Q\"," +
-                        "\"d\":\"1xF-MartEnw4cAQB3eJC-Eg5YwThMemMx96DuHhyGFA\"" +
-                        "}";
-
-        private static string email = "balalay16@gmail.com";
-
-        private static Dictionary<string, string> filters = new Dictionary<string, string>()
-        {
-            { "limit", "10" },
-            { "currency", "RUB" },
-            { "type", "purchase" },
-            { "cryptocurrency", "BTC" }
-        };
-        #endregion
-
-        private readonly AbstractBoardWithTimerNotifications<long, BitZlatoAdDto> model;
-        public BitzlatoAdBoardViewModel(long id, string name, double positionX = 0, double positionY = 0) :
-            base(id, name, positionX, positionY)
-        {
-            model = new BitZlatoBoardWithTimer(name, apiKey, email, TimeSpan.FromSeconds(5), filters, StateEnum.Active);
-
-            foreach (var newValue in model.Ads.Values)
-            {
-                Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
-            }
-            model.AdsChanged += OnAdsChanged;
-        }
-
-        private async void OnAdsChanged(object sender, NotifyDictionaryChangedEventArgs<long, BitZlatoAdDto> e)
-        {
-            var newValue = e.NewValue;
-            var oldValue = e.OldValue;
-
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                switch (e.Action)
-                {
-                    case NotifyDictionaryChangedAction.Added:
-                        Ads.Add(new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString()));
-
-                        break;
-                    case NotifyDictionaryChangedAction.Changed:
-                        var index = Ads.IndexOf(Ads.FirstOrDefault(x => x.Id == newValue.Id));
-                        Ads[index] = new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString());
-                        break;
-                    case NotifyDictionaryChangedAction.Removed:
-                        Ads.Remove(Ads.FirstOrDefault(x => x.Id == newValue.Id));
-                        break;
-                    case NotifyDictionaryChangedAction.Cleared:
-                        Ads.Clear();
-                        break;
-                    case NotifyDictionaryChangedAction.Initialized:
-                        Ads.Clear();
-
-                        foreach (var item in e.NewDictionary.Values.Select(x => new AdViewModel(newValue.Id, newValue.Trader.Name, newValue.Paymethod.Name, newValue.LimitCurrencyRight.From + " - " + newValue.LimitCurrencyRight.To, newValue.Rate.Value.ToString())))
-                        {
-                            Ads.Add(item);
-                        }
-                        break;
-                }
-            });
-        }
     }
 
     public class BoardsViewModel : DispatchedBindableBase
     {
-        private readonly IBoardsService _boardService;
-
-        public ObservableCollection<BoardEntityViewModel> CurrentEntities { get; } = new ObservableCollection<BoardEntityViewModel>();
-
-        public BoardsViewModel(IBoardsService boardsService)
+        public BoardsViewModel(ApiDto api)
         {
-            _boardService = boardsService;
-            _boardService.CurrentBoardChanged += OnCurrentBoardChanged;
+            Class1 class1 = new Class1(
+                "c58577a8b8d83617fb678838fa8e43c83e53384e88fef416c81658e51c6c48f3",
+                "651096d67c3d1a080daf6d26a37ad545864d312b7a6b24d5f654d4f26a1a7ddc");
+
+            class1.OrderChanged += OnOrderChanged1;
+
+            class1.PriceChanged += OnPriceChanged;
+
+            class1.PositionChanged += OnPositionChanged;
         }
 
-        private void OnCurrentBoardChanged(object sender, BoardsCore.Board.BoardService oldElement, BoardsCore.Board.BoardService newElement)
+        private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
         {
-            CurrentEntities.Clear();
+            var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
 
-            if (oldElement != null)
+            if (e.Action == ActionCollectionEnum.Added)
             {
-                oldElement.EntitiesChanged -= OnEntitiesChanged;
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    entity.Positions.Add(new PositionViewModel
+                    {
+                        Symbol = e.Position.Symbol,
+                        CurrentPrice = e.Position.CurrentPrice,
+                        OpenPrice = e.Position.OpenPrice,
+                        PnL = e.Position.PnL,
+                        PnLPercent = e.Position.PnLPercent,
+                        Quantity = e.Position.Quantity,
+                        Side = e.Position.Side
+                    });
+                });
             }
-
-            newElement.EntitiesChanged += OnEntitiesChanged;
-
-            foreach (var item in newElement.Entities)
+            else
             {
-                CurrentEntities.Add(new BoardEntityViewModel(item.Key, "Hello World!"));
+                var removePosition = entity.Positions.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol) && string.Equals(x.Side, e.Position.Side));
+                if (removePosition != null)
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        entity.Positions.Remove(removePosition);
+                    });
+                }
             }
         }
 
-        private void OnEntitiesChanged(object sender, NotifyDictionaryChangedEventArgs<long, BoardsCore.CommonTypes.Entities.Board.BoardEntityConteinerDto> e)
+        public ObservableCollection<FutureEntityViewModel> CurrentEntities { get; } = new ObservableCollection<FutureEntityViewModel>();
+
+        private void OnPriceChanged(object sender, (string Symbol, decimal Price) e)
         {
-            var third = new BitzlatoAdBoardViewModel(1, "Popular BitZlato", 190, 120);
-            CurrentEntities.Add(third);
+            var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Symbol));
+
+            if (entity != null)
+            {
+                entity.Price = e.Price;
+            }
+        }
+
+        private async void OnOrderChanged1(object sender, (BinanceFuturesOrderDto Order, ActionCollectionEnum Action) e)
+        {
+            var order = e.Order;
+            WriteToDebug(order);
+
+            var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
+
+            if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
+            {
+                OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
+                if (removeOrder != null)
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        entity.Orders.Remove(removeOrder);
+                    });
+                }
+                return;
+            }
+
+            var newOrder = new OrderViewModel(order.ClientOrderId)
+            {
+                Value = "Uknown",
+                Side = order.Side.ToString(),
+                Quantity = order.Quantity.ToString(),
+                Price = order.Price.ToString(),
+                Symbol = order.Symbol,
+                Order = "Uknown"
+            };
+
+            if (entity == null && order.Status == OrderStatus.New)
+            {
+                var newFutureEntiry = new FutureEntityViewModel(order.Symbol)
+                {
+                    PositionX = 100,
+                    PositionY = 100
+                };
+
+                newFutureEntiry.Orders.Add(newOrder);
+
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    CurrentEntities.Add(newFutureEntiry);
+                });
+            }
+
+            if (entity != null && order.Status == OrderStatus.New)
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    entity.Orders.Add(newOrder);
+                });
+            }
+        }
+
+        private void WriteToDebug(BinanceFuturesOrderDto dto)
+        {
+            Debug.WriteLine(
+                $"{nameof(dto.Pair)} {dto.Pair}\n" +
+                $"{nameof(dto.Side)} {dto.Side}\n" +
+                $"{nameof(dto.Status)} {dto.Status}\n" +
+                $"{nameof(dto.Quantity)} {dto.Quantity}\n" +
+                $"{nameof(dto.Symbol)} {dto.Symbol}\n" +
+                $"{nameof(dto.Id)} {dto.Id}\n" +
+                $"{nameof(dto.ClientOrderId)} {dto.ClientOrderId}" +
+                $"\n {nameof(dto.AvgPrice)} {dto.AvgPrice} " +
+                $"\n {nameof(dto.QuantityFilled)} {dto.QuantityFilled} " +
+                $"\n {nameof(dto.QuoteQuantityFilled)} {dto.QuoteQuantityFilled}" +
+                $"\n {nameof(dto.BaseQuantityFilled)} {dto.BaseQuantityFilled}" +
+                $"\n {nameof(dto.LastFilledQuantity)} {dto.LastFilledQuantity}" +
+                $"\n {nameof(dto.ReduceOnly)} {dto.ReduceOnly}" +
+                $"\n {nameof(dto.ClosePosition)} {dto.ClosePosition}" +
+                $"\n {nameof(dto.StopPrice)} {dto.StopPrice}" +
+                $"\n {nameof(dto.TimeInForce)} {dto.TimeInForce}" +
+                $"\n {nameof(dto.OriginalType)} {dto.OriginalType}" +
+                $"\n {nameof(dto.Type)} {dto.Type}" +
+                $"\n {nameof(dto.CallbackRate)} {dto.CallbackRate}" +
+                $"\n {nameof(dto.ActivatePrice)} {dto.ActivatePrice}" +
+                $"\n {nameof(dto.UpdateTime)} {dto.UpdateTime}" +
+                $"\n {nameof(dto.CreateTime)} {dto.CreateTime}" +
+                $"\n {nameof(dto.WorkingType)} {dto.WorkingType}" +
+                $"\n {nameof(dto.PositionSide)} {dto.PositionSide}" +
+                $"\n {nameof(dto.PriceProtect)} {dto.PriceProtect}");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using BoardsCore.Abstractions.BoardsAbstractions.Interfaces;
-using LigricMvvmToolkit.Navigation;
+﻿using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Board;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Messages;
@@ -135,23 +134,14 @@ namespace LigricUno
 
             IocService.Initialize();
 
-            var boardsService = IocService.ServiceProvider.GetService<IBoardsService>();
 
             var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
 
-            PrerenderPages(boardsService);
 
             Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
-            Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel(boardsService));
+            Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
         }
 
-        private void PrerenderPages(IBoardsService boardsService)
-        {
-            Navigation.PrerenderPage(new SettingsPage(), nameof(SettingsPage), new SettingsViewModel());
-            //Navigation.PrerenderPage(new ProfilePage(), nameof(ProfilePage), new ProfilePageViewModel());
-            //Navigation.PrerenderPage(new MessagesPage(), nameof(MessagesPage), new MessagesViewModel());
-            Navigation.PrerenderPage(new BoardPage(), nameof(BoardPage), new BoardsViewModel(boardsService));
-        }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

@@ -1,0 +1,36 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Ligric.Protos";
+
+package Ligric.Protos;
+
+service UserApies {
+	rpc Save(SaveApiRequest) returns (SaveApiResponse);
+    rpc ApiesSubscribe(google.protobuf.Empty) returns (stream ApiesChanged);
+}
+
+message Api {
+	string id = 1;
+	string name = 2;
+	string publicKey = 3;
+	string privateKey = 4; 
+}
+
+message SaveApiRequest {
+	string name = 1;
+	string publicKey = 2;
+	string privateKey = 3; 
+}
+
+message SaveApiResponse {
+	string apiId = 1;
+	ResponseResult result = 2;
+}
+
+message ApiesChanged {
+	Api api = 1;
+	Action action = 2;
+}

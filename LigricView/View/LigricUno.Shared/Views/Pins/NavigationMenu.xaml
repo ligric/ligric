@@ -15,7 +15,7 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <boardCommonEnums:BoardEntityType x:Key="BoardAdEntityType">Ad</boardCommonEnums:BoardEntityType>
+            <!--<boardCommonEnums:BoardEntityType x:Key="BoardAdEntityType">Ad</boardCommonEnums:BoardEntityType>-->
             <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
 
 
@@ -72,7 +72,7 @@
                                                              Settings="{StaticResource SettingsItemTemplate}"
                                                              Messages="{StaticResource MessagesItemTemplate}"/>
 
-            <DataTemplate x:Key="BoardSettingsItemTemplate" x:DataType="sys:String">
+            <!--<DataTemplate x:Key="BoardSettingsItemTemplate" x:DataType="sys:String">
                 <menus:SuctionCup x:Name="keklol" data:RelativeSourceBinding.AncestorType="UserControl" Background="Transparent" Padding="0" Margin="0"
                                   Width="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateWidth, RelativeSource={RelativeSource Self}}" 
                                   Height="{Binding Path=(data:RelativeSourceBinding.Ancestor).HeaderData.ElementsTemplateHeight, RelativeSource={RelativeSource Self}}">
@@ -108,7 +108,7 @@
             </DataTemplate>
 
             <local:NavigationHeaderOptionItemDataTemplateSelector x:Key="NavigationHeaderOptionItemDataTemplateSelector"
-                                                                  BoardSettings="{StaticResource BoardSettingsItemTemplate}"/>
+                                                                  BoardSettings="{StaticResource BoardSettingsItemTemplate}"/>-->
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -131,13 +131,13 @@
                         <Setter Target="HeaderMainItemsConteiner.(Grid.Column)" Value="0"/>
                         <Setter Target="HeaderMainItemsConteiner.(Grid.Row)" Value="0"/>
 
-                        <Setter Target="HeaderOptionItemsConteiner.(Grid.Column)" Value="1"/>
+                        <!--<Setter Target="HeaderOptionItemsConteiner.(Grid.Column)" Value="1"/>
                         <Setter Target="HeaderOptionItemsConteiner.(Grid.Row)" Value="0"/>
 
-                        <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,50,0"/>
+                        <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,50,0"/>-->
 
                         <Setter Target="HeaderStackLayout.Orientation" Value="Horizontal"/>
-                        <Setter Target="HeaderOptionStackLayout.Orientation" Value="Horizontal"/>
+                        <!--<Setter Target="HeaderOptionStackLayout.Orientation" Value="Horizontal"/>-->
                     </VisualState.Setters>
                 </VisualState>
 
@@ -156,13 +156,13 @@
                         <Setter Target="HeaderMainItemsConteiner.(Grid.Column)" Value="0"/>
                         <Setter Target="HeaderMainItemsConteiner.(Grid.Row)" Value="0"/>
 
-                        <Setter Target="HeaderOptionItemsConteiner.(Grid.Column)" Value="0"/>
+                        <!--<Setter Target="HeaderOptionItemsConteiner.(Grid.Column)" Value="0"/>
                         <Setter Target="HeaderOptionItemsConteiner.(Grid.Row)" Value="1"/>
 
-                        <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,0,50"/>
+                        <Setter Target="HeaderOptionItemsConteiner.Margin" Value="0,0,0,50"/>-->
 
                         <Setter Target="HeaderStackLayout.Orientation" Value="Vertical"/>
-                        <Setter Target="HeaderOptionStackLayout.Orientation" Value="Vertical"/>
+                        <!--<Setter Target="HeaderOptionStackLayout.Orientation" Value="Vertical"/>-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -195,14 +195,14 @@
                     </Grid>
 
 
-                    <Grid x:Name="HeaderOptionItemsConteiner" Grid.Column="1" Grid.Row="0" Margin="0,0,50,0">
+                    <!--<Grid x:Name="HeaderOptionItemsConteiner" Grid.Column="1" Grid.Row="0" Margin="0,0,50,0">
                         <controls:ItemsRepeater ItemsSource="{Binding HeaderOptionItems}"
                                                 ItemTemplate="{StaticResource NavigationHeaderOptionItemDataTemplateSelector}">
                             <controls:ItemsRepeater.Layout>
                                 <controls:StackLayout x:Name="HeaderOptionStackLayout" Orientation="Horizontal" Spacing="10"/>
                             </controls:ItemsRepeater.Layout>
                         </controls:ItemsRepeater>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
             </menus:SnakeMenu.Header>
 

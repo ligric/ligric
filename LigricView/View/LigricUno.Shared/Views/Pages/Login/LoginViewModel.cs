@@ -13,28 +13,34 @@ namespace LigricUno.Views.Pages.Login
 {
     public class LoginViewModel : DispatchedBindableBase
     {
-        private readonly IAuthorizationService _authorizationService;
+        public static readonly IAuthorizationService _authorizationService;
+        public static readonly IMetadataRepository _metadataRepository;
 
         private string _login, _password;
 
         public string Login { get => _login; set => SetProperty(ref _login, value); }
         public string Password { get => _password; set => SetProperty(ref _password, value); }
 
-        public LoginViewModel()
+        static LoginViewModel()
         {
             GrpcChannel grpcChannel = GrpcChannelHalper.GetGrpcChannel();
-            var metadataRepos = new MetadataRepository();
+            _metadataRepository = new MetadataRepository();
 
-            _authorizationService = new AuthorizationService(grpcChannel, metadataRepos);
+            _authorizationService = new AuthorizationService(grpcChannel, _metadataRepository);
             _authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
         }
 
-        private void OnAuthorizationStateChanged(object sender, Ligric.Common.Types.UserAuthorizationState e)
+        public LoginViewModel()
+        {
+          
+        }
+
+        private static void OnAuthorizationStateChanged(object sender, Ligric.Common.Types.UserAuthorizationState e)
         {
             switch(e)
             {
                 case UserAuthorizationState.Connected:
-                    Navigation.GoTo(nameof(BoardPage));
+                    Navigation.GoTo(new BoardPage(), nameof(BoardPage));
                     break;
             }
         }

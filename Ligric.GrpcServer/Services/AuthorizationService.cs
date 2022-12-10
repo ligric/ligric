@@ -12,6 +12,7 @@ using Ligric.Application.Users.CheckUserExists;
 using Google.Protobuf.WellKnownTypes;
 using Ligric.Application.Users.LoginCustomer;
 using Ligric.Common.Types;
+using Ligric.GrpcServer.Services.LocalTemporary;
 
 namespace Ligric.GrpcServer.Services;
 
@@ -20,12 +21,13 @@ public class AuthorizationService : Authorization.AuthorizationBase
 {
     private readonly IMediator _mediator;
     private readonly IConfiguration _configuration;
-    //private readonly ILogger<AuthorizationService> _logger;
+    private readonly UsersOnlineService _online;
 
-    public AuthorizationService(IMediator mediator, IConfiguration configuration/*, ILogger<AuthorizationService> logger*/)
+    public AuthorizationService(IMediator mediator, IConfiguration configuration, UsersOnlineService online)
     {
         _mediator = mediator;
         _configuration = configuration;
+        _online = online;
     }
 
     [AllowAnonymous]
@@ -59,6 +61,8 @@ public class AuthorizationService : Authorization.AuthorizationBase
                 Expiration = Timestamp.FromDateTime(token.Expiration)
             }
         };
+
+        _online.AddUserOnline(user);
         return result;
     }
 

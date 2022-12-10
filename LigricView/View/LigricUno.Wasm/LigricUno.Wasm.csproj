@@ -52,7 +52,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\LigricCore\Common\Common.csproj" />
     <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj" />
-    <ProjectReference Include="..\..\Model\BoardModels\BoardsCore.csproj" />
     <ProjectReference Include="..\..\Toolkit\CheburchayNavigation\Uno.CheburchayNavigation\Uno.CheburchayNavigation.csproj" />
     <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj" />
   </ItemGroup>

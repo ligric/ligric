@@ -11,7 +11,6 @@ namespace Ligric.Infrastructure.Domain.Users
         public UserRepository(DataProvider dataProvider)
             : base(dataProvider)
         {
-
         }
 
         public UserDto Get(long? id)
@@ -29,7 +28,6 @@ namespace Ligric.Infrastructure.Domain.Users
             var user = DataProvider.QueryOver<UserEntity>()
              .WhereRestrictionOn(x => x.UserName).IsInsensitiveLike(username, MatchMode.Exact)
              .SingleOrDefault();
-
             return user;
         }
 
