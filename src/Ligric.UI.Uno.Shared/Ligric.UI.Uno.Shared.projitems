@@ -41,8 +41,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Assets\" />
     <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-Bold.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-BoldItalic.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-Italic.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-Light.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-LightItalic.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-regular.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
   </ItemGroup>
   <Import Project="Ligric.UI.Uno.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
