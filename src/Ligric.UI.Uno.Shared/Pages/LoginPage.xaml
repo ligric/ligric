@@ -19,8 +19,6 @@
                        HorizontalTextAlignment="Right"/>
         </StackPanel>
 
-
-        <!--attached:ElementStartupFocus.StartupFocus="False"-->
         <!-- Login Content -->
         <Grid Grid.Row="1" HorizontalAlignment="Center" MinWidth="400" MinHeight="350">
             <Grid.RowDefinitions>
