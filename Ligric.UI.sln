@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Wasm", "src\L
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ligric.UI.Uno.Shared", "src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.UI.Uno.Toolkit", "src\Ligric.UI.Uno.Toolkit\Ligric.UI.Uno.Toolkit.csproj", "{A7260CA3-A4FB-4060-BB9B-002AA320DEA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Toolkit", "src\Ligric.UI.Uno.Toolkit\Ligric.UI.Uno.Toolkit.csproj", "{A7260CA3-A4FB-4060-BB9B-002AA320DEA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.UI.Uno.ViewModels", "src\Ligric.UI.Uno.ViewModels\Ligric.UI.Uno.ViewModels.csproj", "{25E76213-CBF6-4126-98DF-088CBB963297}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,6 +155,22 @@ Global
 		{A7260CA3-A4FB-4060-BB9B-002AA320DEA8}.Release|x64.Build.0 = Release|Any CPU
 		{A7260CA3-A4FB-4060-BB9B-002AA320DEA8}.Release|x86.ActiveCfg = Release|Any CPU
 		{A7260CA3-A4FB-4060-BB9B-002AA320DEA8}.Release|x86.Build.0 = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|arm64.Build.0 = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|x64.Build.0 = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Debug|x86.Build.0 = Debug|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|arm64.ActiveCfg = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|arm64.Build.0 = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|x64.ActiveCfg = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|x64.Build.0 = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|x86.ActiveCfg = Release|Any CPU
+		{25E76213-CBF6-4126-98DF-088CBB963297}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
