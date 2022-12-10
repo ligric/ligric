@@ -1,9 +1,10 @@
 ﻿<Page x:Class="LigricUno.Views.Pages.Futures.FuturesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
       xmlns:local="using:LigricUno.Views.Pages.Futures"
+      xmlns:typesApi="using:Ligric.Common.Types.Api"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
       xmlns:wuxc="using:Windows.UI.Xaml.Controls"
       
-      d:Height="1334" d:Width="750"      
+      d:Height="1334" d:Width="1334"      
       d:DataContext="{d:DesignInstance local:FuturesViewModel, IsDesignTimeCreatable=True}">
 
     <Grid>
@@ -16,6 +17,53 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="2" Margin="20" CornerRadius="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Background="White">
+                <ScrollViewer Grid.Column="1" Grid.Row="0" 
+                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <controls:ItemsRepeater ItemsSource="{Binding Apies}" Margin="10">
+                        <controls:ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="20" Background="#2c2c2c" Padding="20" Width="40" Height="40"
+                                        HorizontalAlignment="Center">
+                                    <TextBlock Foreground="White" Text="{Binding Name}"/>
+                                </Border>
+                            </DataTemplate>
+                        </controls:ItemsRepeater.ItemTemplate>
+                        <controls:ItemsRepeater.Layout>
+                            <controls:StackLayout Orientation="Vertical" Spacing="10"/>
+                        </controls:ItemsRepeater.Layout>
+                    </controls:ItemsRepeater>
+                </ScrollViewer>
+
+            </Border>
+
+            <!-- 302c4f --><!--
+            <ToggleButton x:Name="addNewBoard" Content="Add" Height="40" Margin="20,30" 
+                          CornerRadius="10" Background="#2c2c2c" Foreground="White"
+                          VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+
+            <Popup IsLightDismissEnabled="True" 
+                   IsOpen="{Binding ElementName=addNewBoard, Path=IsChecked, Mode=TwoWay}">
+
+                <StackPanel Height="200" Width="200" CornerRadius="20" Background="#7160e8" Padding="20" Spacing="5">
+                    <TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name"/>
+                    <TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key"/>
+                    <TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key"/>
+                  
+                    <Button Width="160" Height="35" Content="Add" Command="{Binding AddNewApiCommand}"/>
+                </StackPanel>
+            </Popup>-->
+
+
+            
+        </Grid>
         
         <ScrollViewer Grid.Column="1" Grid.Row="0" 
                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

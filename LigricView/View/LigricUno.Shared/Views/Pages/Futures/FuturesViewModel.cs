@@ -1,15 +1,13 @@
-﻿using Binance.Net.Enums;
-using Binance.Net.Ligric.Business;
+﻿using Binance.Net.Ligric.Business;
 using Common.Enums;
+using Ligric.Common.Abstractions;
 using Ligric.Common.Abstractions.Futures;
 using LigricMvvmToolkit.BaseMvvm;
+using LigricMvvmToolkit.RelayCommand;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.UI.Core;
+using System.Threading.Tasks;
 
 namespace LigricUno.Views.Pages.Futures
 {
@@ -45,154 +43,167 @@ namespace LigricUno.Views.Pages.Futures
         public string PnLPercent { get => _pnLPercent; set => SetProperty(ref _pnLPercent, value); }
     }
 
-    public class FutureEntityViewModel : DispatchedBindableBase
+    public class ApiKeyViewModel : DispatchedBindableBase
     {
-        //public ObservableCollection<AdViewModel> Orders { get; } = new ObservableCollection<AdViewModel>();
+        private string _name, _publicKey, _privateKey;
 
-        #region Private fields
-        private double _positionX, _positionY;
-        private decimal _price;
-
-        private string _symbol;
-        private Point _position;
-        #endregion
-
-        public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
-        public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
-
-        public FutureEntityViewModel(string symbol, double positionX = 0, double positionY = 0)
-        {
-            Symbol = symbol ?? "Uknown"; PositionX = positionX; PositionY = positionY;
-        }
-
-        #region Properties
-        public string Symbol { get => _symbol; set => SetProperty(ref _symbol, value); }
-        public decimal Price { get => _price; set => SetProperty(ref _price, value); }
-        public Point Position { get => _position; set => SetProperty(ref _position, value); }
-        public double PositionX { get => _positionX; set => SetProperty(ref _positionX, value); }
-        public double PositionY { get => _positionY; set => SetProperty(ref _positionY, value); }
-
-        #endregion
+        public string Name { get => _name; set => SetProperty(ref _name, value); }
+        public string PublicKey { get => _publicKey; set => SetProperty(ref _publicKey, value); }
+        public string PrivateKey { get => _privateKey; set => SetProperty(ref _privateKey, value); }
     }
 
     public class FuturesViewModel
     {
         private readonly IFuturesProvider _futuresProvider;
+        private readonly IApiesService _apiesService;
+        private RelayCommand _addNewApiCommand;
 
-        public FuturesViewModel(IFuturesProvider futuresProvider)
+        public FuturesViewModel(
+            IFuturesProvider futuresProvider,
+            IApiesService apiesService)
         {
+            _apiesService = apiesService;
             _futuresProvider = futuresProvider;
+
+            _apiesService.ApiesChanged += OnApiesChanged;
             _futuresProvider.PositionsChanged += OnFuturesChanged;
             _futuresProvider.OpenOrdersChanged += OnOpenOrdersChanged;
-            //Class1 class1 = new Class1(
-            //    "c58577a8b8d83617fb678838fa8e43c83e53384e88fef416c81658e51c6c48f3",
-            //    "651096d67c3d1a080daf6d26a37ad545864d312b7a6b24d5f654d4f26a1a7ddc");
 
-            //class1.OrderChanged += OnOrderChanged1;
-
-            //class1.PriceChanged += OnPriceChanged;
-
-            //class1.PositionChanged += OnPositionChanged;
+            AddingApi.PropertyChanged += (s, e) =>
+            {
+                AddNewApiCommand.RaiseCanExecuteChanged();
+            };
         }
 
-        public ObservableCollection<FutureEntityViewModel> CurrentEntities { get; } = new ObservableCollection<FutureEntityViewModel>();
+        public ApiKeyViewModel AddingApi { get; } = new ApiKeyViewModel();
+
+        public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
+
+        public ObservableCollection<OrderViewModel> OpenOrders { get; } = new ObservableCollection<OrderViewModel>();
+
+        public RelayCommand AddNewApiCommand => _addNewApiCommand ?? (
+            _addNewApiCommand = new RelayCommand((async (e) => await OnAddNewApiExecuteAsync(e)), CanAddNewApiExecute));
+
+        private async Task OnAddNewApiExecuteAsync(object parameter)
+        {
+            await _apiesService.SaveApiAsync(
+                new Ligric.Common.Types.Api.ApiDto(
+                    null, 
+                    AddingApi.Name, 
+                    AddingApi.PublicKey, 
+                    AddingApi.PrivateKey)
+                );
+
+            AddingApi.Name = "";
+            AddingApi.PublicKey = "";
+            AddingApi.PrivateKey = "";
+        }
+
+        private void OnApiesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CanAddNewApiExecute(object parameter)
+        {
+            if (string.IsNullOrEmpty(AddingApi?.PublicKey)
+                || string.IsNullOrEmpty(AddingApi?.Name)
+                || string.IsNullOrEmpty(AddingApi?.PrivateKey))
+                return false;
+
+            return true;
+        }
 
         private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
         {
-            var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
+        //    var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
 
-            if (e.Action == ActionCollectionEnum.Added)
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    entity.Positions.Add(new PositionViewModel
-                    {
-                        Symbol = e.Position.Symbol,
-                        CurrentPrice = e.Position.CurrentPrice,
-                        OpenPrice = e.Position.OpenPrice,
-                        PnL = e.Position.PnL,
-                        PnLPercent = e.Position.PnLPercent,
-                        Quantity = e.Position.Quantity,
-                        Side = e.Position.Side
-                    });
-                });
-            }
-            else
-            {
-                var removePosition = entity.Positions.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol) && string.Equals(x.Side, e.Position.Side));
-                if (removePosition != null)
-                {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        entity.Positions.Remove(removePosition);
-                    });
-                }
-            }
+        //    if (e.Action == ActionCollectionEnum.Added)
+        //    {
+        //        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //        {
+        //            entity.Positions.Add(new PositionViewModel
+        //            {
+        //                Symbol = e.Position.Symbol,
+        //                CurrentPrice = e.Position.CurrentPrice,
+        //                OpenPrice = e.Position.OpenPrice,
+        //                PnL = e.Position.PnL,
+        //                PnLPercent = e.Position.PnLPercent,
+        //                Quantity = e.Position.Quantity,
+        //                Side = e.Position.Side
+        //            });
+        //        });
+        //    }
+        //    else
+        //    {
+        //        var removePosition = entity.Positions.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol) && string.Equals(x.Side, e.Position.Side));
+        //        if (removePosition != null)
+        //        {
+        //            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //            {
+        //                entity.Positions.Remove(removePosition);
+        //            });
+        //        }
+        //    }
         }
 
         private void OnPriceChanged(object sender, (string Symbol, decimal Price) e)
         {
-            var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Symbol));
+            //var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Symbol));
 
-            if (entity != null)
-            {
-                entity.Price = e.Price;
-            }
+            //if (entity != null)
+            //{
+            //    entity.Price = e.Price;
+            //}
         }
 
         private async void OnOrderChanged1(object sender, (BinanceFuturesOrderDto Order, ActionCollectionEnum Action) e)
         {
-            var order = e.Order;
-            WriteToDebug(order);
+            //var order = e.Order;
+            //WriteToDebug(order);
 
-            var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
+            //var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
 
-            if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
-            {
-                OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
-                if (removeOrder != null)
-                {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        entity.Orders.Remove(removeOrder);
-                    });
-                }
-                return;
-            }
+            //if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
+            //{
+            //    OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
+            //    if (removeOrder != null)
+            //    {
+            //        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //        {
+            //            entity.Orders.Remove(removeOrder);
+            //        });
+            //    }
+            //    return;
+            //}
 
-            var newOrder = new OrderViewModel(order.ClientOrderId)
-            {
-                Value = "Uknown",
-                Side = order.Side.ToString(),
-                Quantity = order.Quantity.ToString(),
-                Price = order.Price.ToString(),
-                Symbol = order.Symbol,
-                Order = "Uknown"
-            };
+            //var newOrder = new OrderViewModel(order.ClientOrderId)
+            //{
+            //    Value = "Uknown",
+            //    Side = order.Side.ToString(),
+            //    Quantity = order.Quantity.ToString(),
+            //    Price = order.Price.ToString(),
+            //    Symbol = order.Symbol,
+            //    Order = "Uknown"
+            //};
 
-            if (entity == null && order.Status == OrderStatus.New)
-            {
-                var newFutureEntiry = new FutureEntityViewModel(order.Symbol)
-                {
-                    PositionX = 100,
-                    PositionY = 100
-                };
+            //if (entity == null && order.Status == OrderStatus.New)
+            //{
+            //    newFutureEntiry.Orders.Add(newOrder);
 
-                newFutureEntiry.Orders.Add(newOrder);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        //CurrentEntities.Add(newFutureEntiry);
+            //    });
+            //}
 
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    CurrentEntities.Add(newFutureEntiry);
-                });
-            }
-
-            if (entity != null && order.Status == OrderStatus.New)
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    entity.Orders.Add(newOrder);
-                });
-            }
+            //if (entity != null && order.Status == OrderStatus.New)
+            //{
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //    {
+            //        entity.Orders.Add(newOrder);
+            //    });
+            //}
         }
 
         private void OnOpenOrdersChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<long, Ligric.Common.Types.Future.OpenOrderDto> e)

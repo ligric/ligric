@@ -25,7 +25,6 @@ namespace LigricUno.Views.Pins
         private RelayCommand _addNewBoardCommand;
         //private RelayCommand<BoardEntityType> _addNewBoardEntityCommand;
 
-        public ApiKeyViewModel AddingApi { get; } = new ApiKeyViewModel();
         public ObservableCollection<string> HeaderItems { get; } = new ObservableCollection<string>() { };
         public ObservableCollection<string> HeaderOptionItems { get; } = new ObservableCollection<string>();
         public ObservableCollection<ApiDto> ContentItems { get; } = new ObservableCollection<ApiDto>();
@@ -77,40 +76,6 @@ namespace LigricUno.Views.Pins
         }
         #endregion
 
-        #region AddNewBoardCommand
-        public RelayCommand AddNewBoardCommand => _addNewBoardCommand ?? (
-            _addNewBoardCommand =
-                new RelayCommand((async (e) => await OnAddNewElementExecuteAsync(e)), CanAddNewElementExecute));
-
-        private UserApiesService _userApiesService;
-
-        private async Task OnAddNewElementExecuteAsync(object parameter)
-        {
-            GrpcChannel grpcChannel = GrpcChannelHalper.GetGrpcChannel();
-
-            _userApiesService = new UserApiesService(grpcChannel, LoginViewModel._metadataRepository);
-            _userApiesService.ApiesChanged -= OnApiesChanged;
-            _userApiesService.ApiesChanged += OnApiesChanged;
-            _userApiesService.ChatSubscribeAsync();
-
-            //_boardsService.AddBoard(AddingApi.Name, AddingApi.PublicKey, AddingApi.PrivateKey);
-            await _userApiesService.SaveApiAsync(AddingApi.Name, AddingApi.PublicKey, AddingApi.PrivateKey);
-            AddingApi.Name = "";
-            AddingApi.PublicKey = "";
-            AddingApi.PrivateKey = "";
-        }      
-        
-        private bool CanAddNewElementExecute(object parameter)
-        {
-            if (string.IsNullOrEmpty(AddingApi?.PublicKey)
-                || string.IsNullOrEmpty(AddingApi?.Name)
-                || string.IsNullOrEmpty(AddingApi?.PrivateKey))
-                return false;
-
-            return true;
-        }
-        #endregion
-
         //#region AddNewBoardEntityCommand
         //public RelayCommand<BoardEntityType> AddNewBoardEntityCommand => _addNewBoardEntityCommand ?? (
         //    _addNewBoardEntityCommand =
@@ -131,11 +96,6 @@ namespace LigricUno.Views.Pins
             //_boardsService.BoardsChanged += OnBoardsChanged;
 
             Navigation.PageChanged += OnPageChanged;
-
-            AddingApi.PropertyChanged += (s, e) =>
-            {
-                AddNewBoardCommand.RaiseCanExecuteChanged();
-            };
         }
 
         private async void OnApiesChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<long, ApiDto> e)

@@ -25,7 +25,6 @@
       <DependentUpon>FuturesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Futures\FuturesViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Pins\ApiKeyViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\Pages\Board\BoardPage.xaml.cs">
       <DependentUpon>BoardPage.xaml</DependentUpon>
     </Compile>

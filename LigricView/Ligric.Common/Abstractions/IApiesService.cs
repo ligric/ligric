@@ -16,7 +16,7 @@ namespace Ligric.Common.Abstractions
         /// Saving api local or remote and available only for current user.
         /// </summary>
         /// <param name="api">Api info</param>
-        Task SaveApi(ApiDto api);
+        Task SaveApiAsync(ApiDto api);
 
         /// <summary>
         /// Set state for everyuser.
@@ -24,13 +24,13 @@ namespace Ligric.Common.Abstractions
         /// <param name="id">Api id.</param>
         /// <param name="state">New activity state.</param>
         /// <remarks>Wors if user has permissions or users is owner.</remarks>
-        Task SetState(long id, StateEnum state);
+        Task SetStateAsync(long id, StateEnum state);
 
         /// <summary>
         /// Multiselection apies and users
         /// </summary>
         /// <param name="multiChangesInfo">Selection info</param>
         /// <remarks>Wors if user has permissions or users is owner.</remarks>
-        Task SetState(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo);
+        Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo);
     }
 }

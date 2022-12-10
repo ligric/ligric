@@ -21,17 +21,17 @@ namespace Ligric.Business
 
         public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
-        public Task SaveApi(ApiDto api)
+        public Task SaveApiAsync(ApiDto api)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SetState(long id, StateEnum state)
+        public Task SetStateAsync(long id, StateEnum state)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SetState(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo)
+        public Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo)
         {
             throw new System.NotImplementedException();
         }
