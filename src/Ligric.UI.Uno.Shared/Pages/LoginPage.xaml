@@ -1,8 +1,58 @@
 ﻿<Page x:Class="Ligric.UI.Uno.Pages.LoginPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"    
-
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock Text="Hello, world!" Margin="20" FontSize="30" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20">
+            <TextBlock Text="ligric" FontFamily="/Assets/Fonts/Current/Current-Regular.otf#Current"
+                       Foreground="Black" FontSize="90" Height="80"/>
+
+            <TextBlock Text="Spetial ★"
+                       FontFamily="/Assets/Fonts/Eugusto/Eugusto.otf#Eugusto-Refular"
+                       Foreground="#ff4a65" FontSize="20"
+                       HorizontalTextAlignment="Right"/>
+        </StackPanel>
+
+
+        <!--attached:ElementStartupFocus.StartupFocus="False"-->
+        <!-- Login Content -->
+        <Grid Grid.Row="1" HorizontalAlignment="Center" MinWidth="400" MinHeight="350">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="3" Background="White" CornerRadius="20"
+                    BorderBrush="#1e1e1e" BorderThickness="4"/>
+
+            <StackPanel Grid.Row="1" Padding="40,30">
+                <TextBox Style="{StaticResource SimpleTextBoxStyle}" Height="50"
+                         Text="{Binding Login, Mode=TwoWay}"
+                         Foreground="Black" BorderBrush="#5d5d5d"
+                         PlaceholderText="Login" BorderThickness="0,0,0,1" 
+                         IsSpellCheckEnabled="False"/>
+
+                <PasswordBox Style="{StaticResource SimplePasswordBoxStyle}" Height="50"
+                             Password="{Binding Password, Mode=TwoWay}"
+                             Foreground="Black" BorderBrush="#5d5d5d"
+                             PlaceholderText="Password" BorderThickness="0,0,0,1" />
+
+                <Button Content="Login" Margin="0,20,0,0" MinWidth="150"
+                        HorizontalAlignment="Center"
+                        Command="{Binding LoginCommand}"/>
+            </StackPanel>
+
+            <Button Grid.Row="2" Style="{StaticResource EmptyButtonStyle}" 
+                    Content="Create new" Foreground="Black"
+                    VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        </Grid>
+
     </Grid>
 </Page>
