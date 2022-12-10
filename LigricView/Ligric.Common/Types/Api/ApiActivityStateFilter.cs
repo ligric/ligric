@@ -1,7 +1,7 @@
 ﻿using Common.Enums;
 using System.Collections.Generic;
 
-namespace Ligric.Common.Types.Filters
+namespace Ligric.Common.Types.Api
 {
     public class ApiActivityStateFilter
     {

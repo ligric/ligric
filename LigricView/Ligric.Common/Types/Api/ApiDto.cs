@@ -1,9 +1,9 @@
-﻿namespace Ligric.Common.Types
+﻿namespace Ligric.Common.Types.Api
 {
     public class ApiDto
     {
         public long? Id { get; }
-        
+
         public string Name { get; }
 
         public string PublicKey { get; }
