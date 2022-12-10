@@ -1,6 +1,6 @@
 ﻿using Grpc.Net.Client;
 using Ligric.Business;
-using Ligric.Common.Types;
+using Ligric.Common.Types.Api;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages.Board;
@@ -56,7 +56,6 @@ namespace LigricUno.Views.Pins
 
         private void OnSelectedContentExecute(ApiDto parameter)
         {
-            Navigation.GoTo(new BoardPage(), nameof(BoardPage) + parameter.Id.ToString(), vm: new BoardsViewModel(parameter));
         }
 
         private bool CanSelectedContentExecute(ApiDto? parameter)

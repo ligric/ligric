@@ -1,5 +1,8 @@
-﻿using LigricMvvmToolkit.Navigation;
+﻿using Ligric.Business;
+using Ligric.Common.Abstractions.Futures;
+using LigricMvvmToolkit.Navigation;
 using LigricUno.Views.Pages.Board;
+using LigricUno.Views.Pages.Futures;
 using LigricUno.Views.Pages.Login;
 using LigricUno.Views.Pages.Messages;
 using LigricUno.Views.Pages.Profile;
@@ -137,9 +140,8 @@ namespace LigricUno
 
             var forbiddenPageKeysReadOnly = new List<string> { nameof(LoginPage), nameof(SettingsPage) };
 
-
             Navigation.GoTo(new LoginPage(), nameof(LoginPage), new LoginViewModel());
-            Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
+            //Navigation.Pin(new NavigationMenu(), nameof(NavigationMenu), forbiddenPageKeysReadOnly, new NavigationMenuViewModel());
         }
 
 

@@ -1,11 +1,13 @@
 ﻿using Grpc.Net.Client;
 using Ligric.Business;
 using Ligric.Common.Abstractions;
-using Ligric.Common.Types;
+using Ligric.Common.Abstractions.Futures;
+using Ligric.Common.Types.User;
 using LigricMvvmToolkit.BaseMvvm;
 using LigricMvvmToolkit.Navigation;
 using LigricMvvmToolkit.RelayCommand;
 using LigricUno.Views.Pages.Board;
+using LigricUno.Views.Pages.Futures;
 using System;
 using System.Collections.Generic;
 
@@ -35,12 +37,13 @@ namespace LigricUno.Views.Pages.Login
           
         }
 
-        private static void OnAuthorizationStateChanged(object sender, Ligric.Common.Types.UserAuthorizationState e)
+        private static void OnAuthorizationStateChanged(object sender, UserAuthorizationState e)
         {
             switch(e)
             {
                 case UserAuthorizationState.Connected:
-                    Navigation.GoTo(new BoardPage(), nameof(BoardPage));
+                    IFuturesProvider futures = new FuturesProvider();
+                    Navigation.GoTo(new FuturesPage(), nameof(FuturesPage), futures);
                     break;
             }
         }
