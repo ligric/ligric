@@ -1,7 +1,6 @@
 ﻿using Common.Enums;
 using Ligric.Common.Abstractions;
-using Ligric.Common.Types;
-using Ligric.Common.Types.Filters;
+using Ligric.Common.Types.Api;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -20,7 +19,7 @@ namespace Ligric.Business
 
         public IReadOnlyCollection<ApiClientDto> AvailableApies => new ReadOnlyCollection<ApiClientDto>(_availableApies);
 
-        public event NotifyCollectionChangedEventHandler? AliesChanged;
+        public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
         public Task SaveApi(ApiDto api)
         {

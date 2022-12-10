@@ -1,6 +1,5 @@
 ﻿using Common.Enums;
-using Ligric.Common.Types;
-using Ligric.Common.Types.Filters;
+using Ligric.Common.Types.Api;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace Ligric.Common.Abstractions
     {
         IReadOnlyCollection<ApiClientDto> AvailableApies { get; }
 
-        event NotifyCollectionChangedEventHandler? AliesChanged;
+        event NotifyCollectionChangedEventHandler? ApiesChanged;
 
         /// <summary>
         /// Saving api local or remote and available only for current user.
