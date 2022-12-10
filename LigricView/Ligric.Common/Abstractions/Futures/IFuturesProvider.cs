@@ -11,8 +11,8 @@ namespace Ligric.Common.Abstractions.Futures
 
         IReadOnlyDictionary<long, OpenOrderDto> OpenOrders { get; }
 
-        event EventHandler<NotifyDictionaryChangedEventArgs<long, PositionDto>> FuturesChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<long, PositionDto>> PositionsChanged;
 
-        event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OrdersChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
     }
 }

@@ -9,6 +9,7 @@ using Ligric.GrpcServer.Services.LocalTemporary;
 using Ligric.GrpcServer.Extensions;
 using Ligric.Common.Types;
 using Microsoft.AspNetCore.Components.Forms;
+using Ligric.Common.Types.Api;
 
 namespace Ligric.GrpcServer.Services;
 
