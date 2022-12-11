@@ -26,7 +26,7 @@
     <PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ligric.UI.Uno.ViewModels\Ligric.UI.ViewModels.Uno.csproj" />
+    <ProjectReference Include="..\..\Ligric.UI.ViewModels.Uno\Ligric.UI.ViewModels.Uno.csproj" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(TargetFramework)'=='net7.0-android'">

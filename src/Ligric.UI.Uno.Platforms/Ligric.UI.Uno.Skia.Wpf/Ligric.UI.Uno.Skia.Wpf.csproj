@@ -37,7 +37,7 @@
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ligric.UI.Uno.ViewModels\Ligric.UI.ViewModels.Uno.csproj" />
+    <ProjectReference Include="..\..\Ligric.UI.ViewModels.Uno\Ligric.UI.ViewModels.Uno.csproj" />
   </ItemGroup>
   <Import Project="..\..\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems" Label="Shared" />
 </Project>

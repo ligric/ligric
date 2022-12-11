@@ -43,7 +43,7 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Ligric.UI.Uno.ViewModels\Ligric.UI.ViewModels.Uno.csproj" />
+	  <ProjectReference Include="..\..\Ligric.UI.ViewModels.Uno\Ligric.UI.ViewModels.Uno.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
