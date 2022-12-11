@@ -1,24 +1,19 @@
 ﻿using Ligric.UI.Uno.Pages;
+using Ligric.UI.ViewModels.Uno;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
-using System;
+using Prism.Ioc;
+using Prism.Mvvm;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 
 namespace Ligric.UI.Uno
 {
-    public sealed partial class App : Application
+    public sealed partial class App
     {
-        private Window _window;
-
         public App()
         {
             InitializeLogging();
-
             this.InitializeComponent();
-
 #if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
 #endif
@@ -26,57 +21,40 @@ namespace Ligric.UI.Uno
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                // this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
-
-#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
-            _window = new Window();
-            _window.Activate();
-#else
-            _window = Microsoft.UI.Xaml.Window.Current;
-#endif
-
-            var rootFrame = _window.Content as Frame;
-
-            if (rootFrame == null)
-            {
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (args.UWPLaunchActivatedEventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
-
-                _window.Content = rootFrame;
-            }
-
-#if !(NET6_0_OR_GREATER && WINDOWS)
-            if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
-#endif
-            {
-                if (rootFrame.Content == null)
-                {
-                    rootFrame.Navigate(typeof(LoginPage), args.Arguments);
-                }
-                _window.Activate();
-            }
+            base.OnLaunched(args);
+            ConfigureViewSize();
         }
 
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        protected override UIElement CreateShell()
         {
-            throw new InvalidOperationException($"Failed to load {e.SourcePageType.FullName}: {e.Exception}");
+            return Container.Resolve<Shell>();
+        }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            base.ConfigureViewModelLocator();
+            ViewModelLocationProvider.Register(typeof(Shell).ToString(), typeof(ShellViewModel));
+            ViewModelLocationProvider.Register(typeof(LoginPage).ToString(), typeof(AuthorizationViewModel));
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<LoginPage>(Infrastructure.NavigationViews.AUTHORIZATION);
+            containerRegistry.RegisterForNavigation<FuturesPage>(Infrastructure.NavigationViews.FUTURES);
+        }
+
+        private void ConfigureViewSize()
+        {
+//#if WINDOWS
+//			ApplicationView.PreferredLaunchViewSize = new Size(1330, 768);
+//			ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+//			ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 480));
+//#endif
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
 

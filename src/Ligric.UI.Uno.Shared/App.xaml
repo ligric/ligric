@@ -1,5 +1,5 @@
-﻿<Application x:Class="Ligric.UI.Uno.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Ligric.UI.Uno">
+﻿<prismIoc:PrismApplication x:Class="Ligric.UI.Uno.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:prismIoc="using:Prism.DryIoc">
 	
     <Application.Resources>
         <ResourceDictionary>
@@ -11,4 +11,4 @@
         </ResourceDictionary>
     </Application.Resources>
 
-</Application>
+</prismIoc:PrismApplication>

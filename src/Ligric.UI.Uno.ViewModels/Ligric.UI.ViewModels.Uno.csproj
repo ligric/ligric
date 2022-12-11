@@ -22,4 +22,11 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.DryIoc.Uno.WinUI" Version="8.1.97" />
+    <PackageReference Include="Prism.Uno.WinUI" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
