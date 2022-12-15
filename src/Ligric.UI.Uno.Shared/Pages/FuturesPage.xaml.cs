@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Ligric.UI.ViewModels.Uno;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Ligric.UI.Uno.Pages
 {
@@ -7,6 +8,7 @@ namespace Ligric.UI.Uno.Pages
         public FuturesPage()
         {
             this.InitializeComponent();
+            DataContext = new FuturesViewModel();
         }
     }
 }

@@ -4,112 +4,115 @@
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
       
       d:Height="1334" d:Width="1334"      
-      d:DataContext="{d:DesignInstance viewModels:FuturesViewModel, IsDesignTimeCreatable=True}">
+      d:DataContext="{d:DesignInstance viewModels:FuturesViewModel, IsDesignTimeCreatable=True}"
+      Background="#FFcbcbcd">
 
-    <Grid>
+    <Grid ColumnSpacing="20" Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.RowSpan="2" Margin="20" CornerRadius="20">
+        
+        <!-- Left Menu -->
+        <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Border Background="White">
-                <ScrollViewer Grid.Column="1" Grid.Row="0" 
-                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <controls:ItemsRepeater ItemsSource="{Binding Apies}" Margin="10">
-                        <controls:ItemsRepeater.ItemTemplate>
-                            <DataTemplate>
-                                <Border CornerRadius="20" Background="#2c2c2c" Padding="20" Width="40" Height="40"
-                                        HorizontalAlignment="Center">
-                                    <TextBlock Foreground="White" Text="{Binding Name}"/>
-                                </Border>
-                            </DataTemplate>
-                        </controls:ItemsRepeater.ItemTemplate>
-                        <controls:ItemsRepeater.Layout>
-                            <controls:StackLayout Orientation="Vertical" Spacing="10"/>
-                        </controls:ItemsRepeater.Layout>
-                    </controls:ItemsRepeater>
-                </ScrollViewer>
+            <Border CornerRadius="20" Background="#f2f5fa" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
-            </Border>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <controls:ItemsRepeater ItemsSource="{Binding Apies}" Margin="10">
+                    <controls:ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="20" Background="#2c2c2c" Padding="20" Width="40" Height="40"
+                                    HorizontalAlignment="Center">
+                                <TextBlock Foreground="White" Text="{Binding Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </controls:ItemsRepeater.ItemTemplate>
+                    <controls:ItemsRepeater.Layout>
+                        <controls:StackLayout Orientation="Vertical" Spacing="10"/>
+                    </controls:ItemsRepeater.Layout>
+                </controls:ItemsRepeater>
+            </ScrollViewer>
 
             <!-- 302c4f -->
-            <!--
             <ToggleButton x:Name="addNewBoard" Content="Add" Height="40" Margin="20,30" 
-                          CornerRadius="10" Background="#2c2c2c" Foreground="White"
+                          CornerRadius="10" Background="#1f1f1f" Foreground="White"
                           VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
 
-            <Popup IsLightDismissEnabled="True" 
+            <Popup IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=addNewBoard}" DesiredPlacement="Bottom"
                    IsOpen="{Binding ElementName=addNewBoard, Path=IsChecked, Mode=TwoWay}">
 
-                <StackPanel Height="200" Width="200" CornerRadius="20" Background="#7160e8" Padding="20" Spacing="5">
+                <StackPanel Height="200" Width="200" CornerRadius="20" Background="#302c4f" Padding="20" Spacing="5">
                     <TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name"/>
                     <TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key"/>
                     <TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key"/>
                   
                     <Button Width="160" Height="35" Content="Add" Command="{Binding AddNewApiCommand}"/>
                 </StackPanel>
-            </Popup>-->
-
-
+            </Popup>
 
         </Grid>
 
-        <ScrollViewer Grid.Column="1" Grid.Row="0" 
-                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <controls:ItemsRepeater ItemsSource="{Binding Orders}" Margin="10">
-                <controls:ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
-                        <Border CornerRadius="20" Background="#dc729f" Padding="20">
-                            <TextBlock Foreground="White">
+        <!-- Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="2" CornerRadius="20" Background="#f2f5fa" BorderBrush="#1f1f1f" BorderThickness="4"/>
+
+            <!-- Top Content -->
+            <ScrollViewer Grid.Row="0" 
+                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <controls:ItemsRepeater ItemsSource="{Binding Orders}" Margin="10">
+                    <controls:ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="20" Background="#dc729f" Padding="20">
+                                <TextBlock Foreground="White">
                                 <Run Text="{Binding Symbol}"/>
                                 <Run Text="{Binding Side}"/>
                                 <Run Text="{Binding Quantity}"/>
                                 <Run Text="{Binding Price}"/>
                                 <Run Text="{Binding Order}"/>
                                 <Run Text="{Binding Value}"/>
-                            </TextBlock>
-                        </Border>
-                    </DataTemplate>
-                </controls:ItemsRepeater.ItemTemplate>
-                <controls:ItemsRepeater.Layout>
-                    <controls:StackLayout Orientation="Vertical" Spacing="10"/>
-                </controls:ItemsRepeater.Layout>
-            </controls:ItemsRepeater>
-        </ScrollViewer>
+                                </TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </controls:ItemsRepeater.ItemTemplate>
+                    <controls:ItemsRepeater.Layout>
+                        <controls:StackLayout Orientation="Vertical" Spacing="10"/>
+                    </controls:ItemsRepeater.Layout>
+                </controls:ItemsRepeater>
+            </ScrollViewer>
 
-        <ScrollViewer Grid.Column="1" Grid.Row="1"
-                      VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
-            <controls:ItemsRepeater ItemsSource="{Binding Positions}" Margin="10">
-                <controls:ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
-                        <Border CornerRadius="20" Background="#3888cd" Padding="20">
-                            <TextBlock Foreground="White">
+            <!-- Bottom Content -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+                <controls:ItemsRepeater ItemsSource="{Binding Positions}" Margin="10">
+                    <controls:ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="20" Background="#3888cd" Padding="20">
+                                <TextBlock Foreground="White">
                                 <Run Text="{Binding Symbol}"/>
                                 <Run Text="{Binding Side}"/>
                                 <Run Text="{Binding Quantity}"/>
                                 <Run Text="{Binding CurrentPrice}"/>
                                 <Run Text="{Binding PnL}"/>
                                 <Run Text="{Binding PnLPercent}"/>
-                            </TextBlock>
-                        </Border>
-                    </DataTemplate>
-                </controls:ItemsRepeater.ItemTemplate>
-                <controls:ItemsRepeater.Layout>
-                    <controls:StackLayout Orientation="Vertical" Spacing="10"/>
-                </controls:ItemsRepeater.Layout>
-            </controls:ItemsRepeater>
-        </ScrollViewer>
-
+                                </TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </controls:ItemsRepeater.ItemTemplate>
+                    <controls:ItemsRepeater.Layout>
+                        <controls:StackLayout Orientation="Vertical" Spacing="10"/>
+                    </controls:ItemsRepeater.Layout>
+                </controls:ItemsRepeater>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>

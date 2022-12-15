@@ -2,6 +2,11 @@
 {
     public class AuthorizationViewModel
     {
+        public AuthorizationViewModel()
+        {
+
+        }
+
         //public static readonly IAuthorizationService _authorizationService;
         //public static readonly IMetadataRepository _metadataRepository;
 

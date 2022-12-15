@@ -2,14 +2,18 @@
 using Ligric.UI.ViewModels.Uno;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 
 namespace Ligric.UI.Uno
 {
     public sealed partial class App
     {
+        private Window _window;
+
         public App()
         {
             InitializeLogging();
@@ -21,35 +25,38 @@ namespace Ligric.UI.Uno
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            base.OnLaunched(args);
-            ConfigureViewSize();
-        }
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                // this.DebugSettings.EnableFrameRateCounter = true;
+            }
+#endif
 
-        protected override UIElement CreateShell()
-        {
-            return Container.Resolve<Shell>();
-        }
+#if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
+            _window = new Window();
+            _window.Activate();
+#else
+            _window = Microsoft.UI.Xaml.Window.Current;
+#endif
 
-        protected override void ConfigureViewModelLocator()
-        {
-            base.ConfigureViewModelLocator();
-            ViewModelLocationProvider.Register(typeof(Shell).ToString(), typeof(ShellViewModel));
-            ViewModelLocationProvider.Register(typeof(LoginPage).ToString(), typeof(AuthorizationViewModel));
-        }
+            var rootFrame = _window.Content as Frame;
 
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            containerRegistry.RegisterForNavigation<LoginPage>(Infrastructure.NavigationViews.AUTHORIZATION);
-            containerRegistry.RegisterForNavigation<FuturesPage>(Infrastructure.NavigationViews.FUTURES);
-        }
+            if (rootFrame == null)
+            {
+                rootFrame = new Frame();
+                _window.Content = rootFrame;
+            }
 
-        private void ConfigureViewSize()
-        {
-//#if WINDOWS
-//			ApplicationView.PreferredLaunchViewSize = new Size(1330, 768);
-//			ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-//			ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 480));
-//#endif
+#if !(NET6_0_OR_GREATER && WINDOWS)
+            if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
+#endif
+            {
+                if (rootFrame.Content == null)
+                {
+                    rootFrame.Navigate(typeof(AuthorizationPage), args.Arguments);
+                }
+                _window.Activate();
+            }
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
