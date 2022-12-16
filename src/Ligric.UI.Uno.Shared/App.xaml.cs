@@ -1,12 +1,8 @@
 ﻿using Ligric.UI.Uno.Pages;
-using Ligric.UI.ViewModels.Uno;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Prism.Ioc;
-using Prism.Mvvm;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
 
 namespace Ligric.UI.Uno
 {

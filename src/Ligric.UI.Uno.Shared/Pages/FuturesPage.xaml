@@ -3,6 +3,9 @@
       xmlns:viewModels="using:Ligric.UI.ViewModels.Uno"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
       
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      
       d:Height="1334" d:Width="1334"      
       d:DataContext="{d:DesignInstance viewModels:FuturesViewModel, IsDesignTimeCreatable=True}"
       Background="#FFcbcbcd">
@@ -20,7 +23,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Border CornerRadius="20" Background="#f2f5fa" BorderBrush="#1f1f1f" BorderThickness="4"/>
+            <Border CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <controls:ItemsRepeater ItemsSource="{Binding Apies}" Margin="10">
@@ -38,20 +41,22 @@
                 </controls:ItemsRepeater>
             </ScrollViewer>
 
-            <!-- 302c4f -->
-            <ToggleButton x:Name="addNewBoard" Content="Add" Height="40" Margin="20,30" 
-                          CornerRadius="10" Background="#1f1f1f" Foreground="White"
-                          VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+            <Button x:Name="addNewBoard" Content="Add" Height="40" Margin="20,30" CornerRadius="10" Background="#1f1f1f" Foreground="White"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="Click">
+                        <Core:ChangePropertyAction TargetObject="{Binding ElementName=addApiPopup}" PropertyName="IsOpen" Value="True"/>
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </Button>
 
-            <Popup IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=addNewBoard}" DesiredPlacement="Bottom"
-                   IsOpen="{Binding ElementName=addNewBoard, Path=IsChecked, Mode=TwoWay}">
+            <Popup x:Name="addApiPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=addNewBoard}" DesiredPlacement="RightEdgeAlignedBottom">
+                <StackPanel Height="200" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
+                    <TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
+                    <TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
+                    <TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa"/>
 
-                <StackPanel Height="200" Width="200" CornerRadius="20" Background="#302c4f" Padding="20" Spacing="5">
-                    <TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name"/>
-                    <TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key"/>
-                    <TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key"/>
-                  
-                    <Button Width="160" Height="35" Content="Add" Command="{Binding AddNewApiCommand}"/>
+                    <Button Width="160" Height="35" Content="Add" Command="{Binding AddNewApiCommand}" Background="#f2f5fa"/>
                 </StackPanel>
             </Popup>
 
@@ -64,7 +69,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Border Grid.RowSpan="2" CornerRadius="20" Background="#f2f5fa" BorderBrush="#1f1f1f" BorderThickness="4"/>
+            <Border Grid.RowSpan="2" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
             <!-- Top Content -->
             <ScrollViewer Grid.Row="0" 
