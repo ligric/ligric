@@ -1,17 +1,30 @@
-﻿using Ligric.UI.Uno.Pages;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using ReactiveUI;
+using Splat;
+using Autofac;
 using Windows.ApplicationModel;
+using Ligric.UI.ViewModels.Uno;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using Microsoft.Extensions.Hosting;
+using System.Linq;
+using Microsoft.Extensions.Logging.EventLog;
+using System.Reflection;
+using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace Ligric.UI.Uno
 {
     public sealed partial class App
     {
-        private Window _window;
+        private Window? _window;
+
+        public IServiceProvider _serviceProvider;
 
         public App()
         {
+            Initialize();
             InitializeLogging();
             this.InitializeComponent();
 #if HAS_UNO || NETFX_CORE
@@ -19,14 +32,97 @@ namespace Ligric.UI.Uno
 #endif
         }
 
+        void Initialize()
+        {
+            var host = Host
+              .CreateDefaultBuilder()
+              .ConfigureAppConfiguration((hostingContext, config) => {
+                  config.Properties.Clear();
+                  config.Sources.Clear();
+                  hostingContext.Properties.Clear();
+              })
+              .ConfigureServices(ConfigureServices)
+              .ConfigureLogging(loggingBuilder => {
+                  // remove loggers incompatible with UWP
+                  {
+                      var eventLoggers = loggingBuilder.Services
+                      .Where(l => l.ImplementationType == typeof(EventLogLoggerProvider))
+                      .ToList();
+
+                      foreach (var el in eventLoggers)
+                          loggingBuilder.Services.Remove(el);
+                  }
+
+                  loggingBuilder
+                      //.AddSplat()
+#if !__WASM__
+                      .AddConsole()
+#else
+                      .ClearProviders()            
+#endif
+
+#if DEBUG
+                      .SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug)
+#else
+                      .SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information)
+#endif
+                      ;
+
+              })
+              .Build();
+
+            _serviceProvider = host.Services;
+            _serviceProvider.UseMicrosoftDependencyResolver();
+        }
+
+
+        void ConfigureServices(IServiceCollection services)
+        {
+            services.UseMicrosoftDependencyResolver();
+            var resolver = Splat.Locator.CurrentMutable;
+            resolver.InitializeSplat();
+            resolver.InitializeReactiveUI();
+
+            var allTypes = Assembly.GetExecutingAssembly()
+              .DefinedTypes
+              .Where(t => !t.IsAbstract);
+
+            // register services
+            {
+                //services.AddSingleton<BookService>();
+                //services.AddTransient(typeof(apiClient), x => new apiClient(new HttpClient()));
+            }
+
+            // register view models
+            {
+                services.AddSingleton<ShellViewModel>();
+                services.AddSingleton<IScreen>(sp => sp.GetRequiredService<ShellViewModel>());
+
+                var rvms = allTypes.Where(t => typeof(RoutableViewModel).IsAssignableFrom(t));
+                foreach (var rvm in rvms)
+                    services.AddTransient(rvm);
+            }
+
+            // register views
+            {
+                var vf = typeof(IViewFor<>);
+                bool isGenericIViewFor(Type ii) => ii.IsGenericType && ii.GetGenericTypeDefinition() == vf;
+                var views = allTypes
+                  .Where(t => t.ImplementedInterfaces.Any(isGenericIViewFor));
+
+                foreach (var v in views)
+                {
+                    var ii = v.ImplementedInterfaces.Single(isGenericIViewFor);
+
+                    services.AddTransient(ii, v);
+                    //Locator.CurrentMutable.Register(() => Locator.Current.GetService(v), ii, "Landscape");
+                }
+            }
+
+        }
+
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                // this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
             _window = new Window();
@@ -49,7 +145,13 @@ namespace Ligric.UI.Uno
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(AuthorizationPage), args.Arguments);
+                    var vm = _serviceProvider.GetService<ShellViewModel>();
+                    var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
+
+                    var view = viewtest.ResolveView(vm);
+
+                    rootFrame.Content = view;
+                    rootFrame.DataContext = view?.ViewModel;
                 }
                 _window.Activate();
             }
@@ -76,11 +178,11 @@ namespace Ligric.UI.Uno
                 builder.AddConsole();
 #endif
 
-                builder.SetMinimumLevel(LogLevel.Information);
+                builder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information);
 
-                builder.AddFilter("Uno", LogLevel.Warning);
-                builder.AddFilter("Windows", LogLevel.Warning);
-                builder.AddFilter("Microsoft", LogLevel.Warning);
+                builder.AddFilter("Uno", Microsoft.Extensions.Logging.LogLevel.Warning);
+                builder.AddFilter("Windows", Microsoft.Extensions.Logging.LogLevel.Warning);
+                builder.AddFilter("Microsoft", Microsoft.Extensions.Logging.LogLevel.Warning);
             });
 
             global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;

@@ -1,4 +1,4 @@
-﻿<Page x:Class="Ligric.UI.Uno.Pages.FuturesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+﻿<ligric:FuturesReactivePage x:Class="Ligric.UI.Uno.Pages.FuturesPage"  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:ligric="using:Ligric.UI.Uno"
       
       xmlns:viewModels="using:Ligric.UI.ViewModels.Uno"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
@@ -120,4 +120,4 @@
             </ScrollViewer>
         </Grid>
     </Grid>
-</Page>
+</ligric:FuturesReactivePage>

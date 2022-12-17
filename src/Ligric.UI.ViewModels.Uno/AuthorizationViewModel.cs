@@ -1,11 +1,19 @@
-﻿namespace Ligric.UI.ViewModels.Uno
+﻿using ReactiveUI;
+using Splat;
+
+namespace Ligric.UI.ViewModels.Uno
 {
-    public class AuthorizationViewModel
+    public class AuthorizationViewModel : ReactiveObject, IRoutableViewModel
     {
-        public AuthorizationViewModel()
+        public AuthorizationViewModel(IScreen? screen = null)
         {
+            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
         }
+        public IScreen? HostScreen { get; }
+
+        public string? UrlPathSegment => "Authorization";
+
 
         //public static readonly IAuthorizationService _authorizationService;
         //public static readonly IMetadataRepository _metadataRepository;

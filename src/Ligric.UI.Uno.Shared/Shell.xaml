@@ -1,0 +1,13 @@
+﻿<ligric:ShellReactivePage x:Class="Ligric.UI.Uno.Shell" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" xmlns:ligric="using:Ligric.UI.Uno"
+                          xmlns:rxuno="using:ReactiveUI.Uno">
+
+    <NavigationView IsBackButtonVisible="Collapsed" PaneDisplayMode="LeftMinimal" AlwaysShowHeader="True"
+		            IsTabStop="False" IsSettingsVisible="False">
+        <NavigationView.Header>
+            <Grid Height="100" Background="Red">
+            </Grid>
+        </NavigationView.Header>
+
+        <rxuno:RoutedViewHost Router="{Binding Router}" />
+    </NavigationView>
+</ligric:ShellReactivePage>
