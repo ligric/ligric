@@ -23,6 +23,10 @@
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
+    <PackageReference Include="ReactiveUI.Uno.WinUI" Version="18.1.20" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
