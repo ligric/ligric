@@ -7,7 +7,7 @@ namespace Ligric.UI.ViewModels.Uno
     {
         protected RoutableViewModel(IScreen? screen = null)
         {
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
+            HostScreen = screen;
 
         }
 

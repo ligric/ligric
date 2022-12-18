@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ReactiveUI;
 using Splat;
-using Autofac;
 using Windows.ApplicationModel;
 using Ligric.UI.ViewModels.Uno;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,41 +55,9 @@ namespace Ligric.UI.Uno
             resolver.InitializeSplat();
             resolver.InitializeReactiveUI();
 
-            var allTypes = Assembly.GetExecutingAssembly()
-              .DefinedTypes
-              .Where(t => !t.IsAbstract);
-
-            // register services
-            {
-                //services.AddSingleton<BookService>();
-                //services.AddTransient(typeof(apiClient), x => new apiClient(new HttpClient()));
-            }
-
-            // register view models
-            {
-                services.AddSingleton<ShellViewModel>();
-                services.AddSingleton<IScreen>(sp => sp.GetRequiredService<ShellViewModel>());
-
-                var rvms = allTypes.Where(t => typeof(IRoutableViewModel).IsAssignableFrom(t));
-                foreach (var rvm in rvms)
-                    services.AddTransient(rvm);
-            }
-
-            // register views
-            {
-                var vf = typeof(IViewFor<>);
-                bool isGenericIViewFor(Type ii) => ii.IsGenericType && ii.GetGenericTypeDefinition() == vf;
-                var views = allTypes
-                  .Where(t => t.ImplementedInterfaces.Any(isGenericIViewFor));
-
-                foreach (var v in views)
-                {
-                    var ii = v.ImplementedInterfaces.Single(isGenericIViewFor);
-
-                    services.AddTransient(ii, v);
-                }
-            }
-
+            services.AddSingleton<ShellViewModel>();
+            services.AddSingleton<IScreen, ShellViewModel>(x => x.GetRequiredService<ShellViewModel>());
+            services.AddSingleton<IViewFor<ShellViewModel>, Shell>();
         }
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
@@ -117,15 +84,13 @@ namespace Ligric.UI.Uno
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(Shell), args.Arguments);
+                    var vm = _serviceProvider.GetService<ShellViewModel>();
+                    var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
 
-                    //var vm = _serviceProvider.GetService<ShellViewModel>();
-                    //var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
+                    var view = viewtest.ResolveView(vm);
 
-                    //var view = viewtest.ResolveView(vm);
-
-                    //rootFrame.Content = new Shell();
-                    //rootFrame.DataContext = view?.ViewModel;
+                    rootFrame.Content = view;
+                    rootFrame.DataContext = view?.ViewModel;
                 }
                 _window.Activate();
             }

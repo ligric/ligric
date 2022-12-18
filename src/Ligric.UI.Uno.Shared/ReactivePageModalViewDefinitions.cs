@@ -3,7 +3,7 @@ using ReactiveUI.Uno;
 
 namespace Ligric.UI.Uno
 {
-    public class ShellReactivePage : AppReactivePage<ShellViewModel> { }
-    public class AuthorizationReactivePage : ReactivePage<AuthorizationViewModel> { }
-    public class FuturesReactivePage : ReactivePage<FuturesViewModel> { }
+    public partial class ShellReactivePage : ReactivePage<ShellViewModel> { }
+    public partial class AuthorizationReactivePage : ReactivePage<AuthorizationViewModel> { }
+    public partial class FuturesReactivePage : ReactivePage<FuturesViewModel> { }
 }
