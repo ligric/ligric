@@ -42,33 +42,6 @@ namespace Ligric.UI.Uno
                   hostingContext.Properties.Clear();
               })
               .ConfigureServices(ConfigureServices)
-              .ConfigureLogging(loggingBuilder => {
-                  // remove loggers incompatible with UWP
-                  {
-                      var eventLoggers = loggingBuilder.Services
-                      .Where(l => l.ImplementationType == typeof(EventLogLoggerProvider))
-                      .ToList();
-
-                      foreach (var el in eventLoggers)
-                          loggingBuilder.Services.Remove(el);
-                  }
-
-                  loggingBuilder
-                      //.AddSplat()
-#if !__WASM__
-                      .AddConsole()
-#else
-                      .ClearProviders()            
-#endif
-
-#if DEBUG
-                      .SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug)
-#else
-                      .SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information)
-#endif
-                      ;
-
-              })
               .Build();
 
             _serviceProvider = host.Services;
@@ -98,7 +71,7 @@ namespace Ligric.UI.Uno
                 services.AddSingleton<ShellViewModel>();
                 services.AddSingleton<IScreen>(sp => sp.GetRequiredService<ShellViewModel>());
 
-                var rvms = allTypes.Where(t => typeof(RoutableViewModel).IsAssignableFrom(t));
+                var rvms = allTypes.Where(t => typeof(IRoutableViewModel).IsAssignableFrom(t));
                 foreach (var rvm in rvms)
                     services.AddTransient(rvm);
             }
@@ -115,7 +88,6 @@ namespace Ligric.UI.Uno
                     var ii = v.ImplementedInterfaces.Single(isGenericIViewFor);
 
                     services.AddTransient(ii, v);
-                    //Locator.CurrentMutable.Register(() => Locator.Current.GetService(v), ii, "Landscape");
                 }
             }
 
@@ -145,13 +117,15 @@ namespace Ligric.UI.Uno
             {
                 if (rootFrame.Content == null)
                 {
-                    var vm = _serviceProvider.GetService<ShellViewModel>();
-                    var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
+                    rootFrame.Navigate(typeof(Shell), args.Arguments);
 
-                    var view = viewtest.ResolveView(vm);
+                    //var vm = _serviceProvider.GetService<ShellViewModel>();
+                    //var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
 
-                    rootFrame.Content = view;
-                    rootFrame.DataContext = view?.ViewModel;
+                    //var view = viewtest.ResolveView(vm);
+
+                    //rootFrame.Content = new Shell();
+                    //rootFrame.DataContext = view?.ViewModel;
                 }
                 _window.Activate();
             }

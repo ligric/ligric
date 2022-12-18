@@ -7,9 +7,9 @@ namespace Ligric.UI.ViewModels.Uno
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ShellViewModel()
+        public ShellViewModel(IServiceProvider serviceProvider)
         {
-            //_serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider;
         }
         public RoutingState Router { get; } = new RoutingState();
 

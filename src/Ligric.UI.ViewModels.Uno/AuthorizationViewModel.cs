@@ -10,7 +10,7 @@ namespace Ligric.UI.ViewModels.Uno
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
         }
-        public IScreen? HostScreen { get; }
+        public IScreen HostScreen { get; }
 
         public string? UrlPathSegment => "Authorization";
 
