@@ -12,7 +12,7 @@ using Ligric.Application.Users.CheckUserExists;
 using Google.Protobuf.WellKnownTypes;
 using Ligric.Application.Users.LoginCustomer;
 using Ligric.Server.Grpc.Services.LocalTemporary;
-using Ligric.Common.Types.User;
+using Ligric.Domain.Types.User;
 
 namespace Ligric.Server.Grpc.Services;
 

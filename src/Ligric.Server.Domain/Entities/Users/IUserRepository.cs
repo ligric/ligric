@@ -1,4 +1,6 @@
-﻿namespace Ligric.Server.Domain.Entities.Users
+﻿using Ligric.Domain.Types.User;
+
+namespace Ligric.Server.Domain.Entities.Users
 {
     public interface IUserRepository
     {

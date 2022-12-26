@@ -1,9 +1,9 @@
-﻿using Common.EventArgs;
-using Ligric.Common.Abstractions.Futures;
-using Ligric.Common.Types.Future;
+﻿using Ligric.Domain.Client.Base.Futures;
+using Ligric.Domain.Types.Future;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Utils;
 
 namespace Ligric.Business
 {

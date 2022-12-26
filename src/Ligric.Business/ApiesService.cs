@@ -1,10 +1,10 @@
-﻿using Common.Enums;
-using Ligric.Common.Abstractions;
-using Ligric.Common.Types.Api;
+﻿using Ligric.Domain.Client.Base;
+using Ligric.Domain.Types.Api;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Utils;
 
 namespace Ligric.Business
 {

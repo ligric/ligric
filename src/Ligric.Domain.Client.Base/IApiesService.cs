@@ -1,8 +1,8 @@
-﻿using Common.Enums;
-using Ligric.Common.Types.Api;
+﻿using Ligric.Domain.Types.Api;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Utils;
 
 namespace Ligric.Domain.Client.Base
 {

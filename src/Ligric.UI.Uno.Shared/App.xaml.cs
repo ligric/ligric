@@ -12,6 +12,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging.EventLog;
 using System.Reflection;
 using Splat.Microsoft.Extensions.DependencyInjection;
+using Ligric.UI.Uno.Pages;
 
 namespace Ligric.UI.Uno
 {
@@ -23,7 +24,7 @@ namespace Ligric.UI.Uno
 
         public App()
         {
-            Initialize();
+            //Initialize();
             InitializeLogging();
             this.InitializeComponent();
 #if HAS_UNO || NETFX_CORE
@@ -46,7 +47,6 @@ namespace Ligric.UI.Uno
             _serviceProvider = host.Services;
             _serviceProvider.UseMicrosoftDependencyResolver();
         }
-
 
         void ConfigureServices(IServiceCollection services)
         {
@@ -84,13 +84,15 @@ namespace Ligric.UI.Uno
             {
                 if (rootFrame.Content == null)
                 {
-                    var vm = _serviceProvider.GetService<ShellViewModel>();
-                    var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
+                    //var vm = _serviceProvider.GetService<ShellViewModel>();
+                    //var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
 
-                    var view = viewtest.ResolveView(vm);
+                    //var view = viewtest.ResolveView(vm);
 
-                    rootFrame.Content = view;
-                    rootFrame.DataContext = view?.ViewModel;
+                    //rootFrame.Content = view;
+
+                    rootFrame.Navigate(typeof(AuthorizationPage));
+                    rootFrame.DataContext = new AuthorizationViewModel();
                 }
                 _window.Activate();
             }

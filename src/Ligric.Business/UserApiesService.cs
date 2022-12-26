@@ -1,13 +1,12 @@
-﻿using Common.EventArgs;
-using Common.Extensions;
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
-using Ligric.Common.Types.Api;
+using Ligric.Domain.Types.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Utils;
 using static Ligric.Protos.UserApies;
 
 namespace Ligric.Business

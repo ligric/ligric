@@ -1,5 +1,5 @@
-﻿using Common.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Utils;
 
 namespace Ligric.Domain.Types.Api
 {

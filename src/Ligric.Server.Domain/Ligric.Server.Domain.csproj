@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ligric.Domain\Ligric.Domain.csproj" />
     <ProjectReference Include="..\Ligric.Server.Domain.Base\Ligric.Server.Domain.Base.csproj" />
   </ItemGroup>
 

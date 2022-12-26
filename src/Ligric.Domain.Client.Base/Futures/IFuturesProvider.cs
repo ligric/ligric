@@ -1,7 +1,7 @@
-﻿using Common.EventArgs;
-using Ligric.Common.Types.Future;
+﻿using Ligric.Domain.Types.Future;
 using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace Ligric.Domain.Client.Base.Futures
 {
