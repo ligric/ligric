@@ -57,8 +57,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "..\Utils\Utils.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binance.Net.Ligric.Business", "..\Binance.Net\Binance.Net.Ligric.Business\Binance.Net.Ligric.Business.csproj", "{56479B1D-E33C-4EA1-A223-A12804523D7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "..\ConsoleApp1\ConsoleApp1.csproj", "{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -513,26 +511,6 @@ Global
 		{56479B1D-E33C-4EA1-A223-A12804523D7E}.Release|x64.Build.0 = Release|Any CPU
 		{56479B1D-E33C-4EA1-A223-A12804523D7E}.Release|x86.ActiveCfg = Release|Any CPU
 		{56479B1D-E33C-4EA1-A223-A12804523D7E}.Release|x86.Build.0 = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|ARM.Build.0 = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|x64.Build.0 = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Debug|x86.Build.0 = Debug|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|ARM.ActiveCfg = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|ARM.Build.0 = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|ARM64.Build.0 = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|x64.ActiveCfg = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|x64.Build.0 = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|x86.ActiveCfg = Release|Any CPU
-		{62F9AF7B-02A2-4C0A-B146-A8D3A76D4E24}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
