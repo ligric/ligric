@@ -14,12 +14,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-preview.1.22076.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0-preview.1.22076.8" />
   </ItemGroup>
-  
-  
   <ItemGroup>
     <PackageReference Include="Binance.Net" Version="8.3.0" />
   </ItemGroup>
-  
   <PropertyGroup>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -133,10 +130,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\..\Binance.Net\Binance.Net.Ligric.Business\Binance.Net.Ligric.Business.csproj">
-      <Project>{56479B1D-E33C-4EA1-A223-A12804523D7E}</Project>
-      <Name>Binance.Net.Ligric.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Ligric.Business\Ligric.Business.csproj">
       <Project>{D7D3E3B4-F88B-47D4-9D62-A6947A04F77B}</Project>
       <Name>Ligric.Business</Name>
@@ -145,6 +138,10 @@
       <Project>{39f003b7-5bcf-4e99-af7a-a67e90585658}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\old\LigricView\Toolkit\CheburchayNavigation\Uno.CheburchayNavigation\Uno.CheburchayNavigation.csproj">
+      <Project>{83508202-1FC5-4D84-BD56-C7E18AE65DA2}</Project>
+      <Name>Uno.CheburchayNavigation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CustomControls\LigricBoardCustomControls\LigricBoardCustomControls.csproj">
       <Project>{c5517c02-22bc-4386-8967-57345de1c330}</Project>
       <Name>LigricBoardCustomControls</Name>
@@ -152,10 +149,6 @@
     <ProjectReference Include="..\..\Ligric.Common\Ligric.Common.csproj">
       <Project>{F63CF11E-6EF9-438C-9290-4E438C2AFF28}</Project>
       <Name>Ligric.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Toolkit\CheburchayNavigation\Uno.CheburchayNavigation\Uno.CheburchayNavigation.csproj">
-      <Project>{52C8F50C-E56F-41ED-A0A4-8B1708472523}</Project>
-      <Name>Uno.CheburchayNavigation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Toolkit\LigricMvvmToolkit\LigricMvvmToolkit.csproj">
       <Project>{80A02429-908A-4BA0-B258-BD8BFFD6AF5C}</Project>

@@ -1,4 +1,4 @@
-﻿using Binance.Net.Ligric.Business;
+﻿using Ligric.Business;
 using Common.Enums;
 using Ligric.Common.Abstractions;
 using Ligric.Common.Abstractions.Futures;
@@ -114,38 +114,38 @@ namespace LigricUno.Views.Pages.Futures
             return true;
         }
 
-        private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
-        {
-        //    var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
+        //private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
+        //{
+        ////    var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
 
-        //    if (e.Action == ActionCollectionEnum.Added)
-        //    {
-        //        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //        {
-        //            entity.Positions.Add(new PositionViewModel
-        //            {
-        //                Symbol = e.Position.Symbol,
-        //                CurrentPrice = e.Position.CurrentPrice,
-        //                OpenPrice = e.Position.OpenPrice,
-        //                PnL = e.Position.PnL,
-        //                PnLPercent = e.Position.PnLPercent,
-        //                Quantity = e.Position.Quantity,
-        //                Side = e.Position.Side
-        //            });
-        //        });
-        //    }
-        //    else
-        //    {
-        //        var removePosition = entity.Positions.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol) && string.Equals(x.Side, e.Position.Side));
-        //        if (removePosition != null)
-        //        {
-        //            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //            {
-        //                entity.Positions.Remove(removePosition);
-        //            });
-        //        }
-        //    }
-        }
+        ////    if (e.Action == ActionCollectionEnum.Added)
+        ////    {
+        ////        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        ////        {
+        ////            entity.Positions.Add(new PositionViewModel
+        ////            {
+        ////                Symbol = e.Position.Symbol,
+        ////                CurrentPrice = e.Position.CurrentPrice,
+        ////                OpenPrice = e.Position.OpenPrice,
+        ////                PnL = e.Position.PnL,
+        ////                PnLPercent = e.Position.PnLPercent,
+        ////                Quantity = e.Position.Quantity,
+        ////                Side = e.Position.Side
+        ////            });
+        ////        });
+        ////    }
+        ////    else
+        ////    {
+        ////        var removePosition = entity.Positions.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol) && string.Equals(x.Side, e.Position.Side));
+        ////        if (removePosition != null)
+        ////        {
+        ////            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        ////            {
+        ////                entity.Positions.Remove(removePosition);
+        ////            });
+        ////        }
+        ////    }
+        //}
 
         private void OnPriceChanged(object sender, (string Symbol, decimal Price) e)
         {
@@ -157,54 +157,54 @@ namespace LigricUno.Views.Pages.Futures
             //}
         }
 
-        private async void OnOrderChanged1(object sender, (BinanceFuturesOrderDto Order, ActionCollectionEnum Action) e)
-        {
-            //var order = e.Order;
-            //WriteToDebug(order);
+        //private async void OnOrderChanged1(object sender, (BinanceFuturesOrderDto Order, ActionCollectionEnum Action) e)
+        //{
+        //    //var order = e.Order;
+        //    //WriteToDebug(order);
 
-            //var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
+        //    //var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
 
-            //if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
-            //{
-            //    OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
-            //    if (removeOrder != null)
-            //    {
-            //        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //        {
-            //            entity.Orders.Remove(removeOrder);
-            //        });
-            //    }
-            //    return;
-            //}
+        //    //if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
+        //    //{
+        //    //    OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
+        //    //    if (removeOrder != null)
+        //    //    {
+        //    //        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    //        {
+        //    //            entity.Orders.Remove(removeOrder);
+        //    //        });
+        //    //    }
+        //    //    return;
+        //    //}
 
-            //var newOrder = new OrderViewModel(order.ClientOrderId)
-            //{
-            //    Value = "Uknown",
-            //    Side = order.Side.ToString(),
-            //    Quantity = order.Quantity.ToString(),
-            //    Price = order.Price.ToString(),
-            //    Symbol = order.Symbol,
-            //    Order = "Uknown"
-            //};
+        //    //var newOrder = new OrderViewModel(order.ClientOrderId)
+        //    //{
+        //    //    Value = "Uknown",
+        //    //    Side = order.Side.ToString(),
+        //    //    Quantity = order.Quantity.ToString(),
+        //    //    Price = order.Price.ToString(),
+        //    //    Symbol = order.Symbol,
+        //    //    Order = "Uknown"
+        //    //};
 
-            //if (entity == null && order.Status == OrderStatus.New)
-            //{
-            //    newFutureEntiry.Orders.Add(newOrder);
+        //    //if (entity == null && order.Status == OrderStatus.New)
+        //    //{
+        //    //    newFutureEntiry.Orders.Add(newOrder);
 
-            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        //CurrentEntities.Add(newFutureEntiry);
-            //    });
-            //}
+        //    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    //    {
+        //    //        //CurrentEntities.Add(newFutureEntiry);
+        //    //    });
+        //    //}
 
-            //if (entity != null && order.Status == OrderStatus.New)
-            //{
-            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //    {
-            //        entity.Orders.Add(newOrder);
-            //    });
-            //}
-        }
+        //    //if (entity != null && order.Status == OrderStatus.New)
+        //    //{
+        //    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    //    {
+        //    //        entity.Orders.Add(newOrder);
+        //    //    });
+        //    //}
+        //}
 
         private void OnOpenOrdersChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<long, Ligric.Common.Types.Future.OpenOrderDto> e)
         {
@@ -216,34 +216,34 @@ namespace LigricUno.Views.Pages.Futures
             throw new NotImplementedException();
         }
 
-        private void WriteToDebug(BinanceFuturesOrderDto dto)
-        {
-            Debug.WriteLine(
-                $"{nameof(dto.Pair)} {dto.Pair}\n" +
-                $"{nameof(dto.Side)} {dto.Side}\n" +
-                $"{nameof(dto.Status)} {dto.Status}\n" +
-                $"{nameof(dto.Quantity)} {dto.Quantity}\n" +
-                $"{nameof(dto.Symbol)} {dto.Symbol}\n" +
-                $"{nameof(dto.Id)} {dto.Id}\n" +
-                $"{nameof(dto.ClientOrderId)} {dto.ClientOrderId}" +
-                $"\n {nameof(dto.AvgPrice)} {dto.AvgPrice} " +
-                $"\n {nameof(dto.QuantityFilled)} {dto.QuantityFilled} " +
-                $"\n {nameof(dto.QuoteQuantityFilled)} {dto.QuoteQuantityFilled}" +
-                $"\n {nameof(dto.BaseQuantityFilled)} {dto.BaseQuantityFilled}" +
-                $"\n {nameof(dto.LastFilledQuantity)} {dto.LastFilledQuantity}" +
-                $"\n {nameof(dto.ReduceOnly)} {dto.ReduceOnly}" +
-                $"\n {nameof(dto.ClosePosition)} {dto.ClosePosition}" +
-                $"\n {nameof(dto.StopPrice)} {dto.StopPrice}" +
-                $"\n {nameof(dto.TimeInForce)} {dto.TimeInForce}" +
-                $"\n {nameof(dto.OriginalType)} {dto.OriginalType}" +
-                $"\n {nameof(dto.Type)} {dto.Type}" +
-                $"\n {nameof(dto.CallbackRate)} {dto.CallbackRate}" +
-                $"\n {nameof(dto.ActivatePrice)} {dto.ActivatePrice}" +
-                $"\n {nameof(dto.UpdateTime)} {dto.UpdateTime}" +
-                $"\n {nameof(dto.CreateTime)} {dto.CreateTime}" +
-                $"\n {nameof(dto.WorkingType)} {dto.WorkingType}" +
-                $"\n {nameof(dto.PositionSide)} {dto.PositionSide}" +
-                $"\n {nameof(dto.PriceProtect)} {dto.PriceProtect}");
-        }
+        //private void WriteToDebug(BinanceFuturesOrderDto dto)
+        //{
+        //    Debug.WriteLine(
+        //        $"{nameof(dto.Pair)} {dto.Pair}\n" +
+        //        $"{nameof(dto.Side)} {dto.Side}\n" +
+        //        $"{nameof(dto.Status)} {dto.Status}\n" +
+        //        $"{nameof(dto.Quantity)} {dto.Quantity}\n" +
+        //        $"{nameof(dto.Symbol)} {dto.Symbol}\n" +
+        //        $"{nameof(dto.Id)} {dto.Id}\n" +
+        //        $"{nameof(dto.ClientOrderId)} {dto.ClientOrderId}" +
+        //        $"\n {nameof(dto.AvgPrice)} {dto.AvgPrice} " +
+        //        $"\n {nameof(dto.QuantityFilled)} {dto.QuantityFilled} " +
+        //        $"\n {nameof(dto.QuoteQuantityFilled)} {dto.QuoteQuantityFilled}" +
+        //        $"\n {nameof(dto.BaseQuantityFilled)} {dto.BaseQuantityFilled}" +
+        //        $"\n {nameof(dto.LastFilledQuantity)} {dto.LastFilledQuantity}" +
+        //        $"\n {nameof(dto.ReduceOnly)} {dto.ReduceOnly}" +
+        //        $"\n {nameof(dto.ClosePosition)} {dto.ClosePosition}" +
+        //        $"\n {nameof(dto.StopPrice)} {dto.StopPrice}" +
+        //        $"\n {nameof(dto.TimeInForce)} {dto.TimeInForce}" +
+        //        $"\n {nameof(dto.OriginalType)} {dto.OriginalType}" +
+        //        $"\n {nameof(dto.Type)} {dto.Type}" +
+        //        $"\n {nameof(dto.CallbackRate)} {dto.CallbackRate}" +
+        //        $"\n {nameof(dto.ActivatePrice)} {dto.ActivatePrice}" +
+        //        $"\n {nameof(dto.UpdateTime)} {dto.UpdateTime}" +
+        //        $"\n {nameof(dto.CreateTime)} {dto.CreateTime}" +
+        //        $"\n {nameof(dto.WorkingType)} {dto.WorkingType}" +
+        //        $"\n {nameof(dto.PositionSide)} {dto.PositionSide}" +
+        //        $"\n {nameof(dto.PriceProtect)} {dto.PriceProtect}");
+        //}
     }
 }

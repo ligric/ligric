@@ -44,7 +44,7 @@
 
             </Border>
 
-            <!-- 302c4f --><!--
+             <!--302c4f--> 
             <ToggleButton x:Name="addNewBoard" Content="Add" Height="40" Margin="20,30" 
                           CornerRadius="10" Background="#2c2c2c" Foreground="White"
                           VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
@@ -59,7 +59,7 @@
                   
                     <Button Width="160" Height="35" Content="Add" Command="{Binding AddNewApiCommand}"/>
                 </StackPanel>
-            </Popup>-->
+            </Popup>
 
 
             
