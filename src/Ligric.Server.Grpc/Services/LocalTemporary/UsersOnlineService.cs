@@ -1,6 +1,6 @@
-﻿using Ligric.Common.Types;
-using Ligric.Domain.Types.User;
+﻿using Ligric.Domain.Types.User;
 using System.Reactive.Linq;
+using Utils;
 
 namespace Ligric.Server.Grpc.Services.LocalTemporary
 {

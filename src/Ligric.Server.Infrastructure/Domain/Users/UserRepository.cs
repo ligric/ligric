@@ -2,7 +2,7 @@
 using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Data.Base;
 using NHibernate.Criterion;
-using Ligric.Common.Types.User;
+using Ligric.Domain.Types.User;
 
 namespace Ligric.Infrastructure.Domain.Users
 {

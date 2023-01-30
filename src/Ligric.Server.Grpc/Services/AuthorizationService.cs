@@ -8,11 +8,11 @@ using System.Text;
 using Ligric.Protos;
 using Ligric.Server.Grpc.Data;
 using MediatR;
-using Ligric.Application.Users.CheckUserExists;
 using Google.Protobuf.WellKnownTypes;
-using Ligric.Application.Users.LoginCustomer;
 using Ligric.Server.Grpc.Services.LocalTemporary;
 using Ligric.Domain.Types.User;
+using Ligric.Application.Users.LoginCustomer;
+using Ligric.Application.Users.CheckUserExists;
 
 namespace Ligric.Server.Grpc.Services;
 
@@ -35,10 +35,10 @@ public class AuthorizationService : Authorization.AuthorizationBase
     {
         var loginIsUniqueQuery = new UserNameIsUniqueQuery(request.Value);
         bool isUnique = await _mediator.Send(loginIsUniqueQuery);
-        return new CheckExistsResponse 
+        return new CheckExistsResponse
         {
             Result = ResponseExtensions.GetSuccessResponseResult(),
-            IsUnique = isUnique 
+            IsUnique = isUnique
         };
     }
 

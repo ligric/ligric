@@ -4,15 +4,13 @@ using ILogger = Serilog.ILogger;
 using Ligric.Application.Configuration;
 using Ligric.Server.Grpc.Configuration;
 using Microsoft.Extensions.Caching.Memory;
-using Ligric.Infrastructure;
-using Ligric.Infrastructure.Caching;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Ligric.Server.Grpc.Services;
-using System.Reflection;
-using MediatR;
 using Ligric.Server.Grpc.Services.LocalTemporary;
+using Ligric.Infrastructure;
+using Ligric.Infrastructure.Caching;
 
 namespace Ligric.Server.Grpc
 {

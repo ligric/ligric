@@ -1,5 +1,5 @@
-﻿using System;
-using Ligric.Common.Types.User;
+﻿using Ligric.Domain.Types.User;
+using System;
 
 namespace Ligric.Application.Providers.Security
 {

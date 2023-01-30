@@ -1,6 +1,6 @@
-﻿using Ligric.Common.Types;
-using Ligric.Common.Types.Api;
+﻿using Ligric.Domain.Types.Api;
 using System.Reactive.Linq;
+using Utils;
 
 namespace Ligric.Server.Grpc.Services.LocalTemporary
 {

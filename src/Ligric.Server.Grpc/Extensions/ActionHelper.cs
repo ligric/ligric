@@ -1,4 +1,4 @@
-﻿using Ligric.Common.Types;
+﻿using Utils;
 using Action = Ligric.Protos.Action;
 
 namespace Ligric.Server.Grpc.Extensions

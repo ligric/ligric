@@ -1,13 +1,12 @@
 ﻿using Ligric.Application.Configuration.Commands;
 using Ligric.Application.Providers.Security;
 using Ligric.Application.Users.LoginCustomer;
-using Ligric.Common.Types.User;
+using Ligric.Domain.Types.User;
 using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Domain.TypeExtensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Utils.Cryptography;
 
 namespace Ligric.Application.Users.LoginUser
 {

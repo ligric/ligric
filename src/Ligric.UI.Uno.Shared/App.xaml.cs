@@ -8,11 +8,11 @@ using Ligric.UI.ViewModels.Uno;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
-using Microsoft.Extensions.Logging.EventLog;
-using System.Reflection;
 using Splat.Microsoft.Extensions.DependencyInjection;
 using Ligric.UI.Uno.Pages;
+using Grpc.Net.Client;
+using LigricUno;
+using Ligric.Business;
 
 namespace Ligric.UI.Uno
 {
@@ -51,7 +51,7 @@ namespace Ligric.UI.Uno
         void ConfigureServices(IServiceCollection services)
         {
             services.UseMicrosoftDependencyResolver();
-            var resolver = Splat.Locator.CurrentMutable;
+            var resolver = Locator.CurrentMutable;
             resolver.InitializeSplat();
             resolver.InitializeReactiveUI();
 
@@ -91,8 +91,14 @@ namespace Ligric.UI.Uno
 
                     //rootFrame.Content = view;
 
+
+                    GrpcChannel grpcChannel = GrpcChannelHalper.GetGrpcChannel();
+                    var metadataRepository = new MetadataRepository();
+
+                    var authorizationService = new AuthorizationService(grpcChannel, metadataRepository);
+
                     rootFrame.Navigate(typeof(AuthorizationPage));
-                    rootFrame.DataContext = new AuthorizationViewModel();
+                    rootFrame.DataContext = new AuthorizationViewModel(authorizationService);
                 }
                 _window.Activate();
             }

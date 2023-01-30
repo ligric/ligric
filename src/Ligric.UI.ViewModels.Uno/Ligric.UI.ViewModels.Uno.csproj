@@ -23,11 +23,14 @@
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Grpc.Net.Client" Version="2.48.0" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
     <PackageReference Include="ReactiveUI.Uno.WinUI" Version="18.1.20" />
 	<PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ligric.Business\Ligric.Business.csproj" />
+    <ProjectReference Include="..\Ligric.Domain.Client.Base\Ligric.Domain.Client.Base.csproj" />
     <ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
