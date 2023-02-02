@@ -1,143 +1,89 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using ReactiveUI;
-using Splat;
-using Windows.ApplicationModel;
-using Ligric.UI.ViewModels.Uno;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using Microsoft.Extensions.Hosting;
-using Splat.Microsoft.Extensions.DependencyInjection;
-using Ligric.UI.Uno.Pages;
-using Grpc.Net.Client;
-using LigricUno;
-using Ligric.Business;
-
-namespace Ligric.UI.Uno
+﻿namespace Ligric.UI.Uno
 {
-    public sealed partial class App
+    public sealed partial class App : Application
     {
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         private Window? _window;
-
-        public IServiceProvider _serviceProvider;
+        public Window? Window => _window;
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
         public App()
         {
-            //Initialize();
-            InitializeLogging();
             this.InitializeComponent();
-#if HAS_UNO || NETFX_CORE
-            this.Suspending += OnSuspending;
-#endif
         }
 
-        void Initialize()
-        {
-            var host = Host
-              .CreateDefaultBuilder()
-              .ConfigureAppConfiguration((hostingContext, config) => {
-                  config.Properties.Clear();
-                  config.Sources.Clear();
-                  hostingContext.Properties.Clear();
-              })
-              .ConfigureServices(ConfigureServices)
-              .Build();
-
-            _serviceProvider = host.Services;
-            _serviceProvider.UseMicrosoftDependencyResolver();
-        }
-
-        void ConfigureServices(IServiceCollection services)
-        {
-            services.UseMicrosoftDependencyResolver();
-            var resolver = Locator.CurrentMutable;
-            resolver.InitializeSplat();
-            resolver.InitializeReactiveUI();
-
-            services.AddSingleton<ShellViewModel>();
-            services.AddSingleton<IScreen, ShellViewModel>(x => x.GetRequiredService<ShellViewModel>());
-            services.AddSingleton<IViewFor<ShellViewModel>, Shell>();
-        }
-
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
 
 #if NET6_0_OR_GREATER && WINDOWS && !HAS_UNO
             _window = new Window();
-            _window.Activate();
 #else
             _window = Microsoft.UI.Xaml.Window.Current;
 #endif
+            var appRoot = new Shell();
+            appRoot.SplashScreen.Initialize(_window, args);
 
-            var rootFrame = _window.Content as Frame;
+            _window.Content = appRoot;
+            _window.Activate();
 
-            if (rootFrame == null)
-            {
-                rootFrame = new Frame();
-                _window.Content = rootFrame;
-            }
+            _host = await _window.InitializeNavigationAsync(
+                    async () =>
+                    {
+                        return BuildAppHost();
+                    },
+                    navigationRoot: appRoot.SplashScreen
+                );
 
-#if !(NET6_0_OR_GREATER && WINDOWS)
-            if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
-#endif
-            {
-                if (rootFrame.Content == null)
-                {
-                    //var vm = _serviceProvider.GetService<ShellViewModel>();
-                    //var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
+            var notif = _host.Services.GetRequiredService<IRouteNotifier>();
+            notif.RouteChanged += RouteUpdated;
 
-                    //var view = viewtest.ResolveView(vm);
+//            var rootFrame = _window.Content as Frame;
 
-                    //rootFrame.Content = view;
+//            if (rootFrame == null)
+//            {
+//                rootFrame = new Frame();
+//                _window.Content = rootFrame;
+//            }
+
+//#if !(NET6_0_OR_GREATER && WINDOWS)
+//            if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
+//#endif
+//            {
+//                if (rootFrame.Content == null)
+//                {
+//                    //var vm = _serviceProvider.GetService<ShellViewModel>();
+//                    //var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
+
+//                    //var view = viewtest.ResolveView(vm);
+
+//                    //rootFrame.Content = view;
 
 
-                    GrpcChannel grpcChannel = GrpcChannelHalper.GetGrpcChannel();
-                    var metadataRepository = new MetadataRepository();
+//                    GrpcChannel grpcChannel = GrpcChannelHalper.GetGrpcChannel();
+//                    var metadataRepository = new MetadataRepository();
 
-                    var authorizationService = new AuthorizationService(grpcChannel, metadataRepository);
+//                    var authorizationService = new AuthorizationService(grpcChannel, metadataRepository);
 
-                    rootFrame.Navigate(typeof(AuthorizationPage));
-                    rootFrame.DataContext = new AuthorizationViewModel(authorizationService);
-                }
-                _window.Activate();
-            }
+//                    rootFrame.Navigate(typeof(AuthorizationPage));
+//                    rootFrame.DataContext = new AuthorizationViewModel(authorizationService);
+//                }
+//                _window.Activate();
+//            }
         }
 
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public void RouteUpdated(object? sender, RouteChangedEventArgs e)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            deferral.Complete();
-        }
-
-        private static void InitializeLogging()
-        {
-#if DEBUG
-            var factory = LoggerFactory.Create(builder =>
+            try
             {
-#if __WASM__
-                builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
-#elif __IOS__
-                builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
-#elif NETFX_CORE
-                builder.AddDebug();
-#else
-                builder.AddConsole();
-#endif
-
-                builder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information);
-
-                builder.AddFilter("Uno", Microsoft.Extensions.Logging.LogLevel.Warning);
-                builder.AddFilter("Windows", Microsoft.Extensions.Logging.LogLevel.Warning);
-                builder.AddFilter("Microsoft", Microsoft.Extensions.Logging.LogLevel.Warning);
-            });
-
-            global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
-
-#if HAS_UNO
-            global::Uno.UI.Adapter.Microsoft.Extensions.Logging.LoggingAdapter.Initialize();
-#endif
-#endif
+                var rootRegion = e.Region.Root();
+                var route = rootRegion.GetRoute();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
         }
     }
 }

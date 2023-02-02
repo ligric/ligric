@@ -10,7 +10,7 @@ namespace Ligric.Domain.Client.Base
     {
         IReadOnlyCollection<ApiClientDto> AvailableApies { get; }
 
-        event NotifyCollectionChangedEventHandler? ApiesChanged;
+        //event NotifyCollectionChangedEventHandler? ApiesChanged;
 
         /// <summary>
         /// Saving api local or remote and available only for current user.

@@ -16,7 +16,7 @@ namespace Ligric.Business
         private readonly UserApiesClient _client;
         private readonly IMetadataRepository _metadata;
 
-        private CancellationTokenSource _chatSubscribeCancellationToken;
+        private CancellationTokenSource? _chatSubscribeCancellationToken;
         private int messagesChangedSyncNumber = 0;
         public Dictionary<long, ApiDto> Apies { get; } = new Dictionary<long, ApiDto>();
 
@@ -28,7 +28,7 @@ namespace Ligric.Business
             _metadata = metadata;
         }
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<long, ApiDto>> ApiesChanged;
+        public event EventHandler<NotifyDictionaryChangedEventArgs<long, ApiDto>>? ApiesChanged;
 
         public async Task SaveApiAsync(string name, string publicKey, string privatekey)
         {
@@ -62,13 +62,13 @@ namespace Ligric.Business
                     switch (x.Action)
                     {
                         case Protos.Action.Added:
-                            Apies.AddAndShout(this, ApiesChanged, (long)api.Id, api, ref messagesChangedSyncNumber);
+                            Apies.AddAndShout(this, ApiesChanged, api.Id ?? 0, api, ref messagesChangedSyncNumber);
                             break;
                         case Protos.Action.Removed:
-                            Apies.RemoveAndShout(this, ApiesChanged, (long)api.Id, ref messagesChangedSyncNumber);
+                            Apies.RemoveAndShout(this, ApiesChanged, api.Id ?? 0, ref messagesChangedSyncNumber);
                             break;
                         case Protos.Action.Changed:
-                            Apies.SetAndShout(this, ApiesChanged, (long)api.Id, api, ref messagesChangedSyncNumber);
+                            Apies.SetAndShout(this, ApiesChanged, api.Id ?? 0, api, ref messagesChangedSyncNumber);
                             break;
                         default:
                             throw new NotImplementedException();

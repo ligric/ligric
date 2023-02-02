@@ -22,13 +22,13 @@ namespace Utils
     public class NotifyDictionaryChangedEventArgs<TKey, TValue> : NotifyActionDictionaryChangedEventArgs
     {
         /// <summary>Ключ в отношении которого произведено действие.</summary>
-        public TKey Key { get; }
+        public TKey? Key { get; }
 
         /// <summary>Удаляемое или измененое значение.</summary>
-        public TValue OldValue { get; }
+        public TValue? OldValue { get; }
 
         /// <summary>Добавленное или новое значение.</summary>
-        public TValue NewValue { get; }
+        public TValue? NewValue { get; }
 
         /// <summary>Порядковый номер события.</summary>
         public int Number { get; }
@@ -36,9 +36,15 @@ namespace Utils
         /// <summary>Время вызова события в форамте UNIX.</summary>
         public long SenderTime { get; }
 
-        public IDictionary<TKey, TValue> NewDictionary { get; }
+        public IDictionary<TKey, TValue>? NewDictionary { get; }
 
-        public NotifyDictionaryChangedEventArgs(NotifyDictionaryChangedAction action, TKey key, TValue oldValue, TValue newValue, int number, long senderTime)
+        public NotifyDictionaryChangedEventArgs(
+            NotifyDictionaryChangedAction action, 
+            TKey? key, 
+            TValue? oldValue, 
+            TValue? newValue, 
+            int number, 
+            long senderTime)
             : base(action)
         {
             Key = key;
@@ -49,7 +55,11 @@ namespace Utils
             SenderTime = senderTime;
         }
 
-        public NotifyDictionaryChangedEventArgs(NotifyDictionaryChangedAction action, IDictionary<TKey, TValue> newDictionary, int number, long senderTime)
+        public NotifyDictionaryChangedEventArgs(
+            NotifyDictionaryChangedAction action, 
+            IDictionary<TKey, TValue>? newDictionary, 
+            int number, 
+            long senderTime)
             : base(action)
         {
             NewDictionary = newDictionary;

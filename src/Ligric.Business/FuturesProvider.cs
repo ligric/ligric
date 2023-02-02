@@ -16,7 +16,7 @@ namespace Ligric.Business
 
         public IReadOnlyDictionary<long, OpenOrderDto> OpenOrders => new ReadOnlyDictionary<long, OpenOrderDto>(_openOrders);
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<long, PositionDto>> PositionsChanged;
-        public event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
+        //public event EventHandler<NotifyDictionaryChangedEventArgs<long, PositionDto>> PositionsChanged;
+        //public event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
     }
 }

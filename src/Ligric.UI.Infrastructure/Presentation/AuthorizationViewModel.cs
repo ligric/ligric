@@ -2,39 +2,37 @@
 using Ligric.Domain.Client.Base;
 using Ligric.Domain.Client.Base.Futures;
 using Ligric.Domain.Types.User;
-using Microsoft.UI.Xaml.Controls;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using System.Reactive;
-using System.Threading.Tasks;
 
-namespace Ligric.UI.ViewModels.Uno
+namespace Ligric.UI.Infrastructure.Presentation
 {
     public class AuthorizationViewModel
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly Frame _frame;
 
-        public AuthorizationViewModel(IAuthorizationService service, Frame frame)
+        public AuthorizationViewModel(IAuthorizationService service)
         {
-            _frame = frame;
             _authorizationService = service;
             _authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
         }
 
-        [Reactive] public string Login { get; set; }
+        public string? Login { get; set; }
 
-        [Reactive] public string Password { get; set; }
+        public string? Password { get; set; }
 
 
-        public ReactiveCommand<Unit, Unit> LoginCommand => ReactiveCommand.CreateFromTask(LoginMethod);
+        //public ReactiveCommand<Unit, Unit> LoginCommand => ReactiveCommand.CreateFromTask(LoginMethod);
 
         private async Task LoginMethod()
         {
-            await _authorizationService.SignInAsync(Login, Password);
+            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+            {
+                throw new System.ArgumentNullException("Login or Password is null");
+            }
+
+            //await _authorizationService.SignInAsync(Login, Password);
         }
 
-        private void OnAuthorizationStateChanged(object sender, UserAuthorizationState e)
+        private void OnAuthorizationStateChanged(object? sender, UserAuthorizationState e)
         {
             switch (e)
             {

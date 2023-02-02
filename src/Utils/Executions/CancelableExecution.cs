@@ -7,7 +7,7 @@ namespace Utils
     public class CancelableExecution
     {
         private readonly bool _allowConcurrency;
-        private Operation _activeOperation;
+        private Operation? _activeOperation;
 
         // Represents a cancelable operation that signals its completion when disposed
         private class Operation : IDisposable
@@ -77,7 +77,7 @@ namespace Utils
             CancellationToken extraToken = default)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
-            return RunAsync<object>(async ct =>
+            return RunAsync<object?>(async ct =>
             {
                 await action(ct).ConfigureAwait(false);
                 return null;

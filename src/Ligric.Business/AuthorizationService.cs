@@ -12,14 +12,13 @@ namespace Ligric.Business
     public sealed class AuthorizationService : IAuthorizationService
     {
         private readonly IMetadataRepository _metadataRepos;
-
         private AuthorizationClient _client;
 
         public UserAuthorizationState CurrentConnectionState { get; private set; }
 
-        public UserDto CurrentUser { get; private set; }
+        public UserDto CurrentUser { get; private set; } = null!;
 
-        public event EventHandler<UserAuthorizationState> AuthorizationStateChanged;
+        public event EventHandler<UserAuthorizationState>? AuthorizationStateChanged;
 
         public AuthorizationService(
             GrpcChannel grpcChannel, 

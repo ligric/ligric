@@ -17,10 +17,10 @@ namespace Utils
     public class NotifyEnumerableChangedEventArgs<T> : NotifyActionEnumerableChangedEventArgs
     {
         /// <summary>Удаляемые или изменяемые значения.</summary>
-        public IEnumerable<T> OldValues { get; }
+        public IEnumerable<T>? OldValues { get; }
 
         /// <summary>Добавляемые или новые значение.</summary>
-        public IEnumerable<T> NewValues { get; }
+        public IEnumerable<T>? NewValues { get; }
 
         /// <summary>Порядковый номер события.</summary>
         public int Number { get; }
@@ -29,7 +29,7 @@ namespace Utils
         public long SenderTime { get; }
 
         public NotifyEnumerableChangedEventArgs(NotifyEnumumerableChangedAction action,
-                                                IEnumerable<T> oldValues, IEnumerable<T> newValues,
+                                                IEnumerable<T>? oldValues, IEnumerable<T>? newValues,
                                                 int number, long senderTime)
             : base(action)
         {
@@ -41,7 +41,7 @@ namespace Utils
         }
 
         public NotifyEnumerableChangedEventArgs(NotifyEnumumerableChangedAction action,
-                                                T oldValue, T newValue,
+                                                T? oldValue, T? newValue,
                                                 int number, long senderTime)
             : this(action,
                  oldValue == null ? new T[0] : new T[] { oldValue },

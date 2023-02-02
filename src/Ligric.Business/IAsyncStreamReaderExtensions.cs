@@ -56,7 +56,7 @@ namespace Ligric.Business
             // Start the 'await foreach' without the new syntax
             // because we need access to the ValueTask returned by MoveNextAsync()
             var enumerator = source.GetAsyncEnumerator(cancellationToken);
-            Task<bool> moveNext = null;
+            Task<bool>? moveNext = null;
 
             // Combine MoveNextAsync() with another Task that can be awaited indefinitely,
             // until it throws OperationCanceledException

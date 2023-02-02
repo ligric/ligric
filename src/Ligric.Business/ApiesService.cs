@@ -19,7 +19,7 @@ namespace Ligric.Business
 
         public IReadOnlyCollection<ApiClientDto> AvailableApies => new ReadOnlyCollection<ApiClientDto>(_availableApies);
 
-        public event NotifyCollectionChangedEventHandler? ApiesChanged;
+        //public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
         public Task SaveApiAsync(ApiDto api)
         {

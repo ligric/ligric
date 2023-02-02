@@ -11,8 +11,8 @@ namespace Ligric.Domain.Client.Base.Futures
 
         IReadOnlyDictionary<long, OpenOrderDto> OpenOrders { get; }
 
-        event EventHandler<NotifyDictionaryChangedEventArgs<long, PositionDto>> PositionsChanged;
+        //event EventHandler<NotifyDictionaryChangedEventArgs<long, PositionDto>> PositionsChanged;
 
-        event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
+        //event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
     }
 }

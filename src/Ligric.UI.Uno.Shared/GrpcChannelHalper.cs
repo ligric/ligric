@@ -18,7 +18,7 @@ namespace LigricUno
 
             httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
             {
-                if (cert.Issuer.Equals("CN=localhost"))
+                if (cert != null && cert.Issuer.Equals("CN=localhost"))
                     return true;
                 return errors == System.Net.Security.SslPolicyErrors.None;
             };

@@ -1,4 +1,4 @@
-﻿namespace Ligric.UI.Infrastructure
+﻿namespace Ligric.UI.Infrastructure.Navigation
 {
     public class NavigationRegions
     {

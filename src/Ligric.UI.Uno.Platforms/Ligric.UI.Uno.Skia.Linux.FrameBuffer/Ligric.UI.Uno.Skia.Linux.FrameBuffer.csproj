@@ -15,6 +15,7 @@
     <UpToDateCheckInput Include="..\Ligric.UI.Uno.Shared\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
@@ -23,15 +24,13 @@
     <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="14.6.1" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="2.3.0" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
+    <PackageReference Include="Uno.Toolkit.WinUI" Version="2.4.2" />
     <PackageReference Include="Uno.WinUI.Skia.Linux.FrameBuffer" Version="4.6.19" />
     <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.19" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.19" />
     <PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
     <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Ligric.UI.ViewModels.Uno\Ligric.UI.ViewModels.Uno.csproj" />
   </ItemGroup>
   <Import Project="..\..\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems" Label="Shared" />
 </Project>
