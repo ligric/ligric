@@ -85,7 +85,7 @@ public sealed partial class App : Application
         routes.Register(
             new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
             {
-                new("Home", View: views.FindByViewModel<AuthorizationViewModel>()),
+                new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
             })
         );
     }

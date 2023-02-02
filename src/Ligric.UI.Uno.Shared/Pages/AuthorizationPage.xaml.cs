@@ -1,6 +1,6 @@
 ﻿namespace Ligric.UI.Uno.Pages
 {
-    public sealed partial class AuthorizationPage
+    public sealed partial class AuthorizationPage : Page
     {
         public AuthorizationPage()
         {

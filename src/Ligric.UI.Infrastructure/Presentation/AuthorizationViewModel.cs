@@ -1,18 +1,20 @@
 ﻿using Ligric.Business;
-using Ligric.Domain.Client.Base;
 using Ligric.Domain.Client.Base.Futures;
 using Ligric.Domain.Types.User;
 
 namespace Ligric.UI.Infrastructure.Presentation
 {
-    public class AuthorizationViewModel
+    public partial class AuthorizationViewModel
     {
-        private readonly IAuthorizationService _authorizationService;
+        //private readonly IAuthorizationService _authorizationService;
+        private readonly INavigator _navigator;
 
-        public AuthorizationViewModel(IAuthorizationService service)
+		
+        public AuthorizationViewModel(INavigator navigator)
         {
-            _authorizationService = service;
-            _authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
+            _navigator = navigator;
+            //_authorizationService = service;
+            //_authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
         }
 
         public string? Login { get; set; }
@@ -21,6 +23,18 @@ namespace Ligric.UI.Infrastructure.Presentation
 
 
         //public ReactiveCommand<Unit, Unit> LoginCommand => ReactiveCommand.CreateFromTask(LoginMethod);
+
+        public async ValueTask SignIn(CancellationToken ct)
+        {
+            //var user = await _authService.AuthenticateAsync(_dispatcher);
+
+            //if (user is not null)
+            if (true)
+            {
+                await _navigator.NavigateViewModelAsync<FuturesViewModel>(this);
+                //await _navigator.NavigateRouteAsync(this, string.Empty, cancellation: ct);
+            }
+        }
 
         private async Task LoginMethod()
         {
