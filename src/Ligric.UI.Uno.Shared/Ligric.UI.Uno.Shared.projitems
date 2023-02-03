@@ -21,7 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.host.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)AppReactivePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\AncestralBindingExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemsControlBindingExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
@@ -30,23 +29,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthorizationPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AuthorizationPage.xaml.cs">
       <DependentUpon>AuthorizationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\FuturesPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FuturesPage.xaml.cs">
       <DependentUpon>FuturesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)_Compat\IsExternalInit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\FuturesPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\FuturesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\AuthorizationPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Views\AuthorizationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -62,9 +62,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.development.json" />

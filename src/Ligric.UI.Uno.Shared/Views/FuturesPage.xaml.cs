@@ -1,4 +1,4 @@
-﻿namespace Ligric.UI.Uno.Pages
+﻿namespace Ligric.UI.Uno.Views
 {
     public sealed partial class FuturesPage : Page
     {

@@ -1,7 +1,7 @@
 #pragma warning disable 109 // Remove warning for Window property on iOS
 
 using Ligric.UI.Infrastructure.Presentation;
-using Ligric.UI.Uno.Pages;
+using Ligric.UI.Uno.Views;
 
 namespace Ligric.UI.Uno;
 
