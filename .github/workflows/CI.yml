@@ -1,0 +1,23 @@
+name: Conventional Commits
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+  
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+jobs:
+  commitsar:
+    name: Validate for conventional commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            buildprops:
+              - 'Directory.Build.props'
