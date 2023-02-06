@@ -1,0 +1,53 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build-wasm",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build",
+		  "${workspaceFolder}/src/Ligric.UI.Uno.Wasm/Ligric.UI.Uno.Wasm.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "publish-wasm",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "publish",
+          "${workspaceFolder}/src/Ligric.UI.Uno.Wasm/Ligric.UI.Uno.Wasm.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "build-skia-gtk",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build",
+          "${workspaceFolder}/src/Ligric.UI.Uno.Skia.Gtk/Ligric.UI.Uno.Skia.Gtk.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "publish-skia-gtk",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "publish",
+          "${workspaceFolder}/src/Ligric.UI.Uno.Skia.Gtk/Ligric.UI.Uno.Skia.Gtk.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+      }
+    ]
+  }
