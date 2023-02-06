@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Ligric.UI.Uno</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.host.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AncestralBindingExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemsControlBindingExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GrpcChannelHalper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MetadataRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AuthorizationPage.xaml.cs">
+      <DependentUpon>AuthorizationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FuturesPage.xaml.cs">
+      <DependentUpon>FuturesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)_Compat\IsExternalInit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\FuturesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\AuthorizationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\ProgressRing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)appsettings.development.json" />
+    <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-Bold.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-BoldItalic.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-Italic.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-Light.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-LightItalic.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-regular.ttf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
+  </ItemGroup>
+  <Import Project="Ligric.UI.Uno.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
+</Project>
