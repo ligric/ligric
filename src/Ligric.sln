@@ -5,21 +5,21 @@ VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{4C58AE60-E887-489A-B332-ECFD7DC20F4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Windows", "src\Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Windows\Ligric.UI.Uno.Windows.csproj", "{5A03EEC4-4EAA-4C9F-9E34-8CADD2D7FBD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Windows", "Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Windows\Ligric.UI.Uno.Windows.csproj", "{5A03EEC4-4EAA-4C9F-9E34-8CADD2D7FBD9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Mobile", "src\Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Mobile\Ligric.UI.Uno.Mobile.csproj", "{5BE31DF9-7A4E-4612-9650-FAE9BF68FBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Mobile", "Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Mobile\Ligric.UI.Uno.Mobile.csproj", "{5BE31DF9-7A4E-4612-9650-FAE9BF68FBC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Skia.Gtk", "src\Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Skia.Gtk\Ligric.UI.Uno.Skia.Gtk.csproj", "{4DB07D95-627F-4CE4-9790-97C9BDF142D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Skia.Gtk", "Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Skia.Gtk\Ligric.UI.Uno.Skia.Gtk.csproj", "{4DB07D95-627F-4CE4-9790-97C9BDF142D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Skia.Linux.FrameBuffer", "src\Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Skia.Linux.FrameBuffer\Ligric.UI.Uno.Skia.Linux.FrameBuffer.csproj", "{D7F75F70-70EC-47D7-8FB8-F953052DC96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Skia.Linux.FrameBuffer", "Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Skia.Linux.FrameBuffer\Ligric.UI.Uno.Skia.Linux.FrameBuffer.csproj", "{D7F75F70-70EC-47D7-8FB8-F953052DC96D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Skia.Wpf", "src\Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Skia.Wpf\Ligric.UI.Uno.Skia.Wpf.csproj", "{23B58928-C04D-45EF-97F4-307A50FFACE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Skia.Wpf", "Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Skia.Wpf\Ligric.UI.Uno.Skia.Wpf.csproj", "{23B58928-C04D-45EF-97F4-307A50FFACE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Wasm", "src\Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Wasm\Ligric.UI.Uno.Wasm.csproj", "{BE56CEA5-F2B8-47B9-A969-D0235E88A35A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Uno.Wasm", "Ligric.UI.Uno.Platforms\Ligric.UI.Uno.Wasm\Ligric.UI.Uno.Wasm.csproj", "{BE56CEA5-F2B8-47B9-A969-D0235E88A35A}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ligric.UI.Uno.Shared", "src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ligric.UI.Uno.Shared", "Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Infrastructure", "src\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj", "{AF2D8B5B-0A6C-401D-9045-E9572D8A64C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Infrastructure", "Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj", "{AF2D8B5B-0A6C-401D-9045-E9572D8A64C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{ADAF8BB1-AB66-41E2-A623-BB8E5D4745B5}"
 EndProject
@@ -27,36 +27,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{4CE79A6C-8778-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{DE356FB2-F2B6-4D5D-9B96-579A4DFC770D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Protos", "src\Ligric.Protos\Ligric.Protos.csproj", "{96FD0B40-3A8C-4E49-899F-260A41364EF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Protos", "Ligric.Protos\Ligric.Protos.csproj", "{96FD0B40-3A8C-4E49-899F-260A41364EF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "src\Utils\Utils.csproj", "{7DA54956-0EA7-428F-B2F8-28EEBE61FE4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Utils\Utils.csproj", "{7DA54956-0EA7-428F-B2F8-28EEBE61FE4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Domain", "src\Ligric.Server.Domain\Ligric.Server.Domain.csproj", "{F6ABA48A-B0A9-4BDB-84FA-F3D545182CB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Domain", "Ligric.Server.Domain\Ligric.Server.Domain.csproj", "{F6ABA48A-B0A9-4BDB-84FA-F3D545182CB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Domain.Base", "src\Ligric.Server.Domain.Base\Ligric.Server.Domain.Base.csproj", "{A4F6DBC6-F2D6-46C6-8247-5A705ED91104}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Domain.Base", "Ligric.Server.Domain.Base\Ligric.Server.Domain.Base.csproj", "{A4F6DBC6-F2D6-46C6-8247-5A705ED91104}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{8CD6F17A-69DF-4950-958B-57206FD36B5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain", "src\Ligric.Domain\Ligric.Domain.csproj", "{05177EDD-270E-4BC8-9798-2002F7032C9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain", "Ligric.Domain\Ligric.Domain.csproj", "{05177EDD-270E-4BC8-9798-2002F7032C9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Business", "src\Ligric.Business\Ligric.Business.csproj", "{FFAEE46D-FBA2-48C4-B60E-5B1256A500E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Business", "Ligric.Business\Ligric.Business.csproj", "{FFAEE46D-FBA2-48C4-B60E-5B1256A500E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain.Client", "src\Ligric.Domain.Client\Ligric.Domain.Client.csproj", "{F9FCEEFA-CE0A-413C-BA84-4D5DF59A509D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain.Client", "Ligric.Domain.Client\Ligric.Domain.Client.csproj", "{F9FCEEFA-CE0A-413C-BA84-4D5DF59A509D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain.Client.Base", "src\Ligric.Domain.Client.Base\Ligric.Domain.Client.Base.csproj", "{34555A7C-ACA0-4764-8E80-F5DB4D5A3611}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain.Client.Base", "Ligric.Domain.Client.Base\Ligric.Domain.Client.Base.csproj", "{34555A7C-ACA0-4764-8E80-F5DB4D5A3611}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Grpc", "src\Ligric.Server.Grpc\Ligric.Server.Grpc.csproj", "{64C3A606-B957-4C7A-B84A-1EBDEDA398EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Grpc", "Ligric.Server.Grpc\Ligric.Server.Grpc.csproj", "{64C3A606-B957-4C7A-B84A-1EBDEDA398EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Infrastructure", "src\Ligric.Server.Infrastructure\Ligric.Infrastructure.csproj", "{F6470FAB-1AEA-407E-8C41-57C797ADF7E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Infrastructure", "Ligric.Server.Infrastructure\Ligric.Infrastructure.csproj", "{F6470FAB-1AEA-407E-8C41-57C797ADF7E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Application", "src\Ligric.Application\Ligric.Application.csproj", "{DECCAE68-2823-4E68-ABD6-671CC8D89575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Application", "Ligric.Application\Ligric.Application.csproj", "{DECCAE68-2823-4E68-ABD6-671CC8D89575}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C19B13E6-7F3B-4C2F-9CEA-6C648C79FAEC}"
 	ProjectSection(SolutionItems) = preProject
-		src\Directory.Build.Props = src\Directory.Build.Props
-		src\Directory.Build.targets = src\Directory.Build.targets
-		src\Extensions.props = src\Extensions.props
-		src\Extensions.winui.props = src\Extensions.winui.props
+		Directory.Build.Props = Directory.Build.Props
+		Directory.Build.targets = Directory.Build.targets
+		Extensions.props = Extensions.props
+		Extensions.winui.props = Extensions.winui.props
 	EndProjectSection
 EndProject
 Global
@@ -396,12 +396,12 @@ Global
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{23b58928-c04d-45ef-97f4-307a50fface4}*SharedItemsImports = 5
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{4db07d95-627f-4ce4-9790-97c9bdf142d9}*SharedItemsImports = 5
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{5a03eec4-4eaa-4c9f-9e34-8cadd2d7fbd9}*SharedItemsImports = 5
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{5be31df9-7a4e-4612-9650-fae9bf68fbc4}*SharedItemsImports = 5
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{be56cea5-f2b8-47b9-a969-d0235e88a35a}*SharedItemsImports = 5
-		src\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{d7f75f70-70ec-47d7-8fb8-f953052dc96d}*SharedItemsImports = 5
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{23b58928-c04d-45ef-97f4-307a50fface4}*SharedItemsImports = 5
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{4db07d95-627f-4ce4-9790-97c9bdf142d9}*SharedItemsImports = 5
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{5a03eec4-4eaa-4c9f-9e34-8cadd2d7fbd9}*SharedItemsImports = 5
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{5be31df9-7a4e-4612-9650-fae9bf68fbc4}*SharedItemsImports = 5
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{be56cea5-f2b8-47b9-a969-d0235e88a35a}*SharedItemsImports = 5
+		Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems*{d7f75f70-70ec-47d7-8fb8-f953052dc96d}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
