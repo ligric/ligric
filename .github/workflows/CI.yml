@@ -14,7 +14,7 @@ on:
 jobs:
   build_and_deploy_job_azure_static_apps:
     env:
-      DIST_PATH: src/Ligric.UI.Uno.Wasm/bin/Release/net6.0/dist
+      DIST_PATH: src/Ligric.UI.Uno.Platforms/Ligric.UI.Uno.Wasm/bin/Release/net6.0/dist
 
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
           dotnet-version: '6.0.300'
 
       - run: |
-          cd src/Ligric.UI.Uno.Wasm
+          cd src/Ligric.UI.Uno.Platforms/Ligric.UI.Uno.Wasm
           dotnet build -c Release "/p:PackageVersion=${{ steps.gitversion.outputs.fullSemVer }}"
 
       - uses: actions/upload-artifact@v2
