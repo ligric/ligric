@@ -20,7 +20,7 @@
   <ItemGroup>
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
-		<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
+		<PackageReference Include="Uno.WinUI.Lottie" Version="4.7.37" />
 		<PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
 		
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
