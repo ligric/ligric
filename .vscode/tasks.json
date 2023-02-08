@@ -7,7 +7,7 @@
         "type": "process",
         "args": [
           "build",
-		  "${workspaceFolder}/src/Ligric.UI.Uno.Wasm/Ligric.UI.Uno.Wasm.csproj",
+		  "${workspaceFolder}/src/Ligric.UI.Wasm/Ligric.UI.Wasm.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
@@ -19,7 +19,7 @@
         "type": "process",
         "args": [
           "publish",
-          "${workspaceFolder}/src/Ligric.UI.Uno.Wasm/Ligric.UI.Uno.Wasm.csproj",
+          "${workspaceFolder}/src/Ligric.UI.Wasm/Ligric.UI.Wasm.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
@@ -31,7 +31,7 @@
         "type": "process",
         "args": [
           "build",
-          "${workspaceFolder}/src/Ligric.UI.Uno.Skia.Gtk/Ligric.UI.Uno.Skia.Gtk.csproj",
+          "${workspaceFolder}/src/Ligric.UI.Skia.Gtk/Ligric.UI.Skia.Gtk.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
@@ -43,7 +43,7 @@
         "type": "process",
         "args": [
           "publish",
-          "${workspaceFolder}/src/Ligric.UI.Uno.Skia.Gtk/Ligric.UI.Uno.Skia.Gtk.csproj",
+          "${workspaceFolder}/src/Ligric.UI.Skia.Gtk/Ligric.UI.Skia.Gtk.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
