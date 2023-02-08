@@ -5,7 +5,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <!-- Load WinUI resources -->
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
-                <!-- Load Uno.UI.Toolkit resources -->
                 <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
                 <ResourceDictionary Source="/Styles/TextBox.xaml"/>
                 <ResourceDictionary Source="/Styles/Button.xaml"/>
