@@ -64,7 +64,7 @@ public sealed partial class App : Application
                     })
 
                 // Enable navigation, including registering views and viewmodels
-                .UseNavigation(Windows.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+                .UseNavigation(Infrastructure.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 
                 // Add navigation support for toolkit controls such as TabBar and NavigationView
                 .UseToolkitNavigation()
