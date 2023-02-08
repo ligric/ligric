@@ -9,7 +9,7 @@
 		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
-		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+		<!--<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>-->
 		<EnableMsixTooling>true</EnableMsixTooling>
 	</PropertyGroup>
 
@@ -43,8 +43,6 @@
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
 
-		
-		
 		<PackageReference Include="Uno.WinUI.MSAL" Version="$(UnoVersion)" />
 		<PackageReference Include="Uno.WinUI.Skia.Wpf"  Version="$(UnoVersion)" />
 		<PackageReference Include="Uno.WinUI.RemoteControl"  Version="$(UnoVersion)" Condition="'$(Configuration)'=='Debug'" />
@@ -81,11 +79,6 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 
-	<!-- 
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>

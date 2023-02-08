@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <NoWarn>NU1701</NoWarn>
+		<NoWarn>$(NoWarn);NU1504;NU1505;NU1701</NoWarn>
 		<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>
 	</PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -16,6 +16,13 @@
 		-->
     <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
   </PropertyGroup>
+	<PropertyGroup Condition="'$(IsUiAutomationMappingEnabled)'=='True'">
+		<DefineConstants>$(DefineConstants);USE_MOCKS</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
+		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
+		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
+	</PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.png" />
   </ItemGroup>
@@ -41,7 +48,8 @@
     <None Include="wwwroot\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
@@ -51,17 +59,19 @@
     <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.4.0" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="2.3.0" />
     <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
-    <PackageReference Include="Uno.Toolkit.WinUI" Version="2.4.2" />
-    <PackageReference Include="Uno.WinUI.WebAssembly" Version="4.6.19" />
-    <PackageReference Include="Uno.WinUI.RemoteControl" Version="4.6.19" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.6.19" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.3" />
+
+		<PackageReference Include="Uno.WinUI.MSAL" Version="$(UnoVersion)" />
+		<PackageReference Include="Uno.WinUI.WebAssembly" Version="$(UnoVersion)" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="$(UnoVersion)" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="$(UnoVersion)" />
+		<PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.3" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.3" />
     <PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />
+		<PackageReference Include="Uno.Toolkit.WinUI" Version="$(UnoToolkitVersion)" />
 
-	<PackageReference Include="Uno.Extensions.Authentication" Version="$(UnoExtensionsVersion)" />
-	<PackageReference Include="Uno.Extensions.Authentication.WinUI" Version="$(UnoExtensionsVersion)" />
-	<PackageReference Include="Uno.Extensions.Configuration" Version="$(UnoExtensionsVersion)" />
+		<PackageReference Include="Uno.Extensions.Authentication" Version="$(UnoExtensionsVersion)" />
+	  <PackageReference Include="Uno.Extensions.Authentication.WinUI" Version="$(UnoExtensionsVersion)" />
+	  <PackageReference Include="Uno.Extensions.Configuration" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Core" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Hosting" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Hosting.WinUI" Version="$(UnoExtensionsVersion)" />
@@ -80,6 +90,9 @@
     <PackageReference Include="Uno.Extensions.Serialization" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Serialization.Http" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Serialization.Refit" Version="$(UnoExtensionsVersion)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
   </ItemGroup>
   <Import Project="..\..\Ligric.UI.Uno.Shared\Ligric.UI.Uno.Shared.projitems" Label="Shared" />
 </Project>

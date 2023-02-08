@@ -1,10 +1,12 @@
-﻿namespace Ligric.UI.Uno
+﻿#pragma warning disable 109 // Remove warning for Window property on iOS
+
+namespace Ligric.UI.Uno
 {
     public sealed partial class App : Application
     {
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         private Window? _window;
-        public Window? Window => _window;
+        public new Window? Window => _window;
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
         public App()

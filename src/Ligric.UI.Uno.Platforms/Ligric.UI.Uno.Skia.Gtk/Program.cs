@@ -1,10 +1,9 @@
 ﻿using GLib;
-using System;
 using Uno.UI.Runtime.Skia;
 
 namespace Ligric.UI.Uno.Skia.Gtk
 {
-    internal class Program
+	internal class Program
     {
         static void Main(string[] args)
         {
