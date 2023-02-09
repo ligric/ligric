@@ -30,14 +30,14 @@ namespace Ligric.Infrastructure.Database
 		private readonly List<IConvention> _conventions;
 		private readonly IInterceptor _interceptor;
 
-		private ISessionFactory _factory;
+		private ISessionFactory? _factory;
 
 		//TODO: fix this later
 		private readonly string[] _assemblyNames = {
             "Ligric.Server.Domain",
 		};
 
-		public ISessionFactory Factory => _factory;
+		public ISessionFactory? Factory => _factory;
 
 		public virtual IsolationLevel IsolationLevel => IsolationLevel.ReadCommitted;
 

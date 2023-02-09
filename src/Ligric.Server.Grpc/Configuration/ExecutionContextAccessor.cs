@@ -5,7 +5,7 @@ namespace Ligric.Server.Grpc.Configuration
 {
     public class ExecutionContextAccessor : IExecutionContextAccessor
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
 
         public ExecutionContextAccessor(IHttpContextAccessor httpContextAccessor)
         {
@@ -16,6 +16,11 @@ namespace Ligric.Server.Grpc.Configuration
         {
             get
             {
+				if (_httpContextAccessor?.HttpContext?.Request?.Headers?.Keys == null)
+				{
+					throw new NotImplementedException();
+				}
+
                 if (IsAvailable && _httpContextAccessor.HttpContext.Request.Headers.Keys.Any(x => x == CorrelationMiddleware.CorrelationHeaderKey))
                 {
                     return Guid.Parse(
@@ -25,6 +30,6 @@ namespace Ligric.Server.Grpc.Configuration
             }
         }
 
-        public bool IsAvailable => _httpContextAccessor.HttpContext != null;
+        public bool IsAvailable => _httpContextAccessor?.HttpContext != null;
     }
 }

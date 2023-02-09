@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Ligric.Server.Grpc.Services;
-using Ligric.Server.Grpc.Services.LocalTemporary;
 using Ligric.Infrastructure;
 using Ligric.Infrastructure.Caching;
 
@@ -20,7 +19,7 @@ namespace Ligric.Server.Grpc
 
         private const string LigricConnectionString = "LigricConnectionString";
 
-        private static ILogger _logger;
+        private static ILogger? _logger;
 
         public Startup(IWebHostEnvironment env)
         {
@@ -37,10 +36,12 @@ namespace Ligric.Server.Grpc
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            SetJWTAuthorization(services);
-            //services.AddOptions();
+			if (services == null)
+			{
+				throw new NotImplementedException();
+			}
 
-            //services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            SetJWTAuthorization(services);
 
             services.AddGrpc();
 
@@ -48,22 +49,13 @@ namespace Ligric.Server.Grpc
 
             services.AddMemoryCache();
 
-            services.AddSingleton<UsersOnlineService>();
-            services.AddSingleton<UserapiesLocalService>();
-
-
-
-            //services.AddProblemDetails(x =>
-            //{
-            //    x.Map<InvalidCommandException>(ex => new InvalidCommandProblemDetails(ex));
-            //    x.Map<BusinessRuleValidationException>(ex => new BusinessRuleValidationExceptionProblemDetails(ex));
-            //});
-
-
             services.AddHttpContextAccessor();
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
+#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+			ServiceProvider serviceProvider = services.BuildServiceProvider();
+#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
 
-            IExecutionContextAccessor executionContextAccessor = new ExecutionContextAccessor(serviceProvider.GetService<IHttpContextAccessor>());
+			IExecutionContextAccessor executionContextAccessor = new ExecutionContextAccessor(
+				serviceProvider.GetService<IHttpContextAccessor>() ?? throw new NotImplementedException());
 
             var children = this._configuration.GetSection("Caching").GetChildren();
             var cachingConfiguration = children.ToDictionary(child => child.Key, child => TimeSpan.Parse(child.Value));
@@ -71,7 +63,7 @@ namespace Ligric.Server.Grpc
             return ApplicationStartup.Initialize(
                 services,
                 this._configuration[LigricConnectionString],
-                new MemoryCacheStore(memoryCache, cachingConfiguration),
+                new MemoryCacheStore(memoryCache ?? throw new NotImplementedException(), cachingConfiguration),
                 ConfigureLogger(),
                 executionContextAccessor);
         }
@@ -98,7 +90,6 @@ namespace Ligric.Server.Grpc
                 endpoints.MapControllers();
 
                 endpoints.MapGrpcService<AuthorizationService>().EnableGrpcWeb();
-                endpoints.MapGrpcService<UserApiesService>().EnableGrpcWeb();
 
                 endpoints.MapGet("/", async context =>
                 {

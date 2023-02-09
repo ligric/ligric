@@ -16,9 +16,11 @@ namespace Ligric.Infrastructure.Quartz
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
             var job = _container.Resolve(bundle.JobDetail.JobType);
-                
-            return job  as IJob;
-        }
+
+#pragma warning disable CS8603 // Possible null reference return.
+			return job as IJob;
+#pragma warning restore CS8603 // Possible null reference return.
+		}
 
         public void ReturnJob(IJob job)
         {

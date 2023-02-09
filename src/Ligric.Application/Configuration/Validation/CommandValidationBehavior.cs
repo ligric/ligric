@@ -36,7 +36,7 @@ namespace Ligric.Application.Configuration.Validation
                     errorBuilder.AppendLine(error.ErrorMessage);
                 }
 
-                throw new InvalidCommandException(errorBuilder.ToString(), null);
+                throw new InvalidCommandException(errorBuilder.ToString(), string.Empty);
             }
 
             return next();

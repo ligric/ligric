@@ -19,7 +19,7 @@ namespace Ligric.Infrastructure.SeedWork
         {
         }
 
-        public override IEnumerable<ValueConverterInfo> Select(Type modelClrType, Type providerClrType = null)
+        public override IEnumerable<ValueConverterInfo> Select(Type modelClrType, Type? providerClrType = null)
         {
             var baseConverters = base.Select(modelClrType, providerClrType);
             foreach (var converter in baseConverters)
@@ -37,18 +37,25 @@ namespace Ligric.Infrastructure.SeedWork
                 {
                     var converterType = typeof(TypedIdValueConverter<>).MakeGenericType(underlyingModelType);
 
-                    yield return _converters.GetOrAdd((underlyingModelType, typeof(Guid)), _ =>
-                    {
-                        return new ValueConverterInfo(
-                            modelClrType: modelClrType,
-                            providerClrType: typeof(Guid),
-                            factory: valueConverterInfo => (ValueConverter)Activator.CreateInstance(converterType, valueConverterInfo.MappingHints));
-                    });
+					if (underlyingModelType != null)
+					{
+						yield return _converters.GetOrAdd((underlyingModelType, typeof(Guid)), _ =>
+						{
+							return new ValueConverterInfo(
+								modelClrType: modelClrType,
+								providerClrType: typeof(Guid),
+								factory: valueConverterInfo => (ValueConverter)Activator.CreateInstance(converterType, valueConverterInfo.MappingHints));
+						});
+					}
+					else
+					{
+						throw new NotImplementedException();
+					}
                 }
             }
         }
 
-        private static Type UnwrapNullableType(Type type)
+        private static Type? UnwrapNullableType(Type? type)
         {
             if (type is null)
             {

@@ -11,9 +11,9 @@ namespace Ligric.Infrastructure
             _container = container;
         }
 
-        internal static ILifetimeScope BeginLifetimeScope()
+        internal static ILifetimeScope? BeginLifetimeScope()
         {
-            return _container.BeginLifetimeScope();
+            return _container?.BeginLifetimeScope();
         }
     }
 }

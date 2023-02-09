@@ -15,7 +15,7 @@ namespace Ligric.Server.Data.Base
 	    protected readonly string ConnectionString;
 	    protected readonly List<IConvention> Conventions;
 
-	    protected ISessionFactory Factory;
+	    protected ISessionFactory? Factory;
 
         protected DataProvider(IConnectionSettingsProvider connectionSettingsProvider)
         {
@@ -34,8 +34,15 @@ namespace Ligric.Server.Data.Base
 
         public void BeginTransaction(IsolationLevel isolationLevel)
         {
-            Session.BeginTransaction(isolationLevel);
-        }
+			if (Session != null)
+			{
+				Session.BeginTransaction(isolationLevel);
+			}
+			else
+			{
+				throw new NullReferenceException("Session is null here.");
+			}
+		}
 
         public void BeginTransaction()
         {
@@ -109,7 +116,7 @@ namespace Ligric.Server.Data.Base
             return query;
         }
 
-        public T Unproxy<T>(T enity) where T : EntityBase
+        public T? Unproxy<T>(T enity) where T : EntityBase
         {
             return Session.GetSessionImplementation().PersistenceContext.Unproxy(enity) as T;
         }
@@ -120,14 +127,14 @@ namespace Ligric.Server.Data.Base
             return Session.Get<T>(id);
         }
 
-        public IStatelessSession OpenStatelessSession()
+        public IStatelessSession? OpenStatelessSession()
         {
-            return Factory.OpenStatelessSession();
+            return Factory?.OpenStatelessSession();
         }
 
-        public ISQLQuery CreateSqlQuery(string query)
+        public ISQLQuery? CreateSqlQuery(string query)
         {
-            return Session.CreateSQLQuery(query);
+            return Session?.CreateSQLQuery(query);
         }
 
         public void SaveOrUpdate<T>(T entity)

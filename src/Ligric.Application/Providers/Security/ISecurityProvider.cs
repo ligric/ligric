@@ -13,6 +13,6 @@ namespace Ligric.Application.Providers.Security
 
         string AuthenticateRequest(string token);
 
-        void ThrownUnauthorized(string message = null);
+        void ThrownUnauthorized(string? message = null);
     }
 }
