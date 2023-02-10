@@ -3,16 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-
+    <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-		<PackageReference Include="AutoFixture" Version="4.11.0" />
-		<PackageReference Include="Grpc.Net.Client" Version="2.48.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.2" />
-		<PackageReference Include="Moq" Version="4.13.1" />
+		<PackageReference Include="FlueFlame.AspNetCore.Grpc" Version="1.0.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.21.12" />
+		<PackageReference Include="Grpc.Tools" Version="2.51.0" />
+		<PackageReference Include="Faker.Net" Version="2.0.154" />
 
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -27,18 +26,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="App_Infrastructure\ClassFixture\appsettings.Test.json" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
 	  <ProjectReference Include="..\Ligric.Server.Grpc\Ligric.Server.Grpc.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="testsettings.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 </Project>

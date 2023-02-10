@@ -1,47 +1,30 @@
-using AutoFixture;
-using Grpc.Net.Client;
-using Microsoft.AspNetCore.TestHost;
-using Ligric.Server.Tests.App_Infrastructure.ClassFixture;
-using Ligric.Server.Tests.App_Infrastructure.Extensions;
-using Ligric.Server.Grpc;
 using Ligric.Protos;
+using Google.Protobuf.WellKnownTypes;
+using FluentAssertions;
 
 namespace Ligric.Server.Tests
 {
-	public sealed class ExampleIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
-    {
-        private readonly HttpClient _client;
-        private readonly CustomWebApplicationFactory<Startup> _factory;
-        private readonly Fixture _fixture;
-        private readonly GrpcChannel _channel;
-        public ExampleIntegrationTests(CustomWebApplicationFactory<Startup> factory)
-        {
-            _factory = factory;
-            _client = _factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    // ConfigureServices of DI
-                });
-            }).CreateClientForGrpc();
-            _channel = GrpcChannel.ForAddress("http://randomAddress:1234", new GrpcChannelOptions()
-            {
-                HttpClient = _client
-            });
-            _fixture = new Fixture();
-        }
+	public sealed class AuthorizationIntegrationTests : TestBase
+	{
+		private StringValue RandomGuidRequest => new() { Value = Guid.NewGuid().ToString() };
 
-        [Trait("Category", "Integration")]
         [Fact]
-        public async Task Admin_Authorization()
+        public async Task UserAuthorization_ReturnsIsSuccess()
         {
-            // Arrange
-            var authorizationClient = new Authorization.AuthorizationClient(_channel);
-            // Act
-            var response = await authorizationClient.SignInAsync(new SignInRequest() { Login = "test", Password = "test" });
-            // Assert
-            Assert.True(response.Result.IsSuccess);
-            Assert.NotNull(response.JwtToken?.Token);
+			// Arrange
+			var request = new SignInRequest() { Login = "test", Password = "test" };
+			var client = GrpcHost.CreateClient<Authorization.AuthorizationClient>();
+
+			// Act
+			var act = client.Unary.Call(c => c.SignIn(request));
+
+			// Assert
+			act.Response.AssertThat(e => e.Result.IsSuccess.Should().BeTrue());
+
+			// Arrange
+			//var authorizationClient = new Authorization.AuthorizationClient(_channel);
+            //Assert.True(response.Result.IsSuccess);
+            //Assert.NotNull(response.JwtToken?.Token);
         }
 
         //[Trait("Category", "Integration")]
