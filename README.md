@@ -1,4 +1,4 @@
-## Ligric
+## Ligric (demo version)
 
 The application is being developed to facilitate the purchase and sale of financial assets.
 
