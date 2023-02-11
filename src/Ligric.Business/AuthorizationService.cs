@@ -45,11 +45,11 @@ namespace Ligric.Business
         {
             var authReply = _client.SignIn(new SignInRequest { Login = login, Password = password });
             var metadata = new Metadata();
-            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
+            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
             _metadataRepos.SetMetadata(metadata);
 
-            CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-            CurrentConnectionState = UserAuthorizationState.Connected;
+            //CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
+            //CurrentConnectionState = UserAuthorizationState.Connected;
             AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
         }
 
@@ -57,36 +57,36 @@ namespace Ligric.Business
         {
             var authReply = await _client.SignInAsync(new SignInRequest { Login = login, Password = password });
             var metadata = new Metadata();
-            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
+            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
             _metadataRepos.SetMetadata(metadata);
 
-            CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-            CurrentConnectionState = UserAuthorizationState.Connected;
-            AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+            //CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
+            //CurrentConnectionState = UserAuthorizationState.Connected;
+            //AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
         }
 
         public void SignUp(string login, string password)
         {
             var authReply = _client.SignUp(new SignUpRequest { Login = login, Password = password });
             var metadata = new Metadata();
-            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
+            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
             _metadataRepos.SetMetadata(metadata);
 
-            CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-            CurrentConnectionState = UserAuthorizationState.Connected;
-            AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+            //CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
+            //CurrentConnectionState = UserAuthorizationState.Connected;
+            //AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
         }
 
         public async Task SignUpAsync(string login, string password)
         {
             var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = password });
             var metadata = new Metadata();
-            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.Token}");
+            metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
             _metadataRepos.SetMetadata(metadata);
 
-            CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-            CurrentConnectionState = UserAuthorizationState.Connected;
-            AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+            //CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
+            //CurrentConnectionState = UserAuthorizationState.Connected;
+            //AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
         }
 
         public void Dispose()
