@@ -19,7 +19,7 @@ message SignInRequest {
 }
 
 message SignInResponse {
-	string userId = 1;
+	string role = 1;
 	JwtToken jwtToken = 2;
 	ResponseResult result = 3;
 }
@@ -30,9 +30,8 @@ message SignUpRequest {
 }
 
 message SignUpResponse {
-	string userId = 1;
-	JwtToken jwtToken = 2;
-	ResponseResult result = 3;
+	JwtToken jwtToken = 1;
+	ResponseResult result = 2;
 }
 
 message CheckExistsRequest {

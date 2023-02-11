@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Ligric.Infrastructure.Jwt
@@ -19,6 +21,7 @@ namespace Ligric.Infrastructure.Jwt
 
 		public JwtAuthManager(JwtTokenConfig jwtTokenConfig)
 		{
+			//_jwtTokenConfig = GetJwtTokenConfig(configuration);
 			_jwtTokenConfig = jwtTokenConfig;
 			_usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
 			_secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
@@ -44,7 +47,7 @@ namespace Ligric.Infrastructure.Jwt
 			}
 		}
 
-		public JwtAuthResult GenerateTokens(string? username, Claim[] claims, DateTime now)
+		public JwtAuthResult GenerateTokens(string? username, IEnumerable<Claim> claims, DateTime now)
 		{
 			var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
 			var jwtToken = new JwtSecurityToken(
@@ -113,6 +116,19 @@ namespace Ligric.Infrastructure.Jwt
 					out var validatedToken);
 			return (principal, (JwtSecurityToken)validatedToken);
 		}
+
+//		private static JwtTokenConfig GetJwtTokenConfig(IConfiguration configuration)
+//		{
+//#pragma warning disable IDE0022 // Use expression body for methods
+//			return new JwtTokenConfig
+//			{
+//				RefreshTokenExpiration = int.Parse(configuration.GetValue<string>("JwtKey")),
+//				Issuer = configuration.GetValue<string>("JwtIssuer"),
+//				Audience = configuration.GetValue<string>("JwtAudience"),
+//				AccessTokenExpiration = int.Parse(configuration.GetValue<string>("JwtExpiration"))
+//			};
+//#pragma warning restore IDE0022 // Use expression body for methods
+//		}
 
 		private static string GenerateRefreshTokenString()
 		{

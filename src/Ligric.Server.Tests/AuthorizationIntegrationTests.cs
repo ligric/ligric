@@ -9,7 +9,7 @@ namespace Ligric.Server.Tests
 		private StringValue RandomGuidRequest => new() { Value = Guid.NewGuid().ToString() };
 
         [Fact]
-        public async Task UserAuthorization_ReturnsIsSuccess()
+        public async Task GetJwtToken_FromAuthorization_ReturnsIsSuccessAndValidToken()
         {
 			// Arrange
 			var request = new SignInRequest() { Login = "test", Password = "test" };
@@ -19,12 +19,9 @@ namespace Ligric.Server.Tests
 			var act = client.Unary.Call(c => c.SignIn(request));
 
 			// Assert
-			act.Response.AssertThat(e => e.Result.IsSuccess.Should().BeTrue());
-
-			// Arrange
-			//var authorizationClient = new Authorization.AuthorizationClient(_channel);
-            //Assert.True(response.Result.IsSuccess);
-            //Assert.NotNull(response.JwtToken?.Token);
+			act.Response.AssertThat(e => e.Result.IsSuccess.Should().BeTrue() );
+			act.Response.AssertThat(e => e.JwtToken.AccessToken.Should().NotBeNullOrEmpty() );
+			act.Response.AssertThat(e => e.JwtToken.RefreshToken.Should().NotBeNullOrEmpty() );
         }
 
         //[Trait("Category", "Integration")]

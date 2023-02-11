@@ -13,8 +13,9 @@ message ResponseResult {
 }
 
 message JwtToken {
-	string Token = 1;
-    google.protobuf.Timestamp Expiration = 2;
+	string accessToken = 1;
+	string refreshToken = 2;
+    google.protobuf.Timestamp expirationAt = 3;
 }
 
 enum Action

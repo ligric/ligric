@@ -18,6 +18,7 @@ using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Data.Base;
 using NHibernate;
 using Ligric.Application.Providers.Security;
+using Ligric.Infrastructure.Jwt;
 
 namespace Ligric.Infrastructure
 {
@@ -58,8 +59,9 @@ namespace Ligric.Infrastructure
             container.Populate(services);
 
             container.RegisterType<DefaultCryptoProvider>().As<ICryptoProvider>().InstancePerLifetimeScope();
+            container.RegisterType<JwtAuthManager>().As<IJwtAuthManager>().InstancePerLifetimeScope();
 
-            container.RegisterType<QbDataInterceptor>().As<IInterceptor>().SingleInstance();
+			container.RegisterType<QbDataInterceptor>().As<IInterceptor>().SingleInstance();
             container.RegisterType<ConnectionSettingsProvider>().As<IConnectionSettingsProvider>().SingleInstance();
             container.RegisterType<NhInitFactory>().SingleInstance();
             container.RegisterType<CoreDataProvider>().As<DataProvider>().InstancePerLifetimeScope();

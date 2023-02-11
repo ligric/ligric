@@ -1,17 +1,13 @@
 ﻿using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Ligric.Server.Domain.SharedKernel;
 using Ligric.Protos;
-using Ligric.Server.Grpc.Data;
 using MediatR;
 using Google.Protobuf.WellKnownTypes;
-using Ligric.Domain.Types.User;
-using Ligric.Application.Users.LoginCustomer;
 using Ligric.Application.Users.CheckUserExists;
+using Ligric.Infrastructure.Jwt;
+using System.Security.Claims;
 
 namespace Ligric.Server.Grpc.Services;
 
@@ -19,12 +15,15 @@ namespace Ligric.Server.Grpc.Services;
 public class AuthorizationService : Authorization.AuthorizationBase
 {
 	private readonly IMediator _mediator;
-	private readonly IConfiguration _configuration;
+	private readonly IJwtAuthManager _jwtAuthManager;
 
-	public AuthorizationService(IMediator mediator, IConfiguration configuration)
+	public AuthorizationService(
+		IMediator mediator,
+		IConfiguration configuration,
+		IJwtAuthManager jwtAuthManager)
 	{
 		_mediator = mediator;
-		_configuration = configuration;
+		_jwtAuthManager = jwtAuthManager;
 	}
 
 	[AllowAnonymous]
@@ -42,23 +41,46 @@ public class AuthorizationService : Authorization.AuthorizationBase
 	[AllowAnonymous]
 	public override async Task<SignInResponse> SignIn(SignInRequest request, ServerCallContext context)
 	{
-		var registerCommand = new LoginUserCommand(request.Login, request.Password);
-		var user = await _mediator.Send(registerCommand);
+		if (request?.Login == null || request?.Password == null)
+		{
+			return new SignInResponse { Result = ResponseExtensions.GetFailedResponseResult() };
+		}
 
-		var userRoles = new List<string> { "Admin" };
-		var token = GetJwtToken(user, userRoles);
+		//var registerCommand = new LoginUserCommand(request.Login, request.Password);
+		//var user = await _mediator.Send(registerCommand);
 
+		// check user password
+		// _usersService.ValidateCredentials(login, password);
+
+		// get role
+		// var role = _userService.GetRole(login);
+
+		// for example
+
+
+		var roles = new string[] { "Admin" }; 
+		var claims = new[]
+		{
+			new Claim(ClaimTypes.Name, request.Login)
+		}
+		.Union(JwtHelper.GetRolesAsClaims(roles));
+
+		var token = _jwtAuthManager.GenerateTokens(request.Login, claims, DateTime.Now);
+		//_logger.LogInformation($"User [{request.UserName}] logged in the system.");
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 		var result = new SignInResponse
 		{
-			UserId = user.Id.ToString(),
-			Result = ResponseExtensions.GetSuccessResponseResult(),
+			Role = string.Join("|", roles),
 			JwtToken = new JwtToken
 			{
-				Token = token.JwtToken,
-				Expiration = Timestamp.FromDateTime(token.Expiration)
-			}
+				AccessToken = token.AccessToken,
+				RefreshToken = token.RefreshToken.TokenString,
+				ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
+			},
+			Result = ResponseExtensions.GetSuccessResponseResult()
 		};
-
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 		return result;
 	}
 
@@ -80,54 +102,4 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		//    TokenExpiration = Timestamp.FromDateTime(token.Expiration)
 		//};
 	}
-
-	#region #HARD_CODE. Reason: deadline.
-	private Token GetJwtToken(UserDto applicationUserDto, IEnumerable<string> roles)
-	{
-		var applicationUserClaims = GetApplicationUserClaims(applicationUserDto);
-		var applicationUserRolesClaims = GetRolesAsClaims(roles);
-		var jwtAuthRequiredClaims = GetJwtAuthRequiredClaims(_configuration.GetValue<string>("JwtIssuer"), _configuration.GetValue<string>("JwtAudience"));
-		var claims = jwtAuthRequiredClaims.Union(applicationUserRolesClaims).Union(applicationUserClaims);
-		var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtKey")));
-		var signingCredential = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-		var jwtHeader = new JwtHeader(signingCredential);
-		var jwtPayload = new JwtPayload(claims);
-		var token = new JwtSecurityToken(jwtHeader, jwtPayload);
-		return new Token(new JwtSecurityTokenHandler().WriteToken(token), token.ValidTo);
-	}
-
-	private static IEnumerable<Claim> GetApplicationUserClaims(UserDto userDto)
-	{
-		if (userDto == null || userDto?.UserName == null || userDto?.Id == null )
-		{
-			throw new NotImplementedException();
-		}
-
-#pragma warning disable CS8604 // Possible null reference argument.
-		return new[]
-		{
-			new Claim(JwtRegisteredClaimNames.UniqueName, userDto.UserName),
-			new Claim(JwtRegisteredClaimNames.NameId, userDto.Id.ToString())
-		};
-#pragma warning restore CS8604 // Possible null reference argument.
-	}
-
-	private static IEnumerable<Claim> GetJwtAuthRequiredClaims(string issuer, string audience)
-	{
-		return new[]
-		{
-			new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-			new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString()),
-			new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.UtcNow.AddHours(8)).ToUnixTimeSeconds().ToString()),
-			new Claim(JwtRegisteredClaimNames.Iss, issuer),
-			new Claim(JwtRegisteredClaimNames.Aud, audience)
-		};
-	}
-
-	private static IEnumerable<Claim> GetRolesAsClaims(IEnumerable<string> roles)
-	{
-		const string roleType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
-		return roles.Select(x => new Claim(roleType, x));
-	}
-	#endregion
 }
