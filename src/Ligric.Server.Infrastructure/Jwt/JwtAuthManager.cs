@@ -21,10 +21,15 @@ namespace Ligric.Infrastructure.Jwt
 
 		public JwtAuthManager(JwtTokenConfig jwtTokenConfig)
 		{
-			//_jwtTokenConfig = GetJwtTokenConfig(configuration);
 			_jwtTokenConfig = jwtTokenConfig;
 			_usersRefreshTokens = new ConcurrentDictionary<string, RefreshToken>();
 			_secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
+		}
+
+		public DateTime GetTokenExpirationTime(string userUniqueName)
+		{
+			var expiredAt = _usersRefreshTokens.Values.First(x => x.UserName == userUniqueName).ExpireAt;
+			return expiredAt;
 		}
 
 		// optional: clean up expired refresh tokens
@@ -116,19 +121,6 @@ namespace Ligric.Infrastructure.Jwt
 					out var validatedToken);
 			return (principal, (JwtSecurityToken)validatedToken);
 		}
-
-//		private static JwtTokenConfig GetJwtTokenConfig(IConfiguration configuration)
-//		{
-//#pragma warning disable IDE0022 // Use expression body for methods
-//			return new JwtTokenConfig
-//			{
-//				RefreshTokenExpiration = int.Parse(configuration.GetValue<string>("JwtKey")),
-//				Issuer = configuration.GetValue<string>("JwtIssuer"),
-//				Audience = configuration.GetValue<string>("JwtAudience"),
-//				AccessTokenExpiration = int.Parse(configuration.GetValue<string>("JwtExpiration"))
-//			};
-//#pragma warning restore IDE0022 // Use expression body for methods
-//		}
 
 		private static string GenerateRefreshTokenString()
 		{
