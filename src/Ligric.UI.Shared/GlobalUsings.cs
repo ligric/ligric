@@ -24,9 +24,6 @@ global using Uno.Extensions.Serialization;
 global using Uno.Extensions.Navigation.Toolkit;
 global using Uno.Extensions.Navigation.Regions;
 global using Uno.Toolkit.UI;
-global using Ligric.UI.Infrastructure.Business;
-global using Ligric.UI.Infrastructure.Configuration;
-global using Ligric.UI.Infrastructure.Business.Mock;
 
 global using Microsoft.UI.Dispatching;
 global using Microsoft.UI.Xaml;
