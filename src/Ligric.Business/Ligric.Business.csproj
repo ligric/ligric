@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ligric.Domain.Client.Base\Ligric.Domain.Client.Base.csproj" />
     <ProjectReference Include="..\Ligric.Domain\Ligric.Domain.csproj" />
     <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
     <ProjectReference Include="..\Utils\Utils.csproj" />
