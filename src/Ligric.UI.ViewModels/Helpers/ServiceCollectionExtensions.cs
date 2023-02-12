@@ -1,4 +1,7 @@
-﻿namespace Ligric.UI.Infrastructure;
+﻿using Ligric.Business.Authorization;
+using Ligric.Business.Metadata;
+
+namespace Ligric.UI.ViewModels.Helpers;
 
 public static class ServiceCollectionExtensions
 {
@@ -6,7 +9,7 @@ public static class ServiceCollectionExtensions
 		this IServiceCollection services,
 		HostBuilderContext context,
 		Action<IServiceProvider, RefitSettings>? settingsBuilder = null,
-		bool useMocks=false)
+		bool useMocks = false)
 	{
 		_ = services
 			// TEMP - this hsould be the default serialization options for content serialization > uno.extensions
@@ -21,14 +24,14 @@ public static class ServiceCollectionExtensions
 		bool useMocks = false)
 	{
 		_ = services
-		   .AddSingleton<IAuthenticationService, AuthenticationService>()
-		   .AddSingleton<IAuthenticationTokenProvider>(sp => sp.GetRequiredService<IAuthenticationService>())
-		   .AddSingleton<IMessenger, WeakReferenceMessenger>();
+			.AddSingleton<IMetadataManager, MetadataManager>()
+			.AddSingleton<IAuthorizationService, AuthorizationService>()
+			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
 		if (useMocks)
 		{
 			// Comment out the USE_MOCKS definition (top of this file) to prevent using mocks in development
-			_ = services.AddSingleton<IAuthenticationService, MockAuthenticationService>();
+			//_ = services.AddSingleton<IAuthorizationService, MockAuthorizationService>();
 		}
 		return services;
 	}

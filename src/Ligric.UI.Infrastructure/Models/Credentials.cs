@@ -1,4 +1,4 @@
-﻿namespace Ligric.UI.Infrastructure.Settings
+﻿namespace Ligric.UI.Infrastructure.Models
 {
 	public record Credentials
 	{

@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ligric.UI.ViewModels\Ligric.UI.ViewModels.csproj" />
   </ItemGroup>
   <Import Project="..\Ligric.UI.Shared\Ligric.UI.Shared.projitems" Label="Shared" />
 </Project>

@@ -3,6 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
@@ -40,9 +41,5 @@
     <PackageReference Include="Uno.Extensions.Serialization" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Serialization.Http" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Serialization.Refit" Version="$(UnoExtensionsVersion)" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ligric.Business\Ligric.Business.csproj" />
-    <ProjectReference Include="..\Ligric.Domain.Client.Base\Ligric.Domain.Client.Base.csproj" />
   </ItemGroup>
 </Project>
