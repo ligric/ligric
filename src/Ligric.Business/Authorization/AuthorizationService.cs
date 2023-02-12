@@ -5,6 +5,7 @@ using Grpc.Net.Client;
 using static Ligric.Protos.Authorization;
 using Ligric.Domain.Types.User;
 using Ligric.Business.Metadata;
+using System.Threading;
 
 namespace Ligric.Business.Authorization
 {
@@ -32,7 +33,7 @@ namespace Ligric.Business.Authorization
 			return _client.IsLoginUnique(new CheckExistsRequest { Value = userName }).IsUnique;
 		}
 
-		public async Task<bool> IsUserNameUniqueAsync(string userName)
+		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
 		{
 			var response = await _client.IsLoginUniqueAsync(new CheckExistsRequest { Value = userName });
 			return response.IsUnique;
@@ -52,16 +53,24 @@ namespace Ligric.Business.Authorization
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
-		public async Task SignInAsync(string login, string password)
+		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
-			var authReply = await _client.SignInAsync(new SignInRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
+			var authReply = await _client.SignInAsync(new SignInRequest
+			{
+				Login = login,
+				Password = password
+			}, cancellationToken: ct);
+
+			var metadata = new Grpc.Core.Metadata
+			{
+				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
+			};
+
 			_metadataRepos.SetMetadata(metadata);
 
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+			CurrentUser = new UserDto(login);
+			CurrentConnectionState = UserAuthorizationState.Connected;
+			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
 		public void SignUp(string login, string password)
@@ -76,7 +85,7 @@ namespace Ligric.Business.Authorization
 			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
-		public async Task SignUpAsync(string login, string password)
+		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
 			var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = password });
 			var metadata = new Grpc.Core.Metadata();
