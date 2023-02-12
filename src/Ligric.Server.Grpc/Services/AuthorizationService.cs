@@ -8,6 +8,7 @@ using Google.Protobuf.WellKnownTypes;
 using Ligric.Application.Users.CheckUserExists;
 using Ligric.Infrastructure.Jwt;
 using System.Security.Claims;
+using Ligric.Domain.Types.User;
 
 namespace Ligric.Server.Grpc.Services;
 
@@ -19,7 +20,6 @@ public class AuthorizationService : Authorization.AuthorizationBase
 
 	public AuthorizationService(
 		IMediator mediator,
-		IConfiguration configuration,
 		IJwtAuthManager jwtAuthManager)
 	{
 		_mediator = mediator;
@@ -57,13 +57,10 @@ public class AuthorizationService : Authorization.AuthorizationBase
 
 		// for example
 
-
-		var roles = new string[] { "Admin" }; 
 		var claims = new[]
 		{
 			new Claim(ClaimTypes.Name, request.Login)
-		}
-		.Union(JwtHelper.GetRolesAsClaims(roles));
+		};
 
 		var token = _jwtAuthManager.GenerateTokens(request.Login, claims, DateTime.Now);
 		//_logger.LogInformation($"User [{request.UserName}] logged in the system.");
@@ -71,7 +68,7 @@ public class AuthorizationService : Authorization.AuthorizationBase
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 		var result = new SignInResponse
 		{
-			Role = string.Join("|", roles),
+			Role = string.Empty,
 			JwtToken = new JwtToken
 			{
 				AccessToken = token.AccessToken,
@@ -84,22 +81,74 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		return result;
 	}
 
-	[AllowAnonymous]
-	public override async Task<SignUpResponse> SignUp(SignUpRequest request, ServerCallContext context)
+	//	[AllowAnonymous]
+	//	public override async Task<SignUpResponse> SignUp(SignUpRequest request, ServerCallContext context)
+	//	{
+	//		throw new NotImplementedException();
+
+	//		//var registerCommand = new RegisterUserCommand(request.Login, request.Password);
+	//		//var customer = await _mediator.Send(registerCommand);
+	//		//var userRoles = new List<string> { "User" };
+	//		//var token = GetJwtToken(customer, userRoles);
+
+	//		//return new SignUpResponse()
+	//		//{
+	//		//    Result = ResponseExtensions.GetSuccessResponseResult(),
+	//		//    UserGuid = customer.Id.ToString(),
+	//		//    JwtToken = token.JwtToken,
+	//		//    TokenExpiration = Timestamp.FromDateTime(token.Expiration)
+	//		//};
+	//	}
+
+	[Authorize]
+	public override async Task<RefreshTokenExpirationTime> GetTokenExpirationTime(Empty empty, ServerCallContext context)
 	{
-		throw new NotImplementedException();
+		var token = GetTokenFromMetadata(context.RequestHeaders);
 
-		//var registerCommand = new RegisterUserCommand(request.Login, request.Password);
-		//var customer = await _mediator.Send(registerCommand);
-		//var userRoles = new List<string> { "User" };
-		//var token = GetJwtToken(customer, userRoles);
+		var claims = _jwtAuthManager.DecodeJwtToken(token).Item1.Claims;
 
-		//return new SignUpResponse()
-		//{
-		//    Result = ResponseExtensions.GetSuccessResponseResult(),
-		//    UserGuid = customer.Id.ToString(),
-		//    JwtToken = token.JwtToken,
-		//    TokenExpiration = Timestamp.FromDateTime(token.Expiration)
-		//};
+		var uniqueName = claims.First(x => x.Type == ClaimTypes.Name).Value;
+
+#pragma warning disable CS8604 // Possible null reference argument.
+		var expirationAt = _jwtAuthManager.GetTokenExpirationTime(uniqueName);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+		var result = new RefreshTokenExpirationTime
+		{
+			ExpirationAt = Timestamp.FromDateTime(expirationAt),
+			Result = ResponseExtensions.GetSuccessResponseResult()
+		};
+		return result;
+	}
+
+	private UserDto? GetUserFromMetadata(Metadata metadata)
+	{
+		if (metadata == null)
+#pragma warning disable CS8604 // Possible null reference argument.
+			throw new RpcException(new Status(StatusCode.PermissionDenied, "Permission denied"), metadata);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+		var token = metadata.FirstOrDefault(x => x.Key == "authorization");
+
+		if (token?.Value == null)
+			throw new RpcException(new Status(StatusCode.NotFound, "Token is null"), metadata);
+
+		//return _usersService.GetUserFromToken(token.Value);
+		return null;
+	}
+
+	private string GetTokenFromMetadata(Metadata metadata)
+	{
+		if (metadata == null)
+#pragma warning disable CS8604 // Possible null reference argument.
+			throw new RpcException(new Status(StatusCode.PermissionDenied, "Permission denied"), metadata);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+		var token = metadata.FirstOrDefault(x => x.Key == "authorization");
+
+		if (token?.Value == null)
+			throw new RpcException(new Status(StatusCode.NotFound, "Token is null"), metadata);
+
+		return token.Value;
 	}
 }
