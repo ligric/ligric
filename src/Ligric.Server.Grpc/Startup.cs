@@ -110,26 +110,28 @@ namespace Ligric.Server.Grpc
 			services.AddSingleton(jwtTokenConfig);
 
 			services
-				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(
-					JwtBearerDefaults.AuthenticationScheme,
-					options =>
+				.AddAuthentication(x =>
+				{
+					x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+				{
+					options.RequireHttpsMetadata = true;
+					options.SaveToken = true;
+					options.TokenValidationParameters = new TokenValidationParameters
 					{
-						options.RequireHttpsMetadata = true;
-						options.SaveToken = true;
-						options.TokenValidationParameters = new TokenValidationParameters
-						{
-							ValidateIssuer = true,
-							ValidIssuer = jwtTokenConfig.Issuer,
-							ValidateIssuerSigningKey = true,
-							IssuerSigningKey = new SymmetricSecurityKey(
-								Encoding.UTF8.GetBytes(jwtTokenConfig.Secret ?? throw new NullReferenceException("Secret is null"))),
-							ValidAudience = jwtTokenConfig.Audience,
-							ValidateAudience = true,
-							ValidateLifetime = true,
-							ClockSkew = TimeSpan.FromMinutes(1)
-						};
-					});
+						ValidateIssuer = true,
+						ValidIssuer = jwtTokenConfig.Issuer,
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(
+							Encoding.UTF8.GetBytes(jwtTokenConfig.Secret ?? throw new NullReferenceException("Secret is null"))),
+						ValidAudience = jwtTokenConfig.Audience,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ClockSkew = TimeSpan.FromMinutes(1)
+					};
+				});
 
 			services.AddHostedService<JwtRefreshTokenCache>();
 		}
