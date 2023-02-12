@@ -3,9 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Custom
-Ligric.Server.Grpc/logs
-
 # User-specific files
 *.suo
 *.user
@@ -244,6 +241,7 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
+logs/
 
 # SQL Server files
 *.mdf
