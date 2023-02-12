@@ -1,6 +1,8 @@
 ﻿syntax = "proto3";
 
 import "common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Ligric.Protos";
 
@@ -9,6 +11,10 @@ package Ligric.Protos;
 service Authorization {
 	rpc SignIn(SignInRequest) returns (SignInResponse);
 	rpc SignUp(SignUpRequest) returns (SignUpResponse);
+	rpc Logout(google.protobuf.Empty) returns (ResponseResult);
+
+	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenExpirationTime);
+	rpc GetTokenExpirationTime(google.protobuf.Empty) returns (RefreshTokenExpirationTime);
 
 	rpc IsLoginUnique(CheckExistsRequest) returns (CheckExistsResponse);
 }
@@ -40,5 +46,16 @@ message CheckExistsRequest {
 
 message CheckExistsResponse {
 	bool isUnique = 1;
+	ResponseResult result = 2;
+}
+
+message RefreshTokenRequest
+{
+	string refreshToken = 1;
+}
+
+message RefreshTokenExpirationTime
+{
+	google.protobuf.Timestamp expirationAt = 1;
 	ResponseResult result = 2;
 }
