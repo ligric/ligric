@@ -9,5 +9,10 @@ namespace Ligric.Server.Grpc
         {
             return new ResponseResult { IsSuccess = true, OccurredOn = Timestamp.FromDateTime(DateTime.UtcNow) };
         }
-    }
+
+		public static ResponseResult GetFailedResponseResult()
+		{
+			return new ResponseResult { IsSuccess = false, OccurredOn = Timestamp.FromDateTime(DateTime.UtcNow) };
+		}
+	}
 }

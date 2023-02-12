@@ -11,16 +11,24 @@ namespace Ligric.Infrastructure.Processing
         {
             using (var scope = CompositionRoot.BeginLifetimeScope())
             {
-                var mediator = scope.Resolve<IMediator>();
-                await mediator.Send(command);
-            }
-        }
+				if (scope == null)
+				{
+					throw new System.NotImplementedException();
+				}
+				var mediator = scope.Resolve<IMediator>();
+				await mediator.Send(command);
+			}
+		}
 
         public static async Task<TResult> Execute<TResult>(ICommand<TResult> command)
         {
             using (var scope = CompositionRoot.BeginLifetimeScope())
             {
-                var mediator = scope.Resolve<IMediator>();
+				if (scope == null)
+				{
+					throw new System.NotImplementedException();
+				}
+				var mediator = scope.Resolve<IMediator>();
                 return await mediator.Send(command);
             }
         }

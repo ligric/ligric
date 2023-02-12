@@ -8,12 +8,17 @@ namespace Ligric.Infrastructure.Database
 		public ConnectionSettingsProvider(IConfiguration configuration)
 		{
 			//ConnectionString = configuration.GetConnectionString("LigricConnectionString");
+#pragma warning disable CS8601 // Possible null reference assignment.
 			ConnectionString = configuration["LigricConnectionString"];
-            //MongoConnectionString = configuration.GetConnectionString("mongoDatabase");
-            //MongoDatabaseName = configuration.GetConnectionString("mongoDatabaseName");
+#pragma warning restore CS8601
+			// Possible null reference assignment.
+			//MongoConnectionString = configuration.GetConnectionString("mongoDatabase");
+			//MongoDatabaseName = configuration.GetConnectionString("mongoDatabaseName");
 		}
 
-		public string ConnectionString { get; }
+#pragma warning disable CS8766 // Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
+		public string? ConnectionString { get; }
+#pragma warning restore CS8766 // Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
 
 		//public string MongoConnectionString { get; }
 

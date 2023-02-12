@@ -36,7 +36,7 @@ namespace Ligric.Application.Users.RegisterUser
 
             //return new UserDto(user.Id.Value, user.Login);
 
-            return null;
+            throw new System.NotImplementedException();
         }
     }
 }

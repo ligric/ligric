@@ -85,6 +85,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Ligric.UI.ViewModels\Ligric.UI.ViewModels.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

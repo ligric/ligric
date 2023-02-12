@@ -1,7 +1,8 @@
 #pragma warning disable 109 // Remove warning for Window property on iOS
 
-using Ligric.UI.Infrastructure.Presentation;
+using Ligric.UI.ViewModels.Helpers;
 using Ligric.UI.Views;
+using Ligric.UI.ViewModels.Presentation;
 
 namespace Ligric.UI;
 
@@ -32,15 +33,6 @@ public sealed partial class App : Application
                         // Load configuration information from appconfig.json
                         .EmbeddedSource<App>()
                         .EmbeddedSource<App>("platform")
-
-                        // Load OAuth configuration
-                        .Section<Auth>()
-
-                        // Load Mock configuration
-                        .Section<Mock>()
-
-                        // Enable app settings
-                        //.Section<ToDoApp>()
                 )
 
                 // Register Json serializers (ISerializer and IStreamSerializer)
@@ -49,22 +41,19 @@ public sealed partial class App : Application
                 // Register services for the application
                 .ConfigureServices(
                     (context, services) => {
-
-                        //var section = context.Configuration.GetSection(nameof(Mock));
-                        //var useMocks = bool.TryParse(section[nameof(Mock.IsEnabled)], out var isMocked) ? isMocked : false;
+						var grpcChannel = GrpcChannelHalper.GetGrpcChannel();
+						services.AddSingleton(grpcChannel);
+						services.AddServices(useMocks:false);
+						//var section = context.Configuration.GetSection(nameof(Mock));
+						//var useMocks = bool.TryParse(section[nameof(Mock.IsEnabled)], out var isMocked) ? isMocked : false;
 #if USE_MOCKS
 						// This is required for UI Testing where USE_MOCKS is enabled
-						useMocks=true;;
+						useMocks=true;
 #endif
-
-                        //services
-                        //    .AddScoped<IAppTheme, AppTheme>()
-                        //    .AddEndpoints(context, useMocks: useMocks)
-                        //    .AddServices(useMocks: useMocks);
-                    })
+					})
 
                 // Enable navigation, including registering views and viewmodels
-                .UseNavigation(Infrastructure.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+                .UseNavigation(ViewModels.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 
                 // Add navigation support for toolkit controls such as TabBar and NavigationView
                 .UseToolkitNavigation()

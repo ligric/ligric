@@ -38,39 +38,6 @@ namespace Ligric.UI
 
             var notif = _host.Services.GetRequiredService<IRouteNotifier>();
             notif.RouteChanged += RouteUpdated;
-
-//            var rootFrame = _window.Content as Frame;
-
-//            if (rootFrame == null)
-//            {
-//                rootFrame = new Frame();
-//                _window.Content = rootFrame;
-//            }
-
-//#if !(NET6_0_OR_GREATER && WINDOWS)
-//            if (args.UWPLaunchActivatedEventArgs.PrelaunchActivated == false)
-//#endif
-//            {
-//                if (rootFrame.Content == null)
-//                {
-//                    //var vm = _serviceProvider.GetService<ShellViewModel>();
-//                    //var viewtest = _serviceProvider.GetRequiredService<IViewLocator>();
-
-//                    //var view = viewtest.ResolveView(vm);
-
-//                    //rootFrame.Content = view;
-
-
-//                    GrpcChannel grpcChannel = GrpcChannelHalper.GetGrpcChannel();
-//                    var metadataRepository = new MetadataRepository();
-
-//                    var authorizationService = new AuthorizationService(grpcChannel, metadataRepository);
-
-//                    rootFrame.Navigate(typeof(AuthorizationPage));
-//                    rootFrame.DataContext = new AuthorizationViewModel(authorizationService);
-//                }
-//                _window.Activate();
-//            }
         }
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.

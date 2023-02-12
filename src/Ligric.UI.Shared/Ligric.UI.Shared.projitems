@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemsControlBindingExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GrpcChannelHalper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MetadataRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>

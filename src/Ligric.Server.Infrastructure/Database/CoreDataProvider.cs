@@ -7,7 +7,7 @@ namespace Ligric.Infrastructure.Database
 	public class CoreDataProvider : DataProvider, IDisposable
 	{
 		private readonly object _lockSession = new object();
-		private ISession _session;
+		private ISession? _session;
 		//private readonly LoggerFactory _loggerFactory;
 
 		public CoreDataProvider(IConnectionSettingsProvider connectionSettingsProvider,
@@ -18,7 +18,9 @@ namespace Ligric.Infrastructure.Database
 			//_loggerFactory = loggerFactory;
 		}
 
-		public override ISession OpenSession()
+#pragma warning disable CS8764 // Nullability of return type doesn't match overridden member (possibly because of nullability attributes).
+		public override ISession? OpenSession()
+#pragma warning restore CS8764 // Nullability of return type doesn't match overridden member (possibly because of nullability attributes).
 		{
 			// ReSharper disable once InconsistentlySynchronizedField
 			if (_session != null && _session.IsOpen)
@@ -43,7 +45,7 @@ namespace Ligric.Infrastructure.Database
 
 				if (_session == null)
 				{
-					_session = Factory.WithOptions().FlushMode(FlushMode.Auto).OpenSession();
+					_session = Factory?.WithOptions().FlushMode(FlushMode.Auto).OpenSession();
 				}
 
 				return _session;
@@ -60,7 +62,7 @@ namespace Ligric.Infrastructure.Database
 					transaction.Rollback();
 				}
 			}
-			catch(Exception ex)
+			catch (Exception)
 			{
 				throw;
 				//_loggerFactory.Logger.Error(ex, "Exception in session close method");

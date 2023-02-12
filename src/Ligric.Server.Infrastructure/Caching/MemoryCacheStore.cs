@@ -19,6 +19,10 @@ namespace Ligric.Infrastructure.Caching
 
         public void Add<TItem>(TItem item, ICacheKey<TItem> key, TimeSpan? expirationTime = null)
         {
+			if (item == null)
+			{
+				throw new NotImplementedException();
+			}
             var cachedObjectName = item.GetType().Name;
             TimeSpan timespan;
             if (expirationTime.HasValue)
@@ -55,7 +59,8 @@ namespace Ligric.Infrastructure.Caching
                 return value;
             }
 
-            return null;
+			//return null;
+			throw new NotImplementedException();
         }
 
         public void Remove<TItem>(ICacheKey<TItem> key)
