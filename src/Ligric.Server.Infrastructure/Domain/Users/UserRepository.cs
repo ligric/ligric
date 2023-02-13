@@ -36,11 +36,6 @@ namespace Ligric.Infrastructure.Domain.Users
             throw new NotImplementedException();
         }
 
-        public override object Save(UserEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Delete(long id)
         {
             throw new NotImplementedException();

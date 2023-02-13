@@ -28,31 +28,6 @@ namespace Ligric.Business.Authorization
 			_metadataRepos = metadataRepos;
 		}
 
-		public bool IsUserNameUnique(string userName)
-		{
-			return _client.IsLoginUnique(new CheckExistsRequest { Value = userName }).IsUnique;
-		}
-
-		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
-		{
-			var response = await _client.IsLoginUniqueAsync(new CheckExistsRequest { Value = userName });
-			return response.IsUnique;
-		}
-
-		// TODO : Need refactoring. Reason: dublicate code.
-
-		public void SignIn(string login, string password)
-		{
-			var authReply = _client.SignIn(new SignInRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
-			_metadataRepos.SetMetadata(metadata);
-
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
-		}
-
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
 			var authReply = await _client.SignInAsync(new SignInRequest
@@ -73,18 +48,6 @@ namespace Ligric.Business.Authorization
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
-		public void SignUp(string login, string password)
-		{
-			var authReply = _client.SignUp(new SignUpRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
-			_metadataRepos.SetMetadata(metadata);
-
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
-		}
-
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
 			var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = password });
@@ -95,6 +58,12 @@ namespace Ligric.Business.Authorization
 			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
 			//CurrentConnectionState = UserAuthorizationState.Connected;
 			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+		}
+
+		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
+		{
+			var response = await _client.IsLoginUniqueAsync(new CheckExistsRequest { Value = userName });
+			return response.IsUnique;
 		}
 
 		public void Dispose()

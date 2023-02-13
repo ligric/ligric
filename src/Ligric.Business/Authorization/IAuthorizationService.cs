@@ -15,13 +15,7 @@ public interface IAuthorizationService : IDisposable
 
 	Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct);
 
-	bool IsUserNameUnique(string userName);
-
-	void SignUp(string userName, string password);
-
 	Task SignUpAsync(string userName, string password, CancellationToken ct);
-
-	void SignIn(string userName, string password);
 
 	Task SignInAsync(string userName, string password, CancellationToken ct);
 }

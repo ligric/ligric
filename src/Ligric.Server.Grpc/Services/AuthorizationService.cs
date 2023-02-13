@@ -9,6 +9,8 @@ using Ligric.Application.Users.CheckUserExists;
 using Ligric.Infrastructure.Jwt;
 using System.Security.Claims;
 using Ligric.Domain.Types.User;
+using Ligric.Application.Users.LoginCustomer;
+using Ligric.Application.Users.RegisterUser;
 
 namespace Ligric.Server.Grpc.Services;
 
@@ -46,8 +48,8 @@ public class AuthorizationService : Authorization.AuthorizationBase
 			return new SignInResponse { Result = ResponseExtensions.GetFailedResponseResult() };
 		}
 
-		//var registerCommand = new LoginUserCommand(request.Login, request.Password);
-		//var user = await _mediator.Send(registerCommand);
+		var registerCommand = new LoginUserCommand(request.Login, request.Password);
+		var user = await _mediator.Send(registerCommand);
 
 		// check user password
 		// _usersService.ValidateCredentials(login, password);
@@ -81,24 +83,37 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		return result;
 	}
 
-	//	[AllowAnonymous]
-	//	public override async Task<SignUpResponse> SignUp(SignUpRequest request, ServerCallContext context)
-	//	{
-	//		throw new NotImplementedException();
+	[AllowAnonymous]
+	public override async Task<SignUpResponse> SignUp(SignUpRequest request, ServerCallContext context)
+	{
+		var registerCommand = new RegisterUserCommand(request.Login, request.Password);
+		var customer = await _mediator.Send(registerCommand);
 
-	//		//var registerCommand = new RegisterUserCommand(request.Login, request.Password);
-	//		//var customer = await _mediator.Send(registerCommand);
-	//		//var userRoles = new List<string> { "User" };
-	//		//var token = GetJwtToken(customer, userRoles);
+		if (customer?.UserName == null)
+		{
+			return new SignUpResponse
+			{
+				Result = ResponseExtensions.GetFailedResponseResult()
+			};
+		}
 
-	//		//return new SignUpResponse()
-	//		//{
-	//		//    Result = ResponseExtensions.GetSuccessResponseResult(),
-	//		//    UserGuid = customer.Id.ToString(),
-	//		//    JwtToken = token.JwtToken,
-	//		//    TokenExpiration = Timestamp.FromDateTime(token.Expiration)
-	//		//};
-	//	}
+		var claims = new[] { new Claim(ClaimTypes.Name, customer.UserName) };
+		var token = _jwtAuthManager.GenerateTokens(customer.UserName, claims, DateTime.Now);
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+		var result = new SignUpResponse
+		{
+			JwtToken = new JwtToken
+			{
+				AccessToken = token.AccessToken,
+				RefreshToken = token.RefreshToken.TokenString,
+				ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
+			},
+			Result = ResponseExtensions.GetSuccessResponseResult()
+		};
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+		return result;
+	}
 
 	[Authorize]
 	public override async Task<RefreshTokenExpirationTime> GetTokenExpirationTime(Empty empty, ServerCallContext context)
