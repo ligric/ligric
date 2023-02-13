@@ -6,6 +6,7 @@ using static Ligric.Protos.Authorization;
 using Ligric.Domain.Types.User;
 using Ligric.Business.Metadata;
 using System.Threading;
+using Utils.Cryptography;
 
 namespace Ligric.Business.Authorization
 {
@@ -30,10 +31,11 @@ namespace Ligric.Business.Authorization
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
+			var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignInAsync(new SignInRequest
 			{
 				Login = login,
-				Password = password
+				Password = passHashed
 			}, cancellationToken: ct);
 
 			var metadata = new Grpc.Core.Metadata
@@ -50,14 +52,23 @@ namespace Ligric.Business.Authorization
 
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
-			var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
+			var passHashed = SecurePasswordHasher.Hash(password);
+			var authReply = await _client.SignUpAsync(new SignUpRequest
+			{
+				Login = login,
+				Password = passHashed
+			});
+
+			var metadata = new Grpc.Core.Metadata
+			{
+				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
+			};
+
 			_metadataRepos.SetMetadata(metadata);
 
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+			CurrentUser = new UserDto(login);
+			CurrentConnectionState = UserAuthorizationState.Connected;
+			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
 		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
