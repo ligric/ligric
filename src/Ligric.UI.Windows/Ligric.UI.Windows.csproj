@@ -42,6 +42,8 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 		<PackageReference Include="Refit" Version="6.3.2" />
 		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+		<PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Interactivity.WinUI" Version="2.3.0" />
+		<PackageReference Include="Uno.Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.3.0" />
 
 		<PackageReference Include="Uno.WinUI.MSAL" Version="$(UnoVersion)" />
 		<PackageReference Include="Uno.WinUI.Skia.Wpf" Version="$(UnoVersion)" />
