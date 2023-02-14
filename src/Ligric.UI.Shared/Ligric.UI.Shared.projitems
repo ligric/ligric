@@ -21,8 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.host.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\AncestralBindingExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemsControlBindingExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GrpcChannelHalper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
