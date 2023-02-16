@@ -28,21 +28,21 @@ namespace Ligric.Application.Users.LoginUser
 
         public Task<UserDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var salt = _cryptoProvider.GetSalt(request.UserName);
-            var passwordHashed = _cryptoProvider.GetHash(request.Password, salt);
+            //var salt = _cryptoProvider.GetSalt(request.UserName);
+            //var passwordHashed = _cryptoProvider.GetHash(request.Password, salt);
 
-            UserEntity user = this._userRepository.GetEntity(request.UserName);
+            //UserEntity user = this._userRepository.GetEntity(request.UserName);
 
-            if (user == null) 
-            {
-                // TODO : Should be normal exception
-                throw new ArgumentException("User not found.");
-            }
+            //if (user == null) 
+            //{
+            //    // TODO : Should be normal exception
+            //    throw new ArgumentException("User not found.");
+            //}
 
-            if (string.Equals(user.Password, passwordHashed))
-            {
-                return Task.FromResult(user.ToUserDto());
-            }
+            //if (string.Equals(user.Password, passwordHashed))
+            //{
+            //    return Task.FromResult(user.ToUserDto());
+            //}
 
             // TODO : Should be normal exception
             throw new ArgumentException("Wrong password.");
