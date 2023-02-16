@@ -66,11 +66,11 @@ namespace Ligric.Infrastructure
             container.RegisterType<CoreDataProvider>().As<DataProvider>().InstancePerLifetimeScope();
 
 			// # REPOSITORIES
-            container.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
-            container.RegisterType<ApiRepository>().As<IApiRepository>().InstancePerLifetimeScope();
-            container.RegisterType<UserRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
+			container.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+			container.RegisterType<ApiRepository>().As<IApiRepository>().InstancePerLifetimeScope();
+			container.RegisterType<UserApiRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
 
-            container.RegisterModule(new LoggingModule(logger));
+			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
