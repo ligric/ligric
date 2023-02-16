@@ -10,8 +10,6 @@ CREATE PROCEDURE [GetAllowedAPI] @userId INT
 	END
 GO
 
-EXEC [GetAllowedAPI] @userId = 1
-
 -- This is just procedures example:
 
 
