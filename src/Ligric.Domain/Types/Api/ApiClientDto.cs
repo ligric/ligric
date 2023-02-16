@@ -6,10 +6,13 @@
 
         public string Name { get; }
 
-        public ApiClientDto(long? id, string name)
+		public ApiPermissions Permissions { get; }
+
+        public ApiClientDto(long? id, string name, ApiPermissions apiPermissions)
         {
             Id = id;
             Name = name;
+			Permissions = apiPermissions;
         }
     }
 }
