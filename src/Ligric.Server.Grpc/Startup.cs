@@ -9,9 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Ligric.Server.Grpc.Services;
 using Ligric.Infrastructure;
-using Ligric.Infrastructure.Caching;
 using Ligric.Infrastructure.Jwt;
-using Autofac.Core;
 
 namespace Ligric.Server.Grpc
 {
@@ -68,7 +66,6 @@ namespace Ligric.Server.Grpc
 			return ApplicationStartup.Initialize(
 				services,
 				this._configuration[LigricConnectionString],
-				new MemoryCacheStore(memoryCache ?? throw new NotImplementedException(), cachingConfiguration),
 				ConfigureLogger(),
 				executionContextAccessor);
 #pragma warning restore CS8604 // Possible null reference argument.

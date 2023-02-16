@@ -6,7 +6,6 @@ using CommonServiceLocator;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Impl;
 using Ligric.Application.Configuration;
-using Ligric.Infrastructure.Caching;
 using Ligric.Infrastructure.Database;
 using Ligric.Infrastructure.Domain;
 using Ligric.Infrastructure.Logging;
@@ -27,7 +26,6 @@ namespace Ligric.Infrastructure
         public static IServiceProvider Initialize(
             IServiceCollection services,
             string connectionString,
-            ICacheStore cacheStore,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
             bool runQuartz = true)
@@ -36,8 +34,6 @@ namespace Ligric.Infrastructure
             {
                 StartQuartz(connectionString, logger, executionContextAccessor);
             }
-
-            services.AddSingleton(cacheStore);
 
             var serviceProvider = CreateAutofacServiceProvider(
                 services,
