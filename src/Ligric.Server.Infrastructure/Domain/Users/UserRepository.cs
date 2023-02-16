@@ -18,5 +18,7 @@ namespace Ligric.Infrastructure.Domain.Users
              .SingleOrDefault();
             return user;
         }
-    }
+
+		public bool UserNameIsExists(string username) => throw new System.NotImplementedException();
+	}
 }

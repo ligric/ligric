@@ -18,6 +18,9 @@ using Ligric.Server.Data.Base;
 using NHibernate;
 using Ligric.Application.Providers.Security;
 using Ligric.Infrastructure.Jwt;
+using Ligric.Server.Domain.Entities.UserApies;
+using Ligric.Server.Domain.Entities.Apis;
+using Ligric.Infrastructure.Domain.Api;
 
 namespace Ligric.Infrastructure
 {
@@ -61,7 +64,11 @@ namespace Ligric.Infrastructure
             container.RegisterType<ConnectionSettingsProvider>().As<IConnectionSettingsProvider>().SingleInstance();
             container.RegisterType<NhInitFactory>().SingleInstance();
             container.RegisterType<CoreDataProvider>().As<DataProvider>().InstancePerLifetimeScope();
+
+			// # REPOSITORIES
             container.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+            container.RegisterType<ApiRepository>().As<IApiRepository>().InstancePerLifetimeScope();
+            container.RegisterType<UserRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
 
             container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));

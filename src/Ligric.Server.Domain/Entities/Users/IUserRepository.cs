@@ -6,8 +6,10 @@ namespace Ligric.Server.Domain.Entities.Users
     {
 		UserEntity GetEntityById(long id);
 
-		UserEntity GetEntity(string? username);
+		UserEntity GetEntity(string username);
 
-        object Save(UserEntity entity);
+		bool UserNameIsExists(string username);
+
+		object Save(UserEntity entity);
     }
 }
