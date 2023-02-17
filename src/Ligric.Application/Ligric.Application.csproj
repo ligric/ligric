@@ -8,7 +8,9 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+		<PackageReference Include="System.Reactive" Version="5.0.0" />
+		<!--<PackageReference Include="System.Linq.Async" Version="6.0.1" />-->
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ligric.Server.Domain\Ligric.Server.Domain.csproj" />

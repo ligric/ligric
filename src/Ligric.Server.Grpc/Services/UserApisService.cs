@@ -42,7 +42,22 @@ namespace Ligric.Server.Grpc.Services
 		[Authorize]
 		public override async Task ApiesSubscribe(Empty empty, IServerStreamWriter<ApiesChanged> responseStream, ServerCallContext context)
 		{
-			throw new NotImplementedException();
+			await _chatService.GetMessagesAsObservable()
+					.ToAsyncEnumerable()
+					.ForEachAwaitAsync(async (x) => await responseStream.WriteAsync(
+						new LobbyMessageResponse
+						{
+							Action = x.Action.ToProtosAction(),
+							LobbyMessage = new LobbyMessage
+							{
+								MessageGuid = x.Message.Guid.ToString(),
+								Message = x.Message.Content,
+								Time = x.Message.DateTime.ToTimestamp(),
+								UserGuid = x.Message.User.UserGuid.ToString(),
+								Username = x.Message.User.Name
+							}
+						}, context.CancellationToken))
+					.ConfigureAwait(false);
 		}
 	}
 }
