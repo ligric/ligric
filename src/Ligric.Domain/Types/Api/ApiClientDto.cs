@@ -2,15 +2,18 @@
 {
     public class ApiClientDto
     {
-        public long? Id { get; }
+        public long? UserApiId { get; }
 
         public string Name { get; }
 
-		public ApiPermissions Permissions { get; }
+		/// <summary>
+		/// Flag value: <see cref="ApiPermissions"/>
+		/// </summary>
+		public int Permissions { get; }
 
-        public ApiClientDto(long? id, string name, ApiPermissions apiPermissions)
+        public ApiClientDto(long? id, string name, int apiPermissions)
         {
-            Id = id;
+            UserApiId = id;
             Name = name;
 			Permissions = apiPermissions;
         }
