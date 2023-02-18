@@ -58,8 +58,6 @@ namespace Ligric.Server.Grpc.Services
 			//				}
 			//			}, context.CancellationToken))
 			//		.ConfigureAwait(false);
-
-			
 		}
 	}
 }
