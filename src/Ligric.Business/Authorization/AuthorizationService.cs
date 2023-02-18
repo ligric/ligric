@@ -12,7 +12,7 @@ namespace Ligric.Business.Authorization
 {
 	public sealed class AuthorizationService : IAuthorizationService
 	{
-		private readonly IMetadataManager _metadataRepos;
+		private readonly IMetadataManager _metadata;
 		private AuthorizationClient _client;
 
 		public UserAuthorizationState CurrentConnectionState { get; private set; }
@@ -26,24 +26,29 @@ namespace Ligric.Business.Authorization
 			IMetadataManager metadataRepos)
 		{
 			_client = new AuthorizationClient(grpcChannel);
-			_metadataRepos = metadataRepos;
+			_metadata = metadataRepos;
 		}
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
-			var passHashed = SecurePasswordHasher.Hash(password);
+			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignInAsync(new SignInRequest
 			{
 				Login = login,
-				Password = passHashed
+				Password = password
 			}, cancellationToken: ct);
+
+			if (!authReply.Result.IsSuccess)
+			{
+				throw new NotImplementedException();
+			}
 
 			var metadata = new Grpc.Core.Metadata
 			{
 				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
 			};
 
-			_metadataRepos.SetMetadata(metadata);
+			_metadata.SetMetadata(metadata);
 
 			CurrentUser = new UserDto(login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
@@ -52,19 +57,24 @@ namespace Ligric.Business.Authorization
 
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
-			var passHashed = SecurePasswordHasher.Hash(password);
+			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignUpAsync(new SignUpRequest
 			{
 				Login = login,
-				Password = passHashed
-			});
+				Password = password
+			}, cancellationToken: ct);
+
+			if (!authReply.Result.IsSuccess)
+			{
+				throw new NotImplementedException();
+			}
 
 			var metadata = new Grpc.Core.Metadata
 			{
 				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
 			};
 
-			_metadataRepos.SetMetadata(metadata);
+			_metadata.SetMetadata(metadata);
 
 			CurrentUser = new UserDto(login);
 			CurrentConnectionState = UserAuthorizationState.Connected;

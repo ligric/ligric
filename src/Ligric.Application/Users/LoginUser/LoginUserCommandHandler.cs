@@ -14,38 +14,27 @@ namespace Ligric.Application.Users.LoginUser
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoProvider _cryptoProvider;
-        private readonly IUserUniquenessChecker _userUniquenessChecker;
 
         public LoginUserCommandHandler(
             IUserRepository userRepository,
-            ICryptoProvider cryptoProvider,
-            IUserUniquenessChecker userUniquenessChecker)
+            ICryptoProvider cryptoProvider)
         {
             this._userRepository = userRepository;
             this._cryptoProvider = cryptoProvider;
-            this._userUniquenessChecker = userUniquenessChecker;
         }
 
         public Task<UserDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            //var salt = _cryptoProvider.GetSalt(request.UserName);
-            //var passwordHashed = _cryptoProvider.GetHash(request.Password, salt);
+			// TODO : Temporary realization
+			var user = _userRepository.GetEntity(request.UserName);
+			var hashedPass = _cryptoProvider.GetHash(request.Password, user?.Salt ?? string.Empty);
 
-            //UserEntity user = this._userRepository.GetEntity(request.UserName);
+			if (string.Equals(user?.Password ?? string.Empty, hashedPass))
+			{
+				return Task.FromResult(new UserDto(request.UserName));
+			}
 
-            //if (user == null) 
-            //{
-            //    // TODO : Should be normal exception
-            //    throw new ArgumentException("User not found.");
-            //}
-
-            //if (string.Equals(user.Password, passwordHashed))
-            //{
-            //    return Task.FromResult(user.ToUserDto());
-            //}
-
-            // TODO : Should be normal exception
-            throw new ArgumentException("Wrong password.");
-        }
+			throw new NotImplementedException("Some error");
+		}
     }
 }

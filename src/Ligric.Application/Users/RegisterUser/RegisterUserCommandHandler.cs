@@ -12,20 +12,14 @@ namespace Ligric.Application.Users.RegisterUser
     public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserDto>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserUniquenessChecker _userUniquenessChecker;
 		private readonly ICryptoProvider _cryptoProvider;
-		private readonly IUnitOfWork _unitOfWork;
 
         public RegisterUserCommandHandler(
             IUserRepository userRepository,
-            IUserUniquenessChecker userUniquenessChecker,
-			ICryptoProvider cryptoProvider,
-			IUnitOfWork unitOfWork)
+			ICryptoProvider cryptoProvider)
         {
             _userRepository = userRepository;
-            _userUniquenessChecker = userUniquenessChecker;
 			_cryptoProvider = cryptoProvider;
-			_unitOfWork = unitOfWork;
         }
 
         public async Task<UserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)

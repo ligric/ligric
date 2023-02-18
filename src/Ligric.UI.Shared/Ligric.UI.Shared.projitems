@@ -73,5 +73,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\keyboard-backspace.svg" />
+  </ItemGroup>
   <Import Project="Ligric.UI.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
