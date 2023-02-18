@@ -1,5 +1,6 @@
 ﻿using Ligric.Domain.Types.Api;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Utils;
 
@@ -15,7 +16,7 @@ namespace Ligric.Business.Apies
 		/// Saving api local or remote and available only for current user.
 		/// </summary>
 		/// <param name="api">Api info</param>
-		Task SaveApiAsync(ApiDto api);
+		Task SaveApiAsync(ApiDto api, CancellationToken ct);
 
 		/// <summary>
 		/// Set state for everyuser.
@@ -23,13 +24,13 @@ namespace Ligric.Business.Apies
 		/// <param name="id">Api id.</param>
 		/// <param name="state">New activity state.</param>
 		/// <remarks>Wors if user has permissions or users is owner.</remarks>
-		Task SetStateAsync(long id, StateEnum state);
+		Task SetStateAsync(long id, StateEnum state, CancellationToken ct);
 
 		/// <summary>
 		/// Multiselection apies and users
 		/// </summary>
 		/// <param name="multiChangesInfo">Selection info</param>
 		/// <remarks>Wors if user has permissions or users is owner.</remarks>
-		Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo);
+		Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo, CancellationToken ct);
 	}
 }
