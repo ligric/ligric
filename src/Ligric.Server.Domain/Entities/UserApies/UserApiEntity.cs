@@ -9,6 +9,8 @@ namespace Ligric.Server.Domain.Entities.UserApies
 
         public virtual long? ApiId { get; set; }
 
+		public virtual int? Permissions { get; set; }
+
         public virtual ApiEntity? Api { get; set; }
     }
 }

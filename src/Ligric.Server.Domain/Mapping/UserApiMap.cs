@@ -8,11 +8,12 @@ namespace Ligric.Server.Domain.Mapping
     {
         public UserApiMap()
         {
-            Table("[UserApies]");
+            Table("[UserAPIs]");
             this.MapBase();
 
             Map(x => x.UserId);
             Map(x => x.ApiId);
+            Map(x => x.Permissions);
 
             References(x => x.Api).Column("[ApiId]").ReadOnly();
         }

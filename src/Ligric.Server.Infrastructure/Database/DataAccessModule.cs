@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Ligric.Infrastructure.SeedWork;
 using Ligric.Infrastructure.Domain.Users;
 using Ligric.Server.Domain.Entities.Users;
 
@@ -30,9 +28,6 @@ namespace Ligric.Infrastructure.Database
             //    .As<IUserRepository>()
             //    .InstancePerLifetimeScope();
 
-            builder.RegisterType<StronglyTypedIdValueConverterSelector>()
-                .As<IValueConverterSelector>()
-                .SingleInstance();
 
             //builder
             //    .Register(c =>

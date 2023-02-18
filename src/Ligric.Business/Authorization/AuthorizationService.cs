@@ -6,12 +6,13 @@ using static Ligric.Protos.Authorization;
 using Ligric.Domain.Types.User;
 using Ligric.Business.Metadata;
 using System.Threading;
+using Utils.Cryptography;
 
 namespace Ligric.Business.Authorization
 {
 	public sealed class AuthorizationService : IAuthorizationService
 	{
-		private readonly IMetadataManager _metadataRepos;
+		private readonly IMetadataManager _metadata;
 		private AuthorizationClient _client;
 
 		public UserAuthorizationState CurrentConnectionState { get; private set; }
@@ -25,76 +26,65 @@ namespace Ligric.Business.Authorization
 			IMetadataManager metadataRepos)
 		{
 			_client = new AuthorizationClient(grpcChannel);
-			_metadataRepos = metadataRepos;
-		}
-
-		public bool IsUserNameUnique(string userName)
-		{
-			return _client.IsLoginUnique(new CheckExistsRequest { Value = userName }).IsUnique;
-		}
-
-		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
-		{
-			var response = await _client.IsLoginUniqueAsync(new CheckExistsRequest { Value = userName });
-			return response.IsUnique;
-		}
-
-		// TODO : Need refactoring. Reason: dublicate code.
-
-		public void SignIn(string login, string password)
-		{
-			var authReply = _client.SignIn(new SignInRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
-			_metadataRepos.SetMetadata(metadata);
-
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+			_metadata = metadataRepos;
 		}
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
+			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignInAsync(new SignInRequest
 			{
 				Login = login,
 				Password = password
 			}, cancellationToken: ct);
 
+			if (!authReply.Result.IsSuccess)
+			{
+				throw new NotImplementedException();
+			}
+
 			var metadata = new Grpc.Core.Metadata
 			{
 				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
 			};
 
-			_metadataRepos.SetMetadata(metadata);
+			_metadata.SetMetadata(metadata);
 
 			CurrentUser = new UserDto(login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
-		public void SignUp(string login, string password)
-		{
-			var authReply = _client.SignUp(new SignUpRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
-			_metadataRepos.SetMetadata(metadata);
-
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
-		}
-
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
-			var authReply = await _client.SignUpAsync(new SignUpRequest { Login = login, Password = password });
-			var metadata = new Grpc.Core.Metadata();
-			metadata.Add("Authorization", $"Bearer {authReply.JwtToken.AccessToken}");
-			_metadataRepos.SetMetadata(metadata);
+			//var passHashed = SecurePasswordHasher.Hash(password);
+			var authReply = await _client.SignUpAsync(new SignUpRequest
+			{
+				Login = login,
+				Password = password
+			}, cancellationToken: ct);
 
-			//CurrentUser = new UserDto(long.Parse(authReply.UserId), login);
-			//CurrentConnectionState = UserAuthorizationState.Connected;
-			//AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+			if (!authReply.Result.IsSuccess)
+			{
+				throw new NotImplementedException();
+			}
+
+			var metadata = new Grpc.Core.Metadata
+			{
+				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
+			};
+
+			_metadata.SetMetadata(metadata);
+
+			CurrentUser = new UserDto(login);
+			CurrentConnectionState = UserAuthorizationState.Connected;
+			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+		}
+
+		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
+		{
+			var response = await _client.IsLoginUniqueAsync(new CheckExistsRequest { Value = userName });
+			return response.IsUnique;
 		}
 
 		public void Dispose()

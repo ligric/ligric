@@ -21,8 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.host.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\AncestralBindingExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ItemsControlBindingExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EnumToIntConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GrpcChannelHalper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
@@ -73,6 +72,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Barracuda\Barracuda-regular.ttf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Current\Current-Regular.otf" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Fonts\Eugusto\Eugusto.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Icons\keyboard-backspace.svg" />
   </ItemGroup>
   <Import Project="Ligric.UI.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>

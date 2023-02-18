@@ -19,10 +19,17 @@ message Api {
 	string privateKey = 4; 
 }
 
+message ApiClient {
+	string id = 1;
+	string name = 2;
+	string permissions = 3;
+}
+
 message SaveApiRequest {
 	string name = 1;
-	string publicKey = 2;
-	string privateKey = 3; 
+	string ownerId = 2;
+	string publicKey = 3;
+	string privateKey = 4;
 }
 
 message SaveApiResponse {
@@ -31,6 +38,6 @@ message SaveApiResponse {
 }
 
 message ApiesChanged {
-	Api api = 1;
+	ApiClient api = 1;
 	Action action = 2;
 }

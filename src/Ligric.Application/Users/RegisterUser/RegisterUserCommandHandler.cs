@@ -4,39 +4,39 @@ using Ligric.Application.Configuration.Commands;
 using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Domain.SeedWork;
 using Ligric.Domain.Types.User;
+using System;
+using Ligric.Application.Providers.Security;
 
 namespace Ligric.Application.Users.RegisterUser
 {
     public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserDto>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUniqueIdGenerator _idGenerator;
-        private readonly IUserUniquenessChecker _userUniquenessChecker;
-        private readonly IUnitOfWork _unitOfWork;
+		private readonly ICryptoProvider _cryptoProvider;
 
         public RegisterUserCommandHandler(
             IUserRepository userRepository,
-            IUniqueIdGenerator idGenerator,
-            IUserUniquenessChecker userUniquenessChecker, 
-            IUnitOfWork unitOfWork)
+			ICryptoProvider cryptoProvider)
         {
-            this._userRepository = userRepository;
-            this._idGenerator = idGenerator;
-            _userUniquenessChecker = userUniquenessChecker;
-            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+			_cryptoProvider = cryptoProvider;
         }
 
         public async Task<UserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            //var user = User.CreateRegistered(request.Login, request.Password, request.Email, this._idGenerator, this._userUniquenessChecker);
+			var salt = _cryptoProvider.GetSalt(Guid.NewGuid().ToString());
+			var hashedPass = _cryptoProvider.GetHash(request.Password, salt);
 
-            //await this._userRepository.AddAsync(user);
+			var result = _userRepository.Save(new UserEntity
+			{
+				UserName = request.Login,
+				Password = hashedPass,
+				Salt = salt
+			});
 
-            //await this._unitOfWork.CommitAsync(cancellationToken);
+			//await this._unitOfWork.CommitAsync(cancellationToken);
 
-            //return new UserDto(user.Id.Value, user.Login);
-
-            throw new System.NotImplementedException();
+			return new UserDto(request.Login);
         }
     }
 }

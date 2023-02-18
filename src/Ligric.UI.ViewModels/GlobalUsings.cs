@@ -11,5 +11,4 @@ global using Uno.Extensions.Http;
 global using Uno.Extensions.Navigation;
 
 using System.Windows.Input;
-using Ligric.UI.Infrastructure.Models;
 using Uno.Extensions.Reactive;

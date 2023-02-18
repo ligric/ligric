@@ -1,19 +1,28 @@
 ﻿<Page x:Class="Ligric.UI.Views.AuthorizationPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-      xmlns:uen="using:Uno.Extensions.Navigation.UI"
-	  xmlns:uer="using:Uno.Extensions.Reactive.UI"
-      xmlns:utu="using:Uno.Toolkit.UI"
+	  xmlns:i="using:Microsoft.Xaml.Interactivity"
+	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+	  xmlns:converters="using:Ligric.UI.Converters"
+	  Background="#FFcbcbcd">
 
-      Background="#FFcbcbcd">
-
-    <Grid>
+	<Page.Resources>
+		<converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
+	</Page.Resources>
+	
+	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="90*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
 
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
         <!-- Header -->
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20">
+        <StackPanel Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20">
             <TextBlock Text="ligric" FontFamily="/Assets/Fonts/Current/Current-Regular.otf#Current"
                        Foreground="Black" FontSize="90" Height="80"/>
 
@@ -24,41 +33,68 @@
         </StackPanel>
 
         <!-- Login Content -->
-        <Grid Grid.Row="1" HorizontalAlignment="Center" MinWidth="400" MinHeight="350">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+		<Grid Grid.Column="1" Grid.Row="1" MinWidth="400" MinHeight="350">
+			<i:Interaction.Behaviors>
+				<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToIntConverter}}" Value="1">
+					<core:ChangePropertyAction TargetObject="{Binding ElementName=RepeatePassowrdTextBox}" PropertyName="Visibility" Value="Visible"/>
+					<core:ChangePropertyAction TargetObject="{Binding ElementName=SignUpButton}" PropertyName="Visibility" Value="Collapsed"/>
+					<core:ChangePropertyAction TargetObject="{Binding ElementName=BackButton}" PropertyName="Visibility" Value="Visible"/>
+				</core:DataTriggerBehavior>
 
-            <Border Grid.RowSpan="3" Background="White" CornerRadius="20"
+				<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToIntConverter}}" Value="0">
+					<core:ChangePropertyAction TargetObject="{Binding ElementName=RepeatePassowrdTextBox}" PropertyName="Visibility" Value="Collapsed"/>
+					<core:ChangePropertyAction TargetObject="{Binding ElementName=SignUpButton}" PropertyName="Visibility" Value="Visible"/>
+					<core:ChangePropertyAction TargetObject="{Binding ElementName=BackButton}" PropertyName="Visibility" Value="Collapsed"/>
+				</core:DataTriggerBehavior>
+			</i:Interaction.Behaviors>
+
+			<Grid Padding="0,20,0,0">
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+
+				<Border Grid.RowSpan="3" Background="White" CornerRadius="20"
                     BorderBrush="#1e1e1e" BorderThickness="4"/>
 
-            <StackPanel Grid.Row="1" Padding="40,30">
-                <TextBox Style="{StaticResource SimpleTextBoxStyle}" Height="50"
-						 AutomationProperties.AutomationId="UserName"
-                         Text="{Binding Credentials.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Foreground="Black" BorderBrush="#5d5d5d"
-                         PlaceholderText="Login" BorderThickness="0,0,0,1" 
-                         IsSpellCheckEnabled="False"/>
+				<StackPanel Grid.Row="1" Padding="40,30">
+					<TextBox Style="{StaticResource SimpleTextBoxStyle}" Height="50"
+							 AutomationProperties.AutomationId="UserName"
+							 Text="{Binding Credentials.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							 Foreground="Black" BorderBrush="#5d5d5d"
+							 PlaceholderText="Login" BorderThickness="0,0,0,1" 
+							 IsSpellCheckEnabled="False"/>
 
-                <PasswordBox Style="{StaticResource SimplePasswordBoxStyle}" Height="50"
-							 AutomationProperties.AutomationId="Password"
-                             Password="{Binding Credentials.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Foreground="Black" BorderBrush="#5d5d5d"
-                             PlaceholderText="Password" BorderThickness="0,0,0,1" />
+					<PasswordBox Style="{StaticResource SimplePasswordBoxStyle}" Height="50"
+								 Password="{Binding Credentials.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 Foreground="Black" BorderBrush="#5d5d5d"
+								 PlaceholderText="Password" BorderThickness="0,0,0,1" />
 
-                <Button x:Uid="AuthorizationPage_SignIn"
-                        Content="Sign In" Margin="0,20,0,0" MinWidth="150"
-                        HorizontalAlignment="Center"
-                        Command="{Binding SignIn}"/>
-            </StackPanel>
+					<PasswordBox x:Name="RepeatePassowrdTextBox" Style="{StaticResource SimplePasswordBoxStyle}"
+								 Height="50" Foreground="Black" BorderBrush="#5d5d5d" Visibility="Collapsed"
+								 Password="{Binding Credentials.RepeatedPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								 PlaceholderText="Repeat password" BorderThickness="0,0,0,1"/>
 
-            <Button Grid.Row="2" Style="{StaticResource EmptyButtonStyle}" 
-                    Content="Create new" Foreground="Black"
-                    VerticalAlignment="Top" HorizontalAlignment="Center"/>
+					<Button Content="Sign In" Margin="0,20,0,0" MinWidth="150"
+							HorizontalAlignment="Center"
+							Command="{Binding AuthorizateCommand}"/>
+				</StackPanel>
 
-        </Grid>
+				<Button x:Name="SignUpButton" Grid.Row="2" Style="{StaticResource EmptyButtonStyle}"
+						Command="{Binding SetAuthorizationMode}"
+						CommandParameter="SignUp"
+						Content="Create new" Foreground="Black"
+						VerticalAlignment="Top" HorizontalAlignment="Center"/>
+			</Grid>
 
+			<Button x:Name="BackButton" Width="80" Height="50" CornerRadius="20" Margin="5,0,0,0"
+					HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"
+					Background="#D8BAFF" BorderBrush="Black" BorderThickness="4"
+				    Command="{Binding SetAuthorizationMode}"
+				    CommandParameter="SignIn">
+				<Image Source="ms-appx:///Assets/Icons/keyboard-backspace.svg" Stretch="Uniform"/>
+			</Button>
+		</Grid>
     </Grid>
 </Page>

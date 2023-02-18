@@ -1,6 +1,17 @@
---DROP PROCEDURE IF EXISTS [GetUser]
+DROP PROCEDURE IF EXISTS [GetAllowedAPI]
+GO
 
---GO
+CREATE PROCEDURE [GetAllowedAPI] @userId INT
+	AS
+	BEGIN
+		SELECT *
+		FROM [UserAPIs] _userAPI
+		WHERE _userAPI.[UserId] = @userId AND _userAPI.[Deleted] = 0
+	END
+GO
+
+-- This is just procedures example:
+
 
 --CREATE PROCEDURE [LoadSaleOrderItems]
 --    @saleOrderIds AS [Ids] READONLY,
