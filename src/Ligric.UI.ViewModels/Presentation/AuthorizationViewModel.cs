@@ -14,7 +14,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_authorizationService = authorizationService;
 		}
 
-		public IState<AuthorizationCredentials> Credentials => State<AuthorizationCredentials>.Empty(this);
+		public IState<AuthorizationCredentials> Credentials => State.Value(this, () => new AuthorizationCredentials());
 
 		public ICommand AuthorizateCommand => Command.Create(b => b.Given(Credentials).When(CanAuthorizate).Then(DoAuthorizate));
 
@@ -23,17 +23,26 @@ namespace Ligric.UI.ViewModels.Presentation
 		{
 			AutorizationMode modeEnum = (AutorizationMode)Enum.Parse(typeof(AutorizationMode), mode);
 
-			await Credentials.UpdateValue(opt => opt.Map(credintials => credintials with { AutorizationMode = modeEnum }), ct);
+			await Credentials.Update(creds => (creds ?? new()) with { AutorizationMode = modeEnum }, ct);
 		}
 
 		private bool CanAuthorizate(AuthorizationCredentials credentials)
 		{
-			if (credentials.UserName?.Length > 0 && credentials.Password?.Length > 5)
+			if (string.IsNullOrEmpty(credentials.UserName) ||
+				string.IsNullOrEmpty(credentials.Password) ||
+				credentials.UserName?.Length < 1 ||
+				credentials.Password?.Length < 5)
 			{
 				return false;
 			}
 
-			if (credentials.AutorizationMode == AutorizationMode.SignUp && string.Equals(credentials.Password, credentials.RepeatedPassword))
+			if (credentials.AutorizationMode == AutorizationMode.SignIn)
+			{
+				return true;
+			}
+
+			if (credentials.AutorizationMode == AutorizationMode.SignUp &&
+				string.Equals(credentials.Password, credentials.RepeatedPassword))
 			{
 				return true;
 			}

@@ -50,13 +50,14 @@
                              Foreground="Black" BorderBrush="#5d5d5d"
                              PlaceholderText="Password" BorderThickness="0,0,0,1" />
 
-				<PasswordBox x:Name="repeatePassowrdTextBox" Style="{StaticResource SimplePasswordBoxStyle}"
-							 Height="50" Foreground="Black" BorderBrush="#5d5d5d"
+				<PasswordBox x:Name="RepeatePassowrdTextBox" Style="{StaticResource SimplePasswordBoxStyle}"
+							 Height="50" Foreground="Black" BorderBrush="#5d5d5d" Visibility="Collapsed"
                              Password="{Binding Credentials.RepeatedPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              PlaceholderText="Repeat password" BorderThickness="0,0,0,1">
 					<i:Interaction.Behaviors>
-						<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Mode=OneWay, Converter={StaticResource EnumToIntConverter}}" Value="0">
-							<core:ChangePropertyAction TargetObject="{Binding ElementName=repeatePassowrdTextBox}" PropertyName="Visibility" Value="Collapsed"/>
+						<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToIntConverter}}" Value="1">
+							<core:ChangePropertyAction TargetObject="{Binding ElementName=RepeatePassowrdTextBox}" PropertyName="Visibility" Value="Visible"/>
+							<core:ChangePropertyAction TargetObject="{Binding ElementName=SignUpButton}" PropertyName="Visibility" Value="Collapsed"/>
 						</core:DataTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</PasswordBox>
@@ -66,12 +67,11 @@
                         Command="{Binding AuthorizateCommand}"/>
             </StackPanel>
 
-			<Button Grid.Row="2" Style="{StaticResource EmptyButtonStyle}"
+			<Button x:Name="SignUpButton" Grid.Row="2" Style="{StaticResource EmptyButtonStyle}"
 					Command="{Binding SetAuthorizationMode}"
 					CommandParameter="SignUp"
                     Content="Create new" Foreground="Black"
                     VerticalAlignment="Top" HorizontalAlignment="Center"/>
-
 		</Grid>
 
     </Grid>
