@@ -10,6 +10,7 @@ using System.Text;
 using Ligric.Server.Grpc.Services;
 using Ligric.Infrastructure;
 using Ligric.Infrastructure.Jwt;
+using Ligric.Protos;
 
 namespace Ligric.Server.Grpc
 {
@@ -93,6 +94,7 @@ namespace Ligric.Server.Grpc
 				endpoints.MapControllers();
 
 				endpoints.MapGrpcService<AuthorizationService>().EnableGrpcWeb();
+				endpoints.MapGrpcService<UserApisService>().EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{
