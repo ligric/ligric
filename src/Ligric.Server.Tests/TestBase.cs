@@ -9,7 +9,6 @@ using Ligric.Server.Grpc;
 using Ligric.Server.Tests.TestDataBuilders;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -31,16 +30,18 @@ public abstract class TestBase : IDisposable
 				// Set data base
 				builder.ConfigureServices(services =>
 				{
+					//services.Remove<IConnectionSettingsProvider>();
+
 					//Configure your services here
 					//var dbContextDescriptor = services.SingleOrDefault(
 					//	d => d.ServiceType ==
-					//	     typeof(DbContextOptions<EmployeeContext>));
-					
+					//		 typeof(IConnectionSettingsProvider));
+
 					//services.Remove(dbContextDescriptor);
 
 					////Unique Database name for each test.
 					//var dbName = $"Employee_{Guid.NewGuid()}";
-					
+
 					////Use InMemory Database
 					//services.AddDbContext<EmployeeContext>(x => x.UseInMemoryDatabase(dbName));
 				});

@@ -6,7 +6,6 @@ using CommonServiceLocator;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Impl;
 using Ligric.Application.Configuration;
-using Ligric.Infrastructure.Caching;
 using Ligric.Infrastructure.Database;
 using Ligric.Infrastructure.Domain;
 using Ligric.Infrastructure.Logging;
@@ -19,6 +18,9 @@ using Ligric.Server.Data.Base;
 using NHibernate;
 using Ligric.Application.Providers.Security;
 using Ligric.Infrastructure.Jwt;
+using Ligric.Server.Domain.Entities.UserApies;
+using Ligric.Server.Domain.Entities.Apis;
+using Ligric.Infrastructure.Domain.Api;
 
 namespace Ligric.Infrastructure
 {
@@ -27,7 +29,6 @@ namespace Ligric.Infrastructure
         public static IServiceProvider Initialize(
             IServiceCollection services,
             string connectionString,
-            ICacheStore cacheStore,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
             bool runQuartz = true)
@@ -36,8 +37,6 @@ namespace Ligric.Infrastructure
             {
                 StartQuartz(connectionString, logger, executionContextAccessor);
             }
-
-            services.AddSingleton(cacheStore);
 
             var serviceProvider = CreateAutofacServiceProvider(
                 services,
@@ -65,9 +64,13 @@ namespace Ligric.Infrastructure
             container.RegisterType<ConnectionSettingsProvider>().As<IConnectionSettingsProvider>().SingleInstance();
             container.RegisterType<NhInitFactory>().SingleInstance();
             container.RegisterType<CoreDataProvider>().As<DataProvider>().InstancePerLifetimeScope();
-            container.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
 
-            container.RegisterModule(new LoggingModule(logger));
+			// # REPOSITORIES
+			container.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+			container.RegisterType<ApiRepository>().As<IApiRepository>().InstancePerLifetimeScope();
+			container.RegisterType<UserApiRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
+
+			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
