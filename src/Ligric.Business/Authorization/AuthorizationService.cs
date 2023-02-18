@@ -50,7 +50,7 @@ namespace Ligric.Business.Authorization
 
 			_metadata.SetMetadata(metadata);
 
-			CurrentUser = new UserDto(login);
+			CurrentUser = new UserDto(authReply.Id, login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
@@ -76,7 +76,7 @@ namespace Ligric.Business.Authorization
 
 			_metadata.SetMetadata(metadata);
 
-			CurrentUser = new UserDto(login);
+			CurrentUser = new UserDto(authReply.Id, login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}

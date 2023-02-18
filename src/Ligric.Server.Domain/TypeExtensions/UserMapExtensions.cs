@@ -7,7 +7,7 @@ namespace Ligric.Server.Domain.TypeExtensions
     {
         public static UserDto ToUserDto(this UserEntity user)
         {
-            return new UserDto(user.UserName);
+            return new UserDto(user.Id, user.UserName);
         }
     }
 }

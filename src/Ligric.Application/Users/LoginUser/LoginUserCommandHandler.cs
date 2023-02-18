@@ -31,7 +31,9 @@ namespace Ligric.Application.Users.LoginUser
 
 			if (string.Equals(user?.Password ?? string.Empty, hashedPass))
 			{
-				return Task.FromResult(new UserDto(request.UserName));
+				return Task.FromResult(new UserDto(
+					user?.Id ?? throw new ArgumentNullException($"{typeof(LoginUserCommandHandler)}: User Id is null"),
+					request.UserName));
 			}
 
 			throw new NotImplementedException("Some error");
