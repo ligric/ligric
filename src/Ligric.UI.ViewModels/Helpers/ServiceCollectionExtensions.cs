@@ -1,4 +1,5 @@
-﻿using Ligric.Business.Authorization;
+﻿using Ligric.Business.Apies;
+using Ligric.Business.Authorization;
 using Ligric.Business.Metadata;
 
 namespace Ligric.UI.ViewModels.Helpers;
@@ -26,6 +27,7 @@ public static class ServiceCollectionExtensions
 		_ = services
 			.AddSingleton<IMetadataManager, MetadataManager>()
 			.AddSingleton<IAuthorizationService, AuthorizationService>()
+			.AddSingleton<IApiesService, ApiesService>()
 			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
 		if (useMocks)

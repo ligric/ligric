@@ -2,6 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Ligric.Business.Apies;
+using Ligric.Domain.Types.Api;
+using Ligric.UI.ViewModels.Data;
+using Uno.Extensions.Reactive;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -37,15 +42,36 @@ namespace Ligric.UI.ViewModels.Presentation
 	//    public string PnLPercent { get => _pnLPercent; set => SetProperty(ref _pnLPercent, value); }
 	//}
 
-	public class ApiKeyViewModel
+	public record ApiDataViewModel
 	{
-		public string? Name { get; set; } = "My test api key";
-		public string? PublicKey { get; set; } = "c58577a8b8d83617fb678838fa8e43c83e53384e88fef416c81658e51c6c48f3";
-		public string? PrivateKey { get; set; } = "651096d67c3d1a080daf6d26a37ad545864d312b7a6b24d5f654d4f26a1a7ddc";
+		public string? Name { get; init; } = "My test api key";
+		public string? PublicKey { get; init; } = "c58577a8b8d83617fb678838fa8e43c83e53384e88fef416c81658e51c6c48f3";
+		public string? PrivateKey { get; init; } = "651096d67c3d1a080daf6d26a37ad545864d312b7a6b24d5f654d4f26a1a7ddc";
 	}
 
-	public class FuturesViewModel
+	public partial class FuturesViewModel
 	{
+		private readonly IApiesService _apiService;
+		public FuturesViewModel(IApiesService apiesService)
+		{
+			_apiService = apiesService;
+		}
+
+		public IState<ApiDataViewModel> AddingApi => State.Value(this, () => new ApiDataViewModel());
+
+		public ICommand SaveApiCommand => Command.Create(b => b.Given(AddingApi).When(CanSaveApi).Then(DoSaveApi));
+
+		private bool CanSaveApi(ApiDataViewModel api)
+			=> api is { Name.Length: >= 1 } and { PrivateKey.Length: > 5 } and { PublicKey.Length: > 5 };
+
+		private async ValueTask DoSaveApi(ApiDataViewModel api, CancellationToken ct)
+		{
+			if (api.Name != null && api.PublicKey != null && api.PrivateKey != null)
+			{
+				await _apiService.SaveApiAsync(new ApiDto(null, api.Name, api.PublicKey, api.PrivateKey), ct);
+			}
+		}
+
 		//private readonly IFuturesProvider _futuresProvider;
 		//private readonly IApiesService _apiesService;
 		//private RelayCommand _addNewApiCommand;
@@ -66,8 +92,6 @@ namespace Ligric.UI.ViewModels.Presentation
 		//        AddNewApiCommand.RaiseCanExecuteChanged();
 		//    };
 		//}
-
-		public ApiKeyViewModel AddingApi { get; } = new ApiKeyViewModel();
 
 		//public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 

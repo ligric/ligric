@@ -2,119 +2,122 @@
       
       xmlns:viewModels="using:Ligric.UI.ViewModels.Presentation"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-      
+
+	  xmlns:i="using:Microsoft.Xaml.Interactivity"
+	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+	  
       d:Height="1334" d:Width="1334"      
       d:DataContext="{d:DesignInstance viewModels:FuturesViewModel, IsDesignTimeCreatable=True}"
       Background="#FFcbcbcd">
 
-    <Grid ColumnSpacing="20" Margin="20">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
-        <!-- Left Menu -->
-        <Grid Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+	<Grid ColumnSpacing="20" Margin="20">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
 
-            <Border CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
+		<!-- Left Menu -->
+		<Grid Grid.Column="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="300"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <controls:ItemsRepeater ItemsSource="{Binding Apies}" Margin="10">
-                    <controls:ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <Border CornerRadius="20" Background="#2c2c2c" Padding="20" Width="40" Height="40"
+			<Border CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
+
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+				<controls:ItemsRepeater ItemsSource="{Binding Apies}" Margin="10">
+					<controls:ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+							<Border CornerRadius="20" Background="#2c2c2c" Padding="20" Width="40" Height="40"
                                     HorizontalAlignment="Center">
-                                <TextBlock Foreground="White" Text="{Binding Name}"/>
-                            </Border>
-                        </DataTemplate>
-                    </controls:ItemsRepeater.ItemTemplate>
-                    <controls:ItemsRepeater.Layout>
-                        <controls:StackLayout Orientation="Vertical" Spacing="10"/>
-                    </controls:ItemsRepeater.Layout>
-                </controls:ItemsRepeater>
-            </ScrollViewer>
+								<TextBlock Foreground="White" Text="{Binding Name}"/>
+							</Border>
+						</DataTemplate>
+					</controls:ItemsRepeater.ItemTemplate>
+					<controls:ItemsRepeater.Layout>
+						<controls:StackLayout Orientation="Vertical" Spacing="10"/>
+					</controls:ItemsRepeater.Layout>
+				</controls:ItemsRepeater>
+			</ScrollViewer>
 
-            <!--<Button x:Name="addNewBoard" Content="Add" Height="40" Margin="20,30" CornerRadius="10" Background="#1f1f1f" Foreground="White"
+			<Button x:Name="AddNewApiButton" Content="New API" Height="40" Margin="20,30" CornerRadius="10" Background="#1f1f1f" Foreground="White"
                     VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
-                <Interactivity:Interaction.Behaviors>
-                    <Core:EventTriggerBehavior EventName="Click">
-                        <Core:ChangePropertyAction TargetObject="{Binding ElementName=addApiPopup}" PropertyName="IsOpen" Value="True"/>
-                    </Core:EventTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
-            </Button>-->
+				<i:Interaction.Behaviors>
+					<core:EventTriggerBehavior EventName="Click">
+						<core:ChangePropertyAction TargetObject="{Binding ElementName=AddingApiPopup}" PropertyName="IsOpen" Value="True"/>
+					</core:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</Button>
 
-            <Popup x:Name="addApiPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=addNewBoard}" DesiredPlacement="RightEdgeAlignedBottom">
-                <StackPanel Height="200" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
-                    <TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
-                    <TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
-                    <TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa"/>
+			<Popup x:Name="AddingApiPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=AddNewApiButton}" DesiredPlacement="RightEdgeAlignedBottom">
+				<StackPanel Height="200" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
+					<TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
+					<TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
+					<TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa"/>
 
-                    <Button Width="160" Height="35" Content="Add" Command="{Binding AddNewApiCommand}" Background="#f2f5fa"/>
-                </StackPanel>
-            </Popup>
+					<Button Width="160" Height="35" Content="Add" Command="{Binding SaveApiCommand}" Background="#f2f5fa"/>
+				</StackPanel>
+			</Popup>
 
-        </Grid>
+		</Grid>
 
-        <!-- Content -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+		<!-- Content -->
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
 
-            <Border Grid.RowSpan="2" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
+			<Border Grid.RowSpan="2" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
-            <!-- Top Content -->
-            <ScrollViewer Grid.Row="0" 
+			<!-- Top Content -->
+			<ScrollViewer Grid.Row="0" 
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <controls:ItemsRepeater ItemsSource="{Binding Orders}" Margin="10">
-                    <controls:ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <Border CornerRadius="20" Background="#dc729f" Padding="20">
-                                <TextBlock Foreground="White">
+				<controls:ItemsRepeater ItemsSource="{Binding Orders}" Margin="10">
+					<controls:ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+							<Border CornerRadius="20" Background="#dc729f" Padding="20">
+								<TextBlock Foreground="White">
                                 <Run Text="{Binding Symbol}"/>
                                 <Run Text="{Binding Side}"/>
                                 <Run Text="{Binding Quantity}"/>
                                 <Run Text="{Binding Price}"/>
                                 <Run Text="{Binding Order}"/>
                                 <Run Text="{Binding Value}"/>
-                                </TextBlock>
-                            </Border>
-                        </DataTemplate>
-                    </controls:ItemsRepeater.ItemTemplate>
-                    <controls:ItemsRepeater.Layout>
-                        <controls:StackLayout Orientation="Vertical" Spacing="10"/>
-                    </controls:ItemsRepeater.Layout>
-                </controls:ItemsRepeater>
-            </ScrollViewer>
+								</TextBlock>
+							</Border>
+						</DataTemplate>
+					</controls:ItemsRepeater.ItemTemplate>
+					<controls:ItemsRepeater.Layout>
+						<controls:StackLayout Orientation="Vertical" Spacing="10"/>
+					</controls:ItemsRepeater.Layout>
+				</controls:ItemsRepeater>
+			</ScrollViewer>
 
-            <!-- Bottom Content -->
-            <ScrollViewer Grid.Row="1"
+			<!-- Bottom Content -->
+			<ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
-                <controls:ItemsRepeater ItemsSource="{Binding Positions}" Margin="10">
-                    <controls:ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <Border CornerRadius="20" Background="#3888cd" Padding="20">
-                                <TextBlock Foreground="White">
+				<controls:ItemsRepeater ItemsSource="{Binding Positions}" Margin="10">
+					<controls:ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+							<Border CornerRadius="20" Background="#3888cd" Padding="20">
+								<TextBlock Foreground="White">
                                 <Run Text="{Binding Symbol}"/>
                                 <Run Text="{Binding Side}"/>
                                 <Run Text="{Binding Quantity}"/>
                                 <Run Text="{Binding CurrentPrice}"/>
                                 <Run Text="{Binding PnL}"/>
                                 <Run Text="{Binding PnLPercent}"/>
-                                </TextBlock>
-                            </Border>
-                        </DataTemplate>
-                    </controls:ItemsRepeater.ItemTemplate>
-                    <controls:ItemsRepeater.Layout>
-                        <controls:StackLayout Orientation="Vertical" Spacing="10"/>
-                    </controls:ItemsRepeater.Layout>
-                </controls:ItemsRepeater>
-            </ScrollViewer>
-        </Grid>
-    </Grid>
+								</TextBlock>
+							</Border>
+						</DataTemplate>
+					</controls:ItemsRepeater.ItemTemplate>
+					<controls:ItemsRepeater.Layout>
+						<controls:StackLayout Orientation="Vertical" Spacing="10"/>
+					</controls:ItemsRepeater.Layout>
+				</controls:ItemsRepeater>
+			</ScrollViewer>
+		</Grid>
+	</Grid>
 </Page>
