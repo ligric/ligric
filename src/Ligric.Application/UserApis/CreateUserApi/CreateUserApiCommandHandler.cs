@@ -38,24 +38,24 @@ namespace Ligric.Application.UserApis.CreateUserApi
 		{
 			// #Should be canvensions
 
-			var apiEntity = (ApiEntity)_apiRepository.Save(new ApiEntity
+			long apiId = (long)_apiRepository.Save(new ApiEntity
 			{
 				Name = request.Name,
 				PrivateKey = request.PrivateKey,
 				PublicKey = request.PublicKey,
 			});
 
-			var userApiEntity = (UserApiEntity)_userApiRepository.Save(new UserApiEntity
+			long userApiId = (long)_userApiRepository.Save(new UserApiEntity
 			{
-				ApiId = apiEntity.Id,
+				ApiId = apiId,
 				UserId = request.OwnerId,
 				Permissions = request.Permissions
 			});
 
-			var notification = new ApiClientNotification(userApiEntity?.Id ?? throw new System.Exception(), "", 1);
+			var notification = new ApiClientNotification(userApiId, request.Name, request.Permissions);
 			await _mediator.Publish(notification);
 
-			return userApiEntity?.Id ?? throw new System.Exception();
+			return userApiId;
 		}
 
 		public async Task Handle(ApiClientNotification notification, CancellationToken cancellationToken)
