@@ -12,7 +12,7 @@ namespace Ligric.Business.Authorization
 {
 	public sealed class AuthorizationService : IAuthorizationService
 	{
-		private readonly IMetadataManager _metadataRepos;
+		private readonly IMetadataManager _metadata;
 		private AuthorizationClient _client;
 
 		public UserAuthorizationState CurrentConnectionState { get; private set; }
@@ -26,7 +26,7 @@ namespace Ligric.Business.Authorization
 			IMetadataManager metadataRepos)
 		{
 			_client = new AuthorizationClient(grpcChannel);
-			_metadataRepos = metadataRepos;
+			_metadata = metadataRepos;
 		}
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
@@ -43,7 +43,7 @@ namespace Ligric.Business.Authorization
 				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
 			};
 
-			_metadataRepos.SetMetadata(metadata);
+			_metadata.SetMetadata(metadata);
 
 			CurrentUser = new UserDto(login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
@@ -64,7 +64,7 @@ namespace Ligric.Business.Authorization
 				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
 			};
 
-			_metadataRepos.SetMetadata(metadata);
+			_metadata.SetMetadata(metadata);
 
 			CurrentUser = new UserDto(login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
