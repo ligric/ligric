@@ -31,12 +31,17 @@ namespace Ligric.Business.Authorization
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
-			var passHashed = SecurePasswordHasher.Hash(password);
+			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignInAsync(new SignInRequest
 			{
 				Login = login,
-				Password = passHashed
+				Password = password
 			}, cancellationToken: ct);
+
+			if (!authReply.Result.IsSuccess)
+			{
+				throw new NotImplementedException();
+			}
 
 			var metadata = new Grpc.Core.Metadata
 			{
@@ -52,12 +57,17 @@ namespace Ligric.Business.Authorization
 
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
-			var passHashed = SecurePasswordHasher.Hash(password);
+			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignUpAsync(new SignUpRequest
 			{
 				Login = login,
-				Password = passHashed
-			});
+				Password = password
+			}, cancellationToken: ct);
+
+			if (!authReply.Result.IsSuccess)
+			{
+				throw new NotImplementedException();
+			}
 
 			var metadata = new Grpc.Core.Metadata
 			{

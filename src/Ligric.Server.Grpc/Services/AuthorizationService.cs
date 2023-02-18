@@ -51,26 +51,20 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		var registerCommand = new LoginUserCommand(request.Login, request.Password);
 		var user = await _mediator.Send(registerCommand);
 
-		// check user password
-		// _usersService.ValidateCredentials(login, password);
-
-		// get role
-		// var role = _userService.GetRole(login);
-
-		// for example
-
-		var claims = new[]
+		if (user?.UserName == null)
 		{
-			new Claim(ClaimTypes.Name, request.Login)
-		};
+			return new SignInResponse
+			{
+				Result = ResponseExtensions.GetFailedResponseResult()
+			};
+		}
 
-		var token = _jwtAuthManager.GenerateTokens(request.Login, claims, DateTime.Now);
-		//_logger.LogInformation($"User [{request.UserName}] logged in the system.");
+		var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
+		var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 		var result = new SignInResponse
 		{
-			Role = string.Empty,
 			JwtToken = new JwtToken
 			{
 				AccessToken = token.AccessToken,
@@ -87,9 +81,9 @@ public class AuthorizationService : Authorization.AuthorizationBase
 	public override async Task<SignUpResponse> SignUp(SignUpRequest request, ServerCallContext context)
 	{
 		var registerCommand = new RegisterUserCommand(request.Login, request.Password);
-		var customer = await _mediator.Send(registerCommand);
+		var user = await _mediator.Send(registerCommand);
 
-		if (customer?.UserName == null)
+		if (user?.UserName == null)
 		{
 			return new SignUpResponse
 			{
@@ -97,8 +91,8 @@ public class AuthorizationService : Authorization.AuthorizationBase
 			};
 		}
 
-		var claims = new[] { new Claim(ClaimTypes.Name, customer.UserName) };
-		var token = _jwtAuthManager.GenerateTokens(customer.UserName, claims, DateTime.Now);
+		var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
+		var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 		var result = new SignUpResponse
