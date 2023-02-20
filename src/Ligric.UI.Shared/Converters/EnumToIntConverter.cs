@@ -4,7 +4,12 @@
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return (int)value;
+			if (value == null || !int.TryParse(value.ToString(), out int result))
+			{
+				return DependencyProperty.UnsetValue;
+			}
+
+			return result;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
