@@ -76,7 +76,7 @@ public sealed partial class App : Application
             new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
             {
                 new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
-                new("Futures", View: views.FindByViewModel<FuturesViewModel>()),
+                new("Futures", View: views.FindByViewModel<FuturesViewModel>())
 			})
         );
     }

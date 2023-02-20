@@ -52,10 +52,14 @@ namespace Ligric.UI.ViewModels.Presentation
 	public partial class FuturesViewModel
 	{
 		private readonly IApiesService _apiService;
+
 		public FuturesViewModel(IApiesService apiesService)
 		{
 			_apiService = apiesService;
+			_apiService.ApiesChanged += OnApiesChanged;
 		}
+
+		public ObservableCollection<ApiClientDto> Apis { get; } = new ObservableCollection<ApiClientDto>();
 
 		public IState<ApiDataViewModel> AddingApi => State.Value(this, () => new ApiDataViewModel());
 
@@ -69,6 +73,16 @@ namespace Ligric.UI.ViewModels.Presentation
 			if (api.Name != null && api.PublicKey != null && api.PrivateKey != null)
 			{
 				await _apiService.SaveApiAsync(new ApiDto(null, api.Name, api.PublicKey, api.PrivateKey), ct);
+			}
+		}
+
+		private void OnApiesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+					Apis.AddRange(e.NewItems);
+					break;
 			}
 		}
 
