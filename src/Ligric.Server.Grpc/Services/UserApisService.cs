@@ -1,7 +1,10 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using System.Threading;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Ligric.Application.UserApis;
 using Ligric.Application.UserApis.CreateUserApi;
 using Ligric.Protos;
+using Ligric.Server.Grpc.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +17,14 @@ namespace Ligric.Server.Grpc.Services
 		private const int OWNER_API_PERMISSION = 31;
 
 		private readonly IMediator _mediator;
+		private readonly IUserApiObserver _userApiObserver;
 
-		public UserApisService(IMediator mediator)
+		public UserApisService(
+			IMediator mediator,
+			IUserApiObserver userApiObserver)
 		{
 			_mediator = mediator;
+			_userApiObserver = userApiObserver;
 		}
 
 		[Authorize]
@@ -35,29 +42,27 @@ namespace Ligric.Server.Grpc.Services
 			return new SaveApiResponse
 			{
 				Result = ResponseExtensions.GetSuccessResponseResult(),
-			    ApiId = apiId
+				ApiId = apiId
 			};
 		}
 
 		[Authorize]
 		public override async Task ApisSubscribe(Empty empty, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{
-			//await _chatService.GetMessagesAsObservable()
-			//		.ToAsyncEnumerable()
-			//		.ForEachAwaitAsync(async (x) => await responseStream.WriteAsync(
-			//			new LobbyMessageResponse
-			//			{
-			//				Action = x.Action.ToProtosAction(),
-			//				LobbyMessage = new LobbyMessage
-			//				{
-			//					MessageGuid = x.Message.Guid.ToString(),
-			//					Message = x.Message.Content,
-			//					Time = x.Message.DateTime.ToTimestamp(),
-			//					UserGuid = x.Message.User.UserGuid.ToString(),
-			//					Username = x.Message.User.Name
-			//				}
-			//			}, context.CancellationToken))
-			//		.ConfigureAwait(false);
+			await _userApiObserver.GetApisAsObservable(1)
+					.ToAsyncEnumerable()
+					.ForEachAwaitAsync(async (x)
+						=> await responseStream.WriteAsync(new ApisChanged
+						{
+							Action = x.Action.ToProtosAction(),
+							Api = new ApiClient
+							{
+								Id = x.Api.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
+								Name = x.Api.Name,
+								Permissions = x.Api.Permissions
+							}
+						}, context.CancellationToken))
+					.ConfigureAwait(false);
 		}
 	}
 }

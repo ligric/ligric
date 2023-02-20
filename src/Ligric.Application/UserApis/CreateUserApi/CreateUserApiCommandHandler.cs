@@ -1,37 +1,22 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ligric.Application.Configuration.Commands;
-using Ligric.Domain.Types.Api;
 using Ligric.Server.Domain.Entities.Apies;
 using Ligric.Server.Domain.Entities.Apis;
-using Ligric.Server.Domain.Entities.UserApies;
-using MediatR;
 
 namespace Ligric.Application.UserApis.CreateUserApi
 {
-	public class ApiClientNotification : ApiClientDto, INotification
+	public class CreateUserApiCommandHandler : ICommandHandler<CreateUserApiCommand, long>
 	{
-		public ApiClientNotification(long id, string name, int apiPermissions)
-			: base(id, name, apiPermissions)
-		{
-		}
-	}
-
-	public class CreateUserApiCommandHandler : ICommandHandler<CreateUserApiCommand, long>, INotificationHandler<ApiClientNotification>
-	{
-		private readonly IMediator _mediator;
 		private readonly IApiRepository _apiRepository;
-		private readonly IUserApiRepository _userApiRepository;
+		private readonly IUserApiObserver _userApiObserver;
 
 		public CreateUserApiCommandHandler(
-			IMediator mediator,
 			IApiRepository apiRepository,
-			IUserApiRepository userApiRepository)
+			IUserApiObserver userApiObserver)
 		{
-			_mediator = mediator;
+			_userApiObserver = userApiObserver;
 			_apiRepository = apiRepository;
-			_userApiRepository = userApiRepository;
-
 		}
 
 		public async Task<long> Handle(CreateUserApiCommand request, CancellationToken cancellationToken)
@@ -45,22 +30,9 @@ namespace Ligric.Application.UserApis.CreateUserApi
 				PublicKey = request.PublicKey,
 			});
 
-			long userApiId = (long)_userApiRepository.Save(new UserApiEntity
-			{
-				ApiId = apiId,
-				UserId = request.OwnerId,
-				Permissions = request.Permissions
-			});
-
-			var notification = new ApiClientNotification(userApiId, request.Name, request.Permissions);
-			await _mediator.Publish(notification);
+			long userApiId = _userApiObserver.Save(apiId, request.OwnerId, request.Permissions);
 
 			return userApiId;
-		}
-
-		public async Task Handle(ApiClientNotification notification, CancellationToken cancellationToken)
-		{
-
 		}
 	}
 }

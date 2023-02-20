@@ -21,6 +21,7 @@ using Ligric.Infrastructure.Jwt;
 using Ligric.Server.Domain.Entities.UserApies;
 using Ligric.Server.Domain.Entities.Apis;
 using Ligric.Infrastructure.Domain.Api;
+using Ligric.Application.UserApis;
 
 namespace Ligric.Infrastructure
 {
@@ -57,6 +58,7 @@ namespace Ligric.Infrastructure
 
             container.Populate(services);
 
+            container.RegisterType<UserApiObserver>().As<IUserApiObserver>().InstancePerLifetimeScope();
             container.RegisterType<DefaultCryptoProvider>().As<ICryptoProvider>().InstancePerLifetimeScope();
             container.RegisterType<JwtAuthManager>().As<IJwtAuthManager>().InstancePerLifetimeScope();
 

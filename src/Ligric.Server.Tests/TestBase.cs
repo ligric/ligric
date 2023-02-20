@@ -55,7 +55,7 @@ public abstract class TestBase : IDisposable
 			{
 				//Configure HttpClient for all FlueFlame hosts such as HttpHost, GrpcHost, SignalRHost...
 				
-				//Add JWT token to default request headers
+				//Save JWT token to default request headers
 				c.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetJwtToken()}");
 			});
 
@@ -78,7 +78,7 @@ public abstract class TestBase : IDisposable
 			//Configure HttpClient only for FlueFlameGrpcHost
 			b.ConfigureHttpClient(client =>
 			{
-				//client.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetJwtToken()}");
+				//client.DefaultRequestHeaders.Save("Authorization", $"Bearer {GetJwtToken()}");
 			});
 
 			//Use custom GrpcChannelOptions
