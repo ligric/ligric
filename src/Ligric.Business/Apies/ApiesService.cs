@@ -1,10 +1,14 @@
-﻿using Grpc.Net.Client;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Net.Client;
 using Ligric.Business.Authorization;
 using Ligric.Business.Metadata;
 using Ligric.Domain.Types.Api;
 using Ligric.Protos;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
@@ -14,10 +18,12 @@ namespace Ligric.Business.Apies
 {
 	public class ApiesService : IApiesService
 	{
+		private bool disposed = false;
+
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IMetadataManager _metadataManager;
 		private UserApisClient _client;
-
+		private CancellationTokenSource? _apiPiplineSubscriveCancellationToken;
 		private readonly List<ApiClientDto> _availableApies = new List<ApiClientDto>();
 
 		public ApiesService(
@@ -33,7 +39,7 @@ namespace Ligric.Business.Apies
 
 		public IReadOnlyCollection<ApiClientDto> AvailableApies => new ReadOnlyCollection<ApiClientDto>(_availableApies);
 
-		//public event NotifyCollectionChangedEventHandler? ApiesChanged;
+		public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
 		public async Task SaveApiAsync(ApiDto api, CancellationToken ct)
 		{
@@ -45,15 +51,6 @@ namespace Ligric.Business.Apies
 				PrivateKey = api.PrivateKey,
 				PublicKey = api.PublicKey,
 			}, headers: _metadataManager.CurrentMetadata, cancellationToken: ct);
-
-			if (response is null)
-			{
-				throw new System.NotImplementedException();
-			}
-
-			var newApi = new ApiClientDto(response.ApiId, api.Name, 31);
-			_availableApies.Add(newApi);
-
 		}
 
 		public Task SetStateAsync(long id, StateEnum state, CancellationToken ct)
@@ -64,6 +61,56 @@ namespace Ligric.Business.Apies
 		public Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo, CancellationToken ct)
 		{
 			throw new System.NotImplementedException();
+		}
+
+		public Task ApiPiplineSubscribeAsync()
+		{
+			if (_apiPiplineSubscriveCancellationToken is not null && !_apiPiplineSubscriveCancellationToken.IsCancellationRequested)
+				return Task.CompletedTask;
+
+			var call = _client.ApisSubscribe(new Empty());
+			_apiPiplineSubscriveCancellationToken = new CancellationTokenSource();
+
+			return call.ResponseStream
+				.ToAsyncEnumerable()
+				.Finally(() => call.Dispose())
+				.ForEachAsync((x) =>
+				{
+					ApiClientDto apiClient = new(x.Api.Id, x.Api.Name, x.Api.Permissions);
+					switch(x.Action)
+					{
+						case Protos.Action.Added:
+							_availableApies.Add(apiClient);
+							ApiesChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, apiClient));
+							break;
+					}
+
+				}, _apiPiplineSubscriveCancellationToken.Token);
+		}
+
+		public void ApiPiplineUnsubscribe()
+		{
+			_apiPiplineSubscriveCancellationToken?.Cancel();
+			_apiPiplineSubscriveCancellationToken?.Dispose();
+		}
+
+		public void Dispose()
+		{
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposed)
+				return;
+
+			if (disposing)
+			{
+				ApiPiplineUnsubscribe();
+			}
+
+			disposed = true;
 		}
 	}
 }

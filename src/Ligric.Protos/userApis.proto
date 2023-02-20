@@ -22,7 +22,7 @@ message Api {
 message ApiClient {
 	int64 id = 1;
 	string name = 2;
-	string permissions = 3;
+	int32 permissions = 3;
 }
 
 message SaveApiRequest {

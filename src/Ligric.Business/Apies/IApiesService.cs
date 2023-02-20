@@ -1,16 +1,18 @@
 ﻿using Ligric.Domain.Types.Api;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
 
 namespace Ligric.Business.Apies
 {
-	public interface IApiesService
+	public interface IApiesService : IDisposable
 	{
 		IReadOnlyCollection<ApiClientDto> AvailableApies { get; }
 
-		//event NotifyCollectionChangedEventHandler? ApiesChanged;
+		event NotifyCollectionChangedEventHandler? ApiesChanged;
 
 		/// <summary>
 		/// Saving api local or remote and available only for current user.
@@ -32,5 +34,9 @@ namespace Ligric.Business.Apies
 		/// <param name="multiChangesInfo">Selection info</param>
 		/// <remarks>Wors if user has permissions or users is owner.</remarks>
 		Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo, CancellationToken ct);
+
+		Task ApiPiplineSubscribeAsync();
+
+		void ApiPiplineUnsubscribe();
 	}
 }
