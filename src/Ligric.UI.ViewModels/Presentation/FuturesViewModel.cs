@@ -170,7 +170,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		////    {
 		////        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 		////        {
-		////            entity.Positions.Add(new PositionViewModel
+		////            entity.Positions.AddAndRiseEvent(new PositionViewModel
 		////            {
 		////                Symbol = e.Position.Symbol,
 		////                CurrentPrice = e.Position.CurrentPrice,
@@ -237,11 +237,11 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		//    //if (entity == null && order.Status == OrderStatus.New)
 		//    //{
-		//    //    newFutureEntiry.Orders.Add(newOrder);
+		//    //    newFutureEntiry.Orders.AddAndRiseEvent(newOrder);
 
 		//    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 		//    //    {
-		//    //        //CurrentEntities.Add(newFutureEntiry);
+		//    //        //CurrentEntities.AddAndRiseEvent(newFutureEntiry);
 		//    //    });
 		//    //}
 
@@ -249,7 +249,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		//    //{
 		//    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 		//    //    {
-		//    //        entity.Orders.Add(newOrder);
+		//    //        entity.Orders.AddAndRiseEvent(newOrder);
 		//    //    });
 		//    //}
 		//}

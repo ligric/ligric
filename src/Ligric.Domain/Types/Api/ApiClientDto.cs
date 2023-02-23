@@ -1,17 +1,17 @@
 ﻿namespace Ligric.Domain.Types.Api
 {
-    public class ApiClientDto
+    public record ApiClientDto
     {
-        public long? UserApiId { get; }
+        public long? UserApiId { get; init; }
 
-        public string Name { get; }
+		public string Name { get; init; }
 
 		/// <summary>
 		/// Flag value: <see cref="ApiPermissions"/>
 		/// </summary>
-		public int Permissions { get; }
+		public int Permissions { get; init; }
 
-        public ApiClientDto(long? id, string name, int apiPermissions)
+		public ApiClientDto(long? id, string name, int apiPermissions)
         {
             UserApiId = id;
             Name = name;

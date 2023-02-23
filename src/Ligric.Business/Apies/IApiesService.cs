@@ -11,7 +11,7 @@ namespace Ligric.Business.Apies
 	public interface IApiesService : IDisposable
 	{
 		IReadOnlyCollection<ApiClientDto> AvailableApies { get; }
-
+		
 		event NotifyCollectionChangedEventHandler? ApiesChanged;
 
 		/// <summary>

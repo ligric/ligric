@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
 using Ligric.Business.Authorization;
+using Ligric.Business.Extensions;
 using Ligric.Business.Metadata;
 using Ligric.Domain.Types.Api;
 using Ligric.Protos;
@@ -19,12 +20,12 @@ namespace Ligric.Business.Apies
 	public class ApiesService : IApiesService
 	{
 		private bool disposed = false;
-
-		private readonly IAuthorizationService _authorizationService;
-		private readonly IMetadataManager _metadataManager;
 		private UserApisClient _client;
 		private CancellationTokenSource? _apiPiplineSubscriveCancellationToken;
-		private readonly List<ApiClientDto> _availableApies = new List<ApiClientDto>();
+
+		private readonly HashSet<ApiClientDto> _availableApies = new HashSet<ApiClientDto>();
+		private readonly IAuthorizationService _authorizationService;
+		private readonly IMetadataManager _metadataManager;
 
 		public ApiesService(
 			GrpcChannel grpcChannel,
@@ -32,12 +33,11 @@ namespace Ligric.Business.Apies
 			IAuthorizationService authorizationService)
 		{
 			_metadataManager = metadataRepos;
-			_authorizationService = authorizationService;
-
 			_client = new UserApisClient(grpcChannel);
+			_authorizationService = authorizationService;
 		}
 
-		public IReadOnlyCollection<ApiClientDto> AvailableApies => new ReadOnlyCollection<ApiClientDto>(_availableApies);
+		public IReadOnlyCollection<ApiClientDto> AvailableApies => _availableApies;
 
 		public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
@@ -55,9 +55,7 @@ namespace Ligric.Business.Apies
 			var apiId = response.ApiId;
 
 			var newApi = new ApiClientDto(apiId, api.Name, 31);
-			_availableApies.Add(newApi);
-			ApiesChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newApi));
-
+			_availableApies.AddAndRiseEvent(this, newApi, ApiesChanged);
 			return apiId;
 		}
 
@@ -73,27 +71,14 @@ namespace Ligric.Business.Apies
 
 		public Task ApiPiplineSubscribeAsync()
 		{
-			if (_apiPiplineSubscriveCancellationToken is not null && !_apiPiplineSubscriveCancellationToken.IsCancellationRequested)
+			if (_apiPiplineSubscriveCancellationToken != null
+				&& !_apiPiplineSubscriveCancellationToken.IsCancellationRequested)
+			{
 				return Task.CompletedTask;
+			}
 
-			var call = _client.ApisSubscribe(new Empty());
 			_apiPiplineSubscriveCancellationToken = new CancellationTokenSource();
-
-			return call.ResponseStream
-				.ToAsyncEnumerable()
-				.Finally(() => call.Dispose())
-				.ForEachAsync((x) =>
-				{
-					ApiClientDto apiClient = new(x.Api.Id, x.Api.Name, x.Api.Permissions);
-					switch(x.Action)
-					{
-						case Protos.Action.Added:
-							_availableApies.Add(apiClient);
-							ApiesChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, apiClient));
-							break;
-					}
-
-				}, _apiPiplineSubscriveCancellationToken.Token);
+			return StreamApiSubscribeCall(_apiPiplineSubscriveCancellationToken.Token);
 		}
 
 		public void ApiPiplineUnsubscribe()
@@ -106,6 +91,40 @@ namespace Ligric.Business.Apies
 		{
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
+		}
+
+		private Task StreamApiSubscribeCall(CancellationToken token)
+		{
+			var call = _client.ApisSubscribe(
+				request: new Empty(),
+				headers: _metadataManager.CurrentMetadata,
+				cancellationToken: token);
+
+			return call.ResponseStream
+				.ToAsyncEnumerable()
+				.Finally(() => call.Dispose())
+				.ForEachAsync((api) =>
+				{
+					OnServerApisChanged(api);
+				}, token);
+		}
+
+		private void OnServerApisChanged(ApisChanged changedInfo)
+		{
+			ApiClientDto apiClient = changedInfo.Api.ToApiClientDto();
+			switch (changedInfo.Action)
+			{
+				case Protos.Action.Added:
+					_availableApies.AddAndRiseEvent(this, apiClient, ApiesChanged);
+					break;
+				case Protos.Action.Removed:
+					_availableApies.RemoveAndRiseEvent(this, apiClient, ApiesChanged);
+					break;
+				case Protos.Action.Changed:
+					var oldApi = _availableApies.First(x => x.UserApiId == apiClient.UserApiId);
+					_availableApies.UpdateAndRiseEvent(this, apiClient, oldApi, ApiesChanged);
+					break;
+			}
 		}
 
 		private void Dispose(bool disposing)
