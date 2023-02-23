@@ -52,11 +52,11 @@
 
 			<Popup x:Name="AddingApiPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=AddNewApiButton}" DesiredPlacement="RightEdgeAlignedBottom">
 				<StackPanel Height="200" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
-					<TextBox Text="{Binding AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
-					<TextBox Text="{Binding AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
-					<TextBox Text="{Binding AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa"/>
+					<TextBox Text="{Binding Api.AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
+					<TextBox Text="{Binding Api.AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
+					<TextBox Text="{Binding Api.AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa"/>
 
-					<Button Width="160" Height="35" Content="Add" Command="{Binding SaveApiCommand}" Background="#f2f5fa"/>
+					<Button Width="160" Height="35" Content="Add" Command="{Binding Api.SaveApiCommand}" Background="#f2f5fa"/>
 				</StackPanel>
 			</Popup>
 
