@@ -41,7 +41,7 @@ namespace Ligric.Business.Apies
 
 		public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
-		public async Task SaveApiAsync(ApiDto api, CancellationToken ct)
+		public async Task<long> SaveApiAsync(ApiDto api, CancellationToken ct)
 		{
 			var userId = _authorizationService.CurrentUser.Id ?? throw new System.ArgumentNullException($"SaveApiAsync : UserId is null");
 			var response = await _client.SaveAsync(new SaveApiRequest
@@ -51,6 +51,14 @@ namespace Ligric.Business.Apies
 				PrivateKey = api.PrivateKey,
 				PublicKey = api.PublicKey,
 			}, headers: _metadataManager.CurrentMetadata, cancellationToken: ct);
+
+			var apiId = response.ApiId;
+
+			var newApi = new ApiClientDto(apiId, api.Name, 31);
+			_availableApies.Add(newApi);
+			ApiesChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newApi));
+
+			return apiId;
 		}
 
 		public Task SetStateAsync(long id, StateEnum state, CancellationToken ct)

@@ -26,12 +26,12 @@
 			<Border CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
 			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-				<controls:ItemsRepeater ItemsSource="{Binding Apis}" Margin="10">
+				<controls:ItemsRepeater ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Border CornerRadius="20" Background="#2c2c2c" Padding="20" Width="40" Height="40"
-                                    HorizontalAlignment="Center">
-								<TextBlock Foreground="White" Text="{Binding Name}"/>
+							<Border CornerRadius="20" Background="#2c2c2c" Padding="20,10,20,10" Height="50">
+								<TextBlock Foreground="White" Text="{Binding Name}"
+										   VerticalAlignment="Center"/>
 							</Border>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>

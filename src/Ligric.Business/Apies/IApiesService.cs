@@ -18,7 +18,8 @@ namespace Ligric.Business.Apies
 		/// Saving api local or remote and available only for current user.
 		/// </summary>
 		/// <param name="api">Api info</param>
-		Task SaveApiAsync(ApiDto api, CancellationToken ct);
+		/// <returns>Api id</returns>
+		Task<long> SaveApiAsync(ApiDto api, CancellationToken ct);
 
 		/// <summary>
 		/// Set state for everyuser.
