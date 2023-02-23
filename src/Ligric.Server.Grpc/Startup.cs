@@ -11,12 +11,14 @@ using Ligric.Server.Grpc.Services;
 using Ligric.Infrastructure;
 using Ligric.Infrastructure.Jwt;
 using Ligric.Protos;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Ligric.Server.Grpc
 {
 	public class Startup
 	{
 		private readonly IConfiguration _configuration;
+		private const string CORS_POLICY = "_corsPolicy";
 
 		private const string LigricConnectionString = "LigricConnectionString";
 
@@ -41,6 +43,18 @@ namespace Ligric.Server.Grpc
 			{
 				throw new NotImplementedException();
 			}
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy(name: CORS_POLICY,
+					policy =>
+					{
+						policy.WithOrigins("https://localhost:5001",
+											"http://localhost:5000")
+							.AllowAnyHeader()
+							.AllowAnyMethod();
+					});
+			});
 
 			SetJWTAuthorization(services);
 
@@ -74,6 +88,8 @@ namespace Ligric.Server.Grpc
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseCors(CORS_POLICY);
+
 			app.UseMiddleware<CorrelationMiddleware>();
 
 			if (env.IsDevelopment())
