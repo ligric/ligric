@@ -22,6 +22,7 @@ using Ligric.Server.Domain.Entities.UserApies;
 using Ligric.Server.Domain.Entities.Apis;
 using Ligric.Infrastructure.Domain.Api;
 using Ligric.Application.UserApis;
+using Autofac.Core;
 
 namespace Ligric.Infrastructure
 {
@@ -54,11 +55,12 @@ namespace Ligric.Infrastructure
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor)
         {
-            var container = new ContainerBuilder();
+			services.AddSingleton<IUserApiObserver, UserApiObserver>();
+
+			var container = new ContainerBuilder();
 
             container.Populate(services);
 
-            container.RegisterType<UserApiObserver>().As<IUserApiObserver>().InstancePerLifetimeScope();
             container.RegisterType<DefaultCryptoProvider>().As<ICryptoProvider>().InstancePerLifetimeScope();
             container.RegisterType<JwtAuthManager>().As<IJwtAuthManager>().InstancePerLifetimeScope();
 
