@@ -9,7 +9,7 @@ package Ligric.Protos;
 
 service UserApis {
 	rpc Save(SaveApiRequest) returns (SaveApiResponse);
-    rpc ApisSubscribe(google.protobuf.Empty) returns (stream ApisChanged);
+    rpc ApisSubscribe(ApiSubscribeRequest) returns (stream ApisChanged);
 }
 
 message Api {
@@ -35,6 +35,11 @@ message SaveApiRequest {
 message SaveApiResponse {
 	int64 apiId = 1;
 	ResponseResult result = 2;
+}
+
+message ApiSubscribeRequest
+{
+	int64 userId = 1;
 }
 
 message ApisChanged {

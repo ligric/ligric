@@ -47,22 +47,24 @@ namespace Ligric.Server.Grpc.Services
 		}
 
 		[Authorize]
-		public override async Task ApisSubscribe(Empty empty, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
+		public override async Task ApisSubscribe(ApiSubscribeRequest request, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{
-			await _userApiObserver.GetApisAsObservable(1)
-					.ToAsyncEnumerable()
-					.ForEachAwaitAsync(async (x)
-						=> await responseStream.WriteAsync(new ApisChanged
+			await _userApiObserver.GetApisAsObservable(request.UserId)
+				.ToAsyncEnumerable()
+				.ForEachAwaitAsync(async (x) =>
+				{
+					await responseStream.WriteAsync(new ApisChanged
+					{
+						Action = x.Action.ToProtosAction(),
+						Api = new ApiClient
 						{
-							Action = x.Action.ToProtosAction(),
-							Api = new ApiClient
-							{
-								Id = x.Api.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
-								Name = x.Api.Name,
-								Permissions = x.Api.Permissions
-							}
-						}, context.CancellationToken))
-					.ConfigureAwait(false);
+							Id = x.Api.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
+							Name = x.Api.Name,
+							Permissions = x.Api.Permissions
+						}
+					});
+				}, context.CancellationToken)
+				.ConfigureAwait(false);
 		}
 	}
 }

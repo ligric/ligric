@@ -95,8 +95,9 @@ namespace Ligric.Business.Apies
 
 		private Task StreamApiSubscribeCall(CancellationToken token)
 		{
+			var currentUserId = _authorizationService.CurrentUser.Id;
 			var call = _client.ApisSubscribe(
-				request: new Empty(),
+				request: new ApiSubscribeRequest { UserId = currentUserId ?? -1 },
 				headers: _metadataManager.CurrentMetadata,
 				cancellationToken: token);
 
