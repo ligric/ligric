@@ -40,8 +40,8 @@ namespace Ligric.Application.UserApis
 
 		public IObservable<(EventAction Action, ApiClientDto Api)> GetApisAsObservable(long userId)
 		{
-			var userApiEntities = _userApiRepository.GetEntitiesByUserId(userId);
-			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x.ToUserApiDto())).ToObservable();
+			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
+			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x)).ToObservable();
 			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, ApiClientDto Api)>((x) => ApiChanged += x, (x) => ApiChanged -= x);
 
 			return currentApiStateNotifications.Concat(updatedApiStateNotifications);
