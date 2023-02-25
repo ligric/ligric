@@ -5,7 +5,7 @@
 
 	  xmlns:i="using:Microsoft.Xaml.Interactivity"
 	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-	  
+
       d:Height="1334" d:Width="1334"      
       d:DataContext="{d:DesignInstance viewModels:FuturesViewModel, IsDesignTimeCreatable=True}"
       Background="#FFcbcbcd">
@@ -17,21 +17,19 @@
 		</Grid.ColumnDefinitions>
 
 		<!-- Left Menu -->
-		<Grid Grid.Column="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="300"/>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-
-			<Border CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
-
-			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<Grid x:Name="menu" Grid.Column="0" Width="300" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4">
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			
+			<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Border CornerRadius="20" Background="#2c2c2c" Padding="20,10,20,10" Height="50">
-								<TextBlock Foreground="White" Text="{Binding Name}"
-										   VerticalAlignment="Center"/>
+							<Border Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10">
+								<TextBlock Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
 							</Border>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
@@ -41,7 +39,7 @@
 				</controls:ItemsRepeater>
 			</ScrollViewer>
 
-			<Button x:Name="AddNewApiButton" Content="New API" Height="40" Margin="20,30" CornerRadius="10" Background="#1f1f1f" Foreground="White"
+			<Button x:Name="AddNewApiButton" Grid.Row="1" Content="New API" Height="40" Margin="20,10" CornerRadius="10" Background="#1f1f1f" Foreground="White"
                     VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
 				<i:Interaction.Behaviors>
 					<core:EventTriggerBehavior EventName="Click">
@@ -50,7 +48,7 @@
 				</i:Interaction.Behaviors>
 			</Button>
 
-			<Popup x:Name="AddingApiPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=AddNewApiButton}" DesiredPlacement="RightEdgeAlignedBottom">
+			<Popup x:Name="AddingApiPopup" Grid.RowSpan="2" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=AddNewApiButton}" DesiredPlacement="RightEdgeAlignedBottom">
 				<StackPanel Height="200" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
 					<TextBox Text="{Binding Api.AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
 					<TextBox Text="{Binding Api.AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
@@ -59,7 +57,6 @@
 					<Button Width="160" Height="35" Content="Add" Command="{Binding Api.SaveApiCommand}" Background="#f2f5fa"/>
 				</StackPanel>
 			</Popup>
-
 		</Grid>
 
 		<!-- Content -->
