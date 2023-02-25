@@ -12,7 +12,7 @@ namespace Ligric.Application.UserApis
 	public class UserApiObserver : IUserApiObserver
 	{
 		private readonly IUserApiRepository _userApiRepository;
-		private event Action<(EventAction Action, ApiClientDto userApi)>? ApiChanged;
+		private event Action<(EventAction Action, long UserId, ApiClientDto userApi)>? ApiChanged;
 
 		public UserApiObserver(IUserApiRepository userApiRepository)
 		{
@@ -33,16 +33,16 @@ namespace Ligric.Application.UserApis
 
 			userApiSaveEntity.Id = userApiId;
 
-			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToUserApiDto()));
+			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToUserApiDto()));
 
 			return userApiId;
 		}
 
-		public IObservable<(EventAction Action, ApiClientDto Api)> GetApisAsObservable(long userId)
+		public IObservable<(EventAction Action, long UserId, ApiClientDto Api)> GetApisAsObservable(long userId)
 		{
 			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
-			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x)).ToObservable();
-			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, ApiClientDto Api)>((x) => ApiChanged += x, (x) => ApiChanged -= x);
+			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, userId, x)).ToObservable();
+			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, ApiClientDto Api)>((x) => ApiChanged += x, (x) => ApiChanged -= x);
 
 			return currentApiStateNotifications.Concat(updatedApiStateNotifications);
 		}

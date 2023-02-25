@@ -10,6 +10,6 @@ namespace Ligric.Application.UserApis
 	{
 		long Save(long apiId, long userId, int permissions);
 
-		IObservable<(EventAction Action, ApiClientDto Api)> GetApisAsObservable(long userId);
+		IObservable<(EventAction Action, long UserId, ApiClientDto Api)> GetApisAsObservable(long userId);
 	}
 }
