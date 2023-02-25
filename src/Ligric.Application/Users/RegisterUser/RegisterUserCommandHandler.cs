@@ -28,16 +28,14 @@ namespace Ligric.Application.Users.RegisterUser
 			var salt = _cryptoProvider.GetSalt(Guid.NewGuid().ToString());
 			var hashedPass = _cryptoProvider.GetHash(request.Password, salt);
 
-			var user = _userRepository.Save(new UserEntity
+			var userId = (long)_userRepository.Save(new UserEntity
 			{
 				UserName = request.Login,
 				Password = hashedPass,
 				Salt = salt
-			}) as UserEntity;
+			});
 
-			return new UserDto(
-					user?.Id ?? throw new ArgumentNullException($"{typeof(RegisterUserCommandHandler)}: User Id is null"),
-					user?.UserName ?? throw new ArgumentNullException($"{typeof(RegisterUserCommandHandler)}: User Name is null"));
+			return new UserDto(userId, request.Login);
         }
     }
 }
