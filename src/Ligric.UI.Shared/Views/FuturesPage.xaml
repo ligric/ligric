@@ -27,10 +27,25 @@
 				<controls:ItemsRepeater ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Border Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10">
+							<Button Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
+								<Button.Flyout>
+									<MenuFlyout>
+										<MenuFlyoutItem Text="Share">
+											<MenuFlyoutItem.Icon>
+												<FontIcon Glyph="&#xE72D;"/>
+											</MenuFlyoutItem.Icon>
+										</MenuFlyoutItem>
+										<MenuFlyoutItem Text="Delete" Icon="Delete" />
+
+										<MenuFlyoutSeparator/>
+										<MenuFlyoutItem Text="Rename" />
+										<MenuFlyoutItem Text="Select" />
+									</MenuFlyout>
+								</Button.Flyout>
+
 								<TextBlock Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
-							</Border>
+							</Button>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
 					<controls:ItemsRepeater.Layout>
