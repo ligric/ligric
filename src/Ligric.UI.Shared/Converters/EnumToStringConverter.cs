@@ -1,21 +1,15 @@
 ﻿namespace Ligric.UI.Converters
 {
-	public class EnumToIntConverter : IValueConverter
+	public class EnumToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return (int)value;
+			return value?.ToString() ?? DependencyProperty.UnsetValue;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
 		{
-			string? valueString = value.ToString();
-			if (valueString == null)
-			{
-				return DependencyProperty.UnsetValue;
-			}
-
-			return Enum.Parse(targetType, valueString);
+			return DependencyProperty.UnsetValue;
 		}
 	}
 }

@@ -4,8 +4,9 @@ GO
 CREATE PROCEDURE [GetAllowedAPI] @userId INT
 	AS
 	BEGIN
-		SELECT *
+		SELECT _userAPI.[Id], _api.[Name], _userAPI.[Permissions]
 		FROM [UserAPIs] _userAPI
+		INNER JOIN [APIs] AS _api ON _api.[Id] = _userAPI.[ApiId]
 		WHERE _userAPI.[UserId] = @userId AND _userAPI.[Deleted] = 0
 	END
 GO

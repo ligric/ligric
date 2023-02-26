@@ -8,7 +8,7 @@ namespace Ligric.Server.Domain.Mapping
     {
         public ApiMap()
         {
-            Table("[Apies]");
+            Table("[APIs]");
             this.MapBase();
 
             Map(x => x.Name);

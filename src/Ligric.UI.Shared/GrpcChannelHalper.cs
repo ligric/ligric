@@ -1,10 +1,11 @@
 ﻿using System.Net.Http;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Grpc.Net.Client.Web;
 
 namespace Ligric.UI
 {
-	public static class GrpcChannelHalper
+	internal static class GrpcChannelHalper
 	{
 		public static GrpcChannel GetGrpcChannel()
 		{
@@ -14,22 +15,24 @@ namespace Ligric.UI
 
 			var httpClientHandler = new HttpClientHandler();
 
+#if !__WASM__
 			httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
 			{
 				if (cert != null && cert.Issuer.Equals("CN=localhost"))
 					return true;
 				return errors == System.Net.Security.SslPolicyErrors.None;
 			};
-
+#endif
 			return GrpcChannel.ForAddress(address, new GrpcChannelOptions
 			{
-#if WINDOWS_UWP
-                HttpHandler = new GrpcWebHandler(httpClientHandler),
-
+#if ANDROID
+				HttpHandler = new GrpcWebHandler(httpClientHandler),
+#elif __WASM__
+				HttpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWebText, httpClientHandler)),
 #else
 				HttpClient = new HttpClient(httpClientHandler),
-
 #endif
+
 				Credentials = ChannelCredentials.SecureSsl
 			});
 		}
@@ -43,11 +46,10 @@ namespace Ligric.UI
 			//---------------------------------------------------------------
 			if (true)
 			{
-#if WINDOWS
-                address = "https://localhost:5010";
-#endif
-#if __ANDROID__
+#if ANDROID
                 address = "https://10.0.2.2:5010";
+#else
+				address = "https://localhost:5010";
 #endif
 			}
 			//---------------------------------------------------------------

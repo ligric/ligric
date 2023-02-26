@@ -5,7 +5,7 @@
 	  Background="#FFcbcbcd">
 
 	<Page.Resources>
-		<converters:EnumToIntConverter x:Key="EnumToIntConverter"/>
+		<converters:EnumToStringConverter x:Key="EnumToStringConverter"/>
 	</Page.Resources>
 	
 	<Grid>
@@ -35,13 +35,13 @@
         <!-- Login Content -->
 		<Grid Grid.Column="1" Grid.Row="1" MinWidth="400" MinHeight="350">
 			<i:Interaction.Behaviors>
-				<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToIntConverter}}" Value="1">
+				<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToStringConverter}}" Value="SignUp">
 					<core:ChangePropertyAction TargetObject="{Binding ElementName=RepeatePassowrdTextBox}" PropertyName="Visibility" Value="Visible"/>
 					<core:ChangePropertyAction TargetObject="{Binding ElementName=SignUpButton}" PropertyName="Visibility" Value="Collapsed"/>
 					<core:ChangePropertyAction TargetObject="{Binding ElementName=BackButton}" PropertyName="Visibility" Value="Visible"/>
 				</core:DataTriggerBehavior>
 
-				<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToIntConverter}}" Value="0">
+				<core:DataTriggerBehavior Binding="{Binding Credentials.AutorizationMode, Converter={StaticResource EnumToStringConverter}}" Value="SignIn">
 					<core:ChangePropertyAction TargetObject="{Binding ElementName=RepeatePassowrdTextBox}" PropertyName="Visibility" Value="Collapsed"/>
 					<core:ChangePropertyAction TargetObject="{Binding ElementName=SignUpButton}" PropertyName="Visibility" Value="Visible"/>
 					<core:ChangePropertyAction TargetObject="{Binding ElementName=BackButton}" PropertyName="Visibility" Value="Collapsed"/>

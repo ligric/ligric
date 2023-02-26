@@ -2,10 +2,12 @@
 {
     public class UserDto
     {
+		public long? Id { get; }
         public string? UserName { get; }
 
-        public UserDto(string? userName)
+        public UserDto(long? id, string? userName)
         {
+			Id = id;
             UserName = userName;
         }
     }

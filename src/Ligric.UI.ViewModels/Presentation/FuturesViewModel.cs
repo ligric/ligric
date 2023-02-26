@@ -1,7 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
+using Ligric.Business.Apies;
+using Ligric.Domain.Types.Api;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -37,15 +41,69 @@ namespace Ligric.UI.ViewModels.Presentation
 	//    public string PnLPercent { get => _pnLPercent; set => SetProperty(ref _pnLPercent, value); }
 	//}
 
-	public class ApiKeyViewModel
+	public class ApisViewModel
 	{
+		private readonly IApiesService _apiService;
+
+		public ApisViewModel(IApiesService apiesService)
+		{
+			_apiService = apiesService;
+			_apiService.ApiesChanged += OnApiesChanged;
+		}
+
+		public ObservableCollection<ApiClientDto> Apis { get; init; } = new();
+
+		[Reactive]
+		public ApiDataViewModel AddingApi { get; } = new();
+
+		public ReactiveCommand<Unit, Unit> SaveApiCommand => ReactiveCommand.CreateFromTask(
+			execute: ct => ExecuteSaveApi(AddingApi, ct),
+			canExecute: this.WhenAnyValue(x => x.AddingApi, api => CanSaveApi(api)));
+
+		private bool CanSaveApi(ApiDataViewModel api)
+			=> api is { Name.Length: >= 1 } and { PrivateKey.Length: > 5 } and { PublicKey.Length: > 5 };
+
+		private async Task ExecuteSaveApi(ApiDataViewModel api, CancellationToken ct)
+		{
+			if (api.Name != null && api.PublicKey != null && api.PrivateKey != null)
+			{
+				await _apiService.SaveApiAsync(new ApiDto(null, api.Name, api.PublicKey, api.PrivateKey), ct);
+			}
+		}
+
+		private void OnApiesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+					Apis.AddRange(e.NewItems);
+					break;
+			}
+		}
+	}
+
+	public class ApiDataViewModel
+	{
+		[Reactive]
 		public string? Name { get; set; } = "My test api key";
+
+		[Reactive]
 		public string? PublicKey { get; set; } = "c58577a8b8d83617fb678838fa8e43c83e53384e88fef416c81658e51c6c48f3";
+
+		[Reactive]
 		public string? PrivateKey { get; set; } = "651096d67c3d1a080daf6d26a37ad545864d312b7a6b24d5f654d4f26a1a7ddc";
 	}
 
-	public class FuturesViewModel
+	public record FuturesViewModel
 	{
+		public FuturesViewModel(IApiesService apiesService)
+		{
+			Api = new ApisViewModel(apiesService);
+		}
+
+		public ApisViewModel Api { get; }
+
+
 		//private readonly IFuturesProvider _futuresProvider;
 		//private readonly IApiesService _apiesService;
 		//private RelayCommand _addNewApiCommand;
@@ -66,8 +124,6 @@ namespace Ligric.UI.ViewModels.Presentation
 		//        AddNewApiCommand.RaiseCanExecuteChanged();
 		//    };
 		//}
-
-		public ApiKeyViewModel AddingApi { get; } = new ApiKeyViewModel();
 
 		//public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
@@ -114,7 +170,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		////    {
 		////        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 		////        {
-		////            entity.Positions.Add(new PositionViewModel
+		////            entity.Positions.AddAndRiseEvent(new PositionViewModel
 		////            {
 		////                Symbol = e.Position.Symbol,
 		////                CurrentPrice = e.Position.CurrentPrice,
@@ -181,11 +237,11 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		//    //if (entity == null && order.Status == OrderStatus.New)
 		//    //{
-		//    //    newFutureEntiry.Orders.Add(newOrder);
+		//    //    newFutureEntiry.Orders.AddAndRiseEvent(newOrder);
 
 		//    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 		//    //    {
-		//    //        //CurrentEntities.Add(newFutureEntiry);
+		//    //        //CurrentEntities.AddAndRiseEvent(newFutureEntiry);
 		//    //    });
 		//    //}
 
@@ -193,7 +249,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		//    //{
 		//    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 		//    //    {
-		//    //        entity.Orders.Add(newOrder);
+		//    //        entity.Orders.AddAndRiseEvent(newOrder);
 		//    //    });
 		//    //}
 		//}

@@ -7,37 +7,42 @@ option csharp_namespace = "Ligric.Protos";
 
 package Ligric.Protos;
 
-service UserApies {
+service UserApis {
 	rpc Save(SaveApiRequest) returns (SaveApiResponse);
-    rpc ApiesSubscribe(google.protobuf.Empty) returns (stream ApiesChanged);
+    rpc ApisSubscribe(ApiSubscribeRequest) returns (stream ApisChanged);
 }
 
 message Api {
-	string id = 1;
+	int64 id = 1;
 	string name = 2;
 	string publicKey = 3;
 	string privateKey = 4; 
 }
 
 message ApiClient {
-	string id = 1;
+	int64 id = 1;
 	string name = 2;
-	string permissions = 3;
+	int32 permissions = 3;
 }
 
 message SaveApiRequest {
 	string name = 1;
-	string ownerId = 2;
+	int64 ownerId = 2;
 	string publicKey = 3;
 	string privateKey = 4;
 }
 
 message SaveApiResponse {
-	string apiId = 1;
+	int64 apiId = 1;
 	ResponseResult result = 2;
 }
 
-message ApiesChanged {
+message ApiSubscribeRequest
+{
+	int64 userId = 1;
+}
+
+message ApisChanged {
 	ApiClient api = 1;
 	Action action = 2;
 }

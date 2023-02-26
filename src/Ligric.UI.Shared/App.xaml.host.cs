@@ -19,7 +19,7 @@ public sealed partial class App : Application
                 .UseEnvironment(Environments.Development)
 #endif
 
-                // Add platform specific log providers
+                // AddAndRiseEvent platform specific log providers
                 .UseLogging(configure: (context, logBuilder) =>
                             // Configure log levels for different categories of logging
                             logBuilder
@@ -55,10 +55,10 @@ public sealed partial class App : Application
                 // Enable navigation, including registering views and viewmodels
                 .UseNavigation(ViewModels.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 
-                // Add navigation support for toolkit controls such as TabBar and NavigationView
+                // AddAndRiseEvent navigation support for toolkit controls such as TabBar and NavigationView
                 .UseToolkitNavigation()
 
-                // Add localization support
+                // AddAndRiseEvent localization support
                 .UseLocalization()
 
                 .Build(enableUnoLogging: true);
@@ -68,6 +68,7 @@ public sealed partial class App : Application
     {
         views.Register(
             new ViewMap<AuthorizationPage, AuthorizationViewModel>(),
+            new ViewMap<FuturesPage, FuturesViewModel>(),
             new ViewMap(ViewModel: typeof(ShellViewModel))
         );
 
@@ -75,7 +76,8 @@ public sealed partial class App : Application
             new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
             {
                 new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
-            })
+                new("Futures", View: views.FindByViewModel<FuturesViewModel>())
+			})
         );
     }
 }

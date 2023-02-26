@@ -51,30 +51,28 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		var registerCommand = new LoginUserCommand(request.Login, request.Password);
 		var user = await _mediator.Send(registerCommand);
 
-		if (user?.UserName == null)
+		if (user != null && user.UserName != null && user.Id != null)
 		{
+			var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
+			var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
+
 			return new SignInResponse
 			{
-				Result = ResponseExtensions.GetFailedResponseResult()
+				Id = (long)user.Id,
+				JwtToken = new JwtToken
+				{
+					AccessToken = token.AccessToken,
+					RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
+					ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
+				},
+				Result = ResponseExtensions.GetSuccessResponseResult()
 			};
 		}
 
-		var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
-		var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
-
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-		var result = new SignInResponse
+		return new SignInResponse
 		{
-			JwtToken = new JwtToken
-			{
-				AccessToken = token.AccessToken,
-				RefreshToken = token.RefreshToken.TokenString,
-				ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
-			},
-			Result = ResponseExtensions.GetSuccessResponseResult()
+			Result = ResponseExtensions.GetFailedResponseResult()
 		};
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-		return result;
 	}
 
 	[AllowAnonymous]
@@ -83,30 +81,28 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		var registerCommand = new RegisterUserCommand(request.Login, request.Password);
 		var user = await _mediator.Send(registerCommand);
 
-		if (user?.UserName == null)
+		if (user != null && user.UserName != null && user.Id != null)
 		{
+			var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
+			var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
+
 			return new SignUpResponse
 			{
-				Result = ResponseExtensions.GetFailedResponseResult()
+				Id = (long)user.Id,
+				JwtToken = new JwtToken
+				{
+					AccessToken = token.AccessToken,
+					RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
+					ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
+				},
+				Result = ResponseExtensions.GetSuccessResponseResult()
 			};
 		}
 
-		var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
-		var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
-
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-		var result = new SignUpResponse
+		return new SignUpResponse
 		{
-			JwtToken = new JwtToken
-			{
-				AccessToken = token.AccessToken,
-				RefreshToken = token.RefreshToken.TokenString,
-				ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
-			},
-			Result = ResponseExtensions.GetSuccessResponseResult()
+			Result = ResponseExtensions.GetFailedResponseResult()
 		};
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-		return result;
 	}
 
 	[Authorize]

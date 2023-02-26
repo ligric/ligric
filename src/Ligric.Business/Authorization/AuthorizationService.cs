@@ -13,13 +13,7 @@ namespace Ligric.Business.Authorization
 	public sealed class AuthorizationService : IAuthorizationService
 	{
 		private readonly IMetadataManager _metadata;
-		private AuthorizationClient _client;
-
-		public UserAuthorizationState CurrentConnectionState { get; private set; }
-
-		public UserDto CurrentUser { get; private set; } = null!;
-
-		public event EventHandler<UserAuthorizationState>? AuthorizationStateChanged;
+		private readonly AuthorizationClient _client;
 
 		public AuthorizationService(
 			GrpcChannel grpcChannel,
@@ -28,6 +22,12 @@ namespace Ligric.Business.Authorization
 			_client = new AuthorizationClient(grpcChannel);
 			_metadata = metadataRepos;
 		}
+
+		public UserAuthorizationState CurrentConnectionState { get; private set; }
+
+		public UserDto CurrentUser { get; private set; } = null!;
+
+		public event EventHandler<UserAuthorizationState>? AuthorizationStateChanged;
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
@@ -50,7 +50,7 @@ namespace Ligric.Business.Authorization
 
 			_metadata.SetMetadata(metadata);
 
-			CurrentUser = new UserDto(login);
+			CurrentUser = new UserDto(authReply.Id, login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
@@ -76,7 +76,7 @@ namespace Ligric.Business.Authorization
 
 			_metadata.SetMetadata(metadata);
 
-			CurrentUser = new UserDto(login);
+			CurrentUser = new UserDto(authReply.Id, login);
 			CurrentConnectionState = UserAuthorizationState.Connected;
 			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
