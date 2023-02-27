@@ -1,11 +1,23 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Reactive;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 using Ligric.Business.Apies;
 using Ligric.Domain.Types.Api;
+using Ligric.Protos;
+using Ligric.UI.Infrastructure;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Utils;
+using Windows.ApplicationModel.Core;
+using Windows.Services.Maps;
+using Windows.UI.Core;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -44,11 +56,11 @@ namespace Ligric.UI.ViewModels.Presentation
 	public partial class ApisViewModel
 	{
 		private readonly IApiesService _apiService;
-
 		public ApisViewModel(IApiesService apiesService)
 		{
 			_apiService = apiesService;
-			_apiService.ApiesChanged += OnApiesChanged;
+
+			ApisChangedEventSubscribe();
 		}
 
 		public ObservableCollection<ApiClientDto> Apis { get; init; } = new();
@@ -86,11 +98,31 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		private void OnApiesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		private void ApisChangedEventSubscribe()
+		{
+			var collectionChanged = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(handler =>
+			{
+				NotifyCollectionChangedEventHandler collectionChanged = (sender, e) =>
+				{
+					handler(e);
+				};
+
+				return collectionChanged;
+			}, fsHandler => _apiService.ApiesChanged += fsHandler, fsHandler => _apiService.ApiesChanged -= fsHandler);
+
+			collectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnApiesChanged);
+		}
+
+		private void OnApiesChanged(NotifyCollectionChangedEventArgs e)
+		{
+			UpdateApisFromAction(e);
+		}
+
+		private async void UpdateApisFromAction(NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
 			{
-				case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+				case NotifyCollectionChangedAction.Add:
 					Apis.AddRange(e.NewItems);
 					break;
 			}
