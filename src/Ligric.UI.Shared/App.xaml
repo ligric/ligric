@@ -6,9 +6,16 @@
             <ResourceDictionary.MergedDictionaries>
                 <!-- Load WinUI resources -->
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
-                <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
-                <ResourceDictionary Source="/Styles/TextBox.xaml"/>
-                <ResourceDictionary Source="/Styles/Button.xaml"/>
+				<!-- Load Uno.UI.Toolkit resources -->
+				<ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+				<!-- Load Material Control Resources -->
+				<MaterialResources xmlns="using:Uno.Material" />
+				<!-- Load Material Toolkit Resources -->
+				<MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />
+				
+				<ResourceDictionary Source="ms-appx:///Styles/CheckBox.xaml"/>
+				<ResourceDictionary Source="ms-appx:///Styles/TextBox.xaml"/>
+				<ResourceDictionary Source="ms-appx:///Styles/Button.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
 			<converter:CheckFlagConverter x:Key="CheckFlagConverter"/>

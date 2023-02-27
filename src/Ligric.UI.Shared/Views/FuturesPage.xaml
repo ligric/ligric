@@ -27,8 +27,8 @@
 				<controls:ItemsRepeater x:Name="repeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Border Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
-								<Border.ContextFlyout>
+							<Grid Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
+								<Grid.ContextFlyout>
 									<MenuFlyout>
 										<MenuFlyoutSubItem Text="Share" IsEnabled="{Binding Permissions, Converter={StaticResource CheckFlagConverter}, ConverterParameter=16}">
 											<MenuFlyoutSubItem.Icon>
@@ -48,10 +48,18 @@
 										<MenuFlyoutItem Text="Rename" IsEnabled="False"/>
 										<MenuFlyoutItem Text="Select" IsEnabled="False"/>
 									</MenuFlyout>
-								</Border.ContextFlyout>
-								<TextBlock Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+								</Grid.ContextFlyout>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="30"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+
+								<CheckBox Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"/>
+
+								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
-							</Border>
+							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
 					<controls:ItemsRepeater.Layout>
