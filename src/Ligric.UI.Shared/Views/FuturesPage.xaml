@@ -30,7 +30,7 @@
 							<Button Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
 								<Button.Flyout>
 									<MenuFlyout>
-										<MenuFlyoutSubItem Text="Share">
+										<MenuFlyoutSubItem Text="Share" IsEnabled="{Binding Permissions, Converter={StaticResource CheckFlagConverter}, ConverterParameter=16}">
 											<MenuFlyoutSubItem.Icon>
 												<FontIcon Glyph="&#xE72D;"/>
 											</MenuFlyoutSubItem.Icon>
@@ -39,7 +39,7 @@
 											<MenuFlyoutItem Text="Share to" IsEnabled="False"/>
 										</MenuFlyoutSubItem>
 
-										<MenuFlyoutSubItem Text="Delete" Icon="Delete">
+										<MenuFlyoutSubItem Text="Delete" Icon="Delete" IsEnabled="{Binding Permissions, Converter={StaticResource CheckFlagConverter}, ConverterParameter=16}">
 											<MenuFlyoutItem Text="Delete for me" Icon="Delete" IsEnabled="False"/>
 											<MenuFlyoutItem Text="Delete all" Icon="Delete" IsEnabled="False"/>
 										</MenuFlyoutSubItem>
