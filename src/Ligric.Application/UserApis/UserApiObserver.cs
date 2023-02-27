@@ -25,12 +25,13 @@ namespace Ligric.Application.UserApis
 		}
 
 		/// <returns>UserApiId</returns>
-		public long Save(long apiId, long userId, int permissions)
+		public long Save(long apiId, string apiName, long userId, int permissions)
 		{
 			UserApiEntity userApiSaveEntity = new UserApiEntity
 			{
 				ApiId = apiId,
 				UserId = userId,
+				Name = apiName,
 				Permissions = permissions
 			};
 
@@ -54,6 +55,7 @@ namespace Ligric.Application.UserApis
 				foreach (var userId in userIds)
 				{
 					Save(userApi.ApiId ?? throw new NullReferenceException("[UserApi] api id is null here"),
+						userApi.Name ?? "Api title",
 						userId,
 						permissions);
 				}
