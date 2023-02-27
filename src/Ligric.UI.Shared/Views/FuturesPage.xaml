@@ -27,8 +27,8 @@
 				<controls:ItemsRepeater x:Name="repeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Button Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
-								<Button.Flyout>
+							<Border Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
+								<Border.ContextFlyout>
 									<MenuFlyout>
 										<MenuFlyoutSubItem Text="Share" IsEnabled="{Binding Permissions, Converter={StaticResource CheckFlagConverter}, ConverterParameter=16}">
 											<MenuFlyoutSubItem.Icon>
@@ -48,11 +48,10 @@
 										<MenuFlyoutItem Text="Rename" IsEnabled="False"/>
 										<MenuFlyoutItem Text="Select" IsEnabled="False"/>
 									</MenuFlyout>
-								</Button.Flyout>
-
+								</Border.ContextFlyout>
 								<TextBlock Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
-							</Button>
+							</Border>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
 					<controls:ItemsRepeater.Layout>
