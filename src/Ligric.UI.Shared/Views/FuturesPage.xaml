@@ -30,16 +30,23 @@
 							<Button Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
 								<Button.Flyout>
 									<MenuFlyout>
-										<MenuFlyoutItem Text="Share" Background="#1e1e1e" Click="ShareClick">
-											<MenuFlyoutItem.Icon>
+										<MenuFlyoutSubItem Text="Share">
+											<MenuFlyoutSubItem.Icon>
 												<FontIcon Glyph="&#xE72D;"/>
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-										<MenuFlyoutItem Text="Delete" Icon="Delete" />
+											</MenuFlyoutSubItem.Icon>
+
+											<MenuFlyoutItem Text="Share with everyone" Click="ShareClick"/>
+											<MenuFlyoutItem Text="Share to" IsEnabled="False"/>
+										</MenuFlyoutSubItem>
+
+										<MenuFlyoutSubItem Text="Delete" Icon="Delete">
+											<MenuFlyoutItem Text="Delete for me" Icon="Delete" IsEnabled="False"/>
+											<MenuFlyoutItem Text="Delete all" Icon="Delete" IsEnabled="False"/>
+										</MenuFlyoutSubItem>
 
 										<MenuFlyoutSeparator/>
-										<MenuFlyoutItem Text="Rename" />
-										<MenuFlyoutItem Text="Select" />
+										<MenuFlyoutItem Text="Rename" IsEnabled="False"/>
+										<MenuFlyoutItem Text="Select" IsEnabled="False"/>
 									</MenuFlyout>
 								</Button.Flyout>
 
