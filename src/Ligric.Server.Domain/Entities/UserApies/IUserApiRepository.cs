@@ -8,6 +8,8 @@ namespace Ligric.Server.Domain.Entities.UserApies
 	{
 		IEnumerable<ApiClientDto> GetAllowedApiInfoByUserId(long id);
 
+		UserApiEntity GetEntityById(long id);
+
 		object Save(UserApiEntity entity);
 
 		void Delete(long id);

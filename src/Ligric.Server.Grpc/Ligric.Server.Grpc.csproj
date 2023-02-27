@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>61e01e27-6e07-40d7-a598-d734286abd61</UserSecretsId>
@@ -37,7 +37,7 @@
     <ProjectReference Include="..\Ligric.Server.Infrastructure\Ligric.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <Reference Include="System.Data.SqlServerCe">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\Shared\Packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>

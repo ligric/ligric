@@ -1,4 +1,5 @@
-﻿<Application x:Class="Ligric.UI.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Application x:Class="Ligric.UI.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:converter="using:Ligric.UI.Converters">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -9,7 +10,9 @@
                 <ResourceDictionary Source="/Styles/TextBox.xaml"/>
                 <ResourceDictionary Source="/Styles/Button.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+
+			<converter:CheckFlagConverter x:Key="CheckFlagConverter"/>
+		</ResourceDictionary>
     </Application.Resources>
 
 </Application>

@@ -9,6 +9,7 @@ package Ligric.Protos;
 
 service UserApis {
 	rpc Save(SaveApiRequest) returns (SaveApiResponse);
+	rpc Share(ShareApiRequest) returns (ResponseResult);
     rpc ApisSubscribe(ApiSubscribeRequest) returns (stream ApisChanged);
 }
 
@@ -40,6 +41,19 @@ message SaveApiResponse {
 message ApiSubscribeRequest
 {
 	int64 userId = 1;
+}
+
+message ShareApiRequest
+{
+	int64 ownerId = 1;
+	int64 userApiId = 2;
+	string users = 3;
+	int32 permissions = 4;
+}
+
+message RemoveApiRequest
+{
+	int64 userApiId = 1;
 }
 
 message ApisChanged {

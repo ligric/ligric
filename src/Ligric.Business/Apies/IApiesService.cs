@@ -21,6 +21,8 @@ namespace Ligric.Business.Apies
 		/// <returns>Api id</returns>
 		Task<long> SaveApiAsync(ApiDto api, CancellationToken ct);
 
+		Task ShareApiAsync(ApiClientDto api, CancellationToken ct);
+
 		/// <summary>
 		/// Set state for everyuser.
 		/// </summary>

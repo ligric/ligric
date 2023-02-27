@@ -13,6 +13,7 @@ namespace Ligric.Server.Domain.Mapping
 
             Map(x => x.UserId);
             Map(x => x.ApiId);
+            Map(x => x.Name);
             Map(x => x.Permissions);
 
             References(x => x.Api).Column("[ApiId]").ReadOnly();

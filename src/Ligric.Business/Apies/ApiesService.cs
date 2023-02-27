@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
+using Utils.Extensions;
 using static Ligric.Protos.UserApis;
 
 namespace Ligric.Business.Apies
@@ -57,6 +58,17 @@ namespace Ligric.Business.Apies
 			var newApi = new ApiClientDto(apiId, api.Name, 31);
 			_availableApies.AddAndRiseEvent(this, newApi, ApiesChanged);
 			return apiId;
+		}
+
+		public async Task ShareApiAsync(ApiClientDto api, CancellationToken ct)
+		{
+			var userId = _authorizationService.CurrentUser.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
+			var response = await _client.ShareAsync(new ShareApiRequest
+			{
+				OwnerId = userId,
+				UserApiId = api.UserApiId ?? throw new ArgumentNullException($"UserApiId : UserApiId is null"),
+				Permissions = 1,
+			}, headers: _metadataManager.CurrentMetadata, cancellationToken: ct);
 		}
 
 		public Task SetStateAsync(long id, StateEnum state, CancellationToken ct)
@@ -140,5 +152,6 @@ namespace Ligric.Business.Apies
 
 			disposed = true;
 		}
+
 	}
 }

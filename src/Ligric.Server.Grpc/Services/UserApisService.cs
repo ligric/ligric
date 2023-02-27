@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Ligric.Application.UserApis;
 using Ligric.Application.UserApis.CreateUserApi;
+using Ligric.Application.UserApis.ShareUserApi;
 using Ligric.Protos;
 using Ligric.Server.Grpc.Extensions;
 using MediatR;
@@ -46,6 +47,15 @@ namespace Ligric.Server.Grpc.Services
 			};
 		}
 
+		[Authorize]
+		public override async Task<ResponseResult> Share(ShareApiRequest shareRequest, ServerCallContext context)
+		{
+			
+			var shareUserApiCommand = new ShareUserApiCommand(shareRequest.UserApiId, shareRequest.Permissions, new List<long>());
+			var isSuccess = await _mediator.Send(shareUserApiCommand);
+
+			return isSuccess ? ResponseExtensions.GetSuccessResponseResult() : ResponseExtensions.GetFailedResponseResult();
+		}
 		[Authorize]
 		public override async Task ApisSubscribe(ApiSubscribeRequest request, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{

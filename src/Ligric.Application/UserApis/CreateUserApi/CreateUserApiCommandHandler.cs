@@ -25,12 +25,11 @@ namespace Ligric.Application.UserApis.CreateUserApi
 
 			long apiId = (long)_apiRepository.Save(new ApiEntity
 			{
-				Name = request.Name,
 				PrivateKey = request.PrivateKey,
 				PublicKey = request.PublicKey,
 			});
 
-			long userApiId = _userApiObserver.Save(apiId, request.OwnerId, request.Permissions);
+			long userApiId = _userApiObserver.Save(apiId, request.Name, request.OwnerId, request.Permissions);
 
 			return userApiId;
 		}

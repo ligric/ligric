@@ -11,7 +11,6 @@ namespace Ligric.Server.Domain.Mapping
             Table("[APIs]");
             this.MapBase();
 
-            Map(x => x.Name);
             Map(x => x.PublicKey);
             Map(x => x.PrivateKey);
         }
