@@ -30,5 +30,5 @@ namespace Ligric.Infrastructure.Domain.Users
 
 			return apiClients;
 		}
-    }
+	}
 }
