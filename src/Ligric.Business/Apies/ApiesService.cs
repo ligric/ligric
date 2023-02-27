@@ -59,6 +59,17 @@ namespace Ligric.Business.Apies
 			return apiId;
 		}
 
+		public async Task ShareApiAsync(ApiClientDto api, CancellationToken ct)
+		{
+			var userId = _authorizationService.CurrentUser.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
+			var response = await _client.ShareAsync(new ShareApiRequest
+			{
+				OwnerId = userId,
+				UserApiId = api.UserApiId ?? throw new ArgumentNullException($"UserApiId : UserApiId is null"),
+				Permissions = 1,
+			}, headers: _metadataManager.CurrentMetadata, cancellationToken: ct);
+		}
+
 		public Task SetStateAsync(long id, StateEnum state, CancellationToken ct)
 		{
 			throw new System.NotImplementedException();
@@ -140,5 +151,6 @@ namespace Ligric.Business.Apies
 
 			disposed = true;
 		}
+
 	}
 }
