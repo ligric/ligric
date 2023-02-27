@@ -12,6 +12,7 @@ using Ligric.Infrastructure;
 using Ligric.Infrastructure.Jwt;
 using Ligric.Protos;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using System.Xml.Serialization;
 
 namespace Ligric.Server.Grpc
 {
@@ -122,8 +123,7 @@ namespace Ligric.Server.Grpc
 		private void SetJWTAuthorization(IServiceCollection services)
 		{
 			var jwtTokenConfig = _configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
-			services.AddSingleton(jwtTokenConfig);
-
+			services.AddSingleton(jwtTokenConfig ?? throw new ArgumentException("jwtTokenConfig not initialized at SetJWTAuthorization method"));
 			services
 				.AddAuthentication(x =>
 				{
