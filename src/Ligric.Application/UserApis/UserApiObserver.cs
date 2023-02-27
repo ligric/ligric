@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Ligric.Domain.Types.Api;
 using Ligric.Server.Domain.Entities.UserApies;
+using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Domain.TypeExtensions;
 using MediatR;
 using Utils;
@@ -12,11 +13,15 @@ namespace Ligric.Application.UserApis
 	public class UserApiObserver : IUserApiObserver
 	{
 		private readonly IUserApiRepository _userApiRepository;
+		private readonly IUserRepository _userRepository;
 		private event Action<(EventAction Action, long UserId, ApiClientDto userApi)>? ApiChanged;
 
-		public UserApiObserver(IUserApiRepository userApiRepository)
+		public UserApiObserver(
+			IUserApiRepository userApiRepository,
+			IUserRepository userRepository)
 		{
 			_userApiRepository = userApiRepository;
+			_userRepository = userRepository;
 		}
 
 		/// <returns>UserApiId</returns>
@@ -34,6 +39,52 @@ namespace Ligric.Application.UserApis
 			userApiSaveEntity.Id = userApiId;
 
 			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToUserApiDto()));
+
+			return userApiId;
+		}
+
+		public void ShareToAll(long userApiId, int permissions)
+		{
+			var userApi = _userApiRepository.GetEntityById(userApiId);
+
+			if (userApi != null)
+			{
+				var userIds = _userRepository.GetUserIdsThatDontHaveTheseApi(userApiId);
+
+				foreach (var userId in userIds)
+				{
+					Save(userApi.ApiId ?? throw new NullReferenceException("[UserApi] api id is null here"),
+						userId,
+						permissions);
+				}
+			}
+			else
+			{
+				throw new ArgumentNullException($"UserApi with id {userApiId} not found");
+			}
+		}
+
+		public long Share(long userApiId, long sharedUserId, int permissions)
+		{
+			UserApiEntity userApiSaveEntity = new UserApiEntity
+			{
+				UserId = sharedUserId,
+				Permissions = permissions
+			};
+
+			var userApi = _userApiRepository.GetEntityById(userApiId);
+			if (userApi == null)
+			{
+				throw new ArgumentException($"GetEntityById from userId {userApiId} was null");
+			}
+
+		    userApiSaveEntity.ApiId = userApi.ApiId;
+
+
+			long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
+			userApiSaveEntity.Id = newUserApiId;
+
+			ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToUserApiDto()));
 
 			return userApiId;
 		}
