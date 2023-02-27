@@ -5,7 +5,7 @@
 
 	  xmlns:i="using:Microsoft.Xaml.Interactivity"
 	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-
+	  
       d:Height="1334" d:Width="1334"      
       d:DataContext="{d:DesignInstance viewModels:FuturesViewModel, IsDesignTimeCreatable=True}"
       Background="#FFcbcbcd">
@@ -22,15 +22,15 @@
 				<RowDefinition/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			
+
 			<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-				<controls:ItemsRepeater ItemsSource="{Binding Api.Apis}" Margin="10">
+				<controls:ItemsRepeater x:Name="repeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
 							<Button Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
 								<Button.Flyout>
 									<MenuFlyout>
-										<MenuFlyoutItem Text="Share">
+										<MenuFlyoutItem Text="Share" Background="#1e1e1e" Click="ShareClick">
 											<MenuFlyoutItem.Icon>
 												<FontIcon Glyph="&#xE72D;"/>
 											</MenuFlyoutItem.Icon>

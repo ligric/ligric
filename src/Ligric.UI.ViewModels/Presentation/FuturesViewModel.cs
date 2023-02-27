@@ -41,7 +41,7 @@ namespace Ligric.UI.ViewModels.Presentation
 	//    public string PnLPercent { get => _pnLPercent; set => SetProperty(ref _pnLPercent, value); }
 	//}
 
-	public class ApisViewModel
+	public partial class ApisViewModel
 	{
 		private readonly IApiesService _apiService;
 
@@ -60,6 +60,12 @@ namespace Ligric.UI.ViewModels.Presentation
 			execute: ct => ExecuteSaveApi(AddingApi, ct),
 			canExecute: this.WhenAnyValue(x => x.AddingApi, api => CanSaveApi(api)));
 
+		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
+			execute: async (apiClient, ct) => await ExecuteShareApi(apiClient, ct));
+
+
+
+		#region Save API
 		private bool CanSaveApi(ApiDataViewModel api)
 			=> api is { Name.Length: >= 1 } and { PrivateKey.Length: > 5 } and { PublicKey.Length: > 5 };
 
@@ -68,6 +74,15 @@ namespace Ligric.UI.ViewModels.Presentation
 			if (api.Name != null && api.PublicKey != null && api.PrivateKey != null)
 			{
 				await _apiService.SaveApiAsync(new ApiDto(null, api.Name, api.PublicKey, api.PrivateKey), ct);
+			}
+		}
+		#endregion
+
+		public async Task ExecuteShareApi(ApiClientDto api, CancellationToken ct) //ApiClientDto api, CancellationToken ct
+		{
+			if (api != null)
+			{
+				await _apiService.ShareApiAsync(api, ct);
 			}
 		}
 
