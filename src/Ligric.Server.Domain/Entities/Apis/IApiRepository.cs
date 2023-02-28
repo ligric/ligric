@@ -6,6 +6,8 @@ namespace Ligric.Server.Domain.Entities.Apis
 	{
 		ApiEntity GetEntityById(long id);
 
+		ApiEntity GetEntityByUserApiId(long id);
+
 		object Save(ApiEntity entity);
 
 		void Delete(long id);

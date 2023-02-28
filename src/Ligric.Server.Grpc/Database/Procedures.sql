@@ -2,13 +2,13 @@ DROP PROCEDURE IF EXISTS [GetAllowedAPI]
 GO
 
 CREATE PROCEDURE [GetAllowedAPI] @userId INT
-	AS
-	BEGIN
-		SELECT _userAPI.[Id], _userAPI.[Name], _userAPI.[Permissions]
-		FROM [UserAPIs] _userAPI
-		INNER JOIN [APIs] AS _api ON _api.[Id] = _userAPI.[ApiId]
-		WHERE _userAPI.[UserId] = @userId AND _userAPI.[Deleted] = 0
-	END
+AS
+BEGIN
+	SELECT _userAPI.[Id], _userAPI.[Name], _userAPI.[Permissions]
+	FROM [UserAPIs] _userAPI
+	INNER JOIN [APIs] AS _api ON _api.[Id] = _userAPI.[ApiId]
+	WHERE _userAPI.[UserId] = @userId AND _userAPI.[Deleted] = 0
+END
 GO
 
 DROP PROCEDURE IF EXISTS [GetUserIdsThatDontHaveTheseApi]
@@ -26,6 +26,21 @@ BEGIN
 		SELECT *
 		FROM [UserAPIs] _userApi
 		WHERE _userApi.[ApiId] = @apiId AND _userApi.[UserId] = _user.[Id])
+END
+GO
+
+DROP PROCEDURE IF EXISTS [GetApiByUserApiId]
+GO
+
+CREATE PROCEDURE [GetApiByUserApiId] @userApiId INT
+AS
+BEGIN
+	DECLARE @apiId AS INT;
+	SET @apiId = (select TOP 1 _userApi.[ApiId] from [UserAPIs] _userApi where _userApi.[Id] = @userApiId)
+
+	SELECT TOP 1 *
+	FROM [APIs] _api
+	WHERE _api.[Id] = @apiId
 END
 GO
 
