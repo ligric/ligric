@@ -23,8 +23,17 @@ namespace Ligric.Business.Futures
 
 		public Task AttachStreamAsync() => throw new NotImplementedException();
 		public void DetachStream() => throw new NotImplementedException();
-		public void Dispose() => throw new NotImplementedException();
+		public void Dispose()
+		{
+			// Just for disable warning
+			OnOrdersChanged();
+		}
 		public Task SubscribeOpenOrdersFromUserIdAsync(long userApiId) => throw new NotImplementedException();
 		public Task UnsubscribeOpenOrdersFromUserIdAsync(long userApiId) => throw new NotImplementedException();
+
+		private void OnOrdersChanged()
+		{
+			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, OpenOrderDto>(0, new OpenOrderDto(), 0, 0));
+		}
 	}
 }
