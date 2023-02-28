@@ -1,5 +1,6 @@
 ﻿using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
+using Ligric.Business.Futures;
 using Ligric.Business.Metadata;
 using Ligric.Business.Subscriptions;
 
@@ -29,6 +30,7 @@ public static class ServiceCollectionExtensions
 			.AddSingleton<IMetadataManager, MetadataManager>()
 			.AddSingleton<IAuthorizationService, AuthorizationService>()
 			.AddSingleton<IApiesService, ApiesService>()
+			.AddSingleton<IOrdersService, OrdersService>()
 		    .AddSingleton<ISubscribeWebSockets, SubscribeWebSockets>()
 			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
