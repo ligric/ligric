@@ -8,9 +8,9 @@ namespace Ligric.Business.Futures
 {
 	public interface IOrdersService : IDisposable 
 	{
-		IReadOnlyDictionary<long, OpenOrderDto> OpenOrders { get; }
+		IReadOnlyDictionary<long, FuturesOrderDto> OpenOrders { get; }
 
-		event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
+		event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>> OpenOrdersChanged;
 
 		Task SubscribeOpenOrdersFromUserIdAsync(long userApiId);
 

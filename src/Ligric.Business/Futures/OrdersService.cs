@@ -10,16 +10,16 @@ namespace Ligric.Business.Futures
 {
 	public class OrdersService : IOrdersService
 	{
-		private readonly Dictionary<long, OpenOrderDto> _openOrders = new Dictionary<long, OpenOrderDto>();
+		private readonly Dictionary<long, FuturesOrderDto> _openOrders = new Dictionary<long, FuturesOrderDto>();
 
 		public OrdersService(GrpcChannel channel)
 		{
 
 		}
 
-		public IReadOnlyDictionary<long, OpenOrderDto> OpenOrders => new ReadOnlyDictionary<long, OpenOrderDto>(_openOrders);
+		public IReadOnlyDictionary<long, FuturesOrderDto> OpenOrders => new ReadOnlyDictionary<long, FuturesOrderDto>(_openOrders);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>>? OpenOrdersChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OpenOrdersChanged;
 
 		public Task AttachStreamAsync() => throw new NotImplementedException();
 		public void DetachStream() => throw new NotImplementedException();
@@ -33,7 +33,7 @@ namespace Ligric.Business.Futures
 
 		private void OnOrdersChanged()
 		{
-			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, OpenOrderDto>(0, new OpenOrderDto(), 0, 0));
+			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, FuturesOrderDto>(0, new FuturesOrderDto(), 0, 0));
 		}
 	}
 }

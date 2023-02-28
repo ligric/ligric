@@ -18,7 +18,7 @@ namespace Ligric.Application.Orders
 
 		private readonly Dictionary<ApiDto, IList<long>> subscribedOrders = new Dictionary<ApiDto, IList<long>>();
 
-		private event Action<(EventAction Action, long UserId, OpenOrderDto order)>? OrdersChanged;
+		private event Action<(EventAction Action, long UserId, FuturesOrderDto order)>? OrdersChanged;
 
 		public OrdersObserver(
 			IUserApiRepository userApiRepository,
@@ -28,13 +28,13 @@ namespace Ligric.Application.Orders
 			_apiRepository = apiRepository;
 		}
 
-		public IObservable<(EventAction Action, long UserId, OpenOrderDto order)> GetOrdersAsObservable(long userId, long userApiId)
+		public IObservable<(EventAction Action, long UserId, FuturesOrderDto order)> GetOrdersAsObservable(long userId, long userApiId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 
 			TryAddUserIdToSubscribedOrders(userId, api);
 
-			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, OpenOrderDto order)>((x) => OrdersChanged += x, (x) => OrdersChanged -= x);
+			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, FuturesOrderDto order)>((x) => OrdersChanged += x, (x) => OrdersChanged -= x);
 
 			return updatedApiStateNotifications;
 		}

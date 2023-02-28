@@ -7,6 +7,6 @@ namespace Ligric.Application.Orders
 {
 	public interface IOrdersObserverManager
 	{
-		IObservable<(EventAction Action, long UserId, OpenOrderDto order)> GetOrdersAsObservable(long userId, long userApiId);
+		IObservable<(EventAction Action, long UserId, FuturesOrderDto order)> GetOrdersAsObservable(long userId, long userApiId);
 	}
 }
