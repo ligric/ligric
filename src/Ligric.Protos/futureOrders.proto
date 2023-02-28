@@ -1,0 +1,38 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Ligric.Protos";
+
+package Ligric.Protos;
+
+service FutureOrders {
+	rpc AddObserverUserApi(AddObserverUserApiRequest) returns (ResponseResult);
+
+    rpc OrdersSubscribe(OrdersSubscribeRequest) returns (stream OrdersChanged);
+}
+
+message FutureOrder {
+	int64 id = 1;
+	string symbol = 2;
+	string side = 3;
+	string quantity = 4;
+	string price = 5;
+	string value = 6;
+}
+
+message OrdersSubscribeRequest
+{
+	int64 userId = 1;
+}
+
+message AddObserverUserApiRequest
+{
+	int64 userApiId = 1;
+}
+
+message OrdersChanged {
+	FutureOrder Order = 1;
+	Action action = 2;
+}
