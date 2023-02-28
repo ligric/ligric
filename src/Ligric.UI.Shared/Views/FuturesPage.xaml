@@ -26,7 +26,7 @@
 
 			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5">
 				<CheckBox Style="{StaticResource AutoRunCheckBoxStyle}" Margin="25,0,0,0"
-						  />
+						  Command="{Binding Api.SelectAllCommand}"/>
 			</Grid>
 
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">

@@ -1,44 +1,26 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml.Linq;
 using Ligric.Business.Apies;
+using Ligric.Business.Futures;
 using Ligric.Domain.Types.Api;
-using Ligric.Protos;
 using Ligric.UI.Infrastructure;
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Utils;
-using Windows.ApplicationModel.Core;
-using Windows.Services.Maps;
-using Windows.UI.Core;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
-	//public class OrderViewModel : DispatchedBindableBase
-	//{
-	//    private string _symbol, _side, _quantity, _price, _order, _value;
-
-	//    public OrderViewModel(string clientOrderId)
-	//    {
-	//        ClientOrderId = clientOrderId;
-	//    }
-
-	//    public string ClientOrderId { get; }
-
-	//    public string Symbol { get => _symbol; set => SetProperty(ref _symbol, value); }
-	//    public string Side { get => _side; set => SetProperty(ref _side, value); }
-	//    public string Quantity { get => _quantity; set => SetProperty(ref _quantity, value); }
-	//    public string Price { get => _price; set => SetProperty(ref _price, value); }
-	//    public string Order { get => _order; set => SetProperty(ref _order, value); }
-	//    public string Value { get => _value; set => SetProperty(ref _value, value); }
-	//}
+	public class OrderViewModel
+	{
+		[Reactive] public string? Symbol { get; set; }
+		[Reactive] public string? Side { get; set; }
+		[Reactive] public string? Quantity { get; set; }
+		[Reactive] public string? Price { get; set; }
+		[Reactive] public string? Order { get; set; }
+		[Reactive] public string? Value { get; set; }
+	}
 
 	//public class PositionViewModel : DispatchedBindableBase
 	//{
@@ -56,9 +38,13 @@ namespace Ligric.UI.ViewModels.Presentation
 	public partial class ApisViewModel
 	{
 		private readonly IApiesService _apiService;
-		public ApisViewModel(IApiesService apiesService)
+		private readonly IOrdersService _ordersService;
+		public ApisViewModel(
+			IApiesService apiesService,
+			IOrdersService ordersService)
 		{
 			_apiService = apiesService;
+			_ordersService = ordersService;
 
 			ApisChangedEventSubscribe();
 		}
@@ -75,7 +61,8 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
 			execute: async (apiClient, ct) => await ExecuteShareApi(apiClient, ct));
 
-
+		public ReactiveCommand<Unit, Unit> SelectAllCommand => ReactiveCommand.CreateFromTask(
+			execute: ct => ExecuteSelectAll(ct));
 
 		#region Save API
 		private bool CanSaveApi(ApiDataViewModel api)
@@ -90,7 +77,17 @@ namespace Ligric.UI.ViewModels.Presentation
 		}
 		#endregion
 
-		public async Task ExecuteShareApi(ApiClientDto api, CancellationToken ct) //ApiClientDto api, CancellationToken ct
+		private async Task ExecuteSelectAll(CancellationToken ct)
+		{
+			foreach (var api in Apis)
+			{
+				if (ct.IsCancellationRequested) break;
+
+				await _ordersService.SubscribeOpenOrdersFromUserIdAsync(api.UserApiId ?? throw new ArgumentNullException("UserId is null"));
+			}
+		}
+
+		public async Task ExecuteShareApi(ApiClientDto api, CancellationToken ct)
 		{
 			if (api != null)
 			{
@@ -98,6 +95,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
+		#region Api Changed Subscribtion
 		private void ApisChangedEventSubscribe()
 		{
 			var collectionChanged = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(handler =>
@@ -127,6 +125,7 @@ namespace Ligric.UI.ViewModels.Presentation
 					break;
 			}
 		}
+		#endregion
 	}
 
 	public class ApiDataViewModel
@@ -141,14 +140,34 @@ namespace Ligric.UI.ViewModels.Presentation
 		public string? PrivateKey { get; set; } = "651096d67c3d1a080daf6d26a37ad545864d312b7a6b24d5f654d4f26a1a7ddc";
 	}
 
-	public record FuturesViewModel
+	public class FutureOrdersViewModel
 	{
-		public FuturesViewModel(IApiesService apiesService)
+		private readonly IOrdersService _ordersService;
+		public FutureOrdersViewModel(IOrdersService ordersService)
 		{
-			Api = new ApisViewModel(apiesService);
+			_ordersService = ordersService;
+
+			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
+		}
+
+		public ObservableCollection<OrderViewModel> OpenOrders { get; } = new ObservableCollection<OrderViewModel>();
+
+		private void OnOpenOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, Domain.Types.Future.OpenOrderDto> e) => throw new NotImplementedException();
+	}
+
+	public class FuturesViewModel
+	{
+		public FuturesViewModel(
+			IApiesService apiesService,
+			IOrdersService orderService)
+		{
+			Api = new ApisViewModel(apiesService, orderService);
+			FuturesOrderPositions = new FutureOrdersViewModel(orderService);
 		}
 
 		public ApisViewModel Api { get; }
+
+		public FutureOrdersViewModel FuturesOrderPositions { get; }
 
 
 		//private readonly IFuturesProvider _futuresProvider;
@@ -174,7 +193,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		//public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
-		//public ObservableCollection<OrderViewModel> OpenOrders { get; } = new ObservableCollection<OrderViewModel>();
+		
 
 		//public RelayCommand AddNewApiCommand => _addNewApiCommand ?? (
 		//    _addNewApiCommand = new RelayCommand((async (e) => await OnAddNewApiExecuteAsync(e)), CanAddNewApiExecute));
