@@ -1,19 +1,16 @@
 ﻿namespace Ligric.Domain.Types.Api
 {
-    public class ApiDto
+    public record ApiDto
     {
-        public long? Id { get; }
+        public long? Id { get; init; }
 
-        public string Name { get; }
+        public string PublicKey { get; init; }
 
-        public string PublicKey { get; }
+		public string PrivateKey { get; init; }
 
-        public string PrivateKey { get; }
-
-        public ApiDto(long? id, string name, string publicKey, string privateKey)
+		public ApiDto(long? id, string publicKey, string privateKey)
         {
             Id = id;
-            Name = name;
             PublicKey = publicKey;
             PrivateKey = privateKey;
         }
