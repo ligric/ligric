@@ -103,10 +103,10 @@
 
 			<Border Grid.RowSpan="2" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
-			<!-- Top Content -->
+			<!-- Orders -->
 			<ScrollViewer Grid.Row="0" 
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-				<controls:ItemsRepeater ItemsSource="{Binding Orders}" Margin="10">
+				<controls:ItemsRepeater ItemsSource="{Binding FuturesOrders.Orders}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
 							<Border CornerRadius="20" Background="#dc729f" Padding="20">
@@ -127,10 +127,10 @@
 				</controls:ItemsRepeater>
 			</ScrollViewer>
 
-			<!-- Bottom Content -->
+			<!-- Positions -->
 			<ScrollViewer Grid.Row="1"
                           VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
-				<controls:ItemsRepeater ItemsSource="{Binding Positions}" Margin="10">
+				<controls:ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
 							<Border CornerRadius="20" Background="#3888cd" Padding="20">

@@ -15,7 +15,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
 		}
 
-		public ObservableCollection<OrderViewModel> OpenOrders { get; } = new ObservableCollection<OrderViewModel>();
+		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
 		private void OnOpenOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, Domain.Types.Future.OpenOrderDto> e) => throw new NotImplementedException();
 	}
