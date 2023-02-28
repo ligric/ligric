@@ -19,11 +19,17 @@
 		<!-- Left Menu -->
 		<Grid x:Name="menu" Grid.Column="0" Width="300" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
-			<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5">
+				<CheckBox Style="{StaticResource AutoRunCheckBoxStyle}" Margin="25,0,0,0"
+						  />
+			</Grid>
+
+			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater x:Name="repeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
@@ -55,7 +61,7 @@
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
 
-								<CheckBox Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"/>
+								<CheckBox Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}" IsEnabled="False"/>
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
