@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Binance.Net.Clients;
 using Binance.Net.Objects;
@@ -7,8 +9,9 @@ using Binance.Net.Objects.Models;
 using Binance.Net.Objects.Models.Futures;
 using Binance.Net.Objects.Models.Futures.Socket;
 using Binance.Net.Objects.Models.Spot.Socket;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Sockets;
+using Ligric.CryptoObserver.Extensions;
+using Ligric.Domain.Types.Future;
 
 namespace Ligric.CryptoObserver;
 
@@ -19,7 +22,12 @@ public class BinanceFuturesManager
 	private readonly BinanceClient _client;
 	private readonly BinanceSocketClient _socketClient;
 
-	//private Dictionary<>
+	private CancellationTokenSource? _ordersSubscribeCancellationToken;
+
+	private List<FuturesOrderDto> orders = new List<FuturesOrderDto>();
+	private List<FuturesPositionDto> positions = new List<FuturesPositionDto>();
+
+
 
 	public BinanceFuturesManager(BinanceApiCredentials credentials, bool isTest = true)
 	{
@@ -47,24 +55,51 @@ public class BinanceFuturesManager
 
 	public async Task AttachOrdersSubscribtionsAsync()
 	{
-		var startStreamResponse = await _client.UsdFuturesApi.Account.StartUserStreamAsync();
+		if (_ordersSubscribeCancellationToken != null
+				&& !_ordersSubscribeCancellationToken.IsCancellationRequested)
+		{
+			return;
+		}
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+		var token = _ordersSubscribeCancellationToken.Token;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+		var startStreamResponse = await _client.UsdFuturesApi.Account.StartUserStreamAsync(token);
 		var listenKey = startStreamResponse.Data ?? throw new ArgumentNullException();
 
-		// TODO : Получаю список ордеров
-		var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync();
-		IEnumerable<BinanceFuturesOrder> orders = ordersResponse.Data;
-
-		await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync("BTCUSDT", OnAggregatedUpdated);
-
-		await _socketClient.UsdFuturesStreams.SubscribeToUserDataUpdatesAsync(
+		var updateSubscription = await _socketClient.UsdFuturesStreams.SubscribeToUserDataUpdatesAsync(
 			listenKey, null, null,
 			OnAccountUpdated, OnOrdersUpdated, OnListenKeyExpired,
 			null, null);
+
+
+
+
+
+		var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
+		orders = ordersResponse.Data.Select(binanceOrder => binanceOrder.ToFuturesOrderDto()).ToList();
+
+		foreach (var order in orders)
+		{
+
+		}
+
+		foreach (var order in orders)
+		{
+			await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(order.Symbol, OnAggregatedUpdated);
+		}
+
+
 	}
 
 	private void OnAggregatedUpdated(DataEvent<BinanceStreamAggregatedTrade> obj)
 	{
+		//var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Symbol));
 
+		//if (entity != null)
+		//{
+		//    entity.Price = e.Price;
+		//}
 	}
 
 	private void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
@@ -78,8 +113,11 @@ public class BinanceFuturesManager
 
 	private void OnOrdersUpdated(DataEvent<BinanceFuturesStreamOrderUpdate> order)
 	{
+		BinanceFuturesStreamOrderUpdateData streamOrder = order.Data.UpdateData;
+		FuturesOrderDto orderDto = streamOrder.ToFuturesOrderDto();
+
+
 		{
-			var data = order.Data.UpdateData;
 			//Console.WriteLine($"\n\n\tOrderUpdate\n" +
 			//		$"OrderId: {data.OrderId};\n" +
 			//		$"Symbol: {data.Symbol};\n" +
@@ -109,109 +147,58 @@ public class BinanceFuturesManager
 			//		$"CallbackRate: {data.CallbackRate}\n" +
 			//		$"RealizedProfit: {data.RealizedProfit}");
 		}
+
+		{
+			//var order = e.Order;
+			//WriteToDebug(order);
+
+			//var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
+
+			//if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
+			//{
+			//    OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
+			//    if (removeOrder != null)
+			//    {
+			//        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			//        {
+			//            entity.Orders.Remove(removeOrder);
+			//        });
+			//    }
+			//    return;
+			//}
+
+			//var newOrder = new OrderViewModel(order.ClientOrderId)
+			//{
+			//    Value = "Uknown",
+			//    Side = order.Side.ToString(),
+			//    Quantity = order.Quantity.ToString(),
+			//    Price = order.Price.ToString(),
+			//    Symbol = order.Symbol,
+			//    Order = "Uknown"
+			//};
+
+			//if (entity == null && order.Status == OrderStatus.New)
+			//{
+			//    newFutureEntiry.Orders.AddAndRiseEvent(newOrder);
+
+			//    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			//    {
+			//        //CurrentEntities.AddAndRiseEvent(newFutureEntiry);
+			//    });
+			//}
+
+			//if (entity != null && order.Status == OrderStatus.New)
+			//{
+			//    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			//    {
+			//        entity.Orders.AddAndRiseEvent(newOrder);
+			//    });
+			//}
+		}
 	}
 
 	private void OnListenKeyExpired(DataEvent<BinanceStreamEvent> obj)
 	{
 		System.Diagnostics.Debug.WriteLine("Listen key expired");
 	}
-
-	//private void OnPriceChanged(object sender, (string Symbol, decimal Price) e)
-	//{
-	//    //var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Symbol));
-
-	//    //if (entity != null)
-	//    //{
-	//    //    entity.Price = e.Price;
-	//    //}
-	//}
-
-	//private async void OnOrderChanged1(object sender, (BinanceFuturesOrderDto Order, ActionCollectionEnum Action) e)
-	//{
-	//    //var order = e.Order;
-	//    //WriteToDebug(order);
-
-	//    //var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, order.Symbol));
-
-	//    //if (entity != null && (order.Status == OrderStatus.Filled || order.Status == OrderStatus.Canceled))
-	//    //{
-	//    //    OrderViewModel removeOrder = entity.Orders.FirstOrDefault(x => string.Equals(x.ClientOrderId, order.ClientOrderId));
-	//    //    if (removeOrder != null)
-	//    //    {
-	//    //        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-	//    //        {
-	//    //            entity.Orders.Remove(removeOrder);
-	//    //        });
-	//    //    }
-	//    //    return;
-	//    //}
-
-	//    //var newOrder = new OrderViewModel(order.ClientOrderId)
-	//    //{
-	//    //    Value = "Uknown",
-	//    //    Side = order.Side.ToString(),
-	//    //    Quantity = order.Quantity.ToString(),
-	//    //    Price = order.Price.ToString(),
-	//    //    Symbol = order.Symbol,
-	//    //    Order = "Uknown"
-	//    //};
-
-	//    //if (entity == null && order.Status == OrderStatus.New)
-	//    //{
-	//    //    newFutureEntiry.Orders.AddAndRiseEvent(newOrder);
-
-	//    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-	//    //    {
-	//    //        //CurrentEntities.AddAndRiseEvent(newFutureEntiry);
-	//    //    });
-	//    //}
-
-	//    //if (entity != null && order.Status == OrderStatus.New)
-	//    //{
-	//    //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-	//    //    {
-	//    //        entity.Orders.AddAndRiseEvent(newOrder);
-	//    //    });
-	//    //}
-	//}
-
-	//private void OnOpenOrdersChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<long, Ligric.Common.Types.Future.OpenOrderDto> e)
-	//{
-	//    throw new NotImplementedException();
-	//}
-
-	//private void OnFuturesChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<long, Ligric.Common.Types.Future.PositionDto> e)
-	//{
-	//    throw new NotImplementedException();
-	//}
-
-	//private void WriteToDebug(BinanceFuturesOrderDto dto)
-	//{
-	//    Debug.WriteLine(
-	//        $"{nameof(dto.Pair)} {dto.Pair}\n" +
-	//        $"{nameof(dto.Side)} {dto.Side}\n" +
-	//        $"{nameof(dto.Status)} {dto.Status}\n" +
-	//        $"{nameof(dto.Quantity)} {dto.Quantity}\n" +
-	//        $"{nameof(dto.Symbol)} {dto.Symbol}\n" +
-	//        $"{nameof(dto.Id)} {dto.Id}\n" +
-	//        $"{nameof(dto.ClientOrderId)} {dto.ClientOrderId}" +
-	//        $"\n {nameof(dto.AvgPrice)} {dto.AvgPrice} " +
-	//        $"\n {nameof(dto.QuantityFilled)} {dto.QuantityFilled} " +
-	//        $"\n {nameof(dto.QuoteQuantityFilled)} {dto.QuoteQuantityFilled}" +
-	//        $"\n {nameof(dto.BaseQuantityFilled)} {dto.BaseQuantityFilled}" +
-	//        $"\n {nameof(dto.LastFilledQuantity)} {dto.LastFilledQuantity}" +
-	//        $"\n {nameof(dto.ReduceOnly)} {dto.ReduceOnly}" +
-	//        $"\n {nameof(dto.ClosePosition)} {dto.ClosePosition}" +
-	//        $"\n {nameof(dto.StopPrice)} {dto.StopPrice}" +
-	//        $"\n {nameof(dto.TimeInForce)} {dto.TimeInForce}" +
-	//        $"\n {nameof(dto.OriginalType)} {dto.OriginalType}" +
-	//        $"\n {nameof(dto.Type)} {dto.Type}" +
-	//        $"\n {nameof(dto.CallbackRate)} {dto.CallbackRate}" +
-	//        $"\n {nameof(dto.ActivatePrice)} {dto.ActivatePrice}" +
-	//        $"\n {nameof(dto.UpdateTime)} {dto.UpdateTime}" +
-	//        $"\n {nameof(dto.CreateTime)} {dto.CreateTime}" +
-	//        $"\n {nameof(dto.WorkingType)} {dto.WorkingType}" +
-	//        $"\n {nameof(dto.PositionSide)} {dto.PositionSide}" +
-	//        $"\n {nameof(dto.PriceProtect)} {dto.PriceProtect}");
-	//}
 }
