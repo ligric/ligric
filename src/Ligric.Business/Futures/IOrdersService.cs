@@ -1,14 +1,23 @@
 ﻿using Ligric.Domain.Types.Future;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Utils;
 
 namespace Ligric.Business.Futures
 {
-	public interface IOrdersService
+	public interface IOrdersService : IDisposable 
 	{
 		IReadOnlyDictionary<long, OpenOrderDto> OpenOrders { get; }
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<long, OpenOrderDto>> OpenOrdersChanged;
+
+		Task SubscribeOpenOrdersFromUserIdAsync(long userApiId);
+
+		Task UnsubscribeOpenOrdersFromUserIdAsync(long userApiId);
+
+		Task AttachStreamAsync();
+
+		void DetachStream();
 	}
 }
