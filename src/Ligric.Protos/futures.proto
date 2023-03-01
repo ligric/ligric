@@ -7,9 +7,7 @@ option csharp_namespace = "Ligric.Protos";
 
 package Ligric.Protos;
 
-service FutureOrders {
-	rpc AddObserverUserApi(AddObserverUserApiRequest) returns (ResponseResult);
-
+service Futures {
     rpc OrdersSubscribe(OrdersSubscribeRequest) returns (stream OrdersChanged);
 }
 
@@ -25,11 +23,6 @@ message FutureOrder {
 message OrdersSubscribeRequest
 {
 	int64 userId = 1;
-}
-
-message AddObserverUserApiRequest
-{
-	int64 userApiId = 1;
 }
 
 message OrdersChanged {

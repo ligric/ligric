@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Ligric.Application.Orders;
 using Ligric.Protos;
 using Ligric.Server.Grpc.Extensions;
 using MediatR;
@@ -8,27 +9,23 @@ using Microsoft.AspNetCore.Authorization;
 namespace Ligric.Server.Grpc.Services
 {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	public class FutureOrdersService : FutureOrders.FutureOrdersBase
+	public class FuturesService : Futures.FuturesBase
 	{
 		private readonly IMediator _mediator;
+		private IFuturesObserver _futuresObserver;
 
-		public FutureOrdersService(
-			IMediator mediator)
+		public FuturesService(
+			IMediator mediator,
+			IFuturesObserver futuresObserver)
 		{
 			_mediator = mediator;
-		}
-
-		[Authorize]
-		public override async Task<ResponseResult> AddObserverUserApi(AddObserverUserApiRequest request, ServerCallContext context)
-		{
-			throw new NotImplementedException();
+			_futuresObserver = futuresObserver;
 		}
 
 		[Authorize]
 		public override async Task OrdersSubscribe(OrdersSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
 		{
-			throw new NotImplementedException();
-			//await _userApiObserver.GetApisAsObservable(request.UserId)
+			//await _futuresObserver.GetOrdersAsObservable(request.UserId, request.user)
 			//	.ToAsyncEnumerable()
 			//	.ForEachAwaitAsync(async (x) =>
 			//	{
