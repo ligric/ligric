@@ -23,6 +23,7 @@ using Ligric.Server.Domain.Entities.Apis;
 using Ligric.Infrastructure.Domain.Api;
 using Ligric.Application.UserApis;
 using Autofac.Core;
+using Ligric.Application.Orders;
 
 namespace Ligric.Infrastructure
 {
@@ -56,6 +57,7 @@ namespace Ligric.Infrastructure
             IExecutionContextAccessor executionContextAccessor)
         {
 			services.AddSingleton<IUserApiObserver, UserApiObserver>();
+			services.AddSingleton<IFuturesObserver, FuturesObserver>();
 
 			var container = new ContainerBuilder();
 

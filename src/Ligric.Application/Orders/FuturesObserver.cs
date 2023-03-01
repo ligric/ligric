@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using Ligric.Domain.Types.Api;
 using Ligric.Domain.Types.Future;
-using Ligric.Domain.Types.User;
 using Ligric.Server.Domain.Entities.Apis;
 using Ligric.Server.Domain.Entities.UserApies;
 using Ligric.Server.Domain.TypeExtensions;
@@ -11,7 +10,7 @@ using Utils;
 
 namespace Ligric.Application.Orders
 {
-	public class OrdersObserver : IOrdersObserverManager
+	public class FuturesObserver : IFuturesObserver
 	{
 		private readonly IUserApiRepository _userApiRepository;
 		private readonly IApiRepository _apiRepository;
@@ -20,7 +19,7 @@ namespace Ligric.Application.Orders
 
 		private event Action<(EventAction Action, long UserId, FuturesOrderDto order)>? OrdersChanged;
 
-		public OrdersObserver(
+		public FuturesObserver(
 			IUserApiRepository userApiRepository,
 			IApiRepository apiRepository)
 		{
@@ -28,13 +27,13 @@ namespace Ligric.Application.Orders
 			_apiRepository = apiRepository;
 		}
 
-		public IObservable<(EventAction Action, long UserId, FuturesOrderDto order)> GetOrdersAsObservable(long userId, long userApiId)
+		public IObservable<(EventAction Action, long UserId, FuturesOrderDto Order)> GetOrdersAsObservable(long userId, long userApiId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 
 			TryAddUserIdToSubscribedOrders(userId, api);
 
-			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, FuturesOrderDto order)>((x) => OrdersChanged += x, (x) => OrdersChanged -= x);
+			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, FuturesOrderDto Order)>((x) => OrdersChanged += x, (x) => OrdersChanged -= x);
 
 			return updatedApiStateNotifications;
 		}
