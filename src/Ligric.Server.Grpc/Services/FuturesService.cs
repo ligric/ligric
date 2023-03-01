@@ -13,11 +13,11 @@ namespace Ligric.Server.Grpc.Services
 	public class FuturesService : Futures.FuturesBase
 	{
 		private readonly IMediator _mediator;
-		private IFuturesObserver _futuresObserver;
+		private IUserFuturesObserver _futuresObserver;
 
 		public FuturesService(
 			IMediator mediator,
-			IFuturesObserver futuresObserver)
+			IUserFuturesObserver futuresObserver)
 		{
 			_mediator = mediator;
 			_futuresObserver = futuresObserver;

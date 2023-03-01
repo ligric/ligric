@@ -34,9 +34,9 @@ public class BinanceFuturesManager
 	private Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 	private Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
 
-	private event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? valuesChanged;
-	private event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? ordersChanged;
-	private event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>? positionsChanged;
+	public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? ValuesChanged;
+	public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OrdersChanged;
+	public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>? PositionsChanged;
 
 	public BinanceFuturesManager(BinanceApiCredentials credentials, bool isTest = true)
 	{
@@ -100,7 +100,7 @@ public class BinanceFuturesManager
 	private void OnAggregatedUpdated(DataEvent<BinanceStreamAggregatedTrade> obj)
 	{
 		var data = obj.Data;
-		_values.SetAndRiseEvent(this, valuesChanged, data.Symbol, data.Price, ref eventSync);
+		_values.SetAndRiseEvent(this, ValuesChanged, data.Symbol, data.Price, ref eventSync);
 	}
 
 	private void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
@@ -118,17 +118,17 @@ public class BinanceFuturesManager
 			//await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(order.Symbol, OnAggregatedUpdated);
 			//await _socketClient.UsdFuturesStreams.UnsubscribeAsync(order.Symbol, OnAggregatedUpdated);
 
-			_orders.AddAndRiseEvent(this, ordersChanged, orderDto.Id, orderDto, ref eventSync);
+			_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
 			return;
 		}
 
 		if (streamOrder.Status is OrderStatus.Filled)
 		{
 			FuturesPositionDto positionDto = streamOrder.ToFuturesPositionDto();
-			_positions.AddAndRiseEvent(this, positionsChanged, orderDto.Id, positionDto, ref eventSync);
+			_positions.AddAndRiseEvent(this, PositionsChanged, orderDto.Id, positionDto, ref eventSync);
 		}
 
-		_orders.RemoveAndRiseEvent(this, ordersChanged, orderDto.Id, ref eventSync);
+		_orders.RemoveAndRiseEvent(this, OrdersChanged, orderDto.Id, ref eventSync);
 	}
 
 	private void OnListenKeyExpired(DataEvent<BinanceStreamEvent> obj)

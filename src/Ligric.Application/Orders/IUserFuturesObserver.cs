@@ -5,7 +5,7 @@ using Utils;
 
 namespace Ligric.Application.Orders
 {
-	public interface IFuturesObserver
+	public interface IUserFuturesObserver
 	{
 		IObservable<(EventAction Action, long UserId, FuturesOrderDto Order)> GetOrdersAsObservable(long userId, long userApiId);
 	}
