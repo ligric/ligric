@@ -55,7 +55,7 @@ namespace Utils
 
         ///<summary>Добавления в словарь новой пары: ключ-значение.
         /// Возвращает false, если такой ключ уже есть и добавление не было выполнено.</summary>
-        public static bool AddAndShout<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey addKey, TValue addValue, ref int actionNumber)
+        public static bool AddAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey addKey, TValue addValue, ref int actionNumber)
         {
             if (!currentEntities.TryAdd(addKey, addValue))
                 return false;
@@ -84,7 +84,7 @@ namespace Utils
 
         ///<summary>Удаление из словаря пары: ключ-значение.
         /// Возвращает false, если такого ключа нет и удаление не было выполнено.</summary>
-        public static bool RemoveAndShout<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey removeKey, ref int actionNumber)
+        public static bool RemoveAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey removeKey, ref int actionNumber)
         {
             if (currentEntities.Remove(removeKey))
             {
@@ -97,7 +97,7 @@ namespace Utils
 
         ///<summary> Задание в словаре значения ключу.
         /// Возвращает false, если такого ключа нет и вместо замены было выполнено добавление.</summary>
-        public static bool SetAndShout<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey changeKey, TValue changeValue, ref int actionNumber)
+        public static bool SetAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey changeKey, TValue changeValue, ref int actionNumber)
         {
             if (currentEntities.TryGetValue(changeKey, out TValue oldValue))
             {
@@ -113,7 +113,7 @@ namespace Utils
 
         ///<summary>Очистка словаря.
         /// Возвращает false, если словарь был пустой.</summary>
-        public static bool ClearAndShout<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, ref int actionNumber)
+        public static bool ClearAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, ref int actionNumber)
         {
             var isEmpty = currentEntities.Count == 0;
 
