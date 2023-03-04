@@ -57,7 +57,7 @@ namespace Ligric.Infrastructure
             IExecutionContextAccessor executionContextAccessor)
         {
 			services.AddSingleton<IUserApiObserver, UserApiObserver>();
-			services.AddSingleton<IFuturesObserver, FuturesObserver>();
+			services.AddSingleton<ITemporaryUserFuturesObserver, TemporaryUserFuturesObserver>();
 
 			var container = new ContainerBuilder();
 
