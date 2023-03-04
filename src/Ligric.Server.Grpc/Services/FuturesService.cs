@@ -13,11 +13,11 @@ namespace Ligric.Server.Grpc.Services
 	public class FuturesService : Futures.FuturesBase
 	{
 		private readonly IMediator _mediator;
-		private IUserFuturesObserver _futuresObserver;
+		private ITemporaryUserFuturesObserver _futuresObserver;
 
 		public FuturesService(
 			IMediator mediator,
-			IUserFuturesObserver futuresObserver)
+			ITemporaryUserFuturesObserver futuresObserver)
 		{
 			_mediator = mediator;
 			_futuresObserver = futuresObserver;
@@ -30,17 +30,12 @@ namespace Ligric.Server.Grpc.Services
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
-					if (x.UserId == request.UserId)
+					if (x.UserIds.Contains(request.UserId))
 					{
 						await responseStream.WriteAsync(new OrdersChanged
 						{
-							Action = x.Action.ToProtosAction(),
-							Order = new FutureOrder
-							{
-								//Id = x.Order.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
-								//Name = x.Api.Name,
-								//Permissions = x.Api.Permissions
-							}
+							Action = x.EventArgs.Action.ToProtosAction(),
+							Order = x.EventArgs.NewValue?.ToFutureOrder()
 						});
 					}
 				}, context.CancellationToken)
