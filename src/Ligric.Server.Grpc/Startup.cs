@@ -112,6 +112,7 @@ namespace Ligric.Server.Grpc
 
 				endpoints.MapGrpcService<AuthorizationService>().EnableGrpcWeb();
 				endpoints.MapGrpcService<UserApisService>().EnableGrpcWeb();
+				endpoints.MapGrpcService<FuturesService>().EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{
