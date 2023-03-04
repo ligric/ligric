@@ -30,6 +30,7 @@ namespace Ligric.Application.Orders
 				Api = api;
 				FuturesManager = new BinanceFuturesManager(credentials, isTest);
 				FuturesManager.OrdersChanged += OnOrdersChanged;
+				_ = FuturesManager.AttachOrdersSubscribtionsAsync();
 			}
 
 			private void OnOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> ordersChangedEventArgs)
