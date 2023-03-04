@@ -33,7 +33,8 @@ namespace Ligric.Business.Futures
 
 		private void OnOrdersChanged()
 		{
-			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, FuturesOrderDto>(0, new FuturesOrderDto(), 0, 0));
+			var futuresDto = new FuturesOrderDto(0, "asfsa", Domain.Types.Side.Buy, 123, 123, 123);
+			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, FuturesOrderDto>(0, futuresDto, 0, 0));
 		}
 	}
 }
