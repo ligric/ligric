@@ -14,7 +14,7 @@ service Futures {
 message FutureOrder {
 	int64 id = 1;
 	string symbol = 2;
-	string side = 3;
+	Side side = 3;
 	string quantity = 4;
 	string price = 5;
 	string value = 6;
@@ -29,4 +29,10 @@ message OrdersSubscribeRequest
 message OrdersChanged {
 	FutureOrder Order = 1;
 	Action action = 2;
+}
+
+enum Side
+{
+	Sell = 0;
+	Buy = 1;
 }
