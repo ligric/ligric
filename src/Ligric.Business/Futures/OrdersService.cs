@@ -4,34 +4,75 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Grpc.Net.Client;
 using Ligric.Domain.Types.Future;
+using static Ligric.Protos.Futures;
 using Utils;
+using Ligric.Business.Authorization;
+using System.Threading;
+using Ligric.Protos;
+using System.Linq;
+using Ligric.Business.Metadata;
 
 namespace Ligric.Business.Futures
 {
 	public class OrdersService : IOrdersService
 	{
 		private readonly Dictionary<long, FuturesOrderDto> _openOrders = new Dictionary<long, FuturesOrderDto>();
+		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
+		private readonly IAuthorizationService _authorizationService;
+		private readonly IMetadataManager _metadataManager;
+		private readonly FuturesClient _futuresClient;
 
-		public OrdersService(GrpcChannel channel)
+		public OrdersService(
+			GrpcChannel channel,
+			IMetadataManager metadataRepos,
+			IAuthorizationService authorizationService)
 		{
-
+			_metadataManager = metadataRepos;
+			_authorizationService = authorizationService;
+			_futuresClient = new FuturesClient(channel);
 		}
 
 		public IReadOnlyDictionary<long, FuturesOrderDto> OpenOrders => new ReadOnlyDictionary<long, FuturesOrderDto>(_openOrders);
 
 		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OpenOrdersChanged;
 
-		public Task AttachStreamAsync() => throw new NotImplementedException();
+		public Task AttachStreamAsync(long userApiId)
+		{
+			if (_futuresSubscribeCalcellationToken != null
+				&& !_futuresSubscribeCalcellationToken.IsCancellationRequested)
+			{
+				return Task.CompletedTask;
+			}
+
+			var userId = _authorizationService.CurrentUser.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
+
+			_futuresSubscribeCalcellationToken = new CancellationTokenSource();
+			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);
+		}
+
 		public void DetachStream() => throw new NotImplementedException();
 		public void Dispose()
 		{
-			// Just for disable warning
-			OnOrdersChanged();
-		}
-		public Task SubscribeOpenOrdersFromUserIdAsync(long userApiId) => throw new NotImplementedException();
-		public Task UnsubscribeOpenOrdersFromUserIdAsync(long userApiId) => throw new NotImplementedException();
 
-		private void OnOrdersChanged()
+		}
+
+		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
+		{
+			var call = _futuresClient.OrdersSubscribe(
+				request: new OrdersSubscribeRequest { UserId = userId, UserApiId = userApiId },
+				headers: _metadataManager.CurrentMetadata,
+				cancellationToken: token);
+
+			return call.ResponseStream
+				.ToAsyncEnumerable()
+				.Finally(() => call.Dispose())
+				.ForEachAsync((api) =>
+				{
+					OnFuturesChanged(api);
+				}, token);
+		}
+
+		private void OnFuturesChanged(OrdersChanged api)
 		{
 			var futuresDto = new FuturesOrderDto(0, "asfsa", Domain.Types.Side.Buy, 123, 123, 123);
 			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, FuturesOrderDto>(0, futuresDto, 0, 0));

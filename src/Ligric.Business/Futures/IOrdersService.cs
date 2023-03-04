@@ -12,11 +12,7 @@ namespace Ligric.Business.Futures
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>> OpenOrdersChanged;
 
-		Task SubscribeOpenOrdersFromUserIdAsync(long userApiId);
-
-		Task UnsubscribeOpenOrdersFromUserIdAsync(long userApiId);
-
-		Task AttachStreamAsync();
+		Task AttachStreamAsync(long userApiId);
 
 		void DetachStream();
 	}
