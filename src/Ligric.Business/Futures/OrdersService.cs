@@ -11,6 +11,7 @@ using System.Threading;
 using Ligric.Protos;
 using System.Linq;
 using Ligric.Business.Metadata;
+using Ligric.Business.Extensions;
 
 namespace Ligric.Business.Futures
 {
@@ -74,7 +75,10 @@ namespace Ligric.Business.Futures
 
 		private void OnFuturesChanged(OrdersChanged api)
 		{
-			var futuresDto = new FuturesOrderDto(0, "asfsa", Domain.Types.Side.Buy, 123, 123, 123);
+			var order = api.Order;
+			var futuresDto = new FuturesOrderDto(
+				order.Id, order.Symbol, order.Side.ToSideDto(),
+				decimal.Parse(order.Quantity), decimal.Parse(order.Price), decimal.Parse(order.Value));
 			OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, FuturesOrderDto>(0, futuresDto, 0, 0));
 		}
 	}

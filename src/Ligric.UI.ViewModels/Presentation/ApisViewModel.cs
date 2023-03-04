@@ -60,7 +60,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			{
 				if (ct.IsCancellationRequested) break;
 
-				await _ordersService.SubscribeOpenOrdersFromUserIdAsync(api.UserApiId ?? throw new ArgumentNullException("UserId is null"));
+				await _ordersService.AttachStreamAsync(api.UserApiId ?? throw new ArgumentNullException("UserId is null"));
 			}
 		}
 
