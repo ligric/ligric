@@ -19,6 +19,20 @@ namespace Ligric.Server.Grpc.Extensions
             throw new NotImplementedException();
         }
 
+		public static Action ToProtosAction(this NotifyDictionaryChangedAction action)
+        {
+            switch (action)
+            {
+                case NotifyDictionaryChangedAction.Added:
+                    return Action.Added;
+                case NotifyDictionaryChangedAction.Removed:
+                    return Action.Removed;
+                case NotifyDictionaryChangedAction.Changed:
+                    return Action.Changed;
+            }
+            throw new NotImplementedException();
+        }
+
         public static EventAction ToEventAction(this Action action)
         {
             switch (action)
