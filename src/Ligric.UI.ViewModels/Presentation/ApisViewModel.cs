@@ -49,7 +49,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		{
 			if (api.Name != null && api.PublicKey != null && api.PrivateKey != null)
 			{
-				await _apiService.SaveApiAsync(new ApiDto(null, api.Name, api.PublicKey, api.PrivateKey), ct);
+				await _apiService.SaveApiAsync(api.Name, api.PublicKey, api.PrivateKey, ct);
 			}
 		}
 		#endregion

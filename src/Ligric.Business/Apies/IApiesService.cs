@@ -19,7 +19,7 @@ namespace Ligric.Business.Apies
 		/// </summary>
 		/// <param name="api">Api info</param>
 		/// <returns>Api id</returns>
-		Task<long> SaveApiAsync(ApiDto api, CancellationToken ct);
+		Task<long> SaveApiAsync(string name, string privateKey, string publicKey, CancellationToken ct);
 
 		Task ShareApiAsync(ApiClientDto api, CancellationToken ct);
 
