@@ -93,7 +93,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			UpdateApisFromAction(e);
 		}
 
-		private async void UpdateApisFromAction(NotifyCollectionChangedEventArgs e)
+		private void UpdateApisFromAction(NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
 			{

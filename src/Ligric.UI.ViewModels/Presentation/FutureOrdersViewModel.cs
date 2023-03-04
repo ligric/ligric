@@ -1,5 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Reactive.Linq;
 using Ligric.Business.Futures;
+using Ligric.Domain.Types.Future;
+using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
 using Utils;
@@ -13,17 +18,37 @@ namespace Ligric.UI.ViewModels.Presentation
 		{
 			_ordersService = ordersService;
 
-			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
+			OrdersChangedEventSubscribe();
 		}
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
-		private void OnOpenOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, Domain.Types.Future.FuturesOrderDto> e)
+		private void OrdersChangedEventSubscribe()
 		{
-			switch (e.Action)
+			var collectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>(handler =>
+			{
+				EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>> collectionChanged = (sender, e) =>
+				{
+					handler(e);
+				};
+
+				return collectionChanged;
+			}, fsHandler => _ordersService.OpenOrdersChanged += fsHandler, fsHandler => _ordersService.OpenOrdersChanged -= fsHandler);
+
+			collectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnOpenOrdersChanged);
+		}
+
+		private void OnOpenOrdersChanged(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		{
+			UpdateOrdersFromAction(obj);
+		}
+
+		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		{
+			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					var newOrder = e.NewValue ?? throw new ArgumentException("Order is null");
+					var newOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
 					Orders.Add(newOrder.ToOrderViewModel());
 					break;
 				case NotifyDictionaryChangedAction.Removed:
