@@ -11,10 +11,12 @@ using Binance.Net.Objects.Models;
 using Binance.Net.Objects.Models.Futures;
 using Binance.Net.Objects.Models.Futures.Socket;
 using Binance.Net.Objects.Models.Spot.Socket;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Sockets;
 using Ligric.CryptoObserver.Extensions;
 using Ligric.Domain.Types.Api;
 using Ligric.Domain.Types.Future;
+using Newtonsoft.Json.Linq;
 using Utils;
 
 namespace Ligric.CryptoObserver;
@@ -115,8 +117,7 @@ public class BinanceFuturesManager
 
 		if (streamOrder.Status is OrderStatus.New)
 		{
-			//await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(order.Symbol, OnAggregatedUpdated);
-			//await _socketClient.UsdFuturesStreams.UnsubscribeAsync(order.Symbol, OnAggregatedUpdated);
+			_socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(orderDto.Symbol, OnAggregatedUpdated);
 
 			_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
 			return;

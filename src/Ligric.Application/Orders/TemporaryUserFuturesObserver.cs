@@ -25,12 +25,20 @@ namespace Ligric.Application.Orders
 
 			public event Action<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> OrderEventArgs)>? OrdersChanged;
 
+			public event Action<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs)>? ValuesChanged;
+
 			public TemporaryApiSubscriptions(ApiDto api, BinanceApiCredentials credentials, bool isTest = true)
 			{
 				Api = api;
 				FuturesManager = new BinanceFuturesManager(credentials, isTest);
 				FuturesManager.OrdersChanged += OnOrdersChanged;
+				FuturesManager.ValuesChanged += OnValuesChanged;
 				_ = FuturesManager.AttachOrdersSubscribtionsAsync();
+			}
+
+			private void OnValuesChanged(object sender, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs)
+			{
+				ValuesChanged?.Invoke((UserIds, valueEventArgs));
 			}
 
 			private void OnOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> ordersChangedEventArgs)
@@ -45,6 +53,7 @@ namespace Ligric.Application.Orders
 		private readonly IList<TemporaryApiSubscriptions> subscribedApis = new List<TemporaryApiSubscriptions>();
 
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? OrdersChanged;
+		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>? ValuesChanged;
 
 		public TemporaryUserFuturesObserver(
 			IUserApiRepository userApiRepository,
@@ -82,11 +91,17 @@ namespace Ligric.Application.Orders
 				var apiSubscriptions = new TemporaryApiSubscriptions(api, new BinanceApiCredentials(api.PublicKey, api.PrivateKey));
 				apiSubscriptions.UserIds.Add(userId);
 				apiSubscriptions.OrdersChanged += OnOrdersChanged;
+				apiSubscriptions.ValuesChanged += OnValuesChanged;
 				subscribedApis.Add(apiSubscriptions);
 				return true;
 			}
 
 			return false;
+		}
+
+		private void OnValuesChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs) obj)
+		{
+			ValuesChanged?.Invoke(obj);
 		}
 
 		private void OnOrdersChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> OrderEventArgs) obj)
