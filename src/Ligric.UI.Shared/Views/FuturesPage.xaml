@@ -2,7 +2,7 @@
       
       xmlns:viewModels="using:Ligric.UI.ViewModels.Presentation"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-
+	  
 	  xmlns:i="using:Microsoft.Xaml.Interactivity"
 	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
 	  
@@ -97,28 +97,65 @@
 		<!-- Content -->
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition/>
+				<RowDefinition Height="Auto"/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
 
-			<Border Grid.RowSpan="2" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
+			<Border Grid.RowSpan="4" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
+
+			<!-- Header Orders -->
+			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="10" Padding="10,5,10,5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Side" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3" Text="Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="Order" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="5" Text="Value" Foreground="White" VerticalAlignment="Center"/>
+			</Grid>
 
 			<!-- Orders -->
-			<ScrollViewer Grid.Row="0" 
+			<ScrollViewer Grid.Row="1" 
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater ItemsSource="{Binding FuturesOrders.Orders}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Border CornerRadius="20" Background="#dc729f" Padding="20">
-								<TextBlock Foreground="White">
-                                <Run Text="{Binding Symbol}"/>
-                                <Run Text="{Binding Side}"/>
-                                <Run Text="{Binding Quantity}"/>
-                                <Run Text="{Binding Price}"/>
-                                <Run Text="{Binding Order}"/>
-                                <Run Text="{Binding Value}"/>
-								</TextBlock>
-							</Border>
+							<Grid x:Name="GridBackground" CornerRadius="20" Padding="20">
+								<i:Interaction.Behaviors>
+									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#0ecb81"/>
+									</core:DataTriggerBehavior>
+									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#f6465d"/>
+									</core:DataTriggerBehavior>
+								</i:Interaction.Behaviors>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Grid.Column="0" Text="{Binding Symbol}"/>
+								<TextBlock Grid.Column="1" Text="{Binding Side}"/>
+								<TextBlock Grid.Column="2" Text="{Binding Quantity}"/>
+								<TextBlock Grid.Column="3" Text="{Binding Price}"/>
+								<TextBlock Grid.Column="4" Text="{Binding Order}"/>
+								<TextBlock Grid.Column="5" Text="{Binding Value}"/>
+							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
 					<controls:ItemsRepeater.Layout>
@@ -127,22 +164,61 @@
 				</controls:ItemsRepeater>
 			</ScrollViewer>
 
+			<!-- Header Positions -->
+			<Grid Grid.Row="2" Height="40" Background="Black" CornerRadius="15" Margin="10" Padding="10,5,10,5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Side" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3" Text="OpenPrice" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="CurrentPrice" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="5" Text="PnL" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="6" Text="PnLPercent" Foreground="White" VerticalAlignment="Center"/>
+			</Grid>
+
 			<!-- Positions -->
-			<ScrollViewer Grid.Row="1"
+			<ScrollViewer Grid.Row="3"
                           VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
-							<Border CornerRadius="20" Background="#3888cd" Padding="20">
-								<TextBlock Foreground="White">
-                                <Run Text="{Binding Symbol}"/>
-                                <Run Text="{Binding Side}"/>
-                                <Run Text="{Binding Quantity}"/>
-                                <Run Text="{Binding CurrentPrice}"/>
-                                <Run Text="{Binding PnL}"/>
-                                <Run Text="{Binding PnLPercent}"/>
-								</TextBlock>
-							</Border>
+							<Grid x:Name="GridBackground" CornerRadius="20" Background="#3888cd" Padding="20">
+								<i:Interaction.Behaviors>
+									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#0ecb81"/>
+									</core:DataTriggerBehavior>
+									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#f6465d"/>
+									</core:DataTriggerBehavior>
+								</i:Interaction.Behaviors>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+									<ColumnDefinition/>
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Grid.Column="0" Text="{Binding Symbol}"/>
+								<TextBlock Grid.Column="1" Text="{Binding Side}"/>
+								<TextBlock Grid.Column="2" Text="{Binding Quantity}"/>
+								<TextBlock Grid.Column="3" Text="{Binding OpenPrice}"/>
+								<TextBlock Grid.Column="4" Text="{Binding CurrentPrice}"/>
+								<TextBlock Grid.Column="5" Text="{Binding PnL}"/>
+								<TextBlock Grid.Column="6" Text="{Binding PnLPercent}"/>
+							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
 					<controls:ItemsRepeater.Layout>
