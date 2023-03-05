@@ -48,12 +48,25 @@ namespace Ligric.UI.ViewModels.Presentation
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					var newOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
-					Orders.Add(newOrder.ToOrderViewModel());
+					var addedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
+					Orders.Add(addedOrder.ToOrderViewModel());
 					break;
 				case NotifyDictionaryChangedAction.Removed:
+					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key.ToString());
+					if (removedOrder == null) break;
+					Orders.Remove(removedOrder);
 					break;
 				case NotifyDictionaryChangedAction.Changed:
+					var changedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
+					var stringId = changedOrder.Id.ToString();
+					for (int i = 0; i < Orders.Count; i++)
+					{
+						if (Orders[i].Id == stringId)
+						{
+							Orders[i] = changedOrder.ToOrderViewModel();
+							break;
+						}
+					}
 					break;
 			}
 		}

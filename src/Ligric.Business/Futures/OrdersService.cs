@@ -17,6 +17,7 @@ namespace Ligric.Business.Futures
 {
 	public class OrdersService : IOrdersService
 	{
+		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, FuturesOrderDto> _openOrders = new Dictionary<long, FuturesOrderDto>();
 		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
 		private readonly IAuthorizationService _authorizationService;
@@ -78,12 +79,13 @@ namespace Ligric.Business.Futures
 			switch (api.Action)
 			{
 				case Protos.Action.Added:
-					var order = api.Order;
-					var futuresDto = new FuturesOrderDto(
-						order.Id, order.Symbol, order.Side.ToSideDto(),
-						decimal.Parse(order.Quantity), decimal.Parse(order.Price), decimal.Parse(order.Value));
-					OpenOrdersChanged?.Invoke(null, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair<long, FuturesOrderDto>(0, futuresDto, 0, 0));
+					var orderDto = api.Order.ToFuturesOrderDto();
+					_openOrders.SetAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, orderDto, ref syncOrderChanged);
 					break;
+				case Protos.Action.Removed:
+					_openOrders.RemoveAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, ref syncOrderChanged);
+					break;
+				case Protos.Action.Changed: goto case Protos.Action.Added;
 			}
 		}
 	}

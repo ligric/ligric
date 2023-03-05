@@ -32,11 +32,24 @@ namespace Ligric.Server.Grpc.Services
 				{
 					if (x.UserIds.Contains(request.UserId))
 					{
-						await responseStream.WriteAsync(new OrdersChanged
+						var eventArgs = x.EventArgs;
+						FutureOrder? order = null;
+						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
+						{
+							order = new FutureOrder { Id = eventArgs.Key };
+						}
+						else if (eventArgs.NewValue != null)
+						{
+							order = eventArgs.NewValue.ToFutureOrder();
+						}
+
+						var orderChanged = new OrdersChanged
 						{
 							Action = x.EventArgs.Action.ToProtosAction(),
-							Order = x.EventArgs.NewValue?.ToFutureOrder()
-						});
+							Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+						};
+
+						await responseStream.WriteAsync(orderChanged);
 					}
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
