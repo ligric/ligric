@@ -66,16 +66,27 @@ namespace Ligric.Application.Orders
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-			TryAddUserIdToSubscribedOrders(userId, api);
+			TryAddUserIdToSubscrions(userId, api, out TemporaryApiSubscriptions? subscribedApi);
 
 			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>((x)
 				=> OrdersChanged += x, (x) => OrdersChanged -= x);
 			return updatedApiStateNotifications;
 		}
 
-		private bool TryAddUserIdToSubscribedOrders(long userId, ApiDto api)
+		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)> GetValuesAsObservable(long userId, long userApiId)
 		{
-			var subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
+			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
+			TryAddUserIdToSubscrions(userId, api, out TemporaryApiSubscriptions? subscribedApi);
+
+			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>((x)
+				=> ValuesChanged += x, (x) => ValuesChanged -= x);
+			return updatedApiStateNotifications;
+		}
+
+
+		private bool TryAddUserIdToSubscrions(long userId, ApiDto api, out TemporaryApiSubscriptions? subscribedApi)
+		{
+			subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
 
 			if(subscribedApi != null)
 			{
@@ -88,11 +99,11 @@ namespace Ligric.Application.Orders
 			}
 			else
 			{
-				var apiSubscriptions = new TemporaryApiSubscriptions(api, new BinanceApiCredentials(api.PublicKey, api.PrivateKey));
-				apiSubscriptions.UserIds.Add(userId);
-				apiSubscriptions.OrdersChanged += OnOrdersChanged;
-				apiSubscriptions.ValuesChanged += OnValuesChanged;
-				subscribedApis.Add(apiSubscriptions);
+				subscribedApi = new TemporaryApiSubscriptions(api, new BinanceApiCredentials(api.PublicKey, api.PrivateKey));
+				subscribedApi.UserIds.Add(userId);
+				subscribedApi.OrdersChanged += OnOrdersChanged;
+				subscribedApi.ValuesChanged += OnValuesChanged;
+				subscribedApis.Add(subscribedApi);
 				return true;
 			}
 
