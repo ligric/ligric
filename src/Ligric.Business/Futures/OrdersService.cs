@@ -61,7 +61,7 @@ namespace Ligric.Business.Futures
 		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
 			var call = _futuresClient.OrdersSubscribe(
-				request: new OrdersSubscribeRequest { UserId = userId, UserApiId = userApiId },
+				request: new FuturesSubscribeRequest { UserId = userId, UserApiId = userApiId },
 				headers: _metadataManager.CurrentMetadata,
 				cancellationToken: token);
 

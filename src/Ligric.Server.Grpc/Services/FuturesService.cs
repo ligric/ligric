@@ -24,7 +24,36 @@ namespace Ligric.Server.Grpc.Services
 		}
 
 		[Authorize]
-		public override async Task OrdersSubscribe(OrdersSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
+		public override async Task OrdersSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
+		{
+			await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId)
+				.ToAsyncEnumerable()
+				.ForEachAwaitAsync(async (x) =>
+				{
+					if (x.UserIds.Contains(request.UserId))
+					{
+						var eventArgs = x.EventArgs;
+						FutureOrder? order = null;
+						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
+						{
+							order = new FutureOrder { Id = eventArgs.Key };
+						}
+						else if (eventArgs.NewValue != null)
+						{
+							order = eventArgs.NewValue.ToFutureOrder();
+						}
+
+						var orderChanged = new OrdersChanged
+						{
+							Action = x.EventArgs.Action.ToProtosAction(),
+							Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+						};
+
+						await responseStream.WriteAsync(orderChanged);
+					}
+				}, context.CancellationToken)
+				.ConfigureAwait(false);
+		}
 		{
 			await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId)
 				.ToAsyncEnumerable()
