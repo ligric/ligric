@@ -6,12 +6,18 @@ namespace Ligric.UI.ViewModels.Presentation
 {
 	public class FuturePositionsViewModel
 	{
+		private readonly IOrdersService _ordersService;
+		private readonly IValuesService _valuesService;
+
 		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
-		//internal FuturePositionsViewModel(IPositionsService ordersService)
-		//{
-
-		//}
+		internal FuturePositionsViewModel(
+			IOrdersService ordersService,
+			IValuesService valuesService)
+		{
+			_ordersService = ordersService;
+			_valuesService = valuesService;	
+		}
 		//private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
 		//{
 		////    var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
