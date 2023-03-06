@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
+using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
 using Ligric.Business.Extensions;
 using Ligric.Business.Metadata;
@@ -16,7 +17,7 @@ using Utils;
 using Utils.Extensions;
 using static Ligric.Protos.UserApis;
 
-namespace Ligric.Business.Apies
+namespace Ligric.Business.Clients.Apies
 {
 	public class ApiesService : IApiesService
 	{
@@ -44,7 +45,7 @@ namespace Ligric.Business.Apies
 
 		public async Task<long> SaveApiAsync(string name, string privateKey, string publicKey, CancellationToken ct)
 		{
-			var userId = _authorizationService.CurrentUser.Id ?? throw new System.ArgumentNullException($"SaveApiAsync : UserId is null");
+			var userId = _authorizationService.CurrentUser.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
 			var response = await _client.SaveAsync(new SaveApiRequest
 			{
 				Name = name,
@@ -73,12 +74,12 @@ namespace Ligric.Business.Apies
 
 		public Task SetStateAsync(long id, StateEnum state, CancellationToken ct)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo, CancellationToken ct)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public Task ApiPiplineSubscribeAsync()
@@ -124,7 +125,7 @@ namespace Ligric.Business.Apies
 
 		private void OnServerApisChanged(ApisChanged changedInfo)
 		{
-			ApiClientDto apiClient = changedInfo.Api.ToApiClientDto();
+			var apiClient = changedInfo.Api.ToApiClientDto();
 			switch (changedInfo.Action)
 			{
 				case Protos.Action.Added:

@@ -12,8 +12,9 @@ using Ligric.Protos;
 using System.Linq;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
+using Ligric.Business.Futures;
 
-namespace Ligric.Business.Futures
+namespace Ligric.Business.Clients.Futures
 {
 	public class OrdersService : IOrdersService
 	{

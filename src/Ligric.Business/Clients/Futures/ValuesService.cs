@@ -11,8 +11,9 @@ using Ligric.Protos;
 using System.Linq;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
+using Ligric.Business.Futures;
 
-namespace Ligric.Business.Futures
+namespace Ligric.Business.Clients.Futures
 {
 	public class ValuesService : IValuesService
 	{
@@ -77,8 +78,8 @@ namespace Ligric.Business.Futures
 
 		private void OnFuturesChanged(ValuesChanged valuesChanged)
 		{
-			string symbol = valuesChanged.Symbol;
-			decimal value = decimal.Parse(valuesChanged.Value);
+			var symbol = valuesChanged.Symbol;
+			var value = decimal.Parse(valuesChanged.Value);
 			switch (valuesChanged.Action)
 			{
 				case Protos.Action.Added:
