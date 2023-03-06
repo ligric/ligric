@@ -42,5 +42,16 @@ namespace Ligric.Server.Grpc.Extensions
 			}
 			throw new NotImplementedException();
 		}
+
+		public static FuturesPosition ToFuturesPosition(this FuturesPositionDto dto)
+		{
+			return new FuturesPosition
+			{
+				Id = dto.Id,
+				Symbol = dto.Symbol,
+				Side = dto.Side.ToSideProto(),
+				EntryPrice = dto.EntryPrice.ToString()
+			};
+		}
 	}
 }

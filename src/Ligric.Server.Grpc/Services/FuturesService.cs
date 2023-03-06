@@ -80,5 +80,37 @@ namespace Ligric.Server.Grpc.Services
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 		}
+
+		[Authorize]
+		public override async Task PositionsSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<PositionsChanged> responseStream, ServerCallContext context)
+		{
+			await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId)
+				.ToAsyncEnumerable()
+				.ForEachAwaitAsync(async (x) =>
+				{
+					if (x.UserIds.Contains(request.UserId))
+					{
+						var eventArgs = x.EventArgs;
+						FuturesPosition? position = null;
+						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
+						{
+							position = new FuturesPosition { Id = eventArgs.Key };
+						}
+						else if (eventArgs.NewValue != null)
+						{
+							position = eventArgs.NewValue.ToFuturesPosition();
+						}
+
+						var positionsChanged = new PositionsChanged
+						{
+							Action = x.EventArgs.Action.ToProtosAction(),
+							Position = position ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+						};
+
+						await responseStream.WriteAsync(positionsChanged);
+					}
+				}, context.CancellationToken)
+				.ConfigureAwait(false);
+		}
 	}
 }
