@@ -26,13 +26,13 @@ namespace Ligric.Business.Clients.Futures
 		private readonly FuturesClient _futuresClient;
 
 		internal OrdersService(
-			GrpcChannel channel,
+			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			IAuthorizationService authorizationService)
 		{
 			_metadataManager = metadataRepos;
 			_authorizationService = authorizationService;
-			_futuresClient = new FuturesClient(channel);
+			_futuresClient = futuresClient;
 		}
 
 		public IReadOnlyDictionary<long, FuturesOrderDto> OpenOrders => new ReadOnlyDictionary<long, FuturesOrderDto>(_openOrders);

@@ -8,6 +8,7 @@ using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;
 using Ligric.Protos;
+using static Ligric.Protos.Futures;
 
 namespace Ligric.Business.Clients
 {
@@ -21,10 +22,13 @@ namespace Ligric.Business.Clients
 		    IMetadataManager metadata)
 		{
 			_authorization = authorization;
+
 			Apis = new ApiesService(channel, metadata, _authorization);
-			Orders = new OrdersService(channel, metadata, _authorization);
-			Values = new ValuesService(channel, metadata, _authorization);
-			Positions = new PositionsService(channel, metadata, _authorization);
+
+			FuturesClient futuresClient = new FuturesClient(channel); 
+			Orders = new OrdersService(futuresClient, metadata, _authorization);
+			Values = new ValuesService(futuresClient, metadata, _authorization);
+			Positions = new PositionsService(futuresClient, metadata, _authorization);
 
 			_authorization.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
