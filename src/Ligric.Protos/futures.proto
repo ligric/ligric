@@ -10,6 +10,7 @@ package Ligric.Protos;
 service Futures {
     rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged);
     rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged);
+    rpc PositionsSubscribe(FuturesSubscribeRequest) returns (stream PositionsChanged);
 }
 
 message FuturesSubscribeRequest
@@ -29,9 +30,8 @@ message ValuesChanged {
 }
 
 message PositionsChanged {
-	string Symbol = 1;
-	string OpenPrice = 2;
-	Action action = 3;
+	FuturesPosition Position = 1;
+	Action action = 2;
 }
 
 message FuturesOrder {
@@ -47,6 +47,13 @@ message FuturesValue
 {
 	string Symbol = 1;
 	string Value = 2;
+}
+
+message FuturesPosition {
+	int64 id = 1;
+	string Symbol = 2;
+	string EntryPrice = 3;
+	Side Side = 4;
 }
 
 enum Side
