@@ -4,6 +4,7 @@ namespace Ligric.UI.ViewModels.Data
 {
 	public class PositionViewModel
 	{
+		[Reactive] public string? Id { get; set; }
 		[Reactive] public string? Symbol { get; set; }
 		[Reactive] public string? Side { get; set; }
 		[Reactive] public string? Quantity { get; set; }

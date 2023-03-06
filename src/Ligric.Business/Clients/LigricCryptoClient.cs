@@ -24,6 +24,7 @@ namespace Ligric.Business.Clients
 			Apis = new ApiesService(channel, metadata, _authorization);
 			Orders = new OrdersService(channel, metadata, _authorization);
 			Values = new ValuesService(channel, metadata, _authorization);
+			Positions = new PositionsService(channel, metadata, _authorization);
 
 			_authorization.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
@@ -33,6 +34,8 @@ namespace Ligric.Business.Clients
 		public IOrdersService Orders { get; }
 
 		public IValuesService Values { get; }
+
+		public IPositionsService Positions { get; }
 
 		public void Dispose() => throw new NotImplementedException();
 

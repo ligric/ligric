@@ -11,5 +11,7 @@ namespace Ligric.Business.Interfaces
 		IOrdersService Orders { get; }
 
 		IValuesService Values { get; }
+
+		IPositionsService Positions { get; }
 	}
 }
