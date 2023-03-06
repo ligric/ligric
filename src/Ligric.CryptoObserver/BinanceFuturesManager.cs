@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects;
 using Binance.Net.Objects.Models;
-using Binance.Net.Objects.Models.Futures;
 using Binance.Net.Objects.Models.Futures.Socket;
 using Binance.Net.Objects.Models.Spot.Socket;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Sockets;
 using Ligric.CryptoObserver.Extensions;
-using Ligric.Domain.Types.Api;
 using Ligric.Domain.Types.Future;
-using Newtonsoft.Json.Linq;
 using Utils;
 
 namespace Ligric.CryptoObserver;
