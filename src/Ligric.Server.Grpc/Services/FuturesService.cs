@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using CryptoExchange.Net.CommonObjects;
+using Grpc.Core;
 using Ligric.Application.Orders;
 using Ligric.Domain.Types.Future;
 using Ligric.Protos;
@@ -54,28 +55,21 @@ namespace Ligric.Server.Grpc.Services
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 		}
+
+		[Authorize]
+		public override async Task ValuesSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<ValuesChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId)
+			await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
 					if (x.UserIds.Contains(request.UserId))
 					{
-						var eventArgs = x.EventArgs;
-						FutureOrder? order = null;
-						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
-						{
-							order = new FutureOrder { Id = eventArgs.Key };
-						}
-						else if (eventArgs.NewValue != null)
-						{
-							order = eventArgs.NewValue.ToFutureOrder();
-						}
-
-						var orderChanged = new OrdersChanged
+						var orderChanged = new ValuesChanged
 						{
 							Action = x.EventArgs.Action.ToProtosAction(),
-							Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+							Symbol = x.EventArgs.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
+							Value = x.EventArgs.NewValue.ToString()
 						};
 
 						await responseStream.WriteAsync(orderChanged);
