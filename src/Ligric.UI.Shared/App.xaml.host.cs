@@ -41,8 +41,6 @@ public sealed partial class App : Application
                 // Register services for the application
                 .ConfigureServices(
                     (context, services) => {
-						var grpcChannel = GrpcChannelHalper.GetGrpcChannel();
-						services.AddSingleton(grpcChannel);
 						services.AddServices(useMocks:false);
 						//var section = context.Configuration.GetSection(nameof(Mock));
 						//var useMocks = bool.TryParse(section[nameof(Mock.IsEnabled)], out var isMocked) ? isMocked : false;
