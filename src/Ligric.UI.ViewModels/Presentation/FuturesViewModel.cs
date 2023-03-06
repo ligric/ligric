@@ -12,7 +12,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		{
 			Api = new ApisViewModel(apiesService, orderService, valuesService);
 			FuturesOrders = new FutureOrdersViewModel(orderService, valuesService);
-			FuturePositions = new FuturePositionsViewModel(valuesService);
+			FuturePositions = new FuturePositionsViewModel(orderService, valuesService);
 		}
 
 		public ApisViewModel Api { get; }
