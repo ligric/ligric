@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Reactive;
 using System.Reactive.Linq;
 using Ligric.Business.Apies;
+using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Domain.Types.Api;
 using Ligric.UI.Infrastructure;
@@ -17,14 +18,18 @@ namespace Ligric.UI.ViewModels.Presentation
 		private readonly IApiesService _apiService;
 		private readonly IOrdersService _ordersService;
 		private readonly IValuesService _valuesService;
+		private readonly IPositionsService _postionsService;
+
 		internal ApisViewModel(
 			IApiesService apiesService,
 			IOrdersService ordersService,
-			IValuesService valuesService)
+			IValuesService valuesService,
+			IPositionsService positionsService)
 		{
 			_apiService = apiesService;
 			_ordersService = ordersService;
 			_valuesService = valuesService;
+			_postionsService = positionsService;
 
 			ApisChangedEventSubscribe();
 		}
@@ -64,6 +69,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 				_ordersService.AttachStreamAsync((long)api.UserApiId);
 				_valuesService.AttachStreamAsync((long)api.UserApiId);
+				_postionsService.AttachStreamAsync((long)api.UserApiId);
 			}
 		}
 
