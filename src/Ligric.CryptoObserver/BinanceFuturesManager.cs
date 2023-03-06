@@ -107,7 +107,13 @@ public class BinanceFuturesManager
 
 	private void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
 	{
-		var data = account.Data.UpdateData;
+		var positions = account.Data.UpdateData.Positions;
+
+		foreach (var position in positions)
+		{
+			FuturesPositionDto positionDto = position.ToFuturesPositionDto();
+			_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+		}
 	}
 
 	private void OnOrdersUpdated(DataEvent<BinanceFuturesStreamOrderUpdate> order)
@@ -122,13 +128,6 @@ public class BinanceFuturesManager
 			_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
 			return;
 		}
-
-		if (streamOrder.Status is OrderStatus.Filled)
-		{
-			FuturesPositionDto positionDto = streamOrder.ToFuturesPositionDto();
-			_positions.AddAndRiseEvent(this, PositionsChanged, orderDto.Id, positionDto, ref eventSync);
-		}
-
 		_orders.RemoveAndRiseEvent(this, OrdersChanged, orderDto.Id, ref eventSync);
 	}
 
