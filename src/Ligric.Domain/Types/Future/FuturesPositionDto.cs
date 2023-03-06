@@ -18,9 +18,9 @@
 
 		//public decimal GrossROE { get; init; }
 
-		public FuturesPositionDto(long orderId, string symbol, Side side, /*decimal quantity, */decimal openPrice/*, decimal currentPrice, decimal grossPNL, decimal grossROE*/)
+		public FuturesPositionDto(long id, string symbol, Side side, /*decimal quantity, */decimal openPrice/*, decimal currentPrice, decimal grossPNL, decimal grossROE*/)
 		{
-			Id = orderId;
+			Id = id;
 			Symbol = symbol;
 			Side = side;
 			//Quantity = quantity;
