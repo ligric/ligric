@@ -1,6 +1,6 @@
-﻿using Ligric.Domain.Types.Future;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Utils;
 
 namespace Ligric.Business.Futures
@@ -10,5 +10,7 @@ namespace Ligric.Business.Futures
 		IReadOnlyDictionary<string, decimal> Values { get; }
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>> ValuesChanged;
+
+		Task AttachStreamAsync(long userApiId);
 	}
 }
