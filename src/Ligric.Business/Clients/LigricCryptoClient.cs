@@ -38,6 +38,15 @@ namespace Ligric.Business.Clients
 
 		private void OnAuthorizationStateChanged(object sender, Domain.Types.User.UserAuthorizationState e)
 		{
+			switch (e)
+			{
+				case Domain.Types.User.UserAuthorizationState.Connected:
+					Apis.ApiPiplineSubscribeAsync();
+					break;
+				case Domain.Types.User.UserAuthorizationState.Disconnected:
+					Apis.ApiPiplineUnsubscribe();
+					break;
+			}
 		}
 	}
 }

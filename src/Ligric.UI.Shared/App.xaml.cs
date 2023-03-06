@@ -1,13 +1,11 @@
 ﻿#pragma warning disable 109 // Remove warning for Window property on iOS
 
 using Ligric.Business.Authorization;
-using Ligric.Business.Subscriptions;
 
 namespace Ligric.UI
 {
     public sealed partial class App : Application
     {
-		private ISubscribeWebSockets? _subscriptions;
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 		private Window? _window;
         public new Window? Window => _window;
@@ -41,25 +39,8 @@ namespace Ligric.UI
                 );
 
             var notif = _host.Services.GetRequiredService<IRouteNotifier>();
-            var authorizationService = _host.Services.GetRequiredService<IAuthorizationService>();
-			_subscriptions = _host.Services.GetRequiredService<ISubscribeWebSockets>();
-
-			authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
 			notif.RouteChanged += RouteUpdated;
 
-		}
-
-		private void OnAuthorizationStateChanged(object? sender, Domain.Types.User.UserAuthorizationState e)
-		{
-			switch (e)
-			{
-				case Domain.Types.User.UserAuthorizationState.Connected:
-					_subscriptions?.AttachAll();
-					break;
-				case Domain.Types.User.UserAuthorizationState.Disconnected:
-					_subscriptions?.DetachAll();
-					break;
-			}
 		}
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
