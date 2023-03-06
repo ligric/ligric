@@ -41,8 +41,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
 			execute: async (apiClient, ct) => await ExecuteShareApi(apiClient, ct));
 
-		public ReactiveCommand<Unit, Unit> SelectAllCommand => ReactiveCommand.CreateFromTask(
-			execute: ct => ExecuteSelectAll(ct));
+		public ReactiveCommand<Unit, Unit> SelectAllCommand => ReactiveCommand.Create(ExecuteSelectAll);
 
 		#region Save API
 		private bool CanSaveApi(ApiDataViewModel api)
@@ -57,15 +56,14 @@ namespace Ligric.UI.ViewModels.Presentation
 		}
 		#endregion
 
-		private async Task ExecuteSelectAll(CancellationToken ct)
+		private void ExecuteSelectAll()
 		{
 			foreach (var api in Apis)
 			{
-				if (ct.IsCancellationRequested) break;
 				if (api.UserApiId == null) throw new ArgumentNullException("UserId is null");
 
-				await _ordersService.AttachStreamAsync((long)api.UserApiId);
-				await _valuesService.AttachStreamAsync((long)api.UserApiId);
+				_ordersService.AttachStreamAsync((long)api.UserApiId);
+				_valuesService.AttachStreamAsync((long)api.UserApiId);
 			}
 		}
 
