@@ -9,6 +9,7 @@ package Ligric.Protos;
 
 service Futures {
     rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged);
+    rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged);
 }
 
 message FutureOrder {
@@ -29,6 +30,12 @@ message FuturesSubscribeRequest
 message OrdersChanged {
 	FutureOrder Order = 1;
 	Action action = 2;
+}
+
+message ValuesChanged {
+	string Symbol = 1;
+	string Value = 2;
+	Action action = 3;
 }
 
 enum Side
