@@ -16,7 +16,7 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		private readonly IApiesService _apiService;
 		private readonly IOrdersService _ordersService;
-		public ApisViewModel(
+		internal ApisViewModel(
 			IApiesService apiesService,
 			IOrdersService ordersService)
 		{

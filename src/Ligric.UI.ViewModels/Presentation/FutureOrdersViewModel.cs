@@ -14,7 +14,7 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FutureOrdersViewModel
 	{
 		private readonly IOrdersService _ordersService;
-		public FutureOrdersViewModel(IOrdersService ordersService)
+		internal FutureOrdersViewModel(IOrdersService ordersService)
 		{
 			_ordersService = ordersService;
 

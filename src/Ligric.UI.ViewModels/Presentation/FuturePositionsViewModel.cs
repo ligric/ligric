@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Ligric.Business.Futures;
 using Ligric.UI.ViewModels.Data;
 
 namespace Ligric.UI.ViewModels.Presentation
@@ -7,6 +8,10 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
+		//internal FuturePositionsViewModel(IPositionsService ordersService)
+		//{
+
+		//}
 		//private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
 		//{
 		////    var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
