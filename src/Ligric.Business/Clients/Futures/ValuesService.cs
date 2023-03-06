@@ -24,7 +24,7 @@ namespace Ligric.Business.Clients.Futures
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		public ValuesService(
+		internal ValuesService(
 			GrpcChannel channel,
 			IMetadataManager metadataRepos,
 			IAuthorizationService authorizationService)

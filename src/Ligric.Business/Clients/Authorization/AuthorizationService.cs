@@ -6,7 +6,6 @@ using static Ligric.Protos.Authorization;
 using Ligric.Domain.Types.User;
 using Ligric.Business.Metadata;
 using System.Threading;
-using Utils.Cryptography;
 using Ligric.Business.Authorization;
 
 namespace Ligric.Business.Clients.Authorization

@@ -25,7 +25,7 @@ namespace Ligric.Business.Clients.Futures
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		public OrdersService(
+		internal OrdersService(
 			GrpcChannel channel,
 			IMetadataManager metadataRepos,
 			IAuthorizationService authorizationService)

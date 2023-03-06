@@ -21,9 +21,9 @@ namespace Ligric.Business.Clients
 		    IMetadataManager metadata)
 		{
 			_authorization = authorization;
-			Apis = new ApiesService(channel, metadata, authorization);
-			Orders = new OrdersService(channel, metadata, authorization);
-			Values = new ValuesService(channel, metadata, authorization);
+			Apis = new ApiesService(channel, metadata, _authorization);
+			Orders = new OrdersService(channel, metadata, _authorization);
+			Values = new ValuesService(channel, metadata, _authorization);
 
 			_authorization.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
@@ -38,7 +38,6 @@ namespace Ligric.Business.Clients
 
 		private void OnAuthorizationStateChanged(object sender, Domain.Types.User.UserAuthorizationState e)
 		{
-
 		}
 	}
 }

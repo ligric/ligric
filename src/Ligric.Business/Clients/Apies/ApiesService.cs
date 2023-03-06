@@ -29,7 +29,7 @@ namespace Ligric.Business.Clients.Apies
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IMetadataManager _metadataManager;
 
-		public ApiesService(
+		internal ApiesService(
 			GrpcChannel grpcChannel,
 			IMetadataManager metadataRepos,
 			IAuthorizationService authorizationService)
