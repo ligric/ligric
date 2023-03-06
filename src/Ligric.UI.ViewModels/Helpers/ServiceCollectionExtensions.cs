@@ -1,7 +1,7 @@
 ﻿using Ligric.Business.Apies;
-using Ligric.Business.Authentication;
 using Ligric.Business.Authorization;
 using Ligric.Business.Clients.Apies;
+using Ligric.Business.Clients.Authorization;
 using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Business.Metadata;
