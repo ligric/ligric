@@ -12,7 +12,7 @@ namespace Ligric.Business.Extensions
 			return new ApiClientDto(apiClient.Id, apiClient.Name, apiClient.Permissions);
 		}
 
-		public static FuturesOrderDto ToFuturesOrderDto(this FutureOrder futureOrder)
+		public static FuturesOrderDto ToFuturesOrderDto(this FuturesOrder futureOrder)
 		{
 			 return new FuturesOrderDto(
 				 futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToSideDto(),

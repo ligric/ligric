@@ -78,8 +78,8 @@ namespace Ligric.Business.Clients.Futures
 
 		private void OnFuturesChanged(ValuesChanged valuesChanged)
 		{
-			var symbol = valuesChanged.Symbol;
-			var value = decimal.Parse(valuesChanged.Value);
+			var symbol = valuesChanged.Value.Symbol;
+			var value = decimal.Parse(valuesChanged.Value.Value);
 			switch (valuesChanged.Action)
 			{
 				case Protos.Action.Added:

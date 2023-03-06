@@ -12,7 +12,29 @@ service Futures {
     rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged);
 }
 
-message FutureOrder {
+message FuturesSubscribeRequest
+{
+	int64 userId = 1;
+	int64 UserApiId = 2;
+}
+
+message OrdersChanged {
+	FuturesOrder Order = 1;
+	Action action = 2;
+}
+
+message ValuesChanged {
+	FuturesValue Value = 1;
+	Action action = 2;
+}
+
+message PositionsChanged {
+	string Symbol = 1;
+	string OpenPrice = 2;
+	Action action = 3;
+}
+
+message FuturesOrder {
 	int64 id = 1;
 	string symbol = 2;
 	Side side = 3;
@@ -21,21 +43,10 @@ message FutureOrder {
 	string value = 6;
 }
 
-message FuturesSubscribeRequest
+message FuturesValue
 {
-	int64 userId = 1;
-	int64 UserApiId = 2;
-}
-
-message OrdersChanged {
-	FutureOrder Order = 1;
-	Action action = 2;
-}
-
-message ValuesChanged {
 	string Symbol = 1;
 	string Value = 2;
-	Action action = 3;
 }
 
 enum Side

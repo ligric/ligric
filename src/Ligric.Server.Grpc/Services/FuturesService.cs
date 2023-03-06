@@ -34,10 +34,10 @@ namespace Ligric.Server.Grpc.Services
 					if (x.UserIds.Contains(request.UserId))
 					{
 						var eventArgs = x.EventArgs;
-						FutureOrder? order = null;
+						FuturesOrder? order = null;
 						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
 						{
-							order = new FutureOrder { Id = eventArgs.Key };
+							order = new FuturesOrder { Id = eventArgs.Key };
 						}
 						else if (eventArgs.NewValue != null)
 						{
@@ -68,8 +68,11 @@ namespace Ligric.Server.Grpc.Services
 						var orderChanged = new ValuesChanged
 						{
 							Action = x.EventArgs.Action.ToProtosAction(),
-							Symbol = x.EventArgs.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
-							Value = x.EventArgs.NewValue.ToString()
+							Value = new FuturesValue
+							{
+							   Symbol = x.EventArgs.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
+							   Value = x.EventArgs.NewValue.ToString()
+							}
 						};
 
 						await responseStream.WriteAsync(orderChanged);

@@ -6,9 +6,9 @@ namespace Ligric.Server.Grpc.Extensions
 {
 	public static class FuturesExtensions
 	{
-		public static FutureOrder ToFutureOrder(this FuturesOrderDto dto)
+		public static FuturesOrder ToFutureOrder(this FuturesOrderDto dto)
 		{
-			return new FutureOrder
+			return new FuturesOrder
 			{
 				Id = dto.Id,
 				Price = dto.Price.ToString(),
