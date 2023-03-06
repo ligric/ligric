@@ -9,7 +9,7 @@ using System.Threading;
 using Utils.Cryptography;
 using Ligric.Business.Authorization;
 
-namespace Ligric.Business.Clients.Authorization
+namespace Ligric.Business.Authentication
 {
 	public sealed class AuthorizationService : IAuthorizationService
 	{
