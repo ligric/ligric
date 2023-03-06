@@ -22,9 +22,9 @@ namespace Ligric.CryptoObserver.Extensions
 				streamOrder.OrderId,
 				streamOrder.Symbol,
 				streamOrder.Side.ToSide(),
-				streamOrder.Quantity,
+				streamOrder.BidNotional,
 				streamOrder.Price,
-				12345m);
+				0);
 
 		public static FuturesPositionDto ToFuturesPositionDto(this FuturesSharedOrderAndPositionsDto sharedOrder)
 		{
