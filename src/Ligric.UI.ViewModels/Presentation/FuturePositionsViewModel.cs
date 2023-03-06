@@ -8,15 +8,18 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		private readonly IOrdersService _ordersService;
 		private readonly IValuesService _valuesService;
+		private readonly IPositionsService _postionsService;
 
 		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
 		internal FuturePositionsViewModel(
 			IOrdersService ordersService,
-			IValuesService valuesService)
+			IValuesService valuesService,
+			IPositionsService postionsService)
 		{
 			_ordersService = ordersService;
-			_valuesService = valuesService;	
+			_valuesService = valuesService;
+			_postionsService = postionsService;	
 		}
 		//private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
 		//{
