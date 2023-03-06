@@ -1,6 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using Ligric.Business.Futures;
+using Ligric.Domain.Types.Future;
+using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
+using Ligric.UI.ViewModels.Extensions;
+using Utils;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -19,40 +24,57 @@ namespace Ligric.UI.ViewModels.Presentation
 		{
 			_ordersService = ordersService;
 			_valuesService = valuesService;
-			_postionsService = postionsService;	
+			_postionsService = postionsService;
+
+			Subscribtions();
 		}
-		//private async void OnPositionChanged(object sender, (BinanceFuturesPositionDto Position, ActionCollectionEnum Action) e)
-		//{
-		////    var entity = CurrentEntities.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol));
 
-		////    if (e.Action == ActionCollectionEnum.Added)
-		////    {
-		////        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-		////        {
-		////            entity.Positions.AddAndRiseEvent(new PositionViewModel
-		////            {
-		////                Symbol = e.Position.Symbol,
-		////                CurrentPrice = e.Position.CurrentPrice,
-		////                OpenPrice = e.Position.OpenPrice,
-		////                PnL = e.Position.PnL,
-		////                PnLPercent = e.Position.PnLPercent,
-		////                Quantity = e.Position.Quantity,
-		////                Side = e.Position.Side
-		////            });
-		////        });
-		////    }
-		////    else
-		////    {
-		////        var removePosition = entity.Positions.FirstOrDefault(x => string.Equals(x.Symbol, e.Position.Symbol) && string.Equals(x.Side, e.Position.Side));
-		////        if (removePosition != null)
-		////        {
-		////            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-		////            {
-		////                entity.Positions.Remove(removePosition);
-		////            });
-		////        }
-		////    }
-		//}
+		private void Subscribtions()
+		{
+			var postionsCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>(handler =>
+			{
+				EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>> collectionChanged = (sender, e) =>
+				{
+					handler(e);
+				};
 
+				return collectionChanged;
+			}, fsHandler => _postionsService.PositionsChanged += fsHandler, fsHandler => _postionsService.PositionsChanged -= fsHandler);
+
+			postionsCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnPositionsChanged);
+		}
+
+		private void OnPositionsChanged(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
+		{
+			UpdatePostionsFromAction(e);
+		}
+
+		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> obj)
+		{
+			switch (obj.Action)
+			{
+				case NotifyDictionaryChangedAction.Added:
+					var addedPosition = obj.NewValue ?? throw new ArgumentException("Order is null");
+					Positions.Add(addedPosition.ToPositionViewModel());
+					break;
+				case NotifyDictionaryChangedAction.Removed:
+					var removedPosition = Positions.FirstOrDefault(x => x.Id == obj.Key.ToString());
+					if (removedPosition == null) break;
+					Positions.Remove(removedPosition);
+					break;
+				case NotifyDictionaryChangedAction.Changed:
+					var changedPosition = obj.NewValue ?? throw new ArgumentException("Order is null");
+					var stringId = changedPosition.Id.ToString();
+					for (int i = 0; i < Positions.Count; i++)
+					{
+						if (Positions[i].Id == stringId)
+						{
+							Positions[i] = changedPosition.ToPositionViewModel();
+							break;
+						}
+					}
+					break;
+			}
+		}
 	}
 }

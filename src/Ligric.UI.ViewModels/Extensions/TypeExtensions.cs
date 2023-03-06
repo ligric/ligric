@@ -18,5 +18,20 @@ namespace Ligric.UI.ViewModels.Extensions
 				Order = "???"
 			};
 		}
+
+		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto)
+		{
+			return new PositionViewModel
+			{
+				Id = dto.Id.ToString(),
+				Symbol = dto.Symbol,
+				OpenPrice = dto.EntryPrice.ToString(),
+				CurrentPrice = "Nan",
+				Side = dto.Side.ToString(),
+				PnL = "Nan",
+				PnLPercent = "Nan",
+				Quantity = "Nan"
+			};
+		}
 	}
 }
