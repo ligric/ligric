@@ -16,12 +16,15 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		private readonly IApiesService _apiService;
 		private readonly IOrdersService _ordersService;
+		private readonly IValuesService _valuesService;
 		internal ApisViewModel(
 			IApiesService apiesService,
-			IOrdersService ordersService)
+			IOrdersService ordersService,
+			IValuesService valuesService)
 		{
 			_apiService = apiesService;
 			_ordersService = ordersService;
+			_valuesService = valuesService;
 
 			ApisChangedEventSubscribe();
 		}
@@ -59,8 +62,10 @@ namespace Ligric.UI.ViewModels.Presentation
 			foreach (var api in Apis)
 			{
 				if (ct.IsCancellationRequested) break;
+				if (api.UserApiId == null) throw new ArgumentNullException("UserId is null");
 
-				await _ordersService.AttachStreamAsync(api.UserApiId ?? throw new ArgumentNullException("UserId is null"));
+				await _ordersService.AttachStreamAsync((long)api.UserApiId);
+				await _valuesService.AttachStreamAsync((long)api.UserApiId);
 			}
 		}
 
