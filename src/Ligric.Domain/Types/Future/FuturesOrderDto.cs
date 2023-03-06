@@ -6,7 +6,7 @@
 
 		public string Symbol { get; init; }
 
-		public Side Side { get; init; }
+		public OrderSide Side { get; init; }
 
 		public decimal Quantity { get; init; }
 
@@ -14,7 +14,7 @@
 
 		public decimal Value { get; init; }
 
-		public FuturesOrderDto(long id, string symbol, Side side, decimal quantity, decimal price, decimal value)
+		public FuturesOrderDto(long id, string symbol, OrderSide side, decimal quantity, decimal price, decimal value)
 		{
 			Id = id;
 			Symbol = symbol;
