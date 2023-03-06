@@ -27,12 +27,15 @@ namespace Ligric.Application.Orders
 
 			public event Action<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs)>? ValuesChanged;
 
+			public event Action<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> valueEventArgs)>? PositionsChanged;
+
 			public TemporaryApiSubscriptions(ApiDto api, BinanceApiCredentials credentials, bool isTest = true)
 			{
 				Api = api;
 				FuturesManager = new BinanceFuturesManager(credentials, isTest);
 				FuturesManager.OrdersChanged += OnOrdersChanged;
 				FuturesManager.ValuesChanged += OnValuesChanged;
+				FuturesManager.PositionsChanged += OnPositionsChanged;
 				_ = FuturesManager.AttachOrdersSubscribtionsAsync();
 			}
 
@@ -45,6 +48,11 @@ namespace Ligric.Application.Orders
 			{
 				OrdersChanged?.Invoke((UserIds, ordersChangedEventArgs));
 			}
+
+			private void OnPositionsChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> positionsChangedEventArgs)
+			{
+				PositionsChanged?.Invoke((UserIds, positionsChangedEventArgs));
+			}
 		}
 
 		private readonly IUserApiRepository _userApiRepository;
@@ -54,6 +62,7 @@ namespace Ligric.Application.Orders
 
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? OrdersChanged;
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>? ValuesChanged;
+		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>? PositionsChanged;
 
 		public TemporaryUserFuturesObserver(
 			IUserApiRepository userApiRepository,
@@ -83,6 +92,15 @@ namespace Ligric.Application.Orders
 			return updatedApiStateNotifications;
 		}
 
+		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId)
+		{
+			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
+			TryAddUserIdToSubscrions(userId, api, out TemporaryApiSubscriptions? subscribedApi);
+
+			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>((x)
+				=> PositionsChanged += x, (x) => PositionsChanged -= x);
+			return updatedApiStateNotifications;
+		}
 
 		private bool TryAddUserIdToSubscrions(long userId, ApiDto api, out TemporaryApiSubscriptions? subscribedApi)
 		{
@@ -103,11 +121,17 @@ namespace Ligric.Application.Orders
 				subscribedApi.UserIds.Add(userId);
 				subscribedApi.OrdersChanged += OnOrdersChanged;
 				subscribedApi.ValuesChanged += OnValuesChanged;
+				subscribedApi.PositionsChanged += OnPositionsChanged;
 				subscribedApis.Add(subscribedApi);
 				return true;
 			}
 
 			return false;
+		}
+
+		private void OnPositionsChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> valueEventArgs) obj)
+		{
+			PositionsChanged?.Invoke(obj);
 		}
 
 		private void OnValuesChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs) obj)
