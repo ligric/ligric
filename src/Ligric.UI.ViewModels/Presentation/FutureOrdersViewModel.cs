@@ -102,7 +102,17 @@ namespace Ligric.UI.ViewModels.Presentation
 				{
 					if (Orders[i].Symbol == e.Key)
 					{
-						Orders[i].Value = e.NewValue.ToString();
+						var oldValue = Orders[i];
+						Orders[i] = new OrderViewModel
+						{
+							Id = oldValue.Id,
+							Symbol = oldValue.Symbol,
+							Order = oldValue.Order,
+							Price = oldValue.Price,
+							Quantity = oldValue.Quantity,
+							Side = oldValue.Side,
+							Value = e.NewValue.ToString()
+						};
 					}
 				}
 			}
