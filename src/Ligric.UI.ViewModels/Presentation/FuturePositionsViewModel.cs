@@ -2,9 +2,12 @@
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
 using Ligric.Domain.Types.Future;
+using Ligric.Protos;
 using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
+using Microsoft.UI.Xaml.Controls;
+using ReactiveUI.Fody.Helpers;
 using Utils;
 
 namespace Ligric.UI.ViewModels.Presentation
@@ -42,14 +45,34 @@ namespace Ligric.UI.ViewModels.Presentation
 				return collectionChanged;
 			}, fsHandler => _postionsService.PositionsChanged += fsHandler, fsHandler => _postionsService.PositionsChanged -= fsHandler);
 
+			var valuesCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>, NotifyDictionaryChangedEventArgs<string, decimal>>(handler =>
+			{
+				EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>> collectionChanged = (sender, e) =>
+				{
+					handler(e);
+				};
+
+				return collectionChanged;
+			}, fsHandler => _valuesService.ValuesChanged += fsHandler, fsHandler => _valuesService.ValuesChanged -= fsHandler);
+
 			postionsCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnPositionsChanged);
+			valuesCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnValuesChanged);
+
 #else
 			_postionsService.PositionsChanged -= (s, e) => UpdatePostionsFromAction(e);
 			_postionsService.PositionsChanged += (s, e) => UpdatePostionsFromAction(e);
+			
+			_valuesService.ValuesChanged -= (s, e) => OnValuesChanged(e);
+			_valuesService.ValuesChanged += (s, e) => OnValuesChanged(e);
 #endif
 		}
 
 		private void OnPositionsChanged(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
+		{
+			UpdatePostionsFromAction(e);
+		}
+
+		private void OnValuesChanged(NotifyDictionaryChangedEventArgs<string, decimal> e)
 		{
 			UpdatePostionsFromAction(e);
 		}
@@ -79,6 +102,32 @@ namespace Ligric.UI.ViewModels.Presentation
 						}
 					}
 					break;
+			}
+		}
+
+		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<string, decimal> e)
+		{
+			if (e.Action == NotifyDictionaryChangedAction.Added
+				|| e.Action == NotifyDictionaryChangedAction.Changed)
+			{
+				for (int i = 0; i < Positions.Count; i++)
+				{
+					if (Positions[i].Symbol == e.Key)
+					{
+						var oldValue = Positions[i];
+						Positions[i] = new PositionViewModel
+						{
+							Id = oldValue.Id,
+							Symbol = oldValue.Symbol,
+							Side = oldValue.Side,
+							Quantity = oldValue.Quantity,
+							OpenPrice = oldValue.OpenPrice,
+							CurrentPrice = e.NewValue.ToString(),
+							PnL = oldValue.PnL,
+							PnLPercent = oldValue.PnLPercent,
+						};
+					}
+				}
 			}
 		}
 	}
