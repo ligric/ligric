@@ -54,12 +54,13 @@ namespace Ligric.UI.ViewModels.Presentation
 
 			ordersCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnOpenOrdersChanged);
 			valuesCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnValuesChanged);
-#else
-			_ordersService.OpenOrdersChanged -= (s, e) => UpdateOrdersFromAction(e);
-			_ordersService.OpenOrdersChanged += (s, e) => UpdateOrdersFromAction(e);
 
-			_valuesService.ValuesChanged -= (s, e) => UpdateOrdersFromAction(e);
-			_valuesService.ValuesChanged += (s, e) => UpdateOrdersFromAction(e);
+#else
+			_ordersService.OpenOrdersChanged -= (s, e) => OnOpenOrdersChanged(e);
+			_ordersService.OpenOrdersChanged += (s, e) => OnOpenOrdersChanged(e);
+
+			_valuesService.ValuesChanged -= (s, e) => OnValuesChanged(e);
+			_valuesService.ValuesChanged += (s, e) => OnValuesChanged(e);
 #endif
 		}
 

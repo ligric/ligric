@@ -96,8 +96,8 @@ namespace Ligric.UI.ViewModels.Presentation
 
 			collectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnApiesChanged);
 #else
-			_apiService.ApiesChanged -= (s, e) => UpdateApisFromAction(e);
-			_apiService.ApiesChanged += (s, e) => UpdateApisFromAction(e);
+			_apiService.ApiesChanged -= (s, e) => OnApiesChanged(e);
+			_apiService.ApiesChanged += (s, e) => OnApiesChanged(e);
 #endif
 		}
 

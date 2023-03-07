@@ -59,8 +59,8 @@ namespace Ligric.UI.ViewModels.Presentation
 			valuesCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnValuesChanged);
 
 #else
-			_postionsService.PositionsChanged -= (s, e) => UpdatePostionsFromAction(e);
-			_postionsService.PositionsChanged += (s, e) => UpdatePostionsFromAction(e);
+			_postionsService.PositionsChanged -= (s, e) => OnPositionsChanged(e);
+			_postionsService.PositionsChanged += (s, e) => OnPositionsChanged(e);
 			
 			_valuesService.ValuesChanged -= (s, e) => OnValuesChanged(e);
 			_valuesService.ValuesChanged += (s, e) => OnValuesChanged(e);
