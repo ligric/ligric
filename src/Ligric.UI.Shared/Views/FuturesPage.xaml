@@ -1,5 +1,4 @@
 ﻿<Page x:Class="Ligric.UI.Views.FuturesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-      
       xmlns:viewModels="using:Ligric.UI.ViewModels.Presentation"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	  
@@ -85,12 +84,18 @@
 			</Button>
 
 			<Popup x:Name="AddingApiPopup" Grid.RowSpan="2" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=AddNewApiButton}" DesiredPlacement="RightEdgeAlignedBottom">
-				<StackPanel Height="200" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
-					<TextBox Text="{Binding Api.AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa"/>
-					<TextBox Text="{Binding Api.AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa"/>
-					<TextBox Text="{Binding Api.AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa"/>
+				<StackPanel x:Name="AddingApiStackPanel" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
+					<TextBox Text="{Binding Api.AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa" CornerRadius="10"
+							 Style="{StaticResource DefaultTextBoxStyle}" Height="35" VerticalContentAlignment="Center"/>
+					<TextBox Text="{Binding Api.AddingApi.PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Public Key" Background="#f2f5fa" CornerRadius="10"
+							 Style="{StaticResource DefaultTextBoxStyle}" Height="35" VerticalContentAlignment="Center"/>
+					<TextBox Text="{Binding Api.AddingApi.PrivateKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Private Key" Background="#f2f5fa" CornerRadius="10"
+							 Style="{StaticResource DefaultTextBoxStyle}" Height="35" VerticalContentAlignment="Center"/>
 
-					<Button Width="160" Height="35" Content="Add" Command="{Binding Api.SaveApiCommand}" Background="#f2f5fa"/>
+					<Button Content="Add" Height="40" CornerRadius="10"
+							HorizontalAlignment="Stretch"
+							Background="#f2f5fa" Foreground="Black"
+							Command="{Binding Api.SaveApiCommand}"/>
 				</StackPanel>
 			</Popup>
 		</Grid>
