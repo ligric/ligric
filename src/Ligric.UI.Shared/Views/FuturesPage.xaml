@@ -26,11 +26,11 @@
 
 			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5">
 				<CheckBox Style="{StaticResource AutoRunCheckBoxStyle}" Margin="25,0,0,0"
-						  Command="{Binding Api.SelectAllCommand}"/>
+						  Checked="OnCheckAllChecked"/>
 			</Grid>
 
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-				<controls:ItemsRepeater x:Name="repeater" ItemsSource="{Binding Api.Apis}" Margin="10">
+				<controls:ItemsRepeater x:Name="ApisItemsRepeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate>
 							<Grid Background="#2c2c2c" CornerRadius="20" Height="50" Padding="20,10,20,10" HorizontalAlignment="Stretch">
@@ -61,7 +61,8 @@
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
 
-								<CheckBox Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}" IsEnabled="False"/>
+								<CheckBox Name="ApiCheckBox" Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"
+										  Checked="OnApiCheckBoxChecked" Unchecked="OnApiCheckBoxUnchecked"/>
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>

@@ -46,7 +46,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
 			execute: async (apiClient, ct) => await ExecuteShareApi(apiClient, ct));
 
-		public ReactiveCommand<Unit, Unit> SelectAllCommand => ReactiveCommand.Create(ExecuteSelectAll);
+		public ReactiveCommand<ApiClientDto, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteAttachApiStream);
 
 		#region Save API
 		private bool CanSaveApi(ApiDataViewModel api)
@@ -61,16 +61,15 @@ namespace Ligric.UI.ViewModels.Presentation
 		}
 		#endregion
 
-		private void ExecuteSelectAll()
+		private async Task ExecuteAttachApiStream(ApiClientDto apiClient)
 		{
-			foreach (var api in Apis)
-			{
-				if (api.UserApiId == null) throw new ArgumentNullException("UserId is null");
+			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
 
-				_ordersService.AttachStreamAsync((long)api.UserApiId);
-				_valuesService.AttachStreamAsync((long)api.UserApiId);
-				_postionsService.AttachStreamAsync((long)api.UserApiId);
-			}
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+			_ordersService.AttachStreamAsync((long)apiClient.UserApiId);
+			_valuesService.AttachStreamAsync((long)apiClient.UserApiId);
+			_postionsService.AttachStreamAsync((long)apiClient.UserApiId);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 		}
 
 		public async Task ExecuteShareApi(ApiClientDto api, CancellationToken ct)

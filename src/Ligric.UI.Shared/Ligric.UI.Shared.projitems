@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GrpcChannelHalper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\UIHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceCollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
