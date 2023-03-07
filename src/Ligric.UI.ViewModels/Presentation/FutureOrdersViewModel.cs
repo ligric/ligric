@@ -31,6 +31,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		private void Subscribtions()
 		{
+#if !__WASM__
 			var ordersCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>(handler =>
 			{
 				EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>> collectionChanged = (sender, e) =>
@@ -53,6 +54,13 @@ namespace Ligric.UI.ViewModels.Presentation
 
 			ordersCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnOpenOrdersChanged);
 			valuesCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnValuesChanged);
+#else
+			_ordersService.OpenOrdersChanged -= (s, e) => UpdateOrdersFromAction(e);
+			_ordersService.OpenOrdersChanged += (s, e) => UpdateOrdersFromAction(e);
+
+			_valuesService.ValuesChanged -= (s, e) => UpdateOrdersFromAction(e);
+			_valuesService.ValuesChanged += (s, e) => UpdateOrdersFromAction(e);
+#endif
 		}
 
 		private void OnOpenOrdersChanged(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)

@@ -84,6 +84,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		#region Api Changed Subscribtion
 		private void ApisChangedEventSubscribe()
 		{
+#if !__WASM__
 			var collectionChanged = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(handler =>
 			{
 				NotifyCollectionChangedEventHandler collectionChanged = (sender, e) =>
@@ -95,6 +96,10 @@ namespace Ligric.UI.ViewModels.Presentation
 			}, fsHandler => _apiService.ApiesChanged += fsHandler, fsHandler => _apiService.ApiesChanged -= fsHandler);
 
 			collectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnApiesChanged);
+#else
+			_apiService.ApiesChanged -= (s, e) => UpdateApisFromAction(e);
+			_apiService.ApiesChanged += (s, e) => UpdateApisFromAction(e);
+#endif
 		}
 
 		private void OnApiesChanged(NotifyCollectionChangedEventArgs e)

@@ -56,9 +56,6 @@ namespace Ligric.Infrastructure
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor)
         {
-			services.AddSingleton<IUserApiObserver, UserApiObserver>();
-			services.AddSingleton<ITemporaryUserFuturesObserver, TemporaryUserFuturesObserver>();
-
 			var container = new ContainerBuilder();
 
             container.Populate(services);
@@ -76,13 +73,17 @@ namespace Ligric.Infrastructure
 			container.RegisterType<ApiRepository>().As<IApiRepository>().InstancePerLifetimeScope();
 			container.RegisterType<UserApiRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
 
+			// # OBSERVERS
+			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().InstancePerLifetimeScope();
+			container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().InstancePerLifetimeScope();
+
 			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
             container.RegisterModule(new ProcessingModule());
 
-            container.RegisterInstance(executionContextAccessor);
+			container.RegisterInstance(executionContextAccessor);
 
             var buildContainer = container.Build();
 

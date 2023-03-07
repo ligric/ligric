@@ -31,6 +31,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		private void Subscribtions()
 		{
+#if !__WASM__
 			var postionsCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>(handler =>
 			{
 				EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>> collectionChanged = (sender, e) =>
@@ -42,6 +43,10 @@ namespace Ligric.UI.ViewModels.Presentation
 			}, fsHandler => _postionsService.PositionsChanged += fsHandler, fsHandler => _postionsService.PositionsChanged -= fsHandler);
 
 			postionsCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnPositionsChanged);
+#else
+			_postionsService.PositionsChanged -= (s, e) => UpdatePostionsFromAction(e);
+			_postionsService.PositionsChanged += (s, e) => UpdatePostionsFromAction(e);
+#endif
 		}
 
 		private void OnPositionsChanged(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
