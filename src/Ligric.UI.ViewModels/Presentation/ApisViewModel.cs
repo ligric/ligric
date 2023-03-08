@@ -8,30 +8,35 @@ using Ligric.Business.Futures;
 using Ligric.Domain.Types.Api;
 using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
+using Microsoft.UI.Dispatching;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Uno.Extensions.Reactive.Dispatching;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
 	public partial class ApisViewModel
 	{
+		private readonly IDispatcher _dispatcher;
 		private readonly IApiesService _apiService;
 		private readonly IOrdersService _ordersService;
 		private readonly IValuesService _valuesService;
 		private readonly IPositionsService _postionsService;
 
 		internal ApisViewModel(
+			IDispatcher dispatcher,
 			IApiesService apiesService,
 			IOrdersService ordersService,
 			IValuesService valuesService,
 			IPositionsService positionsService)
 		{
+			_dispatcher = dispatcher;
 			_apiService = apiesService;
 			_ordersService = ordersService;
 			_valuesService = valuesService;
 			_postionsService = positionsService;
 
-			ApisChangedEventSubscribe();
+			_apiService.ApiesChanged += OnApiesChanged;
 		}
 
 		public ObservableCollection<ApiClientDto> Apis { get; init; } = new();
@@ -56,7 +61,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		{
 			if (api.Name != null && api.PublicKey != null && api.PrivateKey != null)
 			{
-				await _apiService.SaveApiAsync(api.Name, api.PublicKey, api.PrivateKey, ct);
+				await _apiService.SaveApiAsync(api.Name, api.PrivateKey, api.PublicKey, ct);
 			}
 		}
 		#endregion
@@ -80,30 +85,12 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		#region Api Changed Subscribtion
-		private void ApisChangedEventSubscribe()
+		private void OnApiesChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-#if !__WASM__
-			var collectionChanged = Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(handler =>
+			_dispatcher.TryEnqueue(() =>
 			{
-				NotifyCollectionChangedEventHandler collectionChanged = (sender, e) =>
-				{
-					handler(e);
-				};
-
-				return collectionChanged;
-			}, fsHandler => _apiService.ApiesChanged += fsHandler, fsHandler => _apiService.ApiesChanged -= fsHandler);
-
-			collectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnApiesChanged);
-#else
-			_apiService.ApiesChanged -= (s, e) => OnApiesChanged(e);
-			_apiService.ApiesChanged += (s, e) => OnApiesChanged(e);
-#endif
-		}
-
-		private void OnApiesChanged(NotifyCollectionChangedEventArgs e)
-		{
-			UpdateApisFromAction(e);
+				UpdateApisFromAction(e);
+			});
 		}
 
 		private void UpdateApisFromAction(NotifyCollectionChangedEventArgs e)
@@ -115,7 +102,5 @@ namespace Ligric.UI.ViewModels.Presentation
 					break;
 			}
 		}
-		#endregion
 	}
-
 }

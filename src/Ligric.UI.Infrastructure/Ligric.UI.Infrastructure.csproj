@@ -43,8 +43,4 @@
     <PackageReference Include="Uno.Extensions.Serialization.Http" Version="$(UnoExtensionsVersion)" />
     <PackageReference Include="Uno.Extensions.Serialization.Refit" Version="$(UnoExtensionsVersion)" />
   </ItemGroup>
-	
-  <ItemGroup>
-    <SourceGeneratorInput Remove="Schedulers.cs" />
-  </ItemGroup>
 </Project>

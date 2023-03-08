@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
 using Ligric.Domain.Types.Future;
-using Ligric.Protos;
-using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
 using Utils;
@@ -14,64 +10,39 @@ namespace Ligric.UI.ViewModels.Presentation
 {
 	public class FutureOrdersViewModel
 	{
+		private readonly IDispatcher _dispatcher;
 		private readonly IValuesService _valuesService;
 		private readonly IOrdersService _ordersService;
 
 		internal FutureOrdersViewModel(
+			IDispatcher dispatcher,
 			IOrdersService ordersService,
 			IValuesService valuesService)
 		{
+			_dispatcher = dispatcher;
 			_ordersService = ordersService;
 			_valuesService = valuesService;
 
-			Subscribtions();
+			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
+			_valuesService.ValuesChanged += OnValuesChanged;
 		}
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
-		private void Subscribtions()
+		private void OnOpenOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
 		{
-#if !__WASM__
-			var ordersCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>(handler =>
+			_dispatcher.TryEnqueue(() =>
 			{
-				EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>> collectionChanged = (sender, e) =>
-				{
-					handler(e);
-				};
-
-				return collectionChanged;
-			}, fsHandler => _ordersService.OpenOrdersChanged += fsHandler, fsHandler => _ordersService.OpenOrdersChanged -= fsHandler);
-
-			var valuesCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>, NotifyDictionaryChangedEventArgs<string, decimal>>(handler =>
-			{
-				EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>> collectionChanged = (sender, e) =>
-				{
-					handler(e);
-				};
-
-				return collectionChanged;
-			}, fsHandler => _valuesService.ValuesChanged += fsHandler, fsHandler => _valuesService.ValuesChanged -= fsHandler);
-
-			ordersCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnOpenOrdersChanged);
-			valuesCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnValuesChanged);
-
-#else
-			_ordersService.OpenOrdersChanged -= (s, e) => OnOpenOrdersChanged(e);
-			_ordersService.OpenOrdersChanged += (s, e) => OnOpenOrdersChanged(e);
-
-			_valuesService.ValuesChanged -= (s, e) => OnValuesChanged(e);
-			_valuesService.ValuesChanged += (s, e) => OnValuesChanged(e);
-#endif
+				UpdateOrdersFromAction(obj);
+			});
 		}
 
-		private void OnOpenOrdersChanged(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		private void OnValuesChanged(object sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
 		{
-			UpdateOrdersFromAction(obj);
-		}
-
-		private void OnValuesChanged(NotifyDictionaryChangedEventArgs<string, decimal> obj)
-		{
-			UpdateOrdersFromAction(obj);
+			_dispatcher.TryEnqueue(() =>
+			{
+				UpdateOrdersFromAction(obj);
+			});
 		}
 
 		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)

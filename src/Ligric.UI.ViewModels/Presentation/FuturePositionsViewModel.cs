@@ -2,18 +2,15 @@
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
 using Ligric.Domain.Types.Future;
-using Ligric.Protos;
-using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
-using Microsoft.UI.Xaml.Controls;
-using ReactiveUI.Fody.Helpers;
 using Utils;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
 	public class FuturePositionsViewModel
 	{
+		private readonly IDispatcher _dispatcher;
 		private readonly IOrdersService _ordersService;
 		private readonly IValuesService _valuesService;
 		private readonly IPositionsService _postionsService;
@@ -21,60 +18,34 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
 		internal FuturePositionsViewModel(
+			IDispatcher dispatcher,
 			IOrdersService ordersService,
 			IValuesService valuesService,
 			IPositionsService postionsService)
 		{
+			_dispatcher = dispatcher;
 			_ordersService = ordersService;
 			_valuesService = valuesService;
 			_postionsService = postionsService;
 
-			Subscribtions();
+			_postionsService.PositionsChanged += OnPositionsChanged;
+			_valuesService.ValuesChanged += OnValuesChanged;
 		}
 
-		private void Subscribtions()
+		private void OnPositionsChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
 		{
-#if !__WASM__
-			var postionsCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>(handler =>
+			_dispatcher.TryEnqueue(() =>
 			{
-				EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>> collectionChanged = (sender, e) =>
-				{
-					handler(e);
-				};
+				UpdatePostionsFromAction(e);
+			});
+		}
 
-				return collectionChanged;
-			}, fsHandler => _postionsService.PositionsChanged += fsHandler, fsHandler => _postionsService.PositionsChanged -= fsHandler);
-
-			var valuesCollectionChanged = Observable.FromEvent<EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>, NotifyDictionaryChangedEventArgs<string, decimal>>(handler =>
+		private void OnValuesChanged(object sender, NotifyDictionaryChangedEventArgs<string, decimal> e)
+		{
+			_dispatcher.TryEnqueue(() =>
 			{
-				EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>> collectionChanged = (sender, e) =>
-				{
-					handler(e);
-				};
-
-				return collectionChanged;
-			}, fsHandler => _valuesService.ValuesChanged += fsHandler, fsHandler => _valuesService.ValuesChanged -= fsHandler);
-
-			postionsCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnPositionsChanged);
-			valuesCollectionChanged.ObserveOn(Schedulers.Dispatcher).Subscribe(OnValuesChanged);
-
-#else
-			_postionsService.PositionsChanged -= (s, e) => OnPositionsChanged(e);
-			_postionsService.PositionsChanged += (s, e) => OnPositionsChanged(e);
-			
-			_valuesService.ValuesChanged -= (s, e) => OnValuesChanged(e);
-			_valuesService.ValuesChanged += (s, e) => OnValuesChanged(e);
-#endif
-		}
-
-		private void OnPositionsChanged(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
-		{
-			UpdatePostionsFromAction(e);
-		}
-
-		private void OnValuesChanged(NotifyDictionaryChangedEventArgs<string, decimal> e)
-		{
-			UpdatePostionsFromAction(e);
+				UpdatePostionsFromAction(e);
+			});
 		}
 
 		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> obj)
