@@ -23,8 +23,8 @@ public static class ServiceCollectionExtensions
 		_ = services
 			// TEMP - this hsould be the default serialization options for content serialization > uno.extensions
 			.AddSingleton(new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
-			.AddNativeHandler()
-			.AddContentSerializer();
+			.AddNativeHandler(context)
+			.AddContentSerializer(context);
 		return services;
 	}
 
