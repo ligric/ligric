@@ -63,9 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Business", "Ligric.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Crypto.Tests", "Ligric.Crypto.Tests\Ligric.Crypto.Tests.csproj", "{C00695B4-21C2-4A86-A83C-3ED045AC5DD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{C1795D06-C0C4-4182-A88B-11BC323403BD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.CryptoObserver", "Ligric.CryptoObserver\Ligric.CryptoObserver.csproj", "{0E164451-7D03-4C74-8C36-CB5E7692FBB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.CryptoObserver", "Ligric.CryptoObserver\Ligric.CryptoObserver.csproj", "{0E164451-7D03-4C74-8C36-CB5E7692FBB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -392,22 +390,6 @@ Global
 		{C00695B4-21C2-4A86-A83C-3ED045AC5DD2}.Release|x64.Build.0 = Release|Any CPU
 		{C00695B4-21C2-4A86-A83C-3ED045AC5DD2}.Release|x86.ActiveCfg = Release|Any CPU
 		{C00695B4-21C2-4A86-A83C-3ED045AC5DD2}.Release|x86.Build.0 = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|arm64.Build.0 = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|x64.Build.0 = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Debug|x86.Build.0 = Debug|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|arm64.ActiveCfg = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|arm64.Build.0 = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|x64.ActiveCfg = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|x64.Build.0 = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|x86.ActiveCfg = Release|Any CPU
-		{C1795D06-C0C4-4182-A88B-11BC323403BD}.Release|x86.Build.0 = Release|Any CPU
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1}.Debug|arm64.ActiveCfg = Debug|Any CPU
