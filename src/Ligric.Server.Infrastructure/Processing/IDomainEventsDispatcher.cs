@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public interface IDomainEventsDispatcher
     {

@@ -5,7 +5,7 @@ using Ligric.Server.Domain.Base;
 using NHibernate;
 using NHibernate.Type;
 
-namespace Ligric.Infrastructure.Database
+namespace Ligric.Server.Infrastructure.Database
 {
 	public class DataInterceptor : EmptyInterceptor
 	{

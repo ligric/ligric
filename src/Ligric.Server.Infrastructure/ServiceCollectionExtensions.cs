@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ligric.Infrastructure
+namespace Ligric.Server.Infrastructure
 {
 	public static class ServiceCollectionExtensions
 	{

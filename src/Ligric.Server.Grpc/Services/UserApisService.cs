@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Ligric.Application.UserApis;
-using Ligric.Application.UserApis.CreateUserApi;
-using Ligric.Application.UserApis.ShareUserApi;
+using Ligric.Server.Application.UserApis;
+using Ligric.Server.Application.UserApis.CreateUserApi;
+using Ligric.Server.Application.UserApis.ShareUserApi;
 using Ligric.Protos;
 using Ligric.Server.Grpc.Extensions;
 using MediatR;

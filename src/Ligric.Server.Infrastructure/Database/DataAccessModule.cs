@@ -1,8 +1,8 @@
 ﻿using Autofac;
-using Ligric.Infrastructure.Domain.Users;
+using Ligric.Server.Infrastructure.Domain.Users;
 using Ligric.Server.Domain.Entities.Users;
 
-namespace Ligric.Infrastructure.Database
+namespace Ligric.Server.Infrastructure.Database
 {
     public class DataAccessModule : Module
     {

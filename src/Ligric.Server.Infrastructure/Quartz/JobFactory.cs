@@ -2,7 +2,7 @@
 using Quartz;
 using Quartz.Spi;
 
-namespace Ligric.Infrastructure.Quartz
+namespace Ligric.Server.Infrastructure.Quartz
 {
     public class JobFactory : IJobFactory
     {

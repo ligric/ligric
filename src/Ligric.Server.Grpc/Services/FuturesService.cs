@@ -1,6 +1,6 @@
 ﻿using CryptoExchange.Net.CommonObjects;
 using Grpc.Core;
-using Ligric.Application.Orders;
+using Ligric.Server.Application.Orders;
 using Ligric.Domain.Types.Future;
 using Ligric.Protos;
 using Ligric.Server.Grpc.Extensions;

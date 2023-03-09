@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Extensions.Hosting;
 
-namespace Ligric.Infrastructure.Jwt
+namespace Ligric.Server.Infrastructure.Jwt
 {
 	public class JwtRefreshTokenCache : IHostedService, IDisposable
 	{

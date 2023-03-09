@@ -1,15 +1,15 @@
 ﻿using Serilog.Formatting.Compact;
 using Serilog;
 using ILogger = Serilog.ILogger;
-using Ligric.Application.Configuration;
+using Ligric.Server.Application.Configuration;
 using Ligric.Server.Grpc.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Ligric.Server.Grpc.Services;
-using Ligric.Infrastructure;
-using Ligric.Infrastructure.Jwt;
+using Ligric.Server.Infrastructure;
+using Ligric.Server.Infrastructure.Jwt;
 using Ligric.Protos;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using System.Xml.Serialization;

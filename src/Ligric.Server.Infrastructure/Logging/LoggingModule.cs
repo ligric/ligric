@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Serilog;
 
-namespace Ligric.Infrastructure.Logging
+namespace Ligric.Server.Infrastructure.Logging
 {
     internal class LoggingModule : Autofac.Module
     {

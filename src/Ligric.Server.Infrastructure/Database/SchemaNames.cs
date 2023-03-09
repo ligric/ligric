@@ -1,4 +1,4 @@
-﻿namespace Ligric.Infrastructure.Database
+﻿namespace Ligric.Server.Infrastructure.Database
 {
     internal sealed class SchemaNames
     {

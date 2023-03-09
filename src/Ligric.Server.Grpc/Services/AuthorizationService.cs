@@ -5,12 +5,12 @@ using Ligric.Server.Domain.SharedKernel;
 using Ligric.Protos;
 using MediatR;
 using Google.Protobuf.WellKnownTypes;
-using Ligric.Application.Users.CheckUserExists;
-using Ligric.Infrastructure.Jwt;
+using Ligric.Server.Application.Users.CheckUserExists;
+using Ligric.Server.Infrastructure.Jwt;
 using System.Security.Claims;
 using Ligric.Domain.Types.User;
-using Ligric.Application.Users.LoginCustomer;
-using Ligric.Application.Users.RegisterUser;
+using Ligric.Server.Application.Users.LoginCustomer;
+using Ligric.Server.Application.Users.RegisterUser;
 
 namespace Ligric.Server.Grpc.Services;
 

@@ -1,7 +1,7 @@
 ﻿using Ligric.Server.Data.Base;
 using Microsoft.Extensions.Configuration;
 
-namespace Ligric.Infrastructure.Database
+namespace Ligric.Server.Infrastructure.Database
 {
 	public class ConnectionSettingsProvider : IConnectionSettingsProvider
 	{

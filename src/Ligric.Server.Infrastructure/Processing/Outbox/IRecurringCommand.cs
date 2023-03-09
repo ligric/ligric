@@ -1,4 +1,4 @@
-﻿namespace Ligric.Infrastructure.Processing.Outbox
+﻿namespace Ligric.Server.Infrastructure.Processing.Outbox
 {
     public interface IRecurringCommand
     {

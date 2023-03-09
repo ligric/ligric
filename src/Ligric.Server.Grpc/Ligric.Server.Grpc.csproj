@@ -31,11 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ligric.Application\Ligric.Application.csproj" />
     <ProjectReference Include="..\Ligric.CryptoObserver\Ligric.CryptoObserver.csproj" />
     <ProjectReference Include="..\Ligric.Domain\Ligric.Domain.csproj" />
     <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
-    <ProjectReference Include="..\Ligric.Server.Infrastructure\Ligric.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ligric.Server.Application\Ligric.Server.Application.csproj" />
+    <ProjectReference Include="..\Ligric.Server.Infrastructure\Ligric.Server.Infrastructure.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

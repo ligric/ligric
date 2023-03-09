@@ -1,4 +1,4 @@
-﻿using Ligric.Application.Configuration;
+﻿using Ligric.Server.Application.Configuration;
 using Microsoft.AspNetCore.Http;
 
 namespace Ligric.Server.Grpc.Configuration

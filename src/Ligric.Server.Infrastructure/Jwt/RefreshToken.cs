@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace Ligric.Infrastructure.Jwt
+namespace Ligric.Server.Infrastructure.Jwt
 {
 	public class RefreshToken
 	{

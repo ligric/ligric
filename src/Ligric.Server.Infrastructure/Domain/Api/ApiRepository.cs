@@ -7,7 +7,7 @@ using Ligric.Server.Domain.Entities.Apis;
 using NHibernate.Transform;
 using System.Linq;
 
-namespace Ligric.Infrastructure.Domain.Api
+namespace Ligric.Server.Infrastructure.Domain.Api
 {
 	public class ApiRepository : RepositoryBase<ApiEntity>, IApiRepository
 	{

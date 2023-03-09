@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Ligric.Application.Configuration.DomainEvents;
+using Ligric.Server.Application.Configuration.DomainEvents;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public class DomainEventsDispatcherNotificationHandlerDecorator<T> : INotificationHandler<T> where T : INotification
     {

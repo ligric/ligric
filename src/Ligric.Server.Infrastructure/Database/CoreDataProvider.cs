@@ -2,7 +2,7 @@
 using Ligric.Server.Data.Base;
 using NHibernate;
 
-namespace Ligric.Infrastructure.Database
+namespace Ligric.Server.Infrastructure.Database
 {
 	public class CoreDataProvider : DataProvider, IDisposable
 	{

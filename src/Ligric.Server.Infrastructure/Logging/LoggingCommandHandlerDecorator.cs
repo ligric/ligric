@@ -2,15 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Ligric.Application.Configuration;
-using Ligric.Application.Configuration.Commands;
+using Ligric.Server.Application.Configuration;
+using Ligric.Server.Application.Configuration.Commands;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
-using Ligric.Infrastructure.Processing.Outbox;
+using Ligric.Server.Infrastructure.Processing.Outbox;
 
-namespace Ligric.Infrastructure.Logging
+namespace Ligric.Server.Infrastructure.Logging
 {
     internal class LoggingCommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
     {

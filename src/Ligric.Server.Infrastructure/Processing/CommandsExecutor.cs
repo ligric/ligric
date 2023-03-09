@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
 using MediatR;
-using Ligric.Application.Configuration.Commands;
+using Ligric.Server.Application.Configuration.Commands;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public static class CommandsExecutor
     {

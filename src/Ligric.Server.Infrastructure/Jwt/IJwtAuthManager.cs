@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Ligric.Infrastructure.Jwt
+namespace Ligric.Server.Infrastructure.Jwt
 {
 	public interface IJwtAuthManager
 	{

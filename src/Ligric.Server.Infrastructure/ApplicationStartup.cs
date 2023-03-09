@@ -5,27 +5,27 @@ using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Impl;
-using Ligric.Application.Configuration;
-using Ligric.Infrastructure.Database;
-using Ligric.Infrastructure.Domain;
-using Ligric.Infrastructure.Logging;
-using Ligric.Infrastructure.Processing;
-using Ligric.Infrastructure.Quartz;
+using Ligric.Server.Application.Configuration;
+using Ligric.Server.Infrastructure.Database;
+using Ligric.Server.Infrastructure.Domain;
+using Ligric.Server.Infrastructure.Logging;
+using Ligric.Server.Infrastructure.Processing;
+using Ligric.Server.Infrastructure.Quartz;
 using Serilog;
-using Ligric.Infrastructure.Domain.Users;
+using Ligric.Server.Infrastructure.Domain.Users;
 using Ligric.Server.Domain.Entities.Users;
 using Ligric.Server.Data.Base;
 using NHibernate;
-using Ligric.Application.Providers.Security;
-using Ligric.Infrastructure.Jwt;
+using Ligric.Server.Application.Providers.Security;
+using Ligric.Server.Infrastructure.Jwt;
 using Ligric.Server.Domain.Entities.UserApies;
 using Ligric.Server.Domain.Entities.Apis;
-using Ligric.Infrastructure.Domain.Api;
-using Ligric.Application.UserApis;
+using Ligric.Server.Infrastructure.Domain.Api;
+using Ligric.Server.Application.UserApis;
 using Autofac.Core;
-using Ligric.Application.Orders;
+using Ligric.Server.Application.Orders;
 
-namespace Ligric.Infrastructure
+namespace Ligric.Server.Infrastructure
 {
     public class ApplicationStartup
     {

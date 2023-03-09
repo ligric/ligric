@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
 using MediatR;
-using Ligric.Application;
-using Ligric.Application.Configuration.Queries;
+using Ligric.Server.Application;
+using Ligric.Server.Application.Configuration.Queries;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public static class QueriesExecutor
     {

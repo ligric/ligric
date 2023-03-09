@@ -3,7 +3,7 @@ using Autofac;
 using Quartz;
 using Module = Autofac.Module;
 
-namespace Ligric.Infrastructure.Quartz
+namespace Ligric.Server.Infrastructure.Quartz
 {
     public class QuartzModule : Module
     {

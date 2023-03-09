@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using MediatR;
-using Ligric.Application.Configuration.Commands;
-using Ligric.Application.Configuration.Processing;
-using Ligric.Infrastructure.Logging;
+using Ligric.Server.Application.Configuration.Commands;
+using Ligric.Server.Application.Configuration.Processing;
+using Ligric.Server.Infrastructure.Logging;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public class ProcessingModule : Module
     {

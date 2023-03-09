@@ -1,8 +1,8 @@
 ﻿using Autofac;
-using Ligric.Application.Users.DomainServices;
+using Ligric.Server.Application.Users.DomainServices;
 using Ligric.Server.Domain.Entities.Users;
 
-namespace Ligric.Infrastructure.Domain
+namespace Ligric.Server.Infrastructure.Domain
 {
     public class DomainModule : Module
     {

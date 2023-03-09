@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ligric.Infrastructure.Domain.Users
+namespace Ligric.Server.Infrastructure.Domain.Users
 {
 	public class UserApiRepository : RepositoryBase<UserApiEntity>, IUserApiRepository
 	{

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 
-namespace Ligric.Infrastructure.Jwt
+namespace Ligric.Server.Infrastructure.Jwt
 {
 	public class JwtHelper
 	{

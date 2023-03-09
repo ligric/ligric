@@ -11,7 +11,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 
-namespace Ligric.Infrastructure.Database
+namespace Ligric.Server.Infrastructure.Database
 {
 	public class UnCommittedNhInitFactory : NhInitFactory
 	{

@@ -8,10 +8,10 @@ using Autofac.Features.Variance;
 using FluentValidation;
 using MediatR;
 using MediatR.Pipeline;
-using Ligric.Application.Configuration.Validation;
-using Ligric.Infrastructure.Processing;
+using Ligric.Server.Application.Configuration.Validation;
+using Ligric.Server.Infrastructure.Processing;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public class MediatorModule : Autofac.Module
     {

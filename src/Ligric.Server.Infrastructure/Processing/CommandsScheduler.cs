@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using Ligric.Application;
-using Ligric.Application.Configuration.Commands;
-using Ligric.Application.Configuration.Data;
-using Ligric.Application.Configuration.Processing;
+using Ligric.Server.Application;
+using Ligric.Server.Application.Configuration.Commands;
+using Ligric.Server.Application.Configuration.Data;
+using Ligric.Server.Application.Configuration.Processing;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Server.Infrastructure.Processing
 {
     public class CommandsScheduler : ICommandsScheduler
     {
