@@ -74,8 +74,8 @@ namespace Ligric.Infrastructure
 			container.RegisterType<UserApiRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
 
 			// # OBSERVERS
-			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().InstancePerLifetimeScope();
-			container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().InstancePerLifetimeScope();
+			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().SingleInstance();
+			container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().SingleInstance();
 
 			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));

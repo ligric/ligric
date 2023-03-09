@@ -58,7 +58,7 @@ namespace Ligric.Application.Orders
 		private readonly IUserApiRepository _userApiRepository;
 		private readonly IApiRepository _apiRepository;
 
-		private readonly IList<TemporaryApiSubscriptions> subscribedApis = new List<TemporaryApiSubscriptions>();
+		private static readonly IList<TemporaryApiSubscriptions> subscribedApis = new List<TemporaryApiSubscriptions>();
 
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? OrdersChanged;
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>? ValuesChanged;
