@@ -1,4 +1,4 @@
-﻿using Ligric.Domain.Types.User;
+﻿using Ligric.Types.User;
 using Ligric.Backend.Domain.Entities.Users;
 
 namespace Ligric.Backend.Domain.TypeExtensions

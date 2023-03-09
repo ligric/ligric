@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ligric.Domain.Types.Api
+namespace Ligric.Types.Api
 {
 	[Flags]
 	public enum ApiPermissions

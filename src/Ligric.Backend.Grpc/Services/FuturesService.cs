@@ -1,7 +1,7 @@
 ﻿using CryptoExchange.Net.CommonObjects;
 using Grpc.Core;
 using Ligric.Backend.Application.Orders;
-using Ligric.Domain.Types.Future;
+using Ligric.Types.Future;
 using Ligric.Protos;
 using Ligric.Backend.Grpc.Extensions;
 using MediatR;

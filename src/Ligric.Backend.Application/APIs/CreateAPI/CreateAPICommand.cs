@@ -1,5 +1,5 @@
 ﻿using Ligric.Backend.Application.Configuration.Commands;
-using Ligric.Domain.Types.Api;
+using Ligric.Types.Api;
 
 namespace Ligric.Backend.Application.Users.RegisterUser
 {

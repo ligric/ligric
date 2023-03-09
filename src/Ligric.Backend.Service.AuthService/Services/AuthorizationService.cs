@@ -8,7 +8,7 @@ using Google.Protobuf.WellKnownTypes;
 using Ligric.Backend.Application.Users.CheckUserExists;
 using Ligric.Backend.Infrastructure.Jwt;
 using System.Security.Claims;
-using Ligric.Domain.Types.User;
+using Ligric.Types.User;
 using Ligric.Backend.Application.Users.LoginCustomer;
 using Ligric.Backend.Application.Users.RegisterUser;
 

@@ -1,21 +1,18 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
 using Ligric.Business.Extensions;
 using Ligric.Business.Metadata;
-using Ligric.Domain.Types.Api;
 using Ligric.Protos;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils;
-using Utils.Extensions;
 using static Ligric.Protos.UserApis;
+using Ligric.Types.Api;
 
 namespace Ligric.Business.Clients.Apies
 {

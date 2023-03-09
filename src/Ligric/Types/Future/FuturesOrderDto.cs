@@ -1,4 +1,4 @@
-﻿namespace Ligric.Domain.Types.Future
+﻿namespace Ligric.Types.Future
 {
     public record FuturesOrderDto
     {

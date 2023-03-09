@@ -1,4 +1,4 @@
-﻿using Ligric.Domain.Types.Api;
+﻿using Ligric.Types.Api;
 using Ligric.Backend.Domain.Entities.UserApies;
 
 namespace Ligric.Backend.Domain.TypeExtensions

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
-using Ligric.Domain.Types.Api;
+using Ligric.Types.Api;
 using Ligric.Backend.Domain.Entities.UserApies;
 using Ligric.Backend.Domain.Entities.Users;
 using Ligric.Backend.Domain.TypeExtensions;

@@ -11,7 +11,7 @@ using Binance.Net.Objects.Models.Futures.Socket;
 using Binance.Net.Objects.Models.Spot.Socket;
 using CryptoExchange.Net.Sockets;
 using Ligric.CryptoObserver.Extensions;
-using Ligric.Domain.Types.Future;
+using Ligric.Types.Future;
 using Utils;
 
 namespace Ligric.CryptoObserver;

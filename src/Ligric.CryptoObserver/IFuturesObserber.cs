@@ -1,4 +1,4 @@
-﻿using Ligric.Domain.Types.Future;
+﻿using Ligric.Types.Future;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 

@@ -1,5 +1,5 @@
 ﻿using Ligric.Backend.Application.Configuration.Commands;
-using Ligric.Domain.Types.User;
+using Ligric.Types.User;
 
 namespace Ligric.Backend.Application.Users.LoginCustomer
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Ligric.Domain.Types.Api;
+using Ligric.Types.Api;
 using Ligric.Backend.Domain.Entities.Apies;
 
 namespace Ligric.Backend.Domain.Entities.UserApies

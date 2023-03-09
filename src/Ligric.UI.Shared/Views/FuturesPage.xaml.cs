@@ -1,5 +1,5 @@
 ﻿using System.Reactive.Linq;
-using Ligric.Domain.Types.Api;
+using Ligric.Types.Api;
 using Ligric.UI.Helpers;
 using Ligric.UI.ViewModels.Presentation;
 

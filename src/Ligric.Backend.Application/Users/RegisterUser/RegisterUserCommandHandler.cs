@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ligric.Backend.Application.Configuration.Commands;
 using Ligric.Backend.Domain.Entities.Users;
 using Ligric.Backend.Domain.SeedWork;
-using Ligric.Domain.Types.User;
+using Ligric.Types.User;
 using System;
 using Ligric.Backend.Application.Providers.Security;
 using Ligric.Backend.Application.Users.LoginUser;

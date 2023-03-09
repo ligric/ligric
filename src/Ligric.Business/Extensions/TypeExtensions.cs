@@ -1,6 +1,6 @@
 ﻿using System;
-using Ligric.Domain.Types.Api;
-using Ligric.Domain.Types.Future;
+using Ligric.Types.Api;
+using Ligric.Types.Future;
 using Ligric.Protos;
 
 namespace Ligric.Business.Extensions
@@ -26,28 +26,28 @@ namespace Ligric.Business.Extensions
 				 decimal.Parse(futuresPosition.EntryPrice));
 		}
 
-		public static Domain.Types.OrderSide ToOrderSideDto(this OrderSide sideInput)
+		public static Types.OrderSide ToOrderSideDto(this OrderSide sideInput)
 		{
 			switch (sideInput)
 			{
 				case OrderSide.Sell:
-					return Domain.Types.OrderSide.Sell;
+					return Types.OrderSide.Sell;
 				case OrderSide.Buy:
-					return Domain.Types.OrderSide.Buy;
+					return Types.OrderSide.Buy;
 			}
 			throw new NotImplementedException();
 		}
 
-		public static Domain.Types.PositionSide ToPositionSideDto(this PositionSide sideInput)
+		public static Types.PositionSide ToPositionSideDto(this PositionSide sideInput)
 		{
 			switch (sideInput)
 			{
 				case PositionSide.Short:
-					return Domain.Types.PositionSide.Short;
+					return Types.PositionSide.Short;
 				case PositionSide.Long:
-					return Domain.Types.PositionSide.Long;
+					return Types.PositionSide.Long;
 				case PositionSide.Both:
-					return Domain.Types.PositionSide.Both;
+					return Types.PositionSide.Both;
 			}
 			throw new NotImplementedException();
 		}

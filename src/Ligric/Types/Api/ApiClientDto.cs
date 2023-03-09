@@ -1,4 +1,4 @@
-﻿namespace Ligric.Domain.Types.Api
+﻿namespace Ligric.Types.Api
 {
     public record ApiClientDto
     {

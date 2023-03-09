@@ -1,5 +1,5 @@
 ﻿using System;
-using Ligric.Domain.Types.Api;
+using Ligric.Types.Api;
 using Utils;
 
 namespace Ligric.Backend.Application.UserApis

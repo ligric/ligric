@@ -1,4 +1,4 @@
-﻿namespace Ligric.Domain.Types
+﻿namespace Ligric.Types
 {
 	public enum OrderSide
 	{

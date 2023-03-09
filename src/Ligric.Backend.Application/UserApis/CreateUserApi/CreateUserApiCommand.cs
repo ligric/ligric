@@ -13,7 +13,7 @@ namespace Ligric.Backend.Application.UserApis.CreateUserApi
 		public string PublicKey { get; }
 
 		/// <summary>
-		/// Flag value: <see cref="Ligric.Domain.Types.Api.ApiPermissions"/>
+		/// Flag value: <see cref="Ligric.Types.Api.ApiPermissions"/>
 		/// </summary>
 		public int Permissions { get; }
 

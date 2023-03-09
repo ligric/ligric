@@ -1,5 +1,4 @@
-﻿using Ligric.Domain.Types;
-using Ligric.Domain.Types.Future;
+﻿using Ligric.Types.Future;
 using Ligric.Protos;
 
 namespace Ligric.Backend.Grpc.Extensions
@@ -19,54 +18,54 @@ namespace Ligric.Backend.Grpc.Extensions
 			};
 		}
 
-		public static Ligric.Domain.Types.OrderSide ToOrderSideDto(this Protos.OrderSide sideInput)
+		public static Types.OrderSide ToOrderSideDto(this Protos.OrderSide sideInput)
 		{
 			switch (sideInput)
 			{
-				case Protos.OrderSide.Sell:
-					return Ligric.Domain.Types.OrderSide.Sell;
-				case Protos.OrderSide.Buy:
-					return Ligric.Domain.Types.OrderSide.Buy;
+				case OrderSide.Sell:
+					return Types.OrderSide.Sell;
+				case OrderSide.Buy:
+					return Types.OrderSide.Buy;
 			}
 			throw new NotImplementedException();
 		}
 
-		public static Protos.OrderSide ToOrderSideProto(this Ligric.Domain.Types.OrderSide sideInput)
+		public static OrderSide ToOrderSideProto(this Types.OrderSide sideInput)
 		{
 			switch (sideInput)
 			{
-				case Ligric.Domain.Types.OrderSide.Sell:
-					return Protos.OrderSide.Sell;
-				case Ligric.Domain.Types.OrderSide.Buy:
-					return Protos.OrderSide.Buy;
+				case Types.OrderSide.Sell:
+					return OrderSide.Sell;
+				case Types.OrderSide.Buy:
+					return OrderSide.Buy;
 			}
 			throw new NotImplementedException();
 		}
 
-		public static Ligric.Domain.Types.PositionSide ToPositionSideDto(this Protos.PositionSide sideInput)
+		public static Types.PositionSide ToPositionSideDto(this Protos.PositionSide sideInput)
 		{
 			switch (sideInput)	
 			{
-				case Protos.PositionSide.Short:
-					return Ligric.Domain.Types.PositionSide.Short;
-				case Protos.PositionSide.Long:
-					return Ligric.Domain.Types.PositionSide.Long;
-				case Protos.PositionSide.Both:
-					return Ligric.Domain.Types.PositionSide.Both;
+				case PositionSide.Short:
+					return Types.PositionSide.Short;
+				case PositionSide.Long:
+					return Types.PositionSide.Long;
+				case PositionSide.Both:
+					return Types.PositionSide.Both;
 			}
 			throw new NotImplementedException();
 		}
 
-		public static Protos.PositionSide ToPositionSide(this Ligric.Domain.Types.PositionSide sideInput)
+		public static PositionSide ToPositionSide(this Types.PositionSide sideInput)
 		{
 			switch (sideInput)	
 			{
-				case Ligric.Domain.Types.PositionSide.Short:
-					return Protos.PositionSide.Short;
-				case Ligric.Domain.Types.PositionSide.Long:
-					return Protos.PositionSide.Long;
-				case Ligric.Domain.Types.PositionSide.Both:
-					return Protos.PositionSide.Both;
+				case Types.PositionSide.Short:
+					return PositionSide.Short;
+				case Types.PositionSide.Long:
+					return PositionSide.Long;
+				case Types.PositionSide.Both:
+					return PositionSide.Both;
 			}
 			throw new NotImplementedException();
 		}

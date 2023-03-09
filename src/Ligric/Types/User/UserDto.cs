@@ -1,4 +1,4 @@
-﻿namespace Ligric.Domain.Types.User
+﻿namespace Ligric.Types.User
 {
     public class UserDto
     {

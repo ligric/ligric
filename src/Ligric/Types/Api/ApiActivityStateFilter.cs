@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Utils;
 
-namespace Ligric.Domain.Types.Api
+namespace Ligric.Types.Api
 {
     public class ApiActivityStateFilter
     {

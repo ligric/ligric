@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Ligric.Domain.Types.User;
+using Ligric.Types.User;
 
 namespace Ligric.Backend.Domain.Entities.Users
 {

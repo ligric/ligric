@@ -1,4 +1,4 @@
-﻿using Ligric.Domain.Types.Api;
+﻿using Ligric.Types.Api;
 using Ligric.Backend.Data.Base;
 using Ligric.Backend.Domain.Entities.UserApies;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Ligric.Backend.Domain.Entities.Users;
 using Ligric.Backend.Data.Base;
 using NHibernate.Criterion;
-using Ligric.Domain.Types.Api;
+using Ligric.Types.Api;
 using System.Collections.Generic;
 using System;
 
