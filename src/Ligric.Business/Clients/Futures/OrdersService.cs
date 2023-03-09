@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Grpc.Net.Client;
-using Ligric.Types.Future;
+using Ligric.Core.Types.Future;
 using static Ligric.Protos.Futures;
 using Utils;
 using Ligric.Business.Authorization;

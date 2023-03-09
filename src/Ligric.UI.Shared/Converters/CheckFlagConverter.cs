@@ -1,4 +1,4 @@
-﻿using Ligric.Types.Api;
+﻿using Ligric.Core.Ligric.Core.Types.Api;
 using Utils.Extensions;
 
 namespace Ligric.UI.Converters

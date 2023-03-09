@@ -1,4 +1,4 @@
-﻿using Ligric.Types.Api;
+﻿using Ligric.Core.Ligric.Core.Types.Api;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

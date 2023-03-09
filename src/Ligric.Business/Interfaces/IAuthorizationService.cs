@@ -1,4 +1,4 @@
-﻿using Ligric.Types.User;
+﻿using Ligric.Core.Types.User;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

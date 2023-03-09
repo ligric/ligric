@@ -42,14 +42,14 @@ namespace Ligric.Business.Clients
 
 		public void Dispose() => throw new NotImplementedException();
 
-		private void OnAuthorizationStateChanged(object sender, Types.User.UserAuthorizationState e)
+		private void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
 		{
 			switch (e)
 			{
-				case Types.User.UserAuthorizationState.Connected:
+				case Core.Types.User.UserAuthorizationState.Connected:
 					Apis.ApiPiplineSubscribeAsync();
 					break;
-				case Types.User.UserAuthorizationState.Disconnected:
+				case Core.Types.User.UserAuthorizationState.Disconnected:
 					Apis.ApiPiplineUnsubscribe();
 					break;
 			}

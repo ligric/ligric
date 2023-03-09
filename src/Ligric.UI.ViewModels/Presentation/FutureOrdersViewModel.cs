@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
-using Ligric.Types.Future;
+using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
 using Utils;

@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using Ligric.Business.Apies;
 using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
-using Ligric.Types.Api;
+using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
 using Microsoft.UI.Dispatching;

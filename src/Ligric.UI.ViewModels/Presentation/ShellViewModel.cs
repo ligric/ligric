@@ -17,14 +17,14 @@ public class ShellViewModel
 		_ = Start();
 	}
 
-	private async void OnAuthorizationStateChanged(object sender, Types.User.UserAuthorizationState e)
+	private async void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
 	{
 		switch (e)
 		{
-			case Types.User.UserAuthorizationState.Connected:
+			case Core.Types.User.UserAuthorizationState.Connected:
 				await _navigator.NavigateViewModelAsync<FuturesViewModel>(this);
 				break;
-			case Types.User.UserAuthorizationState.Disconnected:
+			case Core.Types.User.UserAuthorizationState.Disconnected:
 				await _navigator.NavigateViewModelAsync<AuthorizationViewModel>(this);
 				break;
 		}

@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Utils;
 using static Ligric.Protos.UserApis;
-using Ligric.Types.Api;
+using Ligric.Core.Ligric.Core.Types.Api;
 
 namespace Ligric.Business.Clients.Apies
 {

@@ -1,4 +1,4 @@
-﻿using Ligric.Types.Future;
+﻿using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 
 namespace Ligric.UI.ViewModels.Extensions

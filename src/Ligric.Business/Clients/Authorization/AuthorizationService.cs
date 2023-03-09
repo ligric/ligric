@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ligric.Protos;
 using Grpc.Net.Client;
 using static Ligric.Protos.Authorization;
-using Ligric.Types.User;
+using Ligric.Core.Types.User;
 using Ligric.Business.Metadata;
 using System.Threading;
 using Ligric.Business.Authorization;

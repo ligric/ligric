@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ligric\Ligric.csproj" />
+    <ProjectReference Include="..\Ligric.Core\Ligric.Core.csproj" />
   </ItemGroup>
 
 </Project>
