@@ -12,7 +12,7 @@ using Ligric.Domain.Types.User;
 using Ligric.Backend.Application.Users.LoginCustomer;
 using Ligric.Backend.Application.Users.RegisterUser;
 
-namespace Ligric.Backend.Grpc.Services;
+namespace Ligric.Backend.Service.AuthService.Services;
 
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class AuthorizationService : Authorization.AuthorizationBase
@@ -33,9 +33,10 @@ public class AuthorizationService : Authorization.AuthorizationBase
 	{
 		var loginIsUniqueQuery = new UserNameIsUniqueQuery(request.Value);
 		bool isUnique = await _mediator.Send(loginIsUniqueQuery);
+
 		return new CheckExistsResponse
 		{
-			Result = ResponseExtensions.GetSuccessResponseResult(),
+			Result = ResponseHelper.GetSuccessResponseResult(),
 			IsUnique = isUnique
 		};
 	}
@@ -45,7 +46,7 @@ public class AuthorizationService : Authorization.AuthorizationBase
 	{
 		if (request?.Login == null || request?.Password == null)
 		{
-			return new SignInResponse { Result = ResponseExtensions.GetFailedResponseResult() };
+			return new SignInResponse { Result = ResponseHelper.GetFailedResponseResult() };
 		}
 
 		var registerCommand = new LoginUserCommand(request.Login, request.Password);
@@ -65,13 +66,13 @@ public class AuthorizationService : Authorization.AuthorizationBase
 					RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
 					ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
 				},
-				Result = ResponseExtensions.GetSuccessResponseResult()
+				Result = ResponseHelper.GetSuccessResponseResult()
 			};
 		}
 
 		return new SignInResponse
 		{
-			Result = ResponseExtensions.GetFailedResponseResult()
+			Result = ResponseHelper.GetFailedResponseResult()
 		};
 	}
 
@@ -95,13 +96,13 @@ public class AuthorizationService : Authorization.AuthorizationBase
 					RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
 					ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
 				},
-				Result = ResponseExtensions.GetSuccessResponseResult()
+				Result = ResponseHelper.GetSuccessResponseResult()
 			};
 		}
 
 		return new SignUpResponse
 		{
-			Result = ResponseExtensions.GetFailedResponseResult()
+			Result = ResponseHelper.GetFailedResponseResult()
 		};
 	}
 
@@ -121,7 +122,7 @@ public class AuthorizationService : Authorization.AuthorizationBase
 		var result = new RefreshTokenExpirationTime
 		{
 			ExpirationAt = Timestamp.FromDateTime(expirationAt),
-			Result = ResponseExtensions.GetSuccessResponseResult()
+			Result = ResponseHelper.GetSuccessResponseResult()
 		};
 		return result;
 	}

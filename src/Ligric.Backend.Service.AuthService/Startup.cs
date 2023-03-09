@@ -2,19 +2,16 @@
 using Serilog;
 using ILogger = Serilog.ILogger;
 using Ligric.Backend.Application.Configuration;
-using Ligric.Backend.Grpc.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Ligric.Backend.Grpc.Services;
 using Ligric.Backend.Infrastructure;
 using Ligric.Backend.Infrastructure.Jwt;
-using Ligric.Protos;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using System.Xml.Serialization;
+using Ligric.Backend.Configuration;
+using Ligric.Backend.Service.AuthService.Services;
 
-namespace Ligric.Backend.Grpc
+namespace Ligric.Backend.Service.AuthService
 {
 	public class Startup
 	{
@@ -110,8 +107,7 @@ namespace Ligric.Backend.Grpc
 			{
 				endpoints.MapControllers();
 
-				endpoints.MapGrpcService<UserApisService>().EnableGrpcWeb();
-				endpoints.MapGrpcService<FuturesService>().EnableGrpcWeb();
+				endpoints.MapGrpcService<AuthorizationService>().EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{
