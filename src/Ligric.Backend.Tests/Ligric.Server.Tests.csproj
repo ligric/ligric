@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
+	  <ProjectReference Include="..\Ligric.Backend.Grpc\Ligric.Backend.Grpc.csproj" />
 	</ItemGroup>
 
 </Project>
