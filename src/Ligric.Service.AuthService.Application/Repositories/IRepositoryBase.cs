@@ -10,6 +10,8 @@ namespace Ligric.Service.AuthService.Application.Repositories
 
 		TEntity GetEntityById(long id);
 
+		IEnumerable<TEntity> GetAll();
+
 		void Delete(TEntity entity);
 
 		void Delete(long id);
