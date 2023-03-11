@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Ligric.Service.AuthService.Application.Repositories
 {
-	public interface IOutboxMessageRepository : IRepositoryBase<OutboxMessage>
+	public interface IOutboxMessageRepository : IRepository<OutboxMessage>
 	{
-		Task AddAsync(List<UserEntity> entity);
+		void Save(List<UserEntity> entity);
 	}
 }

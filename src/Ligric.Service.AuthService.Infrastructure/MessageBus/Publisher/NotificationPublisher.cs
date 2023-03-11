@@ -82,8 +82,6 @@ namespace Ligric.Service.AuthService.Infrastructure.MessageBus.Publisher
 				await SendMessageAsync(message);
 
 				unitOfWork.OutboxMessageRepository.Delete(id);
-
-				await unitOfWork.SaveChangesAsync();
 			}
 
 			await Task.CompletedTask;

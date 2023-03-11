@@ -2,18 +2,8 @@
 
 namespace Ligric.Service.AuthService.Domain.Entities
 {
-	public class EntityBase
+	public class EntityBase : EntityUnit
 	{
-		/// <summary>
-		/// Gets a value indicating whether is new.
-		/// </summary>
-		public virtual bool IsNew => !Id.HasValue;
-
-		/// <summary>
-		/// Gets or sets the id.
-		/// </summary>
-		public virtual long? Id { get; set; }
-
 		/// <summary>
 		/// Gets or sets the create date.
 		/// </summary>

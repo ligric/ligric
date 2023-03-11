@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Ligric.Service.AuthService.Domain\Ligric.Service.AuthService.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+  </ItemGroup>
+
 </Project>

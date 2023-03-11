@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Ligric.Service.AuthService.Domain.Entities
 {
-    public class OutboxMessage
+    public class OutboxMessage : EntityUnit
 	{
         private OutboxMessage()
         {
@@ -16,7 +16,7 @@ namespace Ligric.Service.AuthService.Domain.Entities
 
         public static OutboxMessage FromId(long id) => new() { Id = id };
 
-        public long? Id { get; private set; }
+        public new long? Id { get; private set; }
 
         public UserEntity? User { get; private set; }
 

@@ -3,9 +3,9 @@ using Ligric.Service.AuthService.Domain.Entities;
 
 namespace Ligric.Service.AuthService.Application.Repositories
 {
-	public interface IUserRepository<TSQLQuery> : IRepository<UserEntity, TSQLQuery>
+	public interface IUserRepository : IRepository<UserEntity>
 	{
-		UserEntity GetEntityByUsername(string username);
+		UserEntity GetEntityByUserName(string username);
 
 		bool UserNameIsExists(string username);
 
