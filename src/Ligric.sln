@@ -51,8 +51,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.CryptoObserver", "Li
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{6FC5203C-B525-4E29-AD3C-6E0CA96677A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain.Base", "Ligric.Domain.Base\Ligric.Domain.Base.csproj", "{6EE927B7-0671-467A-8EF5-444CB13E606A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain", "Ligric.Domain\Ligric.Domain.csproj", "{F8F0001C-B985-4C23-87CC-40778EF82943}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Application", "Ligric.Application\Ligric.Application.csproj", "{4145ACC8-507D-4F65-94B1-D770412E908C}"
@@ -73,15 +71,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.Gateway", "Ligric.Service.Gateway\Ligric.Service.Gateway.csproj", "{F435655E-9DD6-4B87-8D98-E48708B243B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.FuturesService", "Ligric.Service.FuturesService\Ligric.Service.FuturesService.csproj", "{C019403C-F55D-43C8-A120-FC72B2270919}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.FuturesService", "Ligric.Service.FuturesService\Ligric.Service.FuturesService.csproj", "{C019403C-F55D-43C8-A120-FC72B2270919}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApiService", "Ligric.Service.CryptoApiService\Ligric.Service.CryptoApiService.csproj", "{5A738DAD-0CAD-48FB-AA9E-87B2D1F282BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Domain", "Ligric.Service.AuthService.Domain\Ligric.Service.AuthService.Domain.csproj", "{32B0B1EE-03FD-4F36-B909-FAFBDCE69B01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Domain", "Ligric.Service.AuthService.Domain\Ligric.Service.AuthService.Domain.csproj", "{32B0B1EE-03FD-4F36-B909-FAFBDCE69B01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Application", "Ligric.Service.AuthService.Application\Ligric.Service.AuthService.Application.csproj", "{A9BA5497-2E1F-472B-83B6-E8C88459EDD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Application", "Ligric.Service.AuthService.Application\Ligric.Service.AuthService.Application.csproj", "{A9BA5497-2E1F-472B-83B6-E8C88459EDD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Infrastructure", "Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj", "{98518925-1544-4F22-B8B5-3F71BE030861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure", "Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj", "{98518925-1544-4F22-B8B5-3F71BE030861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemporaryProjectJustForCopyPast", "TemporaryProjectJustForCopyPast\TemporaryProjectJustForCopyPast.csproj", "{AD18B394-81F8-4254-9F6D-F07CD7496AB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -312,22 +312,6 @@ Global
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1}.Release|x64.Build.0 = Release|Any CPU
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1}.Release|x86.Build.0 = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|arm64.Build.0 = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|x64.Build.0 = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Debug|x86.Build.0 = Debug|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|arm64.ActiveCfg = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|arm64.Build.0 = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|x64.ActiveCfg = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|x64.Build.0 = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|x86.ActiveCfg = Release|Any CPU
-		{6EE927B7-0671-467A-8EF5-444CB13E606A}.Release|x86.Build.0 = Release|Any CPU
 		{F8F0001C-B985-4C23-87CC-40778EF82943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8F0001C-B985-4C23-87CC-40778EF82943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8F0001C-B985-4C23-87CC-40778EF82943}.Debug|arm64.ActiveCfg = Debug|Any CPU
@@ -568,6 +552,22 @@ Global
 		{98518925-1544-4F22-B8B5-3F71BE030861}.Release|x64.Build.0 = Release|Any CPU
 		{98518925-1544-4F22-B8B5-3F71BE030861}.Release|x86.ActiveCfg = Release|Any CPU
 		{98518925-1544-4F22-B8B5-3F71BE030861}.Release|x86.Build.0 = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|arm64.Build.0 = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|x64.Build.0 = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|arm64.ActiveCfg = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|arm64.Build.0 = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|x64.Build.0 = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -588,7 +588,6 @@ Global
 		{937928F8-F1BD-452B-B502-C7EE24DD57C6} = {8CD6F17A-69DF-4950-958B-57206FD36B5E}
 		{C00695B4-21C2-4A86-A83C-3ED045AC5DD2} = {6BE5EC5E-7045-4B3A-9486-44C07DEC247E}
 		{0E164451-7D03-4C74-8C36-CB5E7692FBB1} = {DE356FB2-F2B6-4D5D-9B96-579A4DFC770D}
-		{6EE927B7-0671-467A-8EF5-444CB13E606A} = {6FC5203C-B525-4E29-AD3C-6E0CA96677A7}
 		{F8F0001C-B985-4C23-87CC-40778EF82943} = {6FC5203C-B525-4E29-AD3C-6E0CA96677A7}
 		{4145ACC8-507D-4F65-94B1-D770412E908C} = {6FC5203C-B525-4E29-AD3C-6E0CA96677A7}
 		{AE4508BA-9C79-4773-9F7A-E9FC2EF1FFA2} = {6FC5203C-B525-4E29-AD3C-6E0CA96677A7}
@@ -604,6 +603,7 @@ Global
 		{32B0B1EE-03FD-4F36-B909-FAFBDCE69B01} = {ADAF8BB1-AB66-41E2-A623-BB8E5D4745B5}
 		{A9BA5497-2E1F-472B-83B6-E8C88459EDD1} = {ADAF8BB1-AB66-41E2-A623-BB8E5D4745B5}
 		{98518925-1544-4F22-B8B5-3F71BE030861} = {ADAF8BB1-AB66-41E2-A623-BB8E5D4745B5}
+		{AD18B394-81F8-4254-9F6D-F07CD7496AB2} = {6FC5203C-B525-4E29-AD3C-6E0CA96677A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}
