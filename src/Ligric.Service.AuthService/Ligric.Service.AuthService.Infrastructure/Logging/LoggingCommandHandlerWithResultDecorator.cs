@@ -1,36 +1,32 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using Ligric.Application.Configuration;
-using Ligric.Application.Configuration.Commands;
+using Ligric.Service.AuthService.Application;
+using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
+using Ligric.Service.AuthService.Infrastructure.Processing;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
-using Ligric.Infrastructure.Processing.Outbox;
 
-namespace Ligric.Infrastructure.Logging
+namespace Ligric.Service.AuthService.Infrastructure.Logging
 {
-    internal class LoggingCommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
+	internal class LoggingCommandHandlerWithResultDecorator<T, TResult> : ICommandHandler<T, TResult> where T : ICommand<TResult>
     {
         private readonly ILogger _logger;
-
         private readonly IExecutionContextAccessor _executionContextAccessor;
+        private readonly ICommandHandler<T, TResult> _decorated;
 
-        private readonly ICommandHandler<T> _decorated;
-
-        public LoggingCommandHandlerDecorator(
+        public LoggingCommandHandlerWithResultDecorator(
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
-            ICommandHandler<T> decorated)
+            ICommandHandler<T, TResult> decorated)
         {
             _logger = logger;
             _executionContextAccessor = executionContextAccessor;
             _decorated = decorated;
         }
-
-        public async Task<Unit> Handle(T command, CancellationToken cancellationToken)
+        public async Task<TResult> Handle(T command, CancellationToken cancellationToken)
         {
             if (command is IRecurringCommand)
             {
@@ -45,18 +41,18 @@ namespace Ligric.Infrastructure.Logging
                 try
                 {
                     this._logger.Information(
-                        "Executing command {Command}",
-                        command.GetType().Name);
+                        "Executing command {@Command}",
+                        command);
 
                     var result = await _decorated.Handle(command, cancellationToken);
 
-                    this._logger.Information("Command {Command} processed successful", command.GetType().Name);
+                    this._logger.Information("Command processed successful, result {Result}", result);
 
                     return result;
                 }
                 catch (Exception exception)
                 {
-                    this._logger.Error(exception, "Command {Command} processing failed", command.GetType().Name);
+                    this._logger.Error(exception, "Command processing failed");
                     throw;
                 }
             }
@@ -64,9 +60,9 @@ namespace Ligric.Infrastructure.Logging
 
         private class CommandLogEnricher : ILogEventEnricher
         {
-            private readonly ICommand _command;
+            private readonly ICommand<TResult> _command;
 
-            public CommandLogEnricher(ICommand command)
+            public CommandLogEnricher(ICommand<TResult> command)
             {
                 _command = command;
             }
@@ -79,12 +75,10 @@ namespace Ligric.Infrastructure.Logging
         private class RequestLogEnricher : ILogEventEnricher
         {
             private readonly IExecutionContextAccessor _executionContextAccessor;
-
             public RequestLogEnricher(IExecutionContextAccessor executionContextAccessor)
             {
                 _executionContextAccessor = executionContextAccessor;
             }
-
             public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
             {
                 if (_executionContextAccessor.IsAvailable)

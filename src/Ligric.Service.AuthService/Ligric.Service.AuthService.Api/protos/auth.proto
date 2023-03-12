@@ -1,0 +1,63 @@
+﻿syntax = "proto3";
+
+import "protos/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Ligric.Service.AuthService.Api";
+
+package Ligric.Service.AuthService.Api;
+
+service Auth {
+	rpc SignIn(SignInRequest) returns (SignInResponse);
+	rpc SignUp(SignUpRequest) returns (SignUpResponse);
+	rpc Logout(google.protobuf.Empty) returns (ResponseResult);
+
+	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenExpirationTime);
+	rpc GetTokenExpirationTime(google.protobuf.Empty) returns (RefreshTokenExpirationTime);
+
+	rpc IsLoginUnique(CheckExistsRequest) returns (CheckExistsResponse);
+}
+
+message SignInRequest {
+	string login = 1;
+	string password = 2; 
+}
+
+message SignInResponse {
+	int64 id = 1;
+	string role = 2;
+	JwtToken jwtToken = 3;
+	ResponseResult result = 4;
+}
+
+message SignUpRequest {
+	string login = 1;
+	string password = 2;
+}
+
+message SignUpResponse {
+	int64 id = 1;
+	JwtToken jwtToken = 2;
+	ResponseResult result = 3;
+}
+
+message CheckExistsRequest {
+	string Value = 1;
+}
+
+message CheckExistsResponse {
+	bool isUnique = 1;
+	ResponseResult result = 2;
+}
+
+message RefreshTokenRequest
+{
+	string refreshToken = 1;
+}
+
+message RefreshTokenExpirationTime
+{
+	google.protobuf.Timestamp expirationAt = 1;
+	ResponseResult result = 2;
+}

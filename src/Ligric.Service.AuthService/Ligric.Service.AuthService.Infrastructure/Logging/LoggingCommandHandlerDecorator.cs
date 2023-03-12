@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Ligric.Service.AuthService.Application;
+using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
+using Ligric.Service.AuthService.Infrastructure.Processing;
 using MediatR;
-using Ligric.Application.Configuration;
-using Ligric.Application.Configuration.Commands;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
-using Ligric.Infrastructure.Processing.Outbox;
 
-namespace Ligric.Infrastructure.Logging
+namespace Ligric.Service.AuthService.Infrastructure.Logging
 {
     internal class LoggingCommandHandlerDecorator<T> : ICommandHandler<T> where T : ICommand
     {
@@ -29,7 +29,6 @@ namespace Ligric.Infrastructure.Logging
             _executionContextAccessor = executionContextAccessor;
             _decorated = decorated;
         }
-
         public async Task<Unit> Handle(T command, CancellationToken cancellationToken)
         {
             if (command is IRecurringCommand)
@@ -62,7 +61,7 @@ namespace Ligric.Infrastructure.Logging
             }
         }
 
-        private class CommandLogEnricher : ILogEventEnricher
+		private class CommandLogEnricher : ILogEventEnricher
         {
             private readonly ICommand _command;
 
