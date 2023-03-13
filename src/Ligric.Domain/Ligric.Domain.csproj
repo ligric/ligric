@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ligric.Core\Ligric.Core.csproj" />
-    <ProjectReference Include="..\Ligric.Domain.Base\Ligric.Domain.Base.csproj" />
   </ItemGroup>
 
 </Project>
