@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ligric.CryptoObserver\Ligric.CryptoObserver.csproj" />
-    <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
     <ProjectReference Include="..\Ligric.Infrastructure\Ligric.Infrastructure.csproj" />
   </ItemGroup>
 

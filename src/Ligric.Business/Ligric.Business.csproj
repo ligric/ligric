@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ligric.Core\Ligric.Core.csproj" />
-    <ProjectReference Include="..\Ligric.Protos\Ligric.Protos.csproj" />
     <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 </Project>
