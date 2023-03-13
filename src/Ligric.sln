@@ -81,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Tests", "Ligric.Service.AuthService\Ligric.Service.AuthService.Tests\Ligric.Service.AuthService.Tests.csproj", "{081B342B-1444-4E7C-9A6D-554FB6769337}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CryptoApisService", "CryptoApisService", "{C998448A-B733-4AC1-9835-6F549C6B0BFD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CryptoApis", "CryptoApis", "{C998448A-B733-4AC1-9835-6F549C6B0BFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Api", "Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Api\Ligric.Service.CryptoApisService.Api.csproj", "{FB32CAD3-52E7-457C-9512-3013DB1166E4}"
 EndProject
