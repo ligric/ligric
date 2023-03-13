@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.FuturesService", "Ligric.Service.FuturesService.Api\Ligric.Service.FuturesService.csproj", "{8AC45133-E9A9-4119-AD80-A37E1FA392D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.FuturesService.Api", "Ligric.Service.FuturesService.Api\Ligric.Service.FuturesService.Api.csproj", "{8AC45133-E9A9-4119-AD80-A37E1FA392D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
