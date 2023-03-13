@@ -9,12 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="protos\auth.proto" />
-    <None Remove="protos\common.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
 		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.51.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
@@ -40,13 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj" />
     <ProjectReference Include="..\..\Utils\Utils.csproj" />
     <ProjectReference Include="..\Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="protos\auth.proto" GrpcServices="Server" />
-    <Protobuf Include="protos\common.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

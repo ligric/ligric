@@ -1,12 +1,12 @@
 ﻿syntax = "proto3";
 
-import "protos/common.proto";
+import "common.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Ligric.Service.AuthService.Api";
+option csharp_namespace = "Ligric.Rpc.Contracts";
 
-package Ligric.Service.AuthService.Api;
+package Ligric.Rpc.Contracts;
 
 service Auth {
 	rpc SignIn(SignInRequest) returns (SignInResponse);

@@ -10,6 +10,7 @@ using Ligric.Service.AuthService.Infrastructure.Jwt;
 using Ligric.Service.AuthService.Domain.SharedKernel;
 using Ligric.Service.AuthService.Application.CheckUserExists;
 using Ligric.Core.Types.User;
+using Ligric.Rpc.Contracts;
 
 namespace Ligric.Service.AuthService.Api.Services;
 

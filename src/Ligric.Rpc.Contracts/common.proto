@@ -2,9 +2,9 @@
 
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "Ligric.Service.AuthService.Api";
+option csharp_namespace = "Ligric.Rpc.Contracts";
 
-package Ligric.Service.AuthService.Api;
+package Ligric.Rpc.Contracts;
 
 message ResponseResult {
 	bool isSuccess = 1;
