@@ -8,8 +8,10 @@ using System.Text;
 using Ligric.Service.AuthService.Infrastructure;
 using Ligric.Service.AuthService.Application;
 using Ligric.Service.AuthService.Infrastructure.Jwt;
+using Ligric.Service.AuthService.Infrastructure.MessageBus;
+using Ligric.Service.AuthService.Infrastructure.Persistence;
 
-namespace Ligric.Service.AuthService
+namespace Ligric.Service.AuthService.Api
 {
 	public class Startup
 	{
@@ -57,6 +59,9 @@ namespace Ligric.Service.AuthService
 			services.AddAuthorization();
 
 			services.AddGrpc();
+
+			services.AddMessageBusRegistration(_configuration);
+			services.AddPersistenceRegistration(_configuration);
 
 			services.AddControllers();
 

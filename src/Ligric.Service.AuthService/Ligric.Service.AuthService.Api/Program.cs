@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore;
 
-namespace Ligric.Service.AuthService;
+namespace Ligric.Service.AuthService.Api;
 
 public class Program
 {
