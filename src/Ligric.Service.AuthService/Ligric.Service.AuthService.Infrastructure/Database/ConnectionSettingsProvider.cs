@@ -6,9 +6,9 @@ namespace Ligric.Service.AuthService.Infrastructure.Database
 	{
 		public ConnectionSettingsProvider(IConfiguration configuration)
 		{
-			//ConnectionString = configuration.GetConnectionString("LigricConnectionString");
+			//ConnectionString = configuration.GetConnectionString("ConnectionString");
 #pragma warning disable CS8601 // Possible null reference assignment.
-			ConnectionString = configuration["LigricConnectionString"];
+			ConnectionString = configuration["ConnectionString"];
 #pragma warning restore CS8601
 			// Possible null reference assignment.
 			//MongoConnectionString = configuration.GetConnectionString("mongoDatabase");

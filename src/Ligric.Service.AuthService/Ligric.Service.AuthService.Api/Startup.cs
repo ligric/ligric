@@ -18,7 +18,7 @@ namespace Ligric.Service.AuthService.Api
 		private readonly IConfiguration _configuration;
 		private const string CORS_POLICY = "_corsPolicy";
 
-		private const string LigricConnectionString = "LigricConnectionString";
+		private const string ConnectionString = "ConnectionString";
 
 		private static ILogger? _logger;
 
@@ -81,7 +81,7 @@ namespace Ligric.Service.AuthService.Api
 			var memoryCache = serviceProvider.GetService<IMemoryCache>();
 			return ApplicationStartup.Initialize(
 				services,
-				this._configuration[LigricConnectionString],
+				this._configuration[ConnectionString],
 				ConfigureLogger(),
 				executionContextAccessor);
 #pragma warning restore CS8604 // Possible null reference argument.
