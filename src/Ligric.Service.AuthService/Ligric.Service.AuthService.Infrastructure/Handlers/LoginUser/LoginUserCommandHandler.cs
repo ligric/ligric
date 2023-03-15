@@ -35,7 +35,7 @@ namespace Ligric.Application.Users.LoginUser
 					user.UserName ?? throw new ArgumentNullException($"{typeof(LoginUserCommandHandler)}: User name is null")));
 			}
 
-			throw new NotImplementedException("Some error");
+			throw new NotImplementedException($"[{nameof(LoginUserCommandHandler)}] Some error");
 		}
     }
 }
