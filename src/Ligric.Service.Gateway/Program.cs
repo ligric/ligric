@@ -1,11 +1,12 @@
 using Ligric.Rpc.Contracts;
 using Ligric.Service.Gateway.ExceptionHandler;
+using Ligric.Service.Gateway.Services.V1;
 
 const string CORS_POLICY = "_corsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddGrpc();
+builder.Services.AddGrpc();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -38,5 +39,9 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseGrpcWeb();
+
+app.MapGrpcService<AuthService>().EnableGrpcWeb();
 
 app.Run();
