@@ -110,7 +110,7 @@ namespace Ligric.Service.AuthService.Api
 			{
 				endpoints.MapControllers();
 
-				//endpoints.MapGrpcService<AuthService>().EnableGrpcWeb();
+				endpoints.MapGrpcService<Services.AuthService>().EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{
