@@ -15,7 +15,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="auth.proto" />
 		<Protobuf Include="common.proto" />
+		<Protobuf Include="auth.proto" />
+		<Protobuf Include="userApis.proto" />
+		<Protobuf Include="futures.proto" />
 	</ItemGroup>
 </Project>
