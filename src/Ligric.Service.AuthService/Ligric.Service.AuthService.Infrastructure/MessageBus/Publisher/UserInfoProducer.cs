@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
-using Core.Application.Contracts.Services;
+using Ligric.Service.AuthService.Application.Services;
 using Ligric.Service.AuthService.Domain.Model.MessageBroker;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;

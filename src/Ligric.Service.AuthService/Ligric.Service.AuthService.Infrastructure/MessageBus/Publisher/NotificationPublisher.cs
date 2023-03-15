@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Application.Contracts.Services;
-using Ligric.Service.AuthService.Application.Contracts.Services;
 using Ligric.Service.AuthService.Application.Repositories;
+using Ligric.Service.AuthService.Application.Services;
 using Ligric.Service.AuthService.Domain.Entities;
 using Ligric.Service.AuthService.Domain.Events.DataTypes;
 using Ligric.Service.AuthService.Domain.Model.MessageBroker;

@@ -1,5 +1,4 @@
-﻿using Core.Application.Contracts.Services;
-using Ligric.Service.AuthService.Application.Contracts.Services;
+﻿using Ligric.Service.AuthService.Application.Services;
 using Ligric.Service.AuthService.Infrastructure.MessageBus.Publisher;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

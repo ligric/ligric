@@ -1,8 +1,6 @@
-﻿using Ligric.Service.AuthService.Application.Contracts.Services;
-
-namespace Core.Application.Contracts.Services
+﻿namespace Ligric.Service.AuthService.Application.Services
 {
-    public interface IUserInfoPublisher : IMessageProducer
-    {
-    }
+	public interface IUserInfoPublisher : IMessageProducer
+	{
+	}
 }

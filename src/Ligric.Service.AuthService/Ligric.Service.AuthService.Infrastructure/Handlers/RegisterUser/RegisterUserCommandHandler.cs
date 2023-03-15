@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using Ligric.Core.Types.User;
 using System;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
-using Ligric.Service.AuthService.Application.Repositories;
 using Ligric.Service.AuthService.Infrastructure;
 using Ligric.Service.AuthService.Domain.Entities;
+using Ligric.Service.AuthService.Application.Repositories;
 
 namespace Ligric.Application.Users.RegisterUser
 {
-    public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserResponseDto>
+	public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserResponseDto>
     {
         private readonly IUserRepository _userRepository;
 		private readonly ICryptoProvider _cryptoProvider;

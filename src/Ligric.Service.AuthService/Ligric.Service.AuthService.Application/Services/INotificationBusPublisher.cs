@@ -1,7 +1,7 @@
-﻿namespace Ligric.Service.AuthService.Application.Contracts.Services
+﻿namespace Ligric.Service.AuthService.Application.Services
 {
-    public interface INotificationBusPublisher
-    {
-        public void StartPublish();
-    }
+	public interface INotificationBusPublisher
+	{
+		public void StartPublish();
+	}
 }
