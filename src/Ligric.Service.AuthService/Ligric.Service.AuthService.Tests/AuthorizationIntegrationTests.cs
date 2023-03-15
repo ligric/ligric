@@ -1,27 +1,36 @@
-using Ligric.Protos;
 using Google.Protobuf.WellKnownTypes;
 using FluentAssertions;
-using System.Security.Cryptography.X509Certificates;
 using Grpc.Core;
-using FlueFlame.AspNetCore.Grpc.Modules.Unary;
-using System.Reflection.PortableExecutable;
-using Faker;
-using Grpc.Net.Client;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+using Ligric.Rpc.Contracts;
 
 namespace Ligric.Tests
 {
-	public sealed class AuthorizationIntegrationTests : TestBase
+	public sealed class AuthIntegrationTests : TestBase
 	{
 		private StringValue RandomGuidRequest => new() { Value = Guid.NewGuid().ToString() };
 
-        [Fact]
-        public async Task GetJwtToken_FromAuthorization_ReturnsIsSuccessAndValidToken()
+		[Fact]
+		public async Task GetJwtToken_FromSignUp_ReturnsIsSuccessAndValidToken()
+		{
+			// Arrange
+			var request = new SignUpRequest() { Login = "test", Password = "12345" };
+			var client = GrpcHost.CreateClient<Auth.AuthClient>();
+
+			// Act
+			var act = client.Unary.Call(c => c.SignUp(request));
+
+			// Assert
+			act.Response.AssertThat(e => e.Result.IsSuccess.Should().BeTrue());
+			act.Response.AssertThat(e => e.JwtToken.AccessToken.Should().NotBeNullOrEmpty());
+			act.Response.AssertThat(e => e.JwtToken.RefreshToken.Should().NotBeNullOrEmpty());
+		}
+
+		[Fact]
+        public async Task GetJwtToken_FromAuth_ReturnsIsSuccessAndValidToken()
         {
 			// Arrange
-			var request = new SignInRequest() { Login = "test", Password = "test" };
-			var client = GrpcHost.CreateClient<Authorization.AuthorizationClient>();
+			var request = new SignInRequest() { Login = "test", Password = "12345" };
+			var client = GrpcHost.CreateClient<Auth.AuthClient>();
 
 			// Act
 			var act = client.Unary.Call(c => c.SignIn(request));
@@ -37,7 +46,7 @@ namespace Ligric.Tests
 		{
 			// Arrange
 			var request = new SignInRequest() { Login = "test", Password = "test" };
-			var client = GrpcHost.CreateClient<Authorization.AuthorizationClient>();
+			var client = GrpcHost.CreateClient<Auth.AuthClient>();
 
 			var actLogin = client.Unary.Call(c => c.SignIn(request));
 
@@ -50,7 +59,7 @@ namespace Ligric.Tests
 
 			var headers = new Metadata
 			{
-				{ "Authorization", $"Bearer {accessToken}" }
+				{ "Auth", $"Bearer {accessToken}" }
 			};
 
 			var actExpirationAt = client.Unary.Call(c => c.GetTokenExpirationTime(new Empty(), headers));
@@ -78,7 +87,7 @@ namespace Ligric.Tests
 		{
 			//// Arrange
 			//var request = new SignInRequest() { Login = "test", Password = "test" };
-			//var client = GrpcHost.CreateClient<Authorization.AuthorizationClient>();
+			//var client = GrpcHost.CreateClient<Auth.AuthClient>();
 
 			//// Act
 			//var act = client.Unary.Call(c => c.SignIn(request));

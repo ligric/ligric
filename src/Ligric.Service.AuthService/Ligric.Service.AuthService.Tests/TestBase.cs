@@ -5,8 +5,10 @@ using FlueFlame.AspNetCore.Grpc;
 using FlueFlame.Http.Host;
 using Grpc.Core;
 using Grpc.Net.Client;
-using Ligric.Grpc;
+using Ligric.Service.AuthService.Api;
+using Ligric.Service.AuthService.Infrastructure.Database;
 using Ligric.Tests.TestDataBuilders;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,13 +22,15 @@ public abstract class TestBase : IDisposable
 	protected IFlueFlameGrpcHost GrpcHost { get; }
 	protected IServiceProvider ServiceProvider { get; }
 	protected TestServer TestServer { get; }
-	//protected EmployeeContext EmployeeContext => ServiceProvider.CreateScope().ServiceProvider.GetRequiredService<EmployeeContext>();
+
+	protected DataProvider DataProvider => ServiceProvider.CreateScope().ServiceProvider.GetRequiredService<DataProvider>();
 
 	protected TestBase()
 	{
 		var webApp = new WebApplicationFactory<Program>()
 			.WithWebHostBuilder(builder =>
 			{
+				builder.UseEnvironment("Testing");
 				// Set data base
 				builder.ConfigureServices(services =>
 				{
@@ -56,7 +60,7 @@ public abstract class TestBase : IDisposable
 				//Configure HttpClient for all FlueFlame hosts such as HttpHost, GrpcHost, SignalRHost...
 				
 				//Save JWT token to default request headers
-				c.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetJwtToken()}");
+				//c.DefaultRequestHeaders.Add("Authorization", $"Bearer {GetJwtToken()}");
 			});
 
 		HttpHost = builder.BuildHttpHost(b =>
@@ -88,7 +92,7 @@ public abstract class TestBase : IDisposable
 				Credentials = ChannelCredentials.Create(new SslCredentials(),
 					CallCredentials.FromInterceptor((context, metadata) =>
 					{
-						metadata.Add("Authorization", $"Bearer {GetJwtToken()}");
+						//metadata.Add("Authorization", $"Bearer {GetJwtToken()}");
 						return Task.CompletedTask;
 					}))
 			});
