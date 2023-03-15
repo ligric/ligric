@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
 using Ligric.Service.AuthService.Domain.Entities;
 
-namespace Ligric.Service.AuthService.Domain.Exceptions
+namespace Ligric.Service.AuthService.Domain.Extensions
 {
 	public static class MappingExtensions
 	{

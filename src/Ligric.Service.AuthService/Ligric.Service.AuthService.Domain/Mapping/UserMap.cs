@@ -1,10 +1,10 @@
 ﻿using FluentNHibernate.Mapping;
 using Ligric.Service.AuthService.Domain.Entities;
-using Ligric.Service.AuthService.Domain.Exceptions;
+using Ligric.Service.AuthService.Domain.Extensions;
 
 namespace Ligric.Domain.Mapping
 {
-    public class UserMap : ClassMap<UserEntity> 
+	public class UserMap : ClassMap<UserEntity> 
     {
         public UserMap()
         {

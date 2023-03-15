@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Api", "Ligric.Service.AuthService.Api\Ligric.Service.AuthService.Api.csproj", "{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
