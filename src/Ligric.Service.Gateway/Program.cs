@@ -24,6 +24,10 @@ builder.Services.AddGrpcClient<Auth.AuthClient>((o) =>
 {
 	o.Address = new Uri(builder.Configuration["ClientUrls:AuthClient"] ?? throw new ArgumentNullException("AuthClient not found inside configuration."));
 });
+builder.Services.AddGrpcClient<UserApis.UserApisClient>((o) =>
+{
+	o.Address = new Uri(builder.Configuration["ClientUrls:UserApisClient"] ?? throw new ArgumentNullException("UserApisClient not found inside configuration."));
+});
 
 var app = builder.Build();
 
@@ -43,5 +47,7 @@ app.UseAuthorization();
 app.UseGrpcWeb();
 
 app.MapGrpcService<AuthService>().EnableGrpcWeb();
+
+app.MapGrpcService<UserApisService>().EnableGrpcWeb();
 
 app.Run();
