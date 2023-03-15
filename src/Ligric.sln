@@ -83,6 +83,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.FuturesServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrpcAuthConsoleApplication", "TestGrpcAuthConsoleApplication\TestGrpcAuthConsoleApplication.csproj", "{ED99F90A-7B73-43C0-A490-F853105CDB1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -528,6 +530,22 @@ Global
 		{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}.Release|x64.Build.0 = Release|Any CPU
 		{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}.Release|x86.ActiveCfg = Release|Any CPU
 		{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}.Release|x86.Build.0 = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|arm64.Build.0 = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x64.Build.0 = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x86.Build.0 = Debug|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|arm64.ActiveCfg = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|arm64.Build.0 = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x64.ActiveCfg = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x64.Build.0 = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

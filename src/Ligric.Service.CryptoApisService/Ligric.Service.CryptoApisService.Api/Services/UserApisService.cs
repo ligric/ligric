@@ -1,16 +1,14 @@
-﻿using System.Threading;
-using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
-using Ligric.Application.UserApis;
-using Ligric.Application.UserApis.CreateUserApi;
-using Ligric.Application.UserApis.ShareUserApi;
-using Ligric.Protos;
-using Ligric.Grpc.Extensions;
+﻿using Grpc.Core;
+using Ligric.Rpc.Contracts;
+using Ligric.Service.CryptoApisService.Api.Helpers;
+using Ligric.Service.CryptoApisService.Infrastructure.Handlers;
+using Ligric.Service.CryptoApisService.Infrastructure.Handlers.CreateUserApi;
+using Ligric.Service.CryptoApisService.Infrastructure.Handlers.ShareUserApi;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Ligric.Grpc.Services
+namespace Ligric.Service.CryptoApisService.Api.Services
 {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class UserApisService : UserApis.UserApisBase
@@ -42,7 +40,7 @@ namespace Ligric.Grpc.Services
 
 			return new SaveApiResponse
 			{
-				Result = ResponseExtensions.GetSuccessResponseResult(),
+				Result = ResponseHelper.GetSuccessResponseResult(),
 				ApiId = apiId
 			};
 		}
@@ -54,30 +52,30 @@ namespace Ligric.Grpc.Services
 			var shareUserApiCommand = new ShareUserApiCommand(shareRequest.UserApiId, shareRequest.Permissions, new List<long>());
 			var isSuccess = await _mediator.Send(shareUserApiCommand);
 
-			return isSuccess ? ResponseExtensions.GetSuccessResponseResult() : ResponseExtensions.GetFailedResponseResult();
+			return isSuccess ? ResponseHelper.GetSuccessResponseResult() : ResponseHelper.GetFailedResponseResult();
 		}
 		[Authorize]
 		public override async Task ApisSubscribe(ApiSubscribeRequest request, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{
-			await _userApiObserver.GetApisAsObservable(request.UserId)
-				.ToAsyncEnumerable()
-				.ForEachAwaitAsync(async (x) =>
-				{
-					if (x.UserId == request.UserId)
-					{
-						await responseStream.WriteAsync(new ApisChanged
-						{
-							Action = x.Action.ToProtosAction(),
-							Api = new ApiClient
-							{
-								Id = x.Api.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
-								Name = x.Api.Name,
-								Permissions = x.Api.Permissions
-							}
-						});
-					}
-				}, context.CancellationToken)
-				.ConfigureAwait(false);
+			//await _userApiObserver.GetApisAsObservable(request.UserId)
+			//	.ToAsyncEnumerable()
+			//	.ForEachAwaitAsync(async (x) =>
+			//	{
+			//		if (x.UserId == request.UserId)
+			//		{
+			//			await responseStream.WriteAsync(new ApisChanged
+			//			{
+			//				Action = x.Action.ToProtosAction(),
+			//				Api = new ApiClient
+			//				{
+			//					Id = x.Api.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
+			//					Name = x.Api.Name,
+			//					Permissions = x.Api.Permissions
+			//				}
+			//			});
+			//		}
+			//	}, context.CancellationToken)
+			//	.ConfigureAwait(false);
 		}
 	}
 }
