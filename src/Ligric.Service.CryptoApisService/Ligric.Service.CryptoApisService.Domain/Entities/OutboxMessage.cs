@@ -9,18 +9,18 @@ namespace Ligric.Service.CryptoApisService.Domain.Entities
         {
         }
 
-        public OutboxMessage(ApiEntity user)
+        public OutboxMessage(UserApiEntity userApi)
         {
-            User = @user;
+			UserApi = userApi;
         }
 
         public static OutboxMessage FromId(long id) => new() { Id = id };
 
         public new long? Id { get; private set; }
 
-        public ApiEntity? User { get; private set; }
+        public UserApiEntity? UserApi { get; private set; }
 
-        public static IEnumerable<OutboxMessage> ToManyMessages(IEnumerable<ApiEntity> events)
+        public static IEnumerable<OutboxMessage> ToManyMessages(IEnumerable<UserApiEntity> events)
             => events.Select(e => new OutboxMessage(e));
     }
 }
