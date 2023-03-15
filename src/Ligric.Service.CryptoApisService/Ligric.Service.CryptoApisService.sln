@@ -5,6 +5,14 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Api", "Ligric.Service.CryptoApisService.Api\Ligric.Service.CryptoApisService.Api.csproj", "{71211F3E-0BBE-4EF1-B64E-0708D9BD833C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.CryptoApisService.Domain", "Ligric.Service.CryptoApisService.Domain\Ligric.Service.CryptoApisService.Domain.csproj", "{F4239FDE-6734-4E0E-96AC-DB5BE8E49FAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.CryptoApisService.Application", "Ligric.Service.CryptoApisService.Application\Ligric.Service.CryptoApisService.Application.csproj", "{7CD8E3E5-6E8C-4266-9DAE-F2D28BBF5E48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.CryptoApisService.Infrastructure", "Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj", "{B9D04B05-02B4-417B-8DAF-3B10B5020471}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{EB6F8AD0-D52D-4D19-A035-BF0063931967}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{71211F3E-0BBE-4EF1-B64E-0708D9BD833C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71211F3E-0BBE-4EF1-B64E-0708D9BD833C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71211F3E-0BBE-4EF1-B64E-0708D9BD833C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4239FDE-6734-4E0E-96AC-DB5BE8E49FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4239FDE-6734-4E0E-96AC-DB5BE8E49FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4239FDE-6734-4E0E-96AC-DB5BE8E49FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4239FDE-6734-4E0E-96AC-DB5BE8E49FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD8E3E5-6E8C-4266-9DAE-F2D28BBF5E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD8E3E5-6E8C-4266-9DAE-F2D28BBF5E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD8E3E5-6E8C-4266-9DAE-F2D28BBF5E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD8E3E5-6E8C-4266-9DAE-F2D28BBF5E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D04B05-02B4-417B-8DAF-3B10B5020471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D04B05-02B4-417B-8DAF-3B10B5020471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D04B05-02B4-417B-8DAF-3B10B5020471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D04B05-02B4-417B-8DAF-3B10B5020471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB6F8AD0-D52D-4D19-A035-BF0063931967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB6F8AD0-D52D-4D19-A035-BF0063931967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB6F8AD0-D52D-4D19-A035-BF0063931967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB6F8AD0-D52D-4D19-A035-BF0063931967}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
