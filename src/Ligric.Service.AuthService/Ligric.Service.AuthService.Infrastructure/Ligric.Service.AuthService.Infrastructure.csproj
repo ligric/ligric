@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -11,6 +11,7 @@
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.0" />
     <PackageReference Include="FluentNHibernate" Version="3.1.0" />
     <PackageReference Include="FluentValidation" Version="11.5.1" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.1.23110.8" />
@@ -22,10 +23,16 @@
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.0" />
-  </ItemGroup>
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ligric.Service.AuthService.Application\Ligric.Service.AuthService.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Data.SqlServerCe">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\Shared\Packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
