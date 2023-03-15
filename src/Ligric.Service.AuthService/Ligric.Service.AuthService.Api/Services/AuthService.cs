@@ -11,6 +11,7 @@ using Ligric.Service.AuthService.Domain.SharedKernel;
 using Ligric.Service.AuthService.Application.CheckUserExists;
 using Ligric.Core.Types.User;
 using Ligric.Rpc.Contracts;
+using Ligric.Service.AuthService.Api.Helpers;
 
 namespace Ligric.Service.AuthService.Api.Services;
 

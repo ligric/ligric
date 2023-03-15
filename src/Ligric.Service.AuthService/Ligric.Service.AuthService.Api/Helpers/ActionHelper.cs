@@ -1,7 +1,7 @@
 ﻿using Utils;
 using Action = Ligric.Rpc.Contracts.Action;
 
-namespace Ligric.Service.AuthService.Api.Extensions
+namespace Ligric.Service.AuthService.Api.Helpers
 {
     public static class ActionHelper
     {

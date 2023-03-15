@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Ligric.Rpc.Contracts;
 
-namespace Ligric.Service
+namespace Ligric.Service.AuthService.Api.Helpers
 {
 	public static class ResponseHelper
     {
