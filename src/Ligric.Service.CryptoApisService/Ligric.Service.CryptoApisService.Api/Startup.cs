@@ -146,8 +146,6 @@ namespace Ligric.Service.CryptoApisService.Api
 						ClockSkew = TimeSpan.FromMinutes(1)
 					};
 				});
-
-			//services.AddHostedService<JwtRefreshTokenCache>();
 		}
 
 		private static ILogger ConfigureLogger()
