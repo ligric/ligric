@@ -17,6 +17,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "..\Utils\Utils.csproj", "{DAFBF93C-2858-4588-8771-352F31BB213F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{F9B6A3A3-DABB-4E53-9010-E7C685942980}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Server.Auth.Infrastructure.RabbitMq.Subscribers", "Ligric.Service.AuthService.Infrastructure.RabbitMq.Subscribers\Ligric.Server.Auth.Infrastructure.RabbitMq.Subscribers.csproj", "{8647875C-71E8-448F-B4C6-4772BC6DA05B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.UseCase", "Ligric.Service.AuthService.UseCase\Ligric.Service.AuthService.UseCase.csproj", "{4496B4FF-46DA-4509-BD45-7B94720D6851}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.IoC", "Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj", "{FAE5C106-8089-44F2-BD92-3E754F898C93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +61,26 @@ Global
 		{DAFBF93C-2858-4588-8771-352F31BB213F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFBF93C-2858-4588-8771-352F31BB213F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFBF93C-2858-4588-8771-352F31BB213F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B6A3A3-DABB-4E53-9010-E7C685942980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B6A3A3-DABB-4E53-9010-E7C685942980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B6A3A3-DABB-4E53-9010-E7C685942980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B6A3A3-DABB-4E53-9010-E7C685942980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8647875C-71E8-448F-B4C6-4772BC6DA05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8647875C-71E8-448F-B4C6-4772BC6DA05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8647875C-71E8-448F-B4C6-4772BC6DA05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8647875C-71E8-448F-B4C6-4772BC6DA05B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4496B4FF-46DA-4509-BD45-7B94720D6851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4496B4FF-46DA-4509-BD45-7B94720D6851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4496B4FF-46DA-4509-BD45-7B94720D6851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4496B4FF-46DA-4509-BD45-7B94720D6851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
