@@ -4,9 +4,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using Ligric.Service.AuthService.Infrastructure.Persistence.Configurations;
 using MediatR;
 
-namespace Ligric.Service.AuthService.Infrastructure.Persistence.Configurations
+namespace Ligric.Service.AuthService.Infrastructure.Persistence.Configuration
 {
 	public class CommandValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 	{

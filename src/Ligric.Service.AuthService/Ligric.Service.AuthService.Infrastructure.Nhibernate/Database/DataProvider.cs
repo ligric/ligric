@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq.Expressions;
 using FluentNHibernate.Conventions;
 using Ligric.Service.AuthService.Domain.Entities;
-using Ligric.Service.AuthService.Infrastructure.Conventions;
+using Ligric.Service.AuthService.Infrastructure.Nhibernate.Conventions;
 using NHibernate;
 using NHibernate.Criterion;
 
-namespace Ligric.Service.AuthService.Infrastructure.Database
+namespace Ligric.Service.AuthService.Infrastructure.Nhibernate.Database
 {
 	public abstract class DataProvider
 	{

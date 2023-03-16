@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Ligric.Service.AuthService.Application.Repositories;
 using Ligric.Service.AuthService.Domain.Entities;
-using Ligric.Service.AuthService.Infrastructure.Database;
+using Ligric.Service.AuthService.Infrastructure.Nhibernate.Database;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Engine;

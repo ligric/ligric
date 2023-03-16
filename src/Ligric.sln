@@ -93,6 +93,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{776BF990-18D2-42EF-AD71-E808DF3A29F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{591356CF-6712-4135-818D-A26A8F1F0756}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -618,6 +620,22 @@ Global
 		{776BF990-18D2-42EF-AD71-E808DF3A29F8}.Release|x64.Build.0 = Release|Any CPU
 		{776BF990-18D2-42EF-AD71-E808DF3A29F8}.Release|x86.ActiveCfg = Release|Any CPU
 		{776BF990-18D2-42EF-AD71-E808DF3A29F8}.Release|x86.Build.0 = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|arm64.Build.0 = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|x64.Build.0 = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Debug|x86.Build.0 = Debug|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|arm64.ActiveCfg = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|arm64.Build.0 = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x64.ActiveCfg = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x64.Build.0 = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x86.ActiveCfg = Release|Any CPU
+		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -658,6 +676,7 @@ Global
 		{FB95517B-E29A-432D-9B7F-16DDA05EDF7D} = {C998448A-B733-4AC1-9835-6F549C6B0BFD}
 		{DDFC04D2-C73F-4FFD-9C9C-FA1658295B72} = {C998448A-B733-4AC1-9835-6F549C6B0BFD}
 		{776BF990-18D2-42EF-AD71-E808DF3A29F8} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
+		{591356CF-6712-4135-818D-A26A8F1F0756} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}

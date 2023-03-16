@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Ligric.Service.AuthService.Infrastructure.Database
+namespace Ligric.Service.AuthService.Infrastructure.Nhibernate.Database
 {
 	public class DataAccessModule : Module
 	{

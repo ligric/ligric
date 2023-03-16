@@ -1,4 +1,4 @@
-﻿namespace Ligric.Service.AuthService.Infrastructure.Database
+﻿namespace Ligric.Service.AuthService.Infrastructure.Nhibernate.Database
 {
 	public interface IConnectionSettingsProvider
 	{

@@ -6,8 +6,6 @@ using Quartz.Impl;
 using Serilog;
 using NHibernate;
 using Ligric.Service.AuthService.Application;
-using Ligric.Service.AuthService.Infrastructure.Jwt;
-using Ligric.Service.AuthService.Infrastructure.Database;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Repositories;
 using Ligric.Service.AuthService.Infrastructure.Logging;
 using Ligric.Service.AuthService.Infrastructure.Processing;
@@ -17,6 +15,8 @@ using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
 using Ligric.Service.AuthService.Infrastructure.Quartz;
 using Ligric.Service.AuthService.Application.Repositories;
+using Ligric.Service.AuthService.Infrastructure.Jwt;
+using Ligric.Service.AuthService.Infrastructure.Nhibernate.Database;
 
 namespace Ligric.Service.AuthService.Infrastructure
 {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System;
 using Ligric.Service.AuthService.Domain.Entities;
-using Ligric.Service.AuthService.Infrastructure.Database;
 using Ligric.Service.AuthService.Application.Repositories;
+using Ligric.Service.AuthService.Infrastructure.Nhibernate.Database;
 
 namespace Ligric.Service.AuthService.Infrastructure.Persistence.Repositories
 {

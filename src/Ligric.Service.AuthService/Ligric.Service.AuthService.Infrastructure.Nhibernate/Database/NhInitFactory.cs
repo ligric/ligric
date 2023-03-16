@@ -5,12 +5,12 @@ using System.IO;
 using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Conventions;
-using Ligric.Service.AuthService.Infrastructure.Conventions;
+using Ligric.Service.AuthService.Infrastructure.Nhibernate.Conventions;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 
-namespace Ligric.Service.AuthService.Infrastructure.Database
+namespace Ligric.Service.AuthService.Infrastructure.Nhibernate.Database
 {
 	public class UnCommittedNhInitFactory : NhInitFactory
 	{

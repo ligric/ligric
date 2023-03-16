@@ -7,7 +7,7 @@ using Autofac.Core;
 using Autofac.Features.Variance;
 using FluentValidation;
 using Ligric.Infrastructure.Processing;
-using Ligric.Service.AuthService.Infrastructure.Persistence.Configurations;
+using Ligric.Service.AuthService.Infrastructure.Persistence.Configuration;
 using MediatR;
 using MediatR.Pipeline;
 

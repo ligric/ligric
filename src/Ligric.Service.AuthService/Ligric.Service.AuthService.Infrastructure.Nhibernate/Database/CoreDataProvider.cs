@@ -1,7 +1,7 @@
 ﻿using System;
 using NHibernate;
 
-namespace Ligric.Service.AuthService.Infrastructure.Database
+namespace Ligric.Service.AuthService.Infrastructure.Nhibernate.Database
 {
 	public class CoreDataProvider : DataProvider, IDisposable
 	{
@@ -30,12 +30,12 @@ namespace Ligric.Service.AuthService.Infrastructure.Database
 
 			lock (_lockSession)
 			{
-                // ReSharper disable once InconsistentlySynchronizedField
-                if (_session != null && _session.IsOpen)
-                {
-                    // ReSharper disable once InconsistentlySynchronizedField
-                    return _session;
-                }
+				// ReSharper disable once InconsistentlySynchronizedField
+				if (_session != null && _session.IsOpen)
+				{
+					// ReSharper disable once InconsistentlySynchronizedField
+					return _session;
+				}
 
 				if (_session != null && !_session.IsOpen)
 				{
@@ -68,12 +68,12 @@ namespace Ligric.Service.AuthService.Infrastructure.Database
 			}
 			finally
 			{
-                if (_session?.IsOpen == true)
-                {
-                    _session?.Close();
-                }
+				if (_session?.IsOpen == true)
+				{
+					_session?.Close();
+				}
 
-                _session = null;
+				_session = null;
 			}
 		}
 

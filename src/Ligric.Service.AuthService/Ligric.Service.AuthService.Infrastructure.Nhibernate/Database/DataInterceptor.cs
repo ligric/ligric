@@ -5,7 +5,7 @@ using Ligric.Service.AuthService.Domain.Entities;
 using NHibernate;
 using NHibernate.Type;
 
-namespace Ligric.Service.AuthService.Infrastructure.Database
+namespace Ligric.Service.AuthService.Infrastructure.Nhibernate.Database
 {
 	public class DataInterceptor : EmptyInterceptor
 	{
