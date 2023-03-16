@@ -6,12 +6,11 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Features.Variance;
 using FluentValidation;
-using Ligric.Infrastructure.Processing;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Configuration;
 using MediatR;
 using MediatR.Pipeline;
 
-namespace Ligric.Service.AuthService.Infrastructure.Processing
+namespace Ligric.Service.AuthService.IoC
 {
 	public class MediatorModule : Autofac.Module
 	{

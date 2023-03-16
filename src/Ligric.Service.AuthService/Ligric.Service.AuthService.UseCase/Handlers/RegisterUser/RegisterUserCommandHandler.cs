@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Ligric.Core.Types.User;
 using System;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
-using Ligric.Service.AuthService.Infrastructure;
-using Ligric.Service.AuthService.Domain.Entities;
 using Ligric.Service.AuthService.Application.Repositories;
+using Ligric.Service.AuthService.Infrastructure;
+using Ligric.Core.Types.User;
+using Ligric.Service.AuthService.Domain.Entities;
 
-namespace Ligric.Application.Users.RegisterUser
+namespace Ligric.Service.AuthService.UseCase.Handlers.RegisterUser
 {
 	public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserResponseDto>
     {

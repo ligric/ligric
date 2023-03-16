@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MediatR;
 using Google.Protobuf.WellKnownTypes;
 using System.Security.Claims;
-using Ligric.Application.Users.LoginCustomer;
-using Ligric.Application.Users.RegisterUser;
 using Ligric.Service.AuthService.Infrastructure.Jwt;
 using Ligric.Service.AuthService.Domain.SharedKernel;
-using Ligric.Service.AuthService.Application.CheckUserExists;
 using Ligric.Core.Types.User;
 using Ligric.Rpc.Contracts;
 using Ligric.Service.AuthService.Api.Helpers;
+using Ligric.Service.AuthService.UseCase.Handlers.CheckUserExists;
+using Ligric.Service.AuthService.UseCase.Handlers.LoginCustomer;
+using Ligric.Service.AuthService.UseCase.Handlers.RegisterUser;
 
 namespace Ligric.Service.AuthService.Api.Services;
 

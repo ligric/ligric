@@ -1,4 +1,4 @@
-﻿using Ligric.Application.Users.LoginCustomer;
+﻿using Ligric.Service.AuthService.UseCase.Handlers.LoginCustomer;
 using Ligric.Core.Types.User;
 using Ligric.Service.AuthService.Application.Repositories;
 using Ligric.Service.AuthService.Infrastructure;
@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ligric.Application.Users.LoginUser
+namespace Ligric.Service.AuthService.UseCase.Handlers.LoginUser
 {
 	public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, UserResponseDto>
     {

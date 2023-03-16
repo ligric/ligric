@@ -1,7 +1,7 @@
 ﻿using Ligric.Core.Types.User;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
 
-namespace Ligric.Application.Users.RegisterUser
+namespace Ligric.Service.AuthService.UseCase.Handlers.RegisterUser
 {
     public class RegisterUserCommand : CommandBase<UserResponseDto>
     {

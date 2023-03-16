@@ -36,7 +36,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj" />
     <ProjectReference Include="..\..\Utils\Utils.csproj" />
-    <ProjectReference Include="..\Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj" />
   </ItemGroup>
 
 </Project>

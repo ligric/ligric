@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Ligric.Service.AuthService.Application.CheckUserExists;
 using Ligric.Service.AuthService.Domain.Checkers;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Queries;
 
-namespace Ligric.Application.Users.CheckUserExists
+namespace Ligric.Service.AuthService.UseCase.Handlers.CheckUserExists
 {
     public class UserNameIsUniqueQueryHandler : IQueryHandler<UserNameIsUniqueQuery, bool>
     {

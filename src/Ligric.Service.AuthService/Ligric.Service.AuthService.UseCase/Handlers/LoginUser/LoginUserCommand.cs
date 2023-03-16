@@ -1,7 +1,7 @@
 ﻿using Ligric.Core.Types.User;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
 
-namespace Ligric.Application.Users.LoginCustomer
+namespace Ligric.Service.AuthService.UseCase.Handlers.LoginCustomer
 {
     public class LoginUserCommand : CommandBase<UserResponseDto>
     {

@@ -10,6 +10,7 @@ using Ligric.Service.AuthService.Application;
 using Ligric.Service.AuthService.Infrastructure.Jwt;
 using Ligric.Service.AuthService.Infrastructure.MessageBus;
 using Ligric.Service.AuthService.Infrastructure.Persistence;
+using Ligric.Service.AuthService.IoC;
 
 namespace Ligric.Service.AuthService.Api
 {

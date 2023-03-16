@@ -1,10 +1,10 @@
 ﻿using Autofac;
+using Ligric.Infrastructure.Processing;
 using Ligric.Service.AuthService.Infrastructure.Logging;
 using Ligric.Service.AuthService.Infrastructure.Persistence.Commands;
-using Ligric.Service.AuthService.Infrastructure.Processing;
 using MediatR;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Service.AuthService.IoC
 {
 	public class ProcessingModule : Module
     {

@@ -1,6 +1,6 @@
 ﻿using Ligric.Service.AuthService.Infrastructure.Persistence.Queries;
 
-namespace Ligric.Service.AuthService.Application.CheckUserExists
+namespace Ligric.Service.AuthService.UseCase.Handlers.CheckUserExists
 {
     public class UserNameIsUniqueQuery : IQuery<bool>
     {

@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Ligric.Service.AuthService.Infrastructure
+namespace Ligric.Service.AuthService.IoC
 {
     public static class CompositionRoot
     {

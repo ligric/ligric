@@ -91,9 +91,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Infrastructure", "Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj", "{DDFC04D2-C73F-4FFD-9C9C-FA1658295B72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{776BF990-18D2-42EF-AD71-E808DF3A29F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{776BF990-18D2-42EF-AD71-E808DF3A29F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{591356CF-6712-4135-818D-A26A8F1F0756}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{591356CF-6712-4135-818D-A26A8F1F0756}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.UseCase", "Ligric.Service.AuthService\Ligric.Service.AuthService.UseCase\Ligric.Service.AuthService.UseCase.csproj", "{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.IoC", "Ligric.Service.AuthService\Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj", "{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -636,6 +640,38 @@ Global
 		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x64.Build.0 = Release|Any CPU
 		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x86.ActiveCfg = Release|Any CPU
 		{591356CF-6712-4135-818D-A26A8F1F0756}.Release|x86.Build.0 = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|arm64.Build.0 = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|x64.Build.0 = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|arm64.ActiveCfg = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|arm64.Build.0 = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|x64.ActiveCfg = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|x64.Build.0 = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}.Release|x86.Build.0 = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|arm64.Build.0 = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|x64.Build.0 = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Debug|x86.Build.0 = Debug|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|arm64.ActiveCfg = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|arm64.Build.0 = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x64.ActiveCfg = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x64.Build.0 = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x86.ActiveCfg = Release|Any CPU
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -677,6 +713,8 @@ Global
 		{DDFC04D2-C73F-4FFD-9C9C-FA1658295B72} = {C998448A-B733-4AC1-9835-6F549C6B0BFD}
 		{776BF990-18D2-42EF-AD71-E808DF3A29F8} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
 		{591356CF-6712-4135-818D-A26A8F1F0756} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
+		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
+		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}

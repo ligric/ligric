@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Ligric.Application.Users.RegisterUser;
+using Ligric.Service.AuthService.UseCase.Handlers.RegisterUser;
 
-namespace Ligric.Infrastructure.Processing
+namespace Ligric.Service.AuthService.IoC
 {
     internal static class Assemblies
     {

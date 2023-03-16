@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Autofac.Core.Activators.Reflection;
 
-namespace Ligric.Service.AuthService.Infrastructure.Processing
+namespace Ligric.Service.AuthService.IoC
 {
     internal class AllConstructorFinder : IConstructorFinder
     {
