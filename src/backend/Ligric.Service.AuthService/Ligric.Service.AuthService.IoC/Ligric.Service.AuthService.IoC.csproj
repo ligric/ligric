@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="7.0.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Ligric.Service.AuthService.UseCase\Ligric.Service.AuthService.UseCase.csproj" />
+	</ItemGroup>
+
+	</Project>

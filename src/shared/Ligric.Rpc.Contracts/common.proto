@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Ligric.Rpc.Contracts";
+
+package Ligric.Rpc.Contracts;
+
+message ResponseResult {
+	bool isSuccess = 1;
+	string errorKey = 2;
+    google.protobuf.Timestamp occurredOn = 3;
+}
+
+message JwtToken {
+	string accessToken = 1;
+	string refreshToken = 2;
+    google.protobuf.Timestamp expirationAt = 3;
+}
+
+enum Action
+{
+	ADDED = 0;
+	REMOVED = 1;
+	CHANGED = 2;
+}
