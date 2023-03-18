@@ -5,27 +5,27 @@ VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{4C58AE60-E887-489A-B332-ECFD7DC20F4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Windows", "Ligric.UI.Windows\Ligric.UI.Windows.csproj", "{5A03EEC4-4EAA-4C9F-9E34-8CADD2D7FBD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Windows", "frontend\Ligric.UI.Windows\Ligric.UI.Windows.csproj", "{5A03EEC4-4EAA-4C9F-9E34-8CADD2D7FBD9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Mobile", "Ligric.UI.Mobile\Ligric.UI.Mobile.csproj", "{5BE31DF9-7A4E-4612-9650-FAE9BF68FBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Mobile", "frontend\Ligric.UI.Mobile\Ligric.UI.Mobile.csproj", "{5BE31DF9-7A4E-4612-9650-FAE9BF68FBC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Skia.Gtk", "Ligric.UI.Skia.Gtk\Ligric.UI.Skia.Gtk.csproj", "{4DB07D95-627F-4CE4-9790-97C9BDF142D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Skia.Gtk", "frontend\Ligric.UI.Skia.Gtk\Ligric.UI.Skia.Gtk.csproj", "{4DB07D95-627F-4CE4-9790-97C9BDF142D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Skia.Linux.FrameBuffer", "Ligric.UI.Skia.Linux.FrameBuffer\Ligric.UI.Skia.Linux.FrameBuffer.csproj", "{D7F75F70-70EC-47D7-8FB8-F953052DC96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Skia.Linux.FrameBuffer", "frontend\Ligric.UI.Skia.Linux.FrameBuffer\Ligric.UI.Skia.Linux.FrameBuffer.csproj", "{D7F75F70-70EC-47D7-8FB8-F953052DC96D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Skia.Wpf", "Ligric.UI.Skia.Wpf\Ligric.UI.Skia.Wpf.csproj", "{23B58928-C04D-45EF-97F4-307A50FFACE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Skia.Wpf", "frontend\Ligric.UI.Skia.Wpf\Ligric.UI.Skia.Wpf.csproj", "{23B58928-C04D-45EF-97F4-307A50FFACE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Wasm", "Ligric.UI.Wasm\Ligric.UI.Wasm.csproj", "{BE56CEA5-F2B8-47B9-A969-D0235E88A35A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Wasm", "frontend\Ligric.UI.Wasm\Ligric.UI.Wasm.csproj", "{BE56CEA5-F2B8-47B9-A969-D0235E88A35A}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ligric.UI.Shared", "Ligric.UI.Shared\Ligric.UI.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Ligric.UI.Shared", "frontend\Ligric.UI.Shared\Ligric.UI.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Infrastructure", "Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj", "{AF2D8B5B-0A6C-401D-9045-E9572D8A64C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.Infrastructure", "frontend\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj", "{AF2D8B5B-0A6C-401D-9045-E9572D8A64C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{ADAF8BB1-AB66-41E2-A623-BB8E5D4745B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DE356FB2-F2B6-4D5D-9B96-579A4DFC770D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Utils\Utils.csproj", "{7DA54956-0EA7-428F-B2F8-28EEBE61FE4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "shared\Utils\Utils.csproj", "{7DA54956-0EA7-428F-B2F8-28EEBE61FE4B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{8CD6F17A-69DF-4950-958B-57206FD36B5E}"
 EndProject
@@ -39,65 +39,63 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6BE5EC5E-7045-4B3A-9486-44C07DEC247E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.ViewModels", "Ligric.UI.ViewModels\Ligric.UI.ViewModels.csproj", "{7F6DA9BF-5637-4EF1-9E6D-4D24396757B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.UI.ViewModels", "frontend\Ligric.UI.ViewModels\Ligric.UI.ViewModels.csproj", "{7F6DA9BF-5637-4EF1-9E6D-4D24396757B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Business", "Ligric.Business\Ligric.Business.csproj", "{937928F8-F1BD-452B-B502-C7EE24DD57C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Business", "frontend\Ligric.Business\Ligric.Business.csproj", "{937928F8-F1BD-452B-B502-C7EE24DD57C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Crypto.Tests", "Ligric.Crypto.Tests\Ligric.Crypto.Tests.csproj", "{C00695B4-21C2-4A86-A83C-3ED045AC5DD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Crypto.Tests", "units\Ligric.Crypto.Tests\Ligric.Crypto.Tests.csproj", "{C00695B4-21C2-4A86-A83C-3ED045AC5DD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.CryptoObserver", "Ligric.CryptoObserver\Ligric.CryptoObserver.csproj", "{0E164451-7D03-4C74-8C36-CB5E7692FBB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.CryptoObserver", "units\Ligric.CryptoObserver\Ligric.CryptoObserver.csproj", "{0E164451-7D03-4C74-8C36-CB5E7692FBB1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{6FC5203C-B525-4E29-AD3C-6E0CA96677A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain", "Ligric.Domain\Ligric.Domain.csproj", "{F8F0001C-B985-4C23-87CC-40778EF82943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Domain", "backend\Ligric.Domain\Ligric.Domain.csproj", "{F8F0001C-B985-4C23-87CC-40778EF82943}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Application", "Ligric.Application\Ligric.Application.csproj", "{4145ACC8-507D-4F65-94B1-D770412E908C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Application", "backend\Ligric.Application\Ligric.Application.csproj", "{4145ACC8-507D-4F65-94B1-D770412E908C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Infrastructure", "Ligric.Infrastructure\Ligric.Infrastructure.csproj", "{AE4508BA-9C79-4773-9F7A-E9FC2EF1FFA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Infrastructure", "backend\Ligric.Infrastructure\Ligric.Infrastructure.csproj", "{AE4508BA-9C79-4773-9F7A-E9FC2EF1FFA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Core", "Ligric.Core\Ligric.Core.csproj", "{3B5B9088-9DCA-4044-8D6A-87179DA7A816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Core", "shared\Ligric.Core\Ligric.Core.csproj", "{3B5B9088-9DCA-4044-8D6A-87179DA7A816}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Grpc", "Ligric.Grpc\Ligric.Grpc.csproj", "{17E79B6F-DC0D-4C55-8989-D57E7AE53A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Grpc", "backend\Ligric.Grpc\Ligric.Grpc.csproj", "{17E79B6F-DC0D-4C55-8989-D57E7AE53A90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.Gateway", "Ligric.Service.Gateway\Ligric.Service.Gateway.csproj", "{F435655E-9DD6-4B87-8D98-E48708B243B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.Gateway", "backend\Ligric.Service.Gateway\Ligric.Service.Gateway.csproj", "{F435655E-9DD6-4B87-8D98-E48708B243B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{4B0435A7-AFAB-4970-BE22-896991B52AB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Domain", "Ligric.Service.AuthService\Ligric.Service.AuthService.Domain\Ligric.Service.AuthService.Domain.csproj", "{05F68D89-76F3-4079-AFB1-DBB4CF0E9F2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Domain", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Domain\Ligric.Service.AuthService.Domain.csproj", "{05F68D89-76F3-4079-AFB1-DBB4CF0E9F2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Application", "Ligric.Service.AuthService\Ligric.Service.AuthService.Application\Ligric.Service.AuthService.Application.csproj", "{11E213CC-5CD7-49E1-A5EA-375B1A8DD3D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Application", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Application\Ligric.Service.AuthService.Application.csproj", "{11E213CC-5CD7-49E1-A5EA-375B1A8DD3D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj", "{C90A8740-E407-423C-8A4A-19DC068E762E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure\Ligric.Service.AuthService.Infrastructure.csproj", "{C90A8740-E407-423C-8A4A-19DC068E762E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Api", "Ligric.Service.AuthService\Ligric.Service.AuthService.Api\Ligric.Service.AuthService.Api.csproj", "{78C10115-94AD-46DD-B5FB-9CD080DAE306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Api", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Api\Ligric.Service.AuthService.Api.csproj", "{78C10115-94AD-46DD-B5FB-9CD080DAE306}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Tests", "Ligric.Service.AuthService\Ligric.Service.AuthService.Tests\Ligric.Service.AuthService.Tests.csproj", "{081B342B-1444-4E7C-9A6D-554FB6769337}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Tests", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Tests\Ligric.Service.AuthService.Tests.csproj", "{081B342B-1444-4E7C-9A6D-554FB6769337}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CryptoApis", "CryptoApis", "{C998448A-B733-4AC1-9835-6F549C6B0BFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Api", "Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Api\Ligric.Service.CryptoApisService.Api.csproj", "{FB32CAD3-52E7-457C-9512-3013DB1166E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Api", "backend\Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Api\Ligric.Service.CryptoApisService.Api.csproj", "{FB32CAD3-52E7-457C-9512-3013DB1166E4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Futures", "Futures", "{D4EA7D51-2CD9-48F8-85D3-2F1709B79A6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.FuturesService.Api", "Ligric.Service.FuturesService\Ligric.Service.FuturesService.Api\Ligric.Service.FuturesService.Api.csproj", "{8210C0D3-A74B-498E-8B05-2FB6E24B5AD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.FuturesService.Api", "backend\Ligric.Service.FuturesService\Ligric.Service.FuturesService.Api\Ligric.Service.FuturesService.Api.csproj", "{8210C0D3-A74B-498E-8B05-2FB6E24B5AD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "shared\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGrpcAuthConsoleApplication", "TestGrpcAuthConsoleApplication\TestGrpcAuthConsoleApplication.csproj", "{ED99F90A-7B73-43C0-A490-F853105CDB1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Domain", "backend\Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Domain\Ligric.Service.CryptoApisService.Domain.csproj", "{C21BAD4C-B3DE-4D22-95B1-BBD98869F6A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Domain", "Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Domain\Ligric.Service.CryptoApisService.Domain.csproj", "{C21BAD4C-B3DE-4D22-95B1-BBD98869F6A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Application", "backend\Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Application\Ligric.Service.CryptoApisService.Application.csproj", "{FB95517B-E29A-432D-9B7F-16DDA05EDF7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Application", "Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Application\Ligric.Service.CryptoApisService.Application.csproj", "{FB95517B-E29A-432D-9B7F-16DDA05EDF7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Infrastructure", "backend\Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj", "{DDFC04D2-C73F-4FFD-9C9C-FA1658295B72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.CryptoApisService.Infrastructure", "Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj", "{DDFC04D2-C73F-4FFD-9C9C-FA1658295B72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{776BF990-18D2-42EF-AD71-E808DF3A29F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{776BF990-18D2-42EF-AD71-E808DF3A29F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{591356CF-6712-4135-818D-A26A8F1F0756}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "Ligric.Service.AuthService\Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{591356CF-6712-4135-818D-A26A8F1F0756}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.UseCase", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.UseCase\Ligric.Service.AuthService.UseCase.csproj", "{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.UseCase", "Ligric.Service.AuthService\Ligric.Service.AuthService.UseCase\Ligric.Service.AuthService.UseCase.csproj", "{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.AuthService.IoC", "Ligric.Service.AuthService\Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj", "{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.IoC", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj", "{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -544,22 +542,6 @@ Global
 		{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}.Release|x64.Build.0 = Release|Any CPU
 		{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}.Release|x86.ActiveCfg = Release|Any CPU
 		{8736CF38-1DFC-4DD2-8DCB-1881A65D65D7}.Release|x86.Build.0 = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|arm64.Build.0 = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x64.Build.0 = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Debug|x86.Build.0 = Debug|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|arm64.ActiveCfg = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|arm64.Build.0 = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x64.ActiveCfg = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x64.Build.0 = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x86.ActiveCfg = Release|Any CPU
-		{ED99F90A-7B73-43C0-A490-F853105CDB1A}.Release|x86.Build.0 = Release|Any CPU
 		{C21BAD4C-B3DE-4D22-95B1-BBD98869F6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C21BAD4C-B3DE-4D22-95B1-BBD98869F6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C21BAD4C-B3DE-4D22-95B1-BBD98869F6A2}.Debug|arm64.ActiveCfg = Debug|Any CPU
@@ -720,12 +702,12 @@ Global
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{23b58928-c04d-45ef-97f4-307a50fface4}*SharedItemsImports = 5
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{4db07d95-627f-4ce4-9790-97c9bdf142d9}*SharedItemsImports = 5
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{5a03eec4-4eaa-4c9f-9e34-8cadd2d7fbd9}*SharedItemsImports = 5
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{5be31df9-7a4e-4612-9650-fae9bf68fbc4}*SharedItemsImports = 5
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{be56cea5-f2b8-47b9-a969-d0235e88a35a}*SharedItemsImports = 5
-		Ligric.UI.Shared\Ligric.UI.Shared.projitems*{d7f75f70-70ec-47d7-8fb8-f953052dc96d}*SharedItemsImports = 5
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{23b58928-c04d-45ef-97f4-307a50fface4}*SharedItemsImports = 5
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{4db07d95-627f-4ce4-9790-97c9bdf142d9}*SharedItemsImports = 5
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{5a03eec4-4eaa-4c9f-9e34-8cadd2d7fbd9}*SharedItemsImports = 5
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{5be31df9-7a4e-4612-9650-fae9bf68fbc4}*SharedItemsImports = 5
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{be56cea5-f2b8-47b9-a969-d0235e88a35a}*SharedItemsImports = 5
+		frontend\Ligric.UI.Shared\Ligric.UI.Shared.projitems*{d7f75f70-70ec-47d7-8fb8-f953052dc96d}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
