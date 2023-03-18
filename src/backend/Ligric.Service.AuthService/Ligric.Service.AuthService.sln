@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Api", "Ligric.Service.AuthService.Api\Ligric.Service.AuthService.Api.csproj", "{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "..\Utils\Utils.csproj", "{DAFBF93C-2858-4588-8771-352F31BB213F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Jwt", "Ligric.Service.AuthService.Infrastructure.Jwt\Ligric.Service.AuthService.Infrastructure.Jwt.csproj", "{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.Infrastructure.Nhibernate", "Ligric.Service.AuthService.Infrastructure.Nhibernate\Ligric.Service.AuthService.Infrastructure.Nhibernate.csproj", "{F9B6A3A3-DABB-4E53-9010-E7C685942980}"
@@ -26,6 +22,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.UseCase", "Ligric.Service.AuthService.UseCase\Ligric.Service.AuthService.UseCase.csproj", "{4496B4FF-46DA-4509-BD45-7B94720D6851}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.IoC", "Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj", "{FAE5C106-8089-44F2-BD92-3E754F898C93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "..\..\shared\Utils\Utils.csproj", "{A1E8DC15-E5D4-447E-A7AD-EC21A4543B72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Rpc.Contracts", "..\..\shared\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj", "{E39761B0-1881-4C93-BD5D-D36AF47DB4A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +53,6 @@ Global
 		{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4CAA2BF-C32F-4D05-80B4-331E8398FC21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DEA6EBB-29B2-4A9D-BF08-309DA860C89B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAFBF93C-2858-4588-8771-352F31BB213F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAFBF93C-2858-4588-8771-352F31BB213F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAFBF93C-2858-4588-8771-352F31BB213F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAFBF93C-2858-4588-8771-352F31BB213F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65A5ECF9-149C-45C4-8BA4-5DBE36B10485}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,6 +73,14 @@ Global
 		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAE5C106-8089-44F2-BD92-3E754F898C93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1E8DC15-E5D4-447E-A7AD-EC21A4543B72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1E8DC15-E5D4-447E-A7AD-EC21A4543B72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1E8DC15-E5D4-447E-A7AD-EC21A4543B72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1E8DC15-E5D4-447E-A7AD-EC21A4543B72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E39761B0-1881-4C93-BD5D-D36AF47DB4A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E39761B0-1881-4C93-BD5D-D36AF47DB4A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E39761B0-1881-4C93-BD5D-D36AF47DB4A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E39761B0-1881-4C93-BD5D-D36AF47DB4A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
