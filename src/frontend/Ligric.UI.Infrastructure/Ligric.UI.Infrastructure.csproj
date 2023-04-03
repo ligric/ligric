@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -6,7 +6,7 @@
 	
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.28.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="Uno.WinUI.MSAL" Version="$(UnoVersion)" />
 
