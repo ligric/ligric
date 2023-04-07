@@ -1,6 +1,6 @@
 ﻿#pragma warning disable 109 // Remove warning for Window property on iOS
 
-using Ligric.Business.Authorization;
+using Ligric.UI.Views;
 
 namespace Ligric.UI
 {
@@ -41,6 +41,12 @@ namespace Ligric.UI
             var notif = _host.Services.GetRequiredService<IRouteNotifier>();
 			notif.RouteChanged += RouteUpdated;
 
+			var newFrame = new Frame()
+			{
+				Content = new AuthorizationPage()
+			};
+
+			_window.Content = newFrame;
 		}
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.

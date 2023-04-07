@@ -11,6 +11,8 @@
 		<UseWinUI>true</UseWinUI>
 		<!--<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>-->
 		<EnableMsixTooling>true</EnableMsixTooling>
+
+		<!-- This bundles the WinUI3 components -->
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -87,7 +89,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
-	  <ProjectReference Include="..\Ligric.UI.ViewModels\Ligric.UI.ViewModels.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

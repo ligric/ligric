@@ -2,7 +2,6 @@
 
 using Ligric.UI.ViewModels.Helpers;
 using Ligric.UI.Views;
-using Ligric.UI.ViewModels.Presentation;
 
 namespace Ligric.UI;
 
@@ -51,7 +50,7 @@ public sealed partial class App : Application
 					})
 
                 // Enable navigation, including registering views and viewmodels
-                .UseNavigation(ViewModels.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+                //.UseNavigation(ViewModels.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 
                 // AddAndRiseEvent navigation support for toolkit controls such as TabBar and NavigationView
                 .UseToolkitNavigation()
@@ -64,18 +63,18 @@ public sealed partial class App : Application
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
-        views.Register(
-            new ViewMap<AuthorizationPage, AuthorizationViewModel>(),
-            new ViewMap<FuturesPage, FuturesViewModel>(),
-            new ViewMap(ViewModel: typeof(ShellViewModel))
-        );
+   //     views.Register(
+   //         new ViewMap<AuthorizationPage, AuthorizationViewModel>(),
+   //         new ViewMap<FuturesPage, FuturesViewModel>(),
+   //         new ViewMap(ViewModel: typeof(ShellViewModel))
+   //     );
 
-        routes.Register(
-            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
-            {
-                new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
-                new("Futures", View: views.FindByViewModel<FuturesViewModel>())
-			})
-        );
+   //     routes.Register(
+   //         new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
+   //         {
+   //             new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
+   //             new("Futures", View: views.FindByViewModel<FuturesViewModel>())
+			//})
+   //     );
     }
 }
