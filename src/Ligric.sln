@@ -95,6 +95,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ligric.Service.AuthService.IoC", "backend\Ligric.Service.AuthService\Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj", "{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "envoy", "envoy", "{0014EDD0-BD7F-4623-B6A8-4024A47EC408}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -636,6 +640,22 @@ Global
 		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x64.Build.0 = Release|Any CPU
 		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x86.ActiveCfg = Release|Any CPU
 		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16}.Release|x86.Build.0 = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|arm64.Build.0 = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|x64.Build.0 = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Debug|x86.Build.0 = Debug|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|arm64.ActiveCfg = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|arm64.Build.0 = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x64.ActiveCfg = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x64.Build.0 = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x86.ActiveCfg = Release|Any CPU
+		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

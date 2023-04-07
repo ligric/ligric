@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  ligric.service.authservice.api:
+    image: ${DOCKER_REGISTRY-}ligricserviceauthserviceapi
+    build:
+      context: .
+      dockerfile: backend/Ligric.Service.AuthService/Ligric.Service.AuthService.Api/Dockerfile
+    ports:
+      - 50051:50051
+
