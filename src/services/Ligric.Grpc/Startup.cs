@@ -10,7 +10,7 @@ using System.Text;
 using Ligric.Grpc.Services;
 using Ligric.Infrastructure;
 using Ligric.Infrastructure.Jwt;
-using Ligric.Protos;
+using Ligric.Rpc.Contracts;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using System.Xml.Serialization;
 

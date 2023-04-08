@@ -1,4 +1,4 @@
-﻿using Ligric.Protos;
+﻿using Ligric.Rpc.Contracts;
 using Ligric.Core.Types.Future;
 
 namespace Ligric.Grpc.Extensions

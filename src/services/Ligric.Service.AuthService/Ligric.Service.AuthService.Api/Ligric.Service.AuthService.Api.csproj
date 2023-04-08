@@ -39,9 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\shared\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj" />
     <ProjectReference Include="..\..\..\shared\Utils\Utils.csproj" />
     <ProjectReference Include="..\Ligric.Service.AuthService.IoC\Ligric.Service.AuthService.IoC.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Protobuf Include="..\..\..\protos\auth.proto" Link="protos\auth.proto" GrpcServices="Server"/>
+		<Protobuf Include="..\..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Server"/>
+	</ItemGroup>
 </Project>

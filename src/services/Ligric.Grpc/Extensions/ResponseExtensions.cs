@@ -1,4 +1,4 @@
-﻿using Ligric.Protos;
+﻿using Ligric.Rpc.Contracts;
 using Google.Protobuf.WellKnownTypes;
 
 namespace Ligric.Grpc

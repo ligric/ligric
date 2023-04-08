@@ -1,7 +1,7 @@
 ﻿using System;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.Core.Types.Future;
-using Ligric.Protos;
+using Ligric.Rpc.Contracts;
 
 namespace Ligric.Business.Extensions
 {

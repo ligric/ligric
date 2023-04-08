@@ -1,5 +1,5 @@
 ﻿using Utils;
-using Action = Ligric.Protos.Action;
+using Action = Ligric.Rpc.Contracts.Action;
 
 namespace Ligric.Grpc.Extensions
 {

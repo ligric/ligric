@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Grpc.Net.Client;
 using Ligric.Core.Types.Future;
-using static Ligric.Protos.Futures;
+using static Ligric.Rpc.Contracts.Futures;
 using Utils;
 using Ligric.Business.Authorization;
 using System.Threading;
-using Ligric.Protos;
+using Ligric.Rpc.Contracts;
 using System.Linq;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
@@ -79,14 +79,14 @@ namespace Ligric.Business.Clients.Futures
 		{
 			switch (api.Action)
 			{
-				case Protos.Action.Added:
+				case Rpc.Contracts.Action.Added:
 					var orderDto = api.Order.ToFuturesOrderDto();
 					_openOrders.SetAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, orderDto, ref syncOrderChanged);
 					break;
-				case Protos.Action.Removed:
+				case Rpc.Contracts.Action.Removed:
 					_openOrders.RemoveAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, ref syncOrderChanged);
 					break;
-				case Protos.Action.Changed: goto case Protos.Action.Added;
+				case Rpc.Contracts.Action.Changed: goto case Rpc.Contracts.Action.Added;
 			}
 		}
 	}

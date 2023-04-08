@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Ligric.Protos;
 using Grpc.Net.Client;
-using static Ligric.Protos.Authorization;
 using Ligric.Core.Types.User;
 using Ligric.Business.Metadata;
 using System.Threading;
 using Ligric.Business.Authorization;
+using static Ligric.Rpc.Contracts.Auth;
+using Ligric.Rpc.Contracts;
 
 namespace Ligric.Business.Clients.Authorization
 {
 	public sealed class AuthorizationService : IAuthorizationService
 	{
 		private readonly IMetadataManager _metadata;
-		private readonly AuthorizationClient _client;
+		private readonly AuthClient _client;
 
 		public AuthorizationService(
 			GrpcChannel grpcChannel,
 			IMetadataManager metadataRepos)
 		{
-			_client = new AuthorizationClient(grpcChannel);
+			_client = new AuthClient(grpcChannel);
 			_metadata = metadataRepos;
 		}
 

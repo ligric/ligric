@@ -1,6 +1,6 @@
 ﻿using Grpc.Core;
 using Ligric.Application.Orders;
-using Ligric.Protos;
+using Ligric.Rpc.Contracts;
 using Ligric.Grpc.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
