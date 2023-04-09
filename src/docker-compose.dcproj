@@ -4,9 +4,6 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>f74dd7a6-880b-4ba4-83de-9370f9f8a9a6</ProjectGuid>
-	<DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-	<DockerServiceUrl>{Scheme}://localhost:{ServicePort}/{Scheme}://{ServiceHost}:{ServicePort}</DockerServiceUrl>
-	<DockerServiceName>a</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
@@ -14,5 +11,6 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="Infrastructure.yml" />
   </ItemGroup>
 </Project>

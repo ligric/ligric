@@ -91,6 +91,19 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "envoy", "envoy", "{0014EDD0-BD7F-4623-B6A8-4024A47EC408}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "C:\Users\limeniye\Desktop\ConsoleApp1\ConsoleApp1.csproj", "{6CD982C8-B46F-49A4-A1E5-9C6609123A78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mssql", "mssql", "{984E2598-337F-41C8-9468-A80D88FA1BEB}"
+	ProjectSection(SolutionItems) = preProject
+		mssql\Dockerfile = mssql\Dockerfile
+		mssql\entrypoint.sh = mssql\entrypoint.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "auth", "auth", "{515036E1-668E-4DB4-A423-925542761548}"
+	ProjectSection(SolutionItems) = preProject
+		mssql\auth\auth_tables.sql = mssql\auth\auth_tables.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -600,6 +613,22 @@ Global
 		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x64.Build.0 = Release|Any CPU
 		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x86.ActiveCfg = Release|Any CPU
 		{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}.Release|x86.Build.0 = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|arm64.Build.0 = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|x64.Build.0 = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Debug|x86.Build.0 = Debug|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|arm64.ActiveCfg = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|arm64.Build.0 = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|x64.ActiveCfg = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|x64.Build.0 = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CD982C8-B46F-49A4-A1E5-9C6609123A78}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -639,6 +668,7 @@ Global
 		{591356CF-6712-4135-818D-A26A8F1F0756} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
 		{F6A88DA2-53AC-4FB6-A847-24A0A23F1C31} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
 		{6308CCA9-EBAB-4414-A4AF-13CFCE168D16} = {4B0435A7-AFAB-4970-BE22-896991B52AB0}
+		{515036E1-668E-4DB4-A423-925542761548} = {984E2598-337F-41C8-9468-A80D88FA1BEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}

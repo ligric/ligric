@@ -132,7 +132,7 @@ namespace Ligric.Service.AuthService.Api
 				})
 				.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 				{
-					options.RequireHttpsMetadata = true;
+					//options.RequireHttpsMetadata = true;
 					options.SaveToken = true;
 					options.TokenValidationParameters = new TokenValidationParameters
 					{

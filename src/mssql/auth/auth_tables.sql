@@ -1,3 +1,9 @@
+CREATE
+DATABASE identitydb
+GO
+USE [identitydb]
+GO
+
 CREATE TABLE [Users]
 (
 	[Id] BIGINT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
