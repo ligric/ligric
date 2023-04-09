@@ -24,7 +24,7 @@ services:
     image: ${DOCKER_REGISTRY-}ligricserviceauthserviceapi
     restart: on-failure
     environment:
-      SQL__Connection=Server: "sql;Database=identitydb;User=sa;Password=qwerty12345;" 
+      SQL__Connection=Server: "Server=sql;Database=identitydb;User=sa;Password=qwerty12345;" 
     build:
       context: .
       dockerfile: services/Ligric.Service.AuthService/Ligric.Service.AuthService.Api/Dockerfile
