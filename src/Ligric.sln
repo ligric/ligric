@@ -90,6 +90,10 @@ EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F74DD7A6-880B-4BA4-83DE-9370F9F8A9A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "envoy", "envoy", "{0014EDD0-BD7F-4623-B6A8-4024A47EC408}"
+	ProjectSection(SolutionItems) = preProject
+		envoy\Dockerfile = envoy\Dockerfile
+		envoy\envoy.yaml = envoy\envoy.yaml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "C:\Users\limeniye\Desktop\ConsoleApp1\ConsoleApp1.csproj", "{6CD982C8-B46F-49A4-A1E5-9C6609123A78}"
 EndProject

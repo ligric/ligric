@@ -43,17 +43,13 @@ namespace Ligric.Service.AuthService.Api
 				throw new NotImplementedException();
 			}
 
-			services.AddCors(options =>
+			services.AddCors(o => o.AddPolicy(CORS_POLICY, builder =>
 			{
-				options.AddPolicy(name: CORS_POLICY,
-					policy =>
-					{
-						policy.WithOrigins("https://localhost:5001",
-											"http://localhost:5000")
-							.AllowAnyHeader()
-							.AllowAnyMethod();
-					});
-			});
+				builder.AllowAnyOrigin()
+					   .AllowAnyMethod()
+					   .AllowAnyHeader()
+					   .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+			}));
 
 			SetJWTAuthorization(services);
 
@@ -111,7 +107,7 @@ namespace Ligric.Service.AuthService.Api
 			{
 				endpoints.MapControllers();
 
-				endpoints.MapGrpcService<Services.AuthService>().EnableGrpcWeb();
+				endpoints.MapGrpcService<Services.AuthService>().RequireCors(CORS_POLICY).EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{

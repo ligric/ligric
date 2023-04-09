@@ -20,6 +20,18 @@ services:
     volumes:
       - sql:/var/opt/mssql/data
 
+  ligric-envoy:
+    image: ligric-envoy:latest
+    container_name: ligric-envoy
+    build:
+      context: ./envoy
+      dockerfile: Dockerfile
+    depends_on:
+      - ligric.service.authservice.api
+    ports:
+      - "8080:8080"
+      - "9902:9902"
+
   ligric.service.authservice.api:
     image: ${DOCKER_REGISTRY-}ligricserviceauthserviceapi
     restart: on-failure
