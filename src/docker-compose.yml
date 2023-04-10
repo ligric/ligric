@@ -49,9 +49,24 @@ services:
     depends_on:
       - sql
 
+  ligric.service.cryptoapisservice.api:
+    image: ${DOCKER_REGISTRY-}ligricservicecryptoapisserviceapi
+    environment:
+      SQL__Connection=Server: "Server=sql;Database=cryptoapisdb;User=sa;Password=qwerty12345;" 
+    build:
+      context: .
+      dockerfile: services/Ligric.Service.CryptoApisService/Ligric.Service.CryptoApisService.Api/Dockerfile
+    ports:
+    - 50052:50052
+    networks:
+      - ligric-network
+    depends_on:
+      - sql
+
 networks:
   ligric-network:
 
 volumes:
   sql:
+
 
