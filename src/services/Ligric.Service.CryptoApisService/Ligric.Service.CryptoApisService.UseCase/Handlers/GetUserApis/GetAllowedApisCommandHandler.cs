@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Commands;
 using Ligric.Service.CryptoApisService.Domain.Entities;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Handlers.GetUserApis
+namespace Ligric.Service.CryptoApisService.UseCase.Handlers.GetUserApis
 {
 	public class GetAllowedApisCommandHandler : ICommandHandler<GetAllowedApisCommand, IEnumerable<UserApiEntity>>
     {

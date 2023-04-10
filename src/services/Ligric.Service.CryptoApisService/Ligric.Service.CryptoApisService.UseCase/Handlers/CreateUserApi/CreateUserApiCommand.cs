@@ -1,6 +1,6 @@
 ﻿using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Commands;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Handlers.CreateUserApi
+namespace Ligric.Service.CryptoApisService.UseCase.Handlers.CreateUserApi
 {
 	public class CreateUserApiCommand : CommandBase<long>
     {

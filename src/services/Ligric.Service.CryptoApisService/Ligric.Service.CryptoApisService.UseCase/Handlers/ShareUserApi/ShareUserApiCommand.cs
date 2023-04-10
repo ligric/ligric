@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Commands;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Handlers.ShareUserApi
+namespace Ligric.Service.CryptoApisService.UseCase.Handlers.ShareUserApi
 {
 	public class ShareUserApiCommand : CommandBase<bool>
 	{
