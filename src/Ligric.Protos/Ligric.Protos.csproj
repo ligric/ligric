@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="common.proto" />
+	  <None Remove="futures.proto" />
+	  <None Remove="userApis.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.21.6" />
+		<PackageReference Include="Google.Protobuf.Tools" Version="3.21.6" />
+		<PackageReference Include="Grpc.Core" Version="2.46.3" />
+		<PackageReference Include="Grpc.Tools" Version="2.48.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Futures.proto" />
+		<Protobuf Include="userApis.proto" />
+		<Protobuf Include="common.proto" />
+		<Protobuf Include="authorization.proto" />
+	</ItemGroup>
+</Project>
