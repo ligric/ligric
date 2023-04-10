@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Quartz.Impl;
 using Serilog;
 using NHibernate;
-using Ligric.Service.CryptoApisService.Infrastructure.Database;
 using Ligric.Service.CryptoApisService.Infrastructure.Logging;
 using Ligric.Service.CryptoApisService.Infrastructure.Processing;
 using Ligric.Infrastructure.Domain;
@@ -16,6 +15,7 @@ using Ligric.Service.CryptoApisService.Infrastructure.Quartz;
 using Ligric.Service.CryptoApisService.Application;
 using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Repositories;
 using Ligric.Service.CryptoApisService.Application.Repositories;
+using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database;
 
 namespace Ligric.Service.CryptoApisService.Infrastructure
 {

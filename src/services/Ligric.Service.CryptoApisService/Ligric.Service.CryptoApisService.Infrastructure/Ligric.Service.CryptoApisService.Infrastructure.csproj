@@ -26,6 +26,7 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\Ligric.Service.CryptoApisService.Application\Ligric.Service.CryptoApisService.Application.csproj" />
+    <ProjectReference Include="..\Ligric.Service.CryptoApisService.Infrastructure.NHibernate\Ligric.Service.CryptoApisService.Infrastructure.NHibernate.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Domain.Entities;
 using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
-using Ligric.Service.CryptoApisService.Infrastructure.Database;
+using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database;
 
 namespace Ligric.Service.CryptoApisService.Infrastructure.Persistence.Repositories
 {
