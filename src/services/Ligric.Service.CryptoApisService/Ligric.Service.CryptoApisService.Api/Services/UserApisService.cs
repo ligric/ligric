@@ -48,7 +48,6 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task<ResponseResult> Share(ShareApiRequest shareRequest, ServerCallContext context)
 		{
-			
 			var shareUserApiCommand = new ShareUserApiCommand(shareRequest.UserApiId, shareRequest.Permissions, new List<long>());
 			var isSuccess = await _mediator.Send(shareUserApiCommand);
 
