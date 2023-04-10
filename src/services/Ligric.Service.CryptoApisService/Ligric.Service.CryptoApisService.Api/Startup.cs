@@ -43,28 +43,23 @@ namespace Ligric.Service.CryptoApisService.Api
 				throw new NotImplementedException();
 			}
 
-			services.AddCors(options =>
+			services.AddGrpc();
+			services.AddGrpcHttpApi();
+			services.AddGrpcReflection();
+			services.AddCors(o => o.AddPolicy(CORS_POLICY, builder =>
 			{
-				options.AddPolicy(name: CORS_POLICY,
-					policy =>
-					{
-						policy.WithOrigins("https://localhost:5001",
-											"http://localhost:5000")
-							.AllowAnyHeader()
-							.AllowAnyMethod();
-					});
-			});
+				builder.AllowAnyOrigin()
+					   .AllowAnyMethod()
+					   .AllowAnyHeader()
+					   .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+			}));
 
 			SetJWTAuthorization(services);
-
 			services.AddAuthorization();
 
-			services.AddGrpc();
 
 			services.AddMessageBusRegistration(_configuration);
 			services.AddPersistenceRegistration(_configuration);
-
-			services.AddControllers();
 
 			services.AddMemoryCache();
 
@@ -90,28 +85,30 @@ namespace Ligric.Service.CryptoApisService.Api
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			app.UseCors(CORS_POLICY);
 
-			app.UseMiddleware<CorrelationMiddleware>();
+			//app.UseMiddleware<CorrelationMiddleware>();
 
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
+			else
+			{
+				app.UseHsts();
+			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
+
 			app.UseRouting();
+			app.UseGrpcWeb();
+			app.UseCors(CORS_POLICY);
 			app.UseAuthentication();
 			app.UseAuthorization();
-			app.UseGrpcWeb();
-
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapControllers();
-
-				endpoints.MapGrpcService<Services.UserApisService>().EnableGrpcWeb();
+				endpoints.MapGrpcService<Services.UserApisService>().RequireCors(CORS_POLICY).EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{
@@ -132,7 +129,7 @@ namespace Ligric.Service.CryptoApisService.Api
 				})
 				.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 				{
-					options.RequireHttpsMetadata = true;
+					//options.RequireHttpsMetadata = true;
 					options.SaveToken = true;
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
