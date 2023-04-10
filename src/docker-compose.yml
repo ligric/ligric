@@ -31,6 +31,8 @@ services:
     ports:
       - "8080:8080"
       - "9902:9902"
+    networks:
+      - ligric-network
 
   ligric.service.authservice.api:
     image: ${DOCKER_REGISTRY-}ligricserviceauthserviceapi
@@ -41,7 +43,7 @@ services:
       context: .
       dockerfile: services/Ligric.Service.AuthService/Ligric.Service.AuthService.Api/Dockerfile
     ports:
-      - 50051:80
+      - 50051:50051
     networks:
       - ligric-network
     depends_on:

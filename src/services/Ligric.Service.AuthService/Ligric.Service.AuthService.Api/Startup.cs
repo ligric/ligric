@@ -43,6 +43,9 @@ namespace Ligric.Service.AuthService.Api
 				throw new NotImplementedException();
 			}
 
+			services.AddGrpc();
+			services.AddGrpcHttpApi();
+			services.AddGrpcReflection();
 			services.AddCors(o => o.AddPolicy(CORS_POLICY, builder =>
 			{
 				builder.AllowAnyOrigin()
@@ -52,15 +55,11 @@ namespace Ligric.Service.AuthService.Api
 			}));
 
 			SetJWTAuthorization(services);
-
 			services.AddAuthorization();
 
-			services.AddGrpc();
 
 			services.AddMessageBusRegistration(_configuration);
 			services.AddPersistenceRegistration(_configuration);
-
-			services.AddControllers();
 
 			services.AddMemoryCache();
 
@@ -86,27 +85,29 @@ namespace Ligric.Service.AuthService.Api
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			app.UseCors(CORS_POLICY);
 
-			app.UseMiddleware<CorrelationMiddleware>();
+			//app.UseMiddleware<CorrelationMiddleware>();
 
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}
+			else
+			{
+				app.UseHsts();
+			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
+
 			app.UseRouting();
+			app.UseGrpcWeb();
+			app.UseCors(CORS_POLICY);
 			app.UseAuthentication();
 			app.UseAuthorization();
-			app.UseGrpcWeb();
-
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapControllers();
-
 				endpoints.MapGrpcService<Services.AuthService>().RequireCors(CORS_POLICY).EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
