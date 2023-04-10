@@ -1,0 +1,70 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Ligric.Protobuf";
+
+package Ligric.Protobuf;
+
+service Futures {
+    rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged);
+    rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged);
+    rpc PositionsSubscribe(FuturesSubscribeRequest) returns (stream PositionsChanged);
+}
+
+message FuturesSubscribeRequest
+{
+	int64 userId = 1;
+	int64 UserApiId = 2;
+}
+
+message OrdersChanged {
+	FuturesOrder Order = 1;
+	Action action = 2;
+}
+
+message ValuesChanged {
+	FuturesValue Value = 1;
+	Action action = 2;
+}
+
+message PositionsChanged {
+	FuturesPosition Position = 1;
+	Action action = 2;
+}
+
+message FuturesOrder {
+	int64 id = 1;
+	string symbol = 2;
+	OrderSide side = 3;
+	string quantity = 4;
+	string price = 5;
+	string value = 6;
+}
+
+message FuturesValue
+{
+	string Symbol = 1;
+	string Value = 2;
+}
+
+message FuturesPosition {
+	int64 id = 1;
+	string Symbol = 2;
+	string EntryPrice = 3;
+	PositionSide Side = 4;
+}
+
+enum OrderSide
+{
+	Sell = 0;
+	Buy = 1;
+}
+
+enum PositionSide
+{
+	Short = 0;
+	Long = 1;
+	Both = 2;
+}

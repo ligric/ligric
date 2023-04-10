@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  sql:
+    container_name: sql
+    image: mcr.microsoft.com/mssql/server
+    user: root
+    restart: unless-stopped
+    build:
+      context: ./mssql
+      dockerfile: Dockerfile
+    environment:
+      SA_PASSWORD: "qwerty12345"
+      ACCEPT_EULA: "Y"
+      TZ: "UTC"
+    ports:
+      - 1433:1433
+    networks:
+      - ligric-network
+    volumes:
+      - sql:/var/opt/mssql/data
+
+  ligric-envoy:
+    image: ligric-envoy:latest
+    container_name: ligric-envoy
+    build:
+      context: ./envoy
+      dockerfile: Dockerfile
+    depends_on:
+      - ligric.service.authservice.api
+    ports:
+      - "8080:8080"
+      - "9902:9902"
+    networks:
+      - ligric-network
+
+  ligric.service.authservice.api:
+    image: ${DOCKER_REGISTRY-}ligricserviceauthserviceapi
+    restart: on-failure
+    environment:
+      SQL__Connection=Server: "Server=sql;Database=identitydb;User=sa;Password=qwerty12345;" 
+    build:
+      context: .
+      dockerfile: services/Ligric.Service.AuthService/Ligric.Service.AuthService.Api/Dockerfile
+    ports:
+      - 50051:50051
+    networks:
+      - ligric-network
+    depends_on:
+      - sql
+
+networks:
+  ligric-network:
+
+volumes:
+  sql:
+
