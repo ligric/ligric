@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj" />
+    <ProjectReference Include="..\..\Ligric.Protobuf\Ligric.Protobuf.csproj" />
     <ProjectReference Include="..\Ligric.Service.AuthService.Api\Ligric.Service.AuthService.Api.csproj" />
   </ItemGroup>
 

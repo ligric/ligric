@@ -1,5 +1,5 @@
 ﻿using Utils;
-using Action = Ligric.Rpc.Contracts.Action;
+using Action = Ligric.Protobuf.Action;
 
 namespace Ligric.Service.AuthService.Api.Helpers
 {

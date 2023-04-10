@@ -7,7 +7,7 @@ using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;
-using static Ligric.Rpc.Contracts.Futures;
+using static Ligric.Protobuf.Futures;
 
 namespace Ligric.Business.Clients
 {

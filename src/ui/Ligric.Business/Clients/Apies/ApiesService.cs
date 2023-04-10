@@ -11,8 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Utils;
 using Ligric.Core.Ligric.Core.Types.Api;
-using static Ligric.Rpc.Contracts.UserApis;
-using Ligric.Rpc.Contracts;
+using static Ligric.Protobuf.UserApis;
+using Ligric.Protobuf;
 
 namespace Ligric.Business.Clients.Apies
 {

@@ -3,9 +3,9 @@
 import "common.proto";
 import "google/protobuf/empty.proto";
 
-option csharp_namespace = "Ligric.Rpc.Contracts";
+option csharp_namespace = "Ligric.Protobuf";
 
-package Ligric.Rpc.Contracts;
+package Ligric.Protobuf;
 
 service UserApis {
 	rpc Save(SaveApiRequest) returns (SaveApiResponse);

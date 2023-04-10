@@ -10,8 +10,8 @@ using System.Linq;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
-using static Ligric.Rpc.Contracts.Futures;
-using Ligric.Rpc.Contracts;
+using static Ligric.Protobuf.Futures;
+using Ligric.Protobuf;
 
 namespace Ligric.Business.Clients.Futures
 {

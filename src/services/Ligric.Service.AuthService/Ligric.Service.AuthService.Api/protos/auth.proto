@@ -3,14 +3,26 @@
 import "common.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
-option csharp_namespace = "Ligric.Rpc.Contracts";
+option csharp_namespace = "Ligric.Protobuf";
 
-package Ligric.Rpc.Contracts;
+package ligric.protobuf;
 
 service Auth {
-	rpc SignIn(SignInRequest) returns (SignInResponse);
-	rpc SignUp(SignUpRequest) returns (SignUpResponse);
+	rpc SignIn(SignInRequest) returns (SignInResponse){
+	  option (google.api.http) = {
+		  post: "/v1/auth/"
+		  body: "*"
+	  };
+    }
+	rpc SignUp(SignUpRequest) returns (SignUpResponse){
+	  option (google.api.http) = {
+		  post: "/v1/auth/"
+		  body: "*"
+	  };
+    }
+
 	rpc Logout(google.protobuf.Empty) returns (ResponseResult);
 
 	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenExpirationTime);

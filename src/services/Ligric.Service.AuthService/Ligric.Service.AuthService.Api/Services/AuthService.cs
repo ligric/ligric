@@ -7,11 +7,11 @@ using System.Security.Claims;
 using Ligric.Service.AuthService.Infrastructure.Jwt;
 using Ligric.Service.AuthService.Domain.SharedKernel;
 using Ligric.Core.Types.User;
-using Ligric.Rpc.Contracts;
 using Ligric.Service.AuthService.Api.Helpers;
 using Ligric.Service.AuthService.UseCase.Handlers.CheckUserExists;
 using Ligric.Service.AuthService.UseCase.Handlers.LoginCustomer;
 using Ligric.Service.AuthService.UseCase.Handlers.RegisterUser;
+using Ligric.Protobuf;
 
 namespace Ligric.Service.AuthService.Api.Services;
 

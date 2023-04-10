@@ -5,8 +5,8 @@ using Ligric.Core.Types.User;
 using Ligric.Business.Metadata;
 using System.Threading;
 using Ligric.Business.Authorization;
-using static Ligric.Rpc.Contracts.Auth;
-using Ligric.Rpc.Contracts;
+using static Ligric.Protobuf.Auth;
+using Ligric.Protobuf;
 
 namespace Ligric.Business.Clients.Authorization
 {

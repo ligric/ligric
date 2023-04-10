@@ -1,5 +1,5 @@
 ﻿using Grpc.Core;
-using Ligric.Rpc.Contracts;
+using Ligric.Protobuf;
 using Ligric.Service.CryptoApisService.Api.Helpers;
 using Ligric.Service.CryptoApisService.Infrastructure.Handlers;
 using Ligric.Service.CryptoApisService.Infrastructure.Handlers.CreateUserApi;

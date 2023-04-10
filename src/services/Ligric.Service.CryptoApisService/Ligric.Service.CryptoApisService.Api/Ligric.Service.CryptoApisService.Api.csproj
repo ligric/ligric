@@ -21,7 +21,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Ligric.Rpc.Contracts\Ligric.Rpc.Contracts.csproj" />
+    <ProjectReference Include="..\..\Ligric.Protobuf\Ligric.Protobuf.csproj" />
     <ProjectReference Include="..\..\Utils\Utils.csproj" />
     <ProjectReference Include="..\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj" />
   </ItemGroup>

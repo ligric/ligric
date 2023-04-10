@@ -1,5 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
-using Ligric.Rpc.Contracts;
+using Ligric.Protobuf;
 
 namespace Ligric.Service.AuthService.Api.Helpers
 {

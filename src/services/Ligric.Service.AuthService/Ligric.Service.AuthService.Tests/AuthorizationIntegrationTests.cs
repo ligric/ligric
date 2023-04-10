@@ -1,7 +1,7 @@
 using Google.Protobuf.WellKnownTypes;
 using FluentAssertions;
 using Grpc.Core;
-using Ligric.Rpc.Contracts;
+using Ligric.Protobuf;
 
 namespace Ligric.Tests
 {
