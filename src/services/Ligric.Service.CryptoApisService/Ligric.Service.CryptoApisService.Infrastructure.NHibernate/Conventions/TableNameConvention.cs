@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.Instances;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Conventions
+namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Conventions
 {
     public class TableNameConvention : IHasManyToManyConvention, IClassConvention
     {

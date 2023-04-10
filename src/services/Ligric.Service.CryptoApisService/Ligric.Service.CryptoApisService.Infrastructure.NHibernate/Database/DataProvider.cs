@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq.Expressions;
 using FluentNHibernate.Conventions;
 using Ligric.Service.CryptoApisService.Domain.Entities;
-using Ligric.Service.CryptoApisService.Infrastructure.Conventions;
+using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Conventions;
 using NHibernate;
 using NHibernate.Criterion;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Database
+namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database
 {
 	public abstract class DataProvider
 	{

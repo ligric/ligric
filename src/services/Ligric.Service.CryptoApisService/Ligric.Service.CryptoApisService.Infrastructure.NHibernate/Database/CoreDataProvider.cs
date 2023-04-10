@@ -1,7 +1,7 @@
 ﻿using System;
 using NHibernate;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Database
+namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database
 {
 	public class CoreDataProvider : DataProvider, IDisposable
 	{

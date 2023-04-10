@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Database
+namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database
 {
 	public class ConnectionSettingsProvider : IConnectionSettingsProvider
 	{

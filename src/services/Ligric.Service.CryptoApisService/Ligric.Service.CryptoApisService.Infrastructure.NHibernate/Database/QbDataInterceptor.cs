@@ -4,7 +4,7 @@ using Ligric.Service.CryptoApisService.Domain.Entities;
 using NHibernate;
 using NHibernate.Type;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Database
+namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database
 {
 	public class QbDataInterceptor : EmptyInterceptor
 	{

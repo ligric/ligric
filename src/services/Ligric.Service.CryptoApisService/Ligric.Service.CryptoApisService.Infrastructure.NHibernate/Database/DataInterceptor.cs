@@ -4,8 +4,9 @@ using System.Diagnostics;
 using Ligric.Service.CryptoApisService.Domain.Entities;
 using NHibernate;
 using NHibernate.Type;
+using SqlCommand = NHibernate.SqlCommand;
 
-namespace Ligric.Service.CryptoApisService.Infrastructure.Database
+namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database
 {
 	public class DataInterceptor : EmptyInterceptor
 	{
@@ -72,7 +73,7 @@ namespace Ligric.Service.CryptoApisService.Infrastructure.Database
 			return true;
 		}
 
-		public override NHibernate.SqlCommand.SqlString OnPrepareStatement(NHibernate.SqlCommand.SqlString sql)
+		public override SqlCommand.SqlString OnPrepareStatement(SqlCommand.SqlString sql)
 		{
 #if DEBUG
 			Trace.WriteLine(sql.ToString());

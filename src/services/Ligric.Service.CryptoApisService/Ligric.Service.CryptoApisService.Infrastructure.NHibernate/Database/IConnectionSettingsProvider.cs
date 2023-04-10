@@ -1,4 +1,4 @@
-﻿namespace Ligric.Service.CryptoApisService.Infrastructure.Database
+﻿namespace Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database
 {
 	public interface IConnectionSettingsProvider
 	{
