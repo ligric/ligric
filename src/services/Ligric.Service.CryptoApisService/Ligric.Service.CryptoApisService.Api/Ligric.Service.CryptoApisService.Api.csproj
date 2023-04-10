@@ -31,6 +31,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\shared\Utils\Utils.csproj" />
     <ProjectReference Include="..\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ligric.Service.CryptoApisService.IoC\Ligric.Service.CryptoApisService.IoC.csproj" />
+    <ProjectReference Include="..\Ligric.Service.CryptoApisService.UseCase\Ligric.Service.CryptoApisService.UseCase.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

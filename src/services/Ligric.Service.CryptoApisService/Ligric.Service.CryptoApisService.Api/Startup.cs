@@ -10,6 +10,7 @@ using Ligric.Service.CryptoApisService.Infrastructure.MessageBus;
 using Ligric.Service.CryptoApisService.Application;
 using Ligric.Service.CryptoApisService.Infrastructure;
 using Ligric.Service.CryptoApisService.Infrastructure.Jwt;
+using Ligric.Service.CryptoApisService.IoC;
 
 namespace Ligric.Service.CryptoApisService.Api
 {

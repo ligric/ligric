@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="7.0.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
+    <ProjectReference Include="..\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ligric.Service.CryptoApisService.UseCase\Ligric.Service.CryptoApisService.UseCase.csproj" />
+  </ItemGroup>
+
+</Project>
