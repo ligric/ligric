@@ -30,5 +30,25 @@ namespace Ligric.Service.CryptoApisService.Infrastructure.Persistence.Repositori
 
 			return apiClients;
 		}
+
+		/// <summary>
+		/// TEMPORARY
+		/// </summary>
+		/// <param name="userApiId"></param>
+		/// <returns></returns>
+		public IEnumerable<long> GetUserIdsThatDontHaveTheseApi(long userApiId)
+		{
+			List<long> userIds = new List<long>();
+			var userIdsObjectList = DataProvider.CreateSqlQuery("EXEC [GetUserIdsThatDontHaveTheseApi] @userApiId = N'" + userApiId + "'")?
+				.List() ?? new List<object>();
+
+			foreach (object item in userIdsObjectList)
+			{
+				long userId = Convert.ToInt64(item);
+				userIds.Add(userId);
+			}
+
+			return userIds;
+		}
 	}
 }

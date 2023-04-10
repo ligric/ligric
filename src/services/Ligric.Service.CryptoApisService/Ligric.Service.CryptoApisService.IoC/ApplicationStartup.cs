@@ -17,6 +17,7 @@ using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Repositories;
 using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database;
 using Ligric.Service.CryptoApisService.Infrastructure;
+using Ligric.Service.CryptoApisService.Application.TemporaryObservers;
 
 namespace Ligric.Service.CryptoApisService.IoC
 {
@@ -65,7 +66,9 @@ namespace Ligric.Service.CryptoApisService.IoC
 			container.RegisterType<UserApiRepository>().As<IUserApiRepository>().InstancePerLifetimeScope();
 
 			// # OBSERVERS
-			//container.RegisterType<UserApiObserver>().As<IUserApiObserver>().SingleInstance();
+			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().SingleInstance();
+
+			// #TEMPORARY
 			//container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().SingleInstance();
 
 			container.RegisterModule(new LoggingModule(logger));

@@ -1,8 +1,8 @@
-CREATE
-DATABASE cryptoapisdb
-GO
-USE [cryptoapisdb]
-GO
+--CREATE
+--DATABASE cryptoapisdb
+--GO
+--USE [cryptoapisdb]
+--GO
 
 CREATE TABLE [APIs]
 (

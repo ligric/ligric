@@ -1,20 +1,22 @@
-﻿using Ligric.Service.CryptoApisService.Domain.Entities;
+﻿using System;
+using System.Linq;
+using System.Reactive.Linq;
+using Ligric.Domain.TypeExtensions;
+using Ligric.Service.CryptoApisService.Application.Repositories;
+using Ligric.Service.CryptoApisService.Domain.Entities;
+using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
+using Utils;
 
 namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 {
 	public class UserApiObserver : IUserApiObserver
 	{
-		//private readonly IUserApiRepository _userApiRepository;
-		//private readonly IUserRepository _userRepository;
-		//private event Action<(EventAction Action, long UserId, ApiClientDto userApi)>? ApiChanged;
+		private readonly IUserApiRepository _userApiRepository;
+		private event Action<(EventAction Action, long UserId, ApiClientResponseDto userApi)>? ApiChanged;
 
-		public UserApiObserver(
-			//IUserApiRepository userApiRepository,
-			//IUserRepository userRepository
-			)
+		public UserApiObserver(IUserApiRepository userApiRepository)
 		{
-			//_userApiRepository = userApiRepository;
-			//_userRepository = userRepository;
+			_userApiRepository = userApiRepository;
 		}
 
 		/// <returns>UserApiId</returns>
@@ -28,71 +30,66 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 				Permissions = permissions
 			};
 
-			//long userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
+			long userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 
-			//userApiSaveEntity.Id = userApiId;
+			userApiSaveEntity.Id = userApiId;
+			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToApiClientResponseDto()));
 
-			//ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToUserApiDto()));
-
-			//return userApiId;
-			return -1;
+			return userApiId;
 		}
 
 		public void ShareToAll(long userApiId, int permissions)
 		{
-			//var userApi = _userApiRepository.GetEntityById(userApiId);
+			var userApi = _userApiRepository.GetEntityById(userApiId);
 
-			//if (userApi != null)
-			//{
-			//	var userIds = _userRepository.GetUserIdsThatDontHaveTheseApi(userApiId);
+			if (userApi == null)
+			{
+				throw new ArgumentNullException($"UserApi with id {userApiId} not found");
+			}
+			// TODO : TEMPORARY
+			// REASON: because of deadline
+			var userIds = _userApiRepository.GetUserIdsThatDontHaveTheseApi(userApiId);
 
-			//	foreach (var userId in userIds)
-			//	{
-			//		Save(userApi.ApiId ?? throw new NullReferenceException("[UserApi] api id is null here"),
-			//			userApi.Name ?? "Api title",
-			//			userId,
-			//			permissions);
-			//	}
-			//}
-			//else
-			//{
-			//	throw new ArgumentNullException($"UserApi with id {userApiId} not found");
-			//}
+			foreach (var userId in userIds)
+			{
+				Save(userApi.ApiId ?? throw new NullReferenceException("[UserApi] api id is null here"),
+					userApi.Name ?? "Api title",
+					userId,
+					permissions);
+			}
 		}
 
 		public long Share(long userApiId, long sharedUserId, int permissions)
 		{
-			//UserApiEntity userApiSaveEntity = new UserApiEntity
-			//{
-			//	UserId = sharedUserId,
-			//	Permissions = permissions
-			//};
+			UserApiEntity userApiSaveEntity = new UserApiEntity
+			{
+				UserId = sharedUserId,
+				Permissions = permissions
+			};
 
-			//var userApi = _userApiRepository.GetEntityById(userApiId);
-			//if (userApi == null)
-			//{
-			//	throw new ArgumentException($"GetEntityById from userId {userApiId} was null");
-			//}
+			var userApi = _userApiRepository.GetEntityById(userApiId);
+			if (userApi == null)
+			{
+				throw new ArgumentException($"GetEntityById from userId {userApiId} was null");
+			}
+			userApiSaveEntity.ApiId = userApi.ApiId;
 
-			//   userApiSaveEntity.ApiId = userApi.ApiId;
+			long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
+			userApiSaveEntity.Id = newUserApiId;
 
+			ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToApiClientResponseDto()));
 
-			//long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
-			//userApiSaveEntity.Id = newUserApiId;
-
-			//ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToUserApiDto()));
-
-			//return userApiId;
-			return -1;
+			return userApiId;
 		}
 
-		//public IObservable<(EventAction Action, long UserId, ApiClientDto Api)> GetApisAsObservable(long userId)
-		//{
-		//	var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
-		//	var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, userId, x)).ToObservable();
-		//	var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, ApiClientDto Api)>((x) => ApiChanged += x, (x) => ApiChanged -= x);
+		public IObservable<(EventAction Action, long UserId, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
+		{
+			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
+			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, userId, x)).ToObservable();
+			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, ApiClientResponseDto Api)>(
+				(x) => ApiChanged += x, (x) => ApiChanged -= x);
 
-		//	return currentApiStateNotifications.Concat(updatedApiStateNotifications);
-		//}
+			return currentApiStateNotifications.Concat(updatedApiStateNotifications);
+		}
 	}
 }
