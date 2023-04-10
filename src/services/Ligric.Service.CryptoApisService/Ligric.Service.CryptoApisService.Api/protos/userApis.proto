@@ -5,7 +5,7 @@ import "google/protobuf/empty.proto";
 
 option csharp_namespace = "Ligric.Protobuf";
 
-package Ligric.Protobuf;
+package ligric.protobuf;
 
 service UserApis {
 	rpc Save(SaveApiRequest) returns (SaveApiResponse);

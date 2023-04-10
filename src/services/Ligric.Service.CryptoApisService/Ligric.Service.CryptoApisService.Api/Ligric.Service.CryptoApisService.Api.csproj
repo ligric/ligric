@@ -8,12 +8,20 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
 		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.51.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Grpc.HttpApi" Version="0.1.0-alpha.21317.5" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-
 
 		<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
@@ -21,8 +29,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Ligric.Protobuf\Ligric.Protobuf.csproj" />
-    <ProjectReference Include="..\..\Utils\Utils.csproj" />
+    <ProjectReference Include="..\..\..\shared\Utils\Utils.csproj" />
     <ProjectReference Include="..\Ligric.Service.CryptoApisService.Infrastructure\Ligric.Service.CryptoApisService.Infrastructure.csproj" />
   </ItemGroup>
 
@@ -36,7 +43,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="logs\" />
+		<Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
+		<Protobuf Include="..\..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Server" />
 	</ItemGroup>
-
+	
 </Project>
