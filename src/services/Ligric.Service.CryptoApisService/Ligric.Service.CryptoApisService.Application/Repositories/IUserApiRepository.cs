@@ -4,16 +4,8 @@ using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
 
 namespace Ligric.Service.CryptoApisService.Application.Repositories
 {
-	public interface IUserApiRepository
+	public interface IUserApiRepository : IRepository<UserApiEntity>
 	{
 		IEnumerable<ApiClientResponseDto> GetAllowedApiInfoByUserId(long id);
-
-		UserApiEntity GetEntityById(long id);
-
-		object Save(UserApiEntity entity);
-
-		void Delete(long id);
-
-		void Delete(UserApiEntity entity);
 	}
 }
