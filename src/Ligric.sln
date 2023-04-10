@@ -114,6 +114,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.CryptoApisSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligric.Service.CryptoApisService.IoC", "services\Ligric.Service.CryptoApisService\Ligric.Service.CryptoApisService.IoC\Ligric.Service.CryptoApisService.IoC.csproj", "{FEDFE705-0BF3-408A-A2BA-1338179DBF46}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cryptouserapis", "cryptouserapis", "{86376D83-6798-43F1-BFC7-642D61868CBF}"
+	ProjectSection(SolutionItems) = preProject
+		mssql\cryptouserapis\cryptouserapis_procedures.sql = mssql\cryptouserapis\cryptouserapis_procedures.sql
+		mssql\cryptouserapis\cryptouserapis_tables.sql = mssql\cryptouserapis\cryptouserapis_tables.sql
+		mssql\cryptouserapis\cryptouserapis_values.sql = mssql\cryptouserapis\cryptouserapis_values.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -730,6 +737,7 @@ Global
 		{46C26B17-37AE-4EBD-AEF8-ABD26851B0AB} = {C998448A-B733-4AC1-9835-6F549C6B0BFD}
 		{38E1D9FF-BF04-4B7D-992D-46397219C316} = {C998448A-B733-4AC1-9835-6F549C6B0BFD}
 		{FEDFE705-0BF3-408A-A2BA-1338179DBF46} = {C998448A-B733-4AC1-9835-6F549C6B0BFD}
+		{86376D83-6798-43F1-BFC7-642D61868CBF} = {984E2598-337F-41C8-9468-A80D88FA1BEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFAD32C2-A9C1-4547-A40E-D4013F5DDC66}
