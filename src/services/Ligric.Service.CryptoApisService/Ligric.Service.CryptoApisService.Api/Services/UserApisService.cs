@@ -57,25 +57,25 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task ApisSubscribe(ApiSubscribeRequest request, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{
-			//await _userApiObserver.GetApisAsObservable(request.UserId)
-			//	.ToAsyncEnumerable()
-			//	.ForEachAwaitAsync(async (x) =>
-			//	{
-			//		if (x.UserId == request.UserId)
-			//		{
-			//			await responseStream.WriteAsync(new ApisChanged
-			//			{
-			//				Action = x.Action.ToProtosAction(),
-			//				Api = new ApiClient
-			//				{
-			//					Id = x.Api.UserApiId ?? throw new ArgumentNullException("ApisSubscribe UserApiId is null"),
-			//					Name = x.Api.Name,
-			//					Permissions = x.Api.Permissions
-			//				}
-			//			});
-			//		}
-			//	}, context.CancellationToken)
-			//	.ConfigureAwait(false);
+			await _userApiObserver.GetApisAsObservable(request.UserId)
+				.ToAsyncEnumerable()
+				.ForEachAwaitAsync(async (x) =>
+				{
+					if (x.UserId == request.UserId)
+					{
+						await responseStream.WriteAsync(new ApisChanged
+						{
+							Action = x.Action.ToProtosAction(),
+							Api = new ApiClient
+							{
+								Id = x.Api.UserApiId,
+								Name = x.Api.Name,
+								Permissions = x.Api.Permissions
+							}
+						});
+					}
+				}, context.CancellationToken)
+				.ConfigureAwait(false);
 		}
 	}
 }

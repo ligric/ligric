@@ -28,6 +28,8 @@
 		<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
 		<PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+
 	</ItemGroup>
 
   <ItemGroup>

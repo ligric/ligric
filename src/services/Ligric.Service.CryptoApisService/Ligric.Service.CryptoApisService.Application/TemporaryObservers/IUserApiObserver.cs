@@ -1,4 +1,8 @@
-﻿namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
+﻿using System;
+using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
+using Utils;
+
+namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 {
 	public interface IUserApiObserver
 	{
@@ -8,6 +12,6 @@
 
 		long Share(long userApiId, long sharedUserId, int permissions);
 
-		//IObservable<(EventAction Action, long UserId, ApiClientDto Api)> GetApisAsObservable(long userId);
+		IObservable<(EventAction Action, long UserId, ApiClientResponseDto Api)> GetApisAsObservable(long userId);
 	}
 }
