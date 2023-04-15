@@ -1,8 +1,8 @@
-CREATE
-DATABASE identitydb
-GO
-USE [identitydb]
-GO
+--CREATE
+--DATABASE identitydb
+--GO
+--USE [identitydb]
+--GO
 
 CREATE TABLE [Users]
 (

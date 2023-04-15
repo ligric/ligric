@@ -21,11 +21,16 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
-              - match: { prefix: "/" }
-                route:
-                  cluster: greeter-grpc-service
-                  max_stream_duration:
-                    grpc_timeout_header_max: 0s
+              - match: { prefix: "/ligric.protobuf.Auth" }
+                route: { cluster: auth_service, max_grpc_timeout: 15.0s }
+              - match: { prefix: "/ligric.protobuf.UserApis" }
+                route: { cluster: userapis_service, max_grpc_timeout: 15.0s }
+
+              #- match: { prefix: "/" }
+              #  route:
+              #    cluster: greeter-grpc-service
+              #    max_stream_duration:
+              #      grpc_timeout_header_max: 0s
               cors:
                 allow_origin_string_match:
                     - exact: http://127.0.0.1:5000
@@ -45,7 +50,8 @@ static_resources:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
 
   clusters:
-  - name: greeter-grpc-service
+  # Auth
+  - name: auth_service
     type: logical_dns
     lb_policy: round_robin
     dns_lookup_family: V4_ONLY
@@ -64,3 +70,24 @@ static_resources:
                   socket_address:
                     address: host.docker.internal
                     port_value: 50051
+
+  # Apis
+  - name: userapis_service
+    type: logical_dns
+    lb_policy: round_robin
+    dns_lookup_family: V4_ONLY
+    connect_timeout: 0.25s
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
+    load_assignment:
+      cluster_name: grpc
+      endpoints:
+        - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: host.docker.internal
+                    port_value: 50052

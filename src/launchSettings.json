@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "ligric.service.authservice.api": "StartDebugging",
-        "sql": "StartWithoutDebugging"
+        "sql": "StartWithoutDebugging",
+        "ligric.service.cryptoapisservice.api": "StartDebugging"
       }
     }
   }

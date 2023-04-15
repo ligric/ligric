@@ -9,6 +9,10 @@ if [ "$1" = '/opt/mssql/bin/sqlservr' ]; then
       sleep 15s
       #run the setup script to create the DB and the schema in the DB
       /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P qwerty12345 -d master -i auth_tables.sql
+
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P qwerty12345 -d master -i cryptouserapis_tables.sql
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P qwerty12345 -d master -i cryptouserapis_procedures.sql
+      /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P qwerty12345 -d master -i cryptouserapis_values.sql
       # Note that the container has been initialized so future starts won't wipe changes to the data
       touch /tmp/app-initialized
     }

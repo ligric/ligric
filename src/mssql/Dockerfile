@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/mssql/server
 
-COPY auth/auth_tables.sql auth_tables.sql
+COPY auth/* /
+COPY cryptouserapis/* /
 
 COPY entrypoint.sh entrypoint.sh
 #RUN chmod +x entrypoint.sh

@@ -14,4 +14,8 @@
     <Folder Include="Model\Dtos\Request\" />
   </ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\shared\Ligric.Core\Ligric.Core.csproj" />
+	</ItemGroup>
+
 </Project>
