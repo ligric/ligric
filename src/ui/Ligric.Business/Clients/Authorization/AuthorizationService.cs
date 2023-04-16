@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using Ligric.Core.Types.User;
 using Ligric.Business.Metadata;
-using System.Threading;
 using Ligric.Business.Authorization;
 using static Ligric.Protobuf.Auth;
 using Ligric.Protobuf;
@@ -31,7 +28,6 @@ namespace Ligric.Business.Clients.Authorization
 
 		public async Task SignInAsync(string login, string password, CancellationToken ct)
 		{
-			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignInAsync(new SignInRequest
 			{
 				Login = login,
@@ -57,7 +53,6 @@ namespace Ligric.Business.Clients.Authorization
 
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
 		{
-			//var passHashed = SecurePasswordHasher.Hash(password);
 			var authReply = await _client.SignUpAsync(new SignUpRequest
 			{
 				Login = login,

@@ -78,14 +78,14 @@
 //		{
 //			switch (positionsChanged.Action)
 //			{
-//				case Rpc.Contracts.Action.Added:
+//				case Ligric.Protobuf.Action.Added:
 //					var positionDto = positionsChanged.Position.ToFuturesPositionDto();
 //					_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, positionDto, ref syncOrderChanged);
 //					break;
-//				case Rpc.Contracts.Action.Removed:
+//				case Ligric.Protobuf.Action.Removed:
 //					_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncOrderChanged);
 //					break;
-//				case Rpc.Contracts.Action.Changed: goto case Rpc.Contracts.Action.Added;
+//				case Ligric.Protobuf.Action.Changed: goto case Ligric.Protobuf.Action.Added;
 //			}
 //		}
 //	}

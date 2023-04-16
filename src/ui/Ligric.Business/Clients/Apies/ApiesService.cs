@@ -3,12 +3,7 @@ using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
 using Ligric.Business.Extensions;
 using Ligric.Business.Metadata;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Utils;
 using Ligric.Core.Ligric.Core.Types.Api;
 using static Ligric.Protobuf.UserApis;
@@ -125,13 +120,13 @@ namespace Ligric.Business.Clients.Apies
 			var apiClient = changedInfo.Api.ToApiClientDto();
 			switch (changedInfo.Action)
 			{
-				case Rpc.Contracts.Action.Added:
+				case Protobuf.Action.Added:
 					_availableApies.AddAndRiseEvent(this, apiClient, ApiesChanged);
 					break;
-				case Rpc.Contracts.Action.Removed:
+				case Protobuf.Action.Removed:
 					_availableApies.RemoveAndRiseEvent(this, apiClient, ApiesChanged);
 					break;
-				case Rpc.Contracts.Action.Changed:
+				case Protobuf.Action.Changed:
 					var oldApi = _availableApies.First(x => x.UserApiId == apiClient.UserApiId);
 					_availableApies.UpdateAndRiseEvent(this, apiClient, oldApi, ApiesChanged);
 					break;

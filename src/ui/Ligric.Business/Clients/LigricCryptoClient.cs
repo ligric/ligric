@@ -3,7 +3,6 @@ using Grpc.Net.Client;
 using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
 using Ligric.Business.Clients.Apies;
-using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;

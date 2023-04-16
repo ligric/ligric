@@ -81,13 +81,13 @@
 //			var value = decimal.Parse(valuesChanged.Value.Value);
 //			switch (valuesChanged.Action)
 //			{
-//				case Rpc.Contracts.Action.Added:
+//				case Ligric.Protobuf.Action.Added:
 //					_values.SetAndRiseEvent(this, ValuesChanged, symbol, value, ref syncValuesChanged);
 //					break;
-//				case Rpc.Contracts.Action.Removed:
+//				case Ligric.Protobuf.Action.Removed:
 //					_values.RemoveAndRiseEvent(this, ValuesChanged, symbol, ref syncValuesChanged);
 //					break;
-//				case Rpc.Contracts.Action.Changed: goto case Rpc.Contracts.Action.Added;
+//				case Ligric.Protobuf.Action.Changed: goto case Ligric.Protobuf.Action.Added;
 //			}
 //		}
 //	}
