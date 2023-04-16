@@ -45,7 +45,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="protos\auth.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server"/>
-		<Protobuf Include="..\..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Server"/>
+		<Protobuf Include="protos\auth.proto" AdditionalImportDirs="..\..\..\protos\"/>
+		<Protobuf Include="..\..\..\protos\common.proto" Link="protos\common.proto"/>
 	</ItemGroup>
 </Project>

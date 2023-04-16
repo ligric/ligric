@@ -3,6 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Mocks\**" />
+    <EmbeddedResource Remove="Mocks\**" />
+    <None Remove="Mocks\**" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
@@ -48,9 +53,5 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Ligric.Business\Ligric.Business.csproj" />
 		<ProjectReference Include="..\Ligric.UI.Infrastructure\Ligric.UI.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Mocks\" />
 	</ItemGroup>
 </Project>
