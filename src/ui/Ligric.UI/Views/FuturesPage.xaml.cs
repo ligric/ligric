@@ -2,7 +2,7 @@
 
 namespace Ligric.UI.Views
 {
-    public sealed partial class FuturesPage : Page
+    public partial class FuturesPage : Page
     {
         public FuturesPage()
         {

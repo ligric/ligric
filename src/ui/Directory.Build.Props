@@ -34,7 +34,7 @@
 	<PropertyGroup>
 		<UnoVersion>4.8.24</UnoVersion>
 		<UnoExtensionsVersion>2.3.6</UnoExtensionsVersion>
-		<UnoToolkitVersion>2.5.8</UnoToolkitVersion>
+		<UnoToolkitVersion>2.5.5</UnoToolkitVersion>
 		<UnoMaterialVersion>2.5.3</UnoMaterialVersion>
 	</PropertyGroup>
 
