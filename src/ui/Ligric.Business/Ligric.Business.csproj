@@ -24,10 +24,10 @@
     <ProjectReference Include="..\..\shared\Utils\Utils.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Protobuf Include="..\..\protos\auth.proto" Link="protos\auth.proto" GrpcServices="Client"/>
+  <ItemGroup>
+	  <Protobuf Include="protos\auth.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+	  <Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
 		<Protobuf Include="..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Client"/>
-		<Protobuf Include="..\..\protos\futures.proto" Link="protos\futures.proto" GrpcServices="Client"/>
-		<Protobuf Include="..\..\protos\userApis.proto" Link="protos\userApis.proto" GrpcServices="Client"/>
-	</ItemGroup>
+  </ItemGroup>
+	
 </Project>

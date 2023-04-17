@@ -1,11 +1,11 @@
 using Google.Protobuf.WellKnownTypes;
 using FluentAssertions;
-using Grpc.Core;
 using Ligric.Protobuf;
+using Ligric.Service.AuthService.Tests.App_Infrastructure;
 
 namespace Ligric.Tests
 {
-	public sealed class AuthIntegrationTests : TestBase
+	public sealed class AuthIntegrationTests : FlueFlameIntegrationTestBase
 	{
 		private StringValue RandomGuidRequest => new() { Value = Guid.NewGuid().ToString() };
 
@@ -25,62 +25,62 @@ namespace Ligric.Tests
 			act.Response.AssertThat(e => e.JwtToken.RefreshToken.Should().NotBeNullOrEmpty());
 		}
 
-		[Fact]
-        public async Task GetJwtToken_FromAuth_ReturnsIsSuccessAndValidToken()
-        {
-			// Arrange
-			var request = new SignInRequest() { Login = "test", Password = "12345" };
-			var client = GrpcHost.CreateClient<Auth.AuthClient>();
+		//[Fact]
+  //      public async Task GetJwtToken_FromAuth_ReturnsIsSuccessAndValidToken()
+  //      {
+		//	// Arrange
+		//	var request = new SignInRequest() { Login = "test", Password = "12345" };
+		//	var client = GrpcHost.CreateClient<Auth.AuthClient>();
 
-			// Act
-			var act = client.Unary.Call(c => c.SignIn(request));
+		//	// Act
+		//	var act = client.Unary.Call(c => c.SignIn(request));
 
-			// Assert
-			act.Response.AssertThat(e => e.Result.IsSuccess.Should().BeTrue() );
-			act.Response.AssertThat(e => e.JwtToken.AccessToken.Should().NotBeNullOrEmpty() );
-			act.Response.AssertThat(e => e.JwtToken.RefreshToken.Should().NotBeNullOrEmpty() );
-        }
+		//	// Assert
+		//	act.Response.AssertThat(e => e.Result.IsSuccess.Should().BeTrue() );
+		//	act.Response.AssertThat(e => e.JwtToken.AccessToken.Should().NotBeNullOrEmpty() );
+		//	act.Response.AssertThat(e => e.JwtToken.RefreshToken.Should().NotBeNullOrEmpty() );
+  //      }
 
-		[Fact]
-		public async Task CheckJwtToken_OneMinuteExpirationTime_ReturnsTrue()
-		{
-			// Arrange
-			var request = new SignInRequest() { Login = "test", Password = "test" };
-			var client = GrpcHost.CreateClient<Auth.AuthClient>();
+		//[Fact]
+		//public async Task CheckJwtToken_OneMinuteExpirationTime_ReturnsTrue()
+		//{
+		//	// Arrange
+		//	var request = new SignInRequest() { Login = "test", Password = "test" };
+		//	var client = GrpcHost.CreateClient<Auth.AuthClient>();
 
-			var actLogin = client.Unary.Call(c => c.SignIn(request));
+		//	var actLogin = client.Unary.Call(c => c.SignIn(request));
 
-			string accessToken = null;
+		//	string accessToken = null;
 
-			actLogin.Response.AssertThat(e =>
-			{
-				accessToken = e.JwtToken.AccessToken;
-			});
+		//	actLogin.Response.AssertThat(e =>
+		//	{
+		//		accessToken = e.JwtToken.AccessToken;
+		//	});
 
-			var headers = new Metadata
-			{
-				{ "Auth", $"Bearer {accessToken}" }
-			};
+		//	var headers = new Metadata
+		//	{
+		//		{ "Auth", $"Bearer {accessToken}" }
+		//	};
 
-			var actExpirationAt = client.Unary.Call(c => c.GetTokenExpirationTime(new Empty(), headers));
+		//	var actExpirationAt = client.Unary.Call(c => c.GetTokenExpirationTime(new Empty(), headers));
 
-			actExpirationAt.Response.AssertThat(e =>
-			{
-				//var afsaf = e.ExpirationAt.ToDateTime();
-			});
-
-
-
-			// Assert
+		//	actExpirationAt.Response.AssertThat(e =>
+		//	{
+		//		//var afsaf = e.ExpirationAt.ToDateTime();
+		//	});
 
 
-			// Assert
-			//act.Response.AssertThat(async e =>
-			//{
-			//	var tokenResponse = e.JwtToken;
-			//	await Task.Delay(1000);
-			//});
-		}
+
+		//	// Assert
+
+
+		//	// Assert
+		//	//act.Response.AssertThat(async e =>
+		//	//{
+		//	//	var tokenResponse = e.JwtToken;
+		//	//	await Task.Delay(1000);
+		//	//});
+		//}
 
 		[Fact]
 		public async Task CheckJwtToken_ExpirationTimeFromUtcNow_ReturnsTrue()

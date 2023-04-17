@@ -1,17 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reactive;
-using System.Reactive.Linq;
 using Ligric.Business.Apies;
-using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Core.Ligric.Core.Types.Api;
-using Ligric.UI.Infrastructure;
 using Ligric.UI.ViewModels.Data;
-using Microsoft.UI.Dispatching;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Uno.Extensions.Reactive.Dispatching;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -85,7 +80,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		private void OnApiesChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void OnApiesChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{

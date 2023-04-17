@@ -1,0 +1,12 @@
+﻿<local:App x:Class="Ligric.UI.AppHead" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:local="using:Ligric.UI">
+
+    <local:App.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///Ligric.UI/AppResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</local:App.Resources>
+	
+</local:App>

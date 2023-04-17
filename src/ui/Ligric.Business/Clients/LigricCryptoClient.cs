@@ -3,11 +3,10 @@ using Grpc.Net.Client;
 using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
 using Ligric.Business.Clients.Apies;
-using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;
-using static Ligric.Protobuf.Futures;
+//using static Ligric.Protobuf.Futures;
 
 namespace Ligric.Business.Clients
 {
@@ -15,7 +14,9 @@ namespace Ligric.Business.Clients
 	{
 		private readonly IAuthorizationService _authorization;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 		public LigricCryptoClient(
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 			GrpcChannel channel,
 			IAuthorizationService authorization,
 		    IMetadataManager metadata)
@@ -24,10 +25,10 @@ namespace Ligric.Business.Clients
 
 			Apis = new ApiesService(channel, metadata, _authorization);
 
-			FuturesClient futuresClient = new FuturesClient(channel); 
-			Orders = new OrdersService(futuresClient, metadata, _authorization);
-			Values = new ValuesService(futuresClient, metadata, _authorization);
-			Positions = new PositionsService(futuresClient, metadata, _authorization);
+			//FuturesClient futuresClient = new FuturesClient(channel); 
+			//Orders = new OrdersService(futuresClient, metadata, _authorization);
+			//Values = new ValuesService(futuresClient, metadata, _authorization);
+			//Positions = new PositionsService(futuresClient, metadata, _authorization);
 
 			_authorization.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
