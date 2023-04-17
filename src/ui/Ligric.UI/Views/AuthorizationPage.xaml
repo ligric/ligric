@@ -93,7 +93,7 @@
 					Background="#D8BAFF" BorderBrush="Black" BorderThickness="4"
 				    Command="{Binding SetAuthorizationMode}"
 				    CommandParameter="SignIn">
-				<Image Source="ms-appx:///Assets/Icons/keyboard-backspace.svg" Stretch="Uniform"/>
+				<Image Source="ms-appx:///Ligric.UI/Assets/Icons/keyboard-backspace.svg" Stretch="Uniform"/>
 			</Button>
 		</Grid>
     </Grid>

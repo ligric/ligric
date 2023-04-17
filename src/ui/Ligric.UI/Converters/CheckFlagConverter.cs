@@ -1,5 +1,5 @@
-﻿//using Ligric.Core.Ligric.Core.Types.Api;
-//using Utils.Extensions;
+﻿using Ligric.Core.Ligric.Core.Types.Api;
+using Utils.Extensions;
 
 namespace Ligric.UI.Converters
 {
@@ -7,11 +7,10 @@ namespace Ligric.UI.Converters
 	{
 		public object Convert(object currentValueObject, Type targetType, object neededObject, string language)
 		{
-			//var hasFlags = EnumExtensions.HasFlag<ApiPermissions>(
-			//	System.Convert.ToInt32(currentValueObject),
-			//	System.Convert.ToInt32(neededObject));
-			//return hasFlags;
-			return DependencyProperty.UnsetValue;
+			var hasFlags = EnumExtensions.HasFlag<ApiPermissions>(
+				System.Convert.ToInt32(currentValueObject),
+				System.Convert.ToInt32(neededObject));
+			return hasFlags;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
