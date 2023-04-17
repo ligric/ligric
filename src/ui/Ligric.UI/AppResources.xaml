@@ -11,10 +11,9 @@
         <!-- Load Material Toolkit Resources -->
         <MaterialToolkitResources xmlns="using:Uno.Toolkit.UI.Material" />
 
-        <!--<ResourceDictionary Source="ms-appx:///Styles/CheckBox.xaml"/>-->
-        <!--<ResourceDictionary Source="ms-appx:///Styles/TextBox.xaml"/>-->
-        <!--<ResourceDictionary Source="ms-appx:///Styles/Button.xaml"/>-->
-        <ResourceDictionary Source="ms-appx:///Ligric.UI/Styles/test.xaml"/>
+		<ResourceDictionary Source="ms-appx:///Ligric.UI/Styles/CheckBox.xaml"/>
+		<ResourceDictionary Source="ms-appx:///Ligric.UI/Styles/TextBox.xaml"/>
+		<ResourceDictionary Source="ms-appx:///Ligric.UI/Styles/Button.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 	<!-- Add resources here -->
     <converter:CheckFlagConverter x:Key="CheckFlagConverter"/>
