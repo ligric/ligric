@@ -80,7 +80,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		private void OnApiesChanged(object sender, NotifyCollectionChangedEventArgs e)
+		private void OnApiesChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{

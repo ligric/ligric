@@ -49,7 +49,7 @@ public partial class App : Application
 					})
 
 				// Enable navigation, including registering views and viewmodels
-				.UseNavigation(ViewModels.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+				.UseNavigation(Ligric.UI.ViewModels.ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
 
 				// AddAndRiseEvent navigation support for toolkit controls such as TabBar and NavigationView
 				.UseToolkitNavigation()

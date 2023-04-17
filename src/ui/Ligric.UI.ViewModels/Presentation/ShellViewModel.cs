@@ -17,7 +17,7 @@ public class ShellViewModel
 		_ = Start();
 	}
 
-	private async void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
+	private async void OnAuthorizationStateChanged(object? sender, Core.Types.User.UserAuthorizationState e)
 	{
 		switch (e)
 		{

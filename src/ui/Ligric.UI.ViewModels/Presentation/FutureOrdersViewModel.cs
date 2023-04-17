@@ -29,7 +29,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
-		private void OnOpenOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		private void OnOpenOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
@@ -37,7 +37,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			});
 		}
 
-		private void OnValuesChanged(object sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
+		private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{

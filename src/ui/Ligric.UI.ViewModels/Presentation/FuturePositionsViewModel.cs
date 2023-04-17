@@ -32,7 +32,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_valuesService.ValuesChanged += OnValuesChanged;
 		}
 
-		private void OnPositionsChanged(object sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
+		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
@@ -40,7 +40,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			});
 		}
 
-		private void OnValuesChanged(object sender, NotifyDictionaryChangedEventArgs<string, decimal> e)
+		private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> e)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
