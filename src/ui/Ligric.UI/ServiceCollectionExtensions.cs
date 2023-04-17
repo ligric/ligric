@@ -1,5 +1,11 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using CommunityToolkit.Mvvm.Messaging;
+using Ligric.Business.Authorization;
+using Ligric.Business.Clients;
+using Ligric.Business.Clients.Authorization;
+using Ligric.Business.Interfaces;
+using Ligric.Business.Metadata;
 //using CommunityToolkit.Mvvm.Messaging;
 //using Ligric.Business.Apies;
 //using Ligric.Business.Authorization;
@@ -32,24 +38,23 @@ public static class ServiceCollectionExtensions
 		this IServiceCollection services,
 		bool useMocks = false)
 	{
-		//var grpcChannel = GrpcChannelHalper.GetGrpcChannel();
-		//var metadata = new MetadataManager();
-		//var authorization = new AuthorizationService(grpcChannel, metadata);
-		//var cryptoClient = new LigricCryptoClient(grpcChannel, authorization, metadata);
+		var grpcChannel = GrpcChannelHalper.GetGrpcChannel();
+		var metadata = new MetadataManager();
+		var authorization = new AuthorizationService(grpcChannel, metadata);
+		var cryptoClient = new LigricCryptoClient(grpcChannel, authorization, metadata);
 
-		//_ = services
-		//	.AddSingleton(grpcChannel)
+		_ = services
+			.AddSingleton(grpcChannel)
 
-		//	.AddSingleton<IMetadataManager>(metadata)
-		//	.AddSingleton<IAuthorizationService>(authorization)
-		//	.AddSingleton<ILigricCryptoClient>(cryptoClient)
-
+			.AddSingleton<IMetadataManager>(metadata)
+			.AddSingleton<IAuthorizationService>(authorization)
+			.AddSingleton<ILigricCryptoClient>(cryptoClient)
 		//	.AddSingleton(cryptoClient.Apis)
 		//	.AddSingleton(cryptoClient.Orders)
 		//	.AddSingleton(cryptoClient.Values)
 		//	.AddSingleton(cryptoClient.Positions)
 
-		//	.AddSingleton<IMessenger, WeakReferenceMessenger>();
+			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
 		if (useMocks)
 		{

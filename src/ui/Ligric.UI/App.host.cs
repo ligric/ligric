@@ -1,6 +1,7 @@
 #pragma warning disable 109 // Remove warning for Window property on iOS
 
 using Ligric.UI.ViewModels.Helpers;
+using Ligric.UI.ViewModels.Presentation;
 
 namespace Ligric.UI;
 
@@ -62,18 +63,18 @@ public partial class App : Application
 
     private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
     {
-   //     views.Register(
-   //         new ViewMap<AuthorizationPage, AuthorizationViewModel>(),
-   //         new ViewMap<FuturesPage, FuturesViewModel>(),
-   //         new ViewMap(ViewModel: typeof(ShellViewModel))
-   //     );
+		views.Register(
+			new ViewMap<AuthorizationPage, AuthorizationViewModel>(),
+			new ViewMap<FuturesPage, FuturesViewModel>(),
+			new ViewMap(ViewModel: typeof(ShellViewModel))
+		);
 
-   //     routes.Register(
-   //         new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
-   //         {
-   //             new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
-   //             new("Futures", View: views.FindByViewModel<FuturesViewModel>())
-			//})
-   //     );
-    }
+		routes.Register(
+			new RouteMap("", View: views.FindByViewModel<ShellViewModel>(), Nested: new RouteMap[]
+			{
+				new("Authorization", View: views.FindByViewModel<AuthorizationViewModel>()),
+				new("Futures", View: views.FindByViewModel<FuturesViewModel>())
+			})
+		);
+	}
 }
