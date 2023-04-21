@@ -49,10 +49,10 @@ public static class ServiceCollectionExtensions
 			.AddSingleton<IMetadataManager>(metadata)
 			.AddSingleton<IAuthorizationService>(authorization)
 			.AddSingleton<ILigricCryptoClient>(cryptoClient)
-		//	.AddSingleton(cryptoClient.Apis)
-		//	.AddSingleton(cryptoClient.Orders)
-		//	.AddSingleton(cryptoClient.Values)
-		//	.AddSingleton(cryptoClient.Positions)
+			.AddSingleton(cryptoClient.Apis)
+			.AddSingleton(cryptoClient.Orders)
+			.AddSingleton(cryptoClient.Values)
+			.AddSingleton(cryptoClient.Positions)
 
 			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 

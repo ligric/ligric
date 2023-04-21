@@ -27,6 +27,7 @@
   <ItemGroup>
 	  <Protobuf Include="protos\auth.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
 	  <Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+	  <Protobuf Include="protos\futures.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
 		<Protobuf Include="..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Client"/>
   </ItemGroup>
 	
