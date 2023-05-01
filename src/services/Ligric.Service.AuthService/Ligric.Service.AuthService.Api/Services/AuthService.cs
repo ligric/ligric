@@ -107,27 +107,6 @@ public class AuthService : Auth.AuthBase
 		};
 	}
 
-	[Authorize]
-	public override async Task<RefreshTokenExpirationTime> GetTokenExpirationTime(Empty empty, ServerCallContext context)
-	{
-		var token = GetTokenFromMetadata(context.RequestHeaders);
-
-		var claims = _jwtAuthManager.DecodeJwtToken(token).Item1.Claims;
-
-		var uniqueName = claims.First(x => x.Type == ClaimTypes.Name).Value;
-
-#pragma warning disable CS8604 // Possible null reference argument.
-		var expirationAt = _jwtAuthManager.GetTokenExpirationTime(uniqueName);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-		var result = new RefreshTokenExpirationTime
-		{
-			ExpirationAt = Timestamp.FromDateTime(expirationAt),
-			Result = ResponseHelper.GetSuccessResponseResult()
-		};
-		return result;
-	}
-
 	private UserResponseDto? GetUserFromMetadata(Metadata metadata)
 	{
 		if (metadata == null)

@@ -26,7 +26,6 @@ service Auth {
 	rpc Logout(google.protobuf.Empty) returns (ResponseResult);
 
 	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenExpirationTime);
-	rpc GetTokenExpirationTime(google.protobuf.Empty) returns (RefreshTokenExpirationTime);
 
 	rpc IsLoginUnique(CheckExistsRequest) returns (CheckExistsResponse);
 }
