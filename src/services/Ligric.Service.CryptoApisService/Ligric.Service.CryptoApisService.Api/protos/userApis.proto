@@ -2,15 +2,30 @@
 
 import "common.proto";
 import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 
 option csharp_namespace = "Ligric.Protobuf";
 
 package ligric.protobuf;
 
 service UserApis {
-	rpc Save(SaveApiRequest) returns (SaveApiResponse);
-	rpc Share(ShareApiRequest) returns (ResponseResult);
-    rpc ApisSubscribe(ApiSubscribeRequest) returns (stream ApisChanged);
+	rpc Save(SaveApiRequest) returns (SaveApiResponse){
+	  option (google.api.http) = {
+		  post: "/v1/crypto/save/"
+		  body: "*"
+	  };
+    }
+
+	rpc Share(ShareApiRequest) returns (ResponseResult){
+	  option (google.api.http) = {
+		  post: "/v1/crypto/share/"
+		  body: "*"
+	  };
+    }
+
+    rpc ApisSubscribe(ApiSubscribeRequest) returns (stream ApisChanged){
+      option (google.api.http).get = "/v1/crypto/stream/apis";
+	}
 }
 
 message Api {

@@ -12,13 +12,13 @@ package ligric.protobuf;
 service Auth {
 	rpc SignIn(SignInRequest) returns (SignInResponse){
 	  option (google.api.http) = {
-		  post: "/v1/auth/"
+		  post: "/v1/auth/signin"
 		  body: "*"
 	  };
     }
 	rpc SignUp(SignUpRequest) returns (SignUpResponse){
 	  option (google.api.http) = {
-		  post: "/v1/auth/"
+		  post: "/v1/auth/signup"
 		  body: "*"
 	  };
     }
