@@ -22,7 +22,7 @@
 	<!--<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.19" />-->
 	<PackageReference Include="SkiaSharp.Skottie" Version="2.88.3" />
 
-	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
 	<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
