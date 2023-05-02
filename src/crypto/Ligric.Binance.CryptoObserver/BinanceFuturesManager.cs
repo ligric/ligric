@@ -16,7 +16,7 @@ using Utils;
 
 namespace Ligric.CryptoObserver;
 
-public class BinanceFuturesManager
+public class BinanceFuturesManager : IFuturesManager
 {
 	private int eventSync = 0;
 

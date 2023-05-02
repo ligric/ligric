@@ -38,14 +38,13 @@ public static class ServiceCollectionExtensions
 		this IServiceCollection services,
 		bool useMocks = false)
 	{
-		var grpcChannel = GrpcChannelHalper.GetGrpcChannel();
+		var grpcChannelEnvoy = GrpcChannelHalper.GetGrpcChannel("http://localhost:8080");
+
 		var metadata = new MetadataManager();
-		var authorization = new AuthorizationService(grpcChannel, metadata);
-		var cryptoClient = new LigricCryptoClient(grpcChannel, authorization, metadata);
+		var authorization = new AuthorizationService(grpcChannelEnvoy, metadata);
+		var cryptoClient = new LigricCryptoClient(grpcChannelEnvoy, authorization, metadata);
 
 		_ = services
-			.AddSingleton(grpcChannel)
-
 			.AddSingleton<IMetadataManager>(metadata)
 			.AddSingleton<IAuthorizationService>(authorization)
 			.AddSingleton<ILigricCryptoClient>(cryptoClient)

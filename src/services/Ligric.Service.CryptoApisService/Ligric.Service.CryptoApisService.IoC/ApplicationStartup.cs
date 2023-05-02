@@ -69,7 +69,7 @@ namespace Ligric.Service.CryptoApisService.IoC
 			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().SingleInstance();
 
 			// #TEMPORARY
-			//container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().SingleInstance();
+			container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().SingleInstance();
 
 			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));

@@ -12,13 +12,13 @@ package ligric.protobuf;
 service Auth {
 	rpc SignIn(SignInRequest) returns (SignInResponse){
 	  option (google.api.http) = {
-		  post: "/v1/auth/"
+		  post: "/v1/auth/signin"
 		  body: "*"
 	  };
     }
 	rpc SignUp(SignUpRequest) returns (SignUpResponse){
 	  option (google.api.http) = {
-		  post: "/v1/auth/"
+		  post: "/v1/auth/signup"
 		  body: "*"
 	  };
     }
@@ -26,7 +26,6 @@ service Auth {
 	rpc Logout(google.protobuf.Empty) returns (ResponseResult);
 
 	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenExpirationTime);
-	rpc GetTokenExpirationTime(google.protobuf.Empty) returns (RefreshTokenExpirationTime);
 
 	rpc IsLoginUnique(CheckExistsRequest) returns (CheckExistsResponse);
 }

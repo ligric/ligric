@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using Utils;
 using System.Reactive.Linq;
-using Ligric.Domain.TypeExtensions;
-using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Domain.Entities;
+using Ligric.Service.CryptoApisService.Domain.Extensions;
+using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
-using Utils;
 
 namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 {

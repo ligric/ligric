@@ -7,10 +7,8 @@ namespace Ligric.UI
 {
 	internal static class GrpcChannelHalper
 	{
-		public static GrpcChannel GetGrpcChannelSsl()
+		public static GrpcChannel GetGrpcChannelSsl(string address)
 		{
-			var address = GetServerAddress();
-
 			AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
 			var httpClientHandler = new HttpClientHandler();
@@ -37,34 +35,12 @@ namespace Ligric.UI
 			});
 		}
 
-		public static GrpcChannel GetGrpcChannel()
+		public static GrpcChannel GetGrpcChannel(string address)
 		{
-			return GrpcChannel.ForAddress("http://localhost:8080", new GrpcChannelOptions()
+			return GrpcChannel.ForAddress(address, new GrpcChannelOptions()
 			{
 				HttpHandler = new GrpcWebHandler(new HttpClientHandler())
 			});
-
-		}
-
-
-		private static string GetServerAddress()
-		{
-			var address = "https://3.72.127.66:5010";
-
-			//---------------------------------------------------------------
-			// TODO : #USE_LOCAL_MODE
-			//---------------------------------------------------------------
-			if (true)
-			{
-#if ANDROID
-                address = "https://10.0.2.2:5010";
-#else
-				address = "https://localhost:5010";
-#endif
-			}
-			//---------------------------------------------------------------
-
-			return address;
 		}
 	}
 }

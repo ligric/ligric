@@ -10,6 +10,7 @@
 	</ItemGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\..\..\crypto\Ligric.Binance.CryptoObserver\Ligric.CryptoObserver.csproj" />
     <ProjectReference Include="..\..\..\shared\Ligric.Core\Ligric.Core.csproj" />
     <ProjectReference Include="..\..\..\shared\Utils\Utils.csproj" />
     <ProjectReference Include="..\Ligric.Service.CryptoApisService.Domain\Ligric.Service.CryptoApisService.Domain.csproj" />
