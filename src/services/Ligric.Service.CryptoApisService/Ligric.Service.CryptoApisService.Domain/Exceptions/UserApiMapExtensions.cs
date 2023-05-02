@@ -9,7 +9,7 @@ namespace Ligric.Domain.TypeExtensions
 		public static ApiClientResponseDto ToApiClientResponseDto(this UserApiEntity userApi)
 		{
 			return new ApiClientResponseDto(
-				userApi.UserId ?? throw new System.ArgumentNullException("UserId is null"),
+				userApi.Id ?? throw new System.ArgumentNullException("userApi is null"),
 				userApi?.Name ?? "Not titled",
 				userApi?.Permissions ?? 0);
 		}
