@@ -49,6 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="protos\futures.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
 		<Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
 		<Protobuf Include="..\..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Server" />
 	</ItemGroup>

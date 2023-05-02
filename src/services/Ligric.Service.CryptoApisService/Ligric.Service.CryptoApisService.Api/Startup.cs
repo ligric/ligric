@@ -109,6 +109,7 @@ namespace Ligric.Service.CryptoApisService.Api
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapGrpcService<Services.UserApisService>().RequireCors(CORS_POLICY).EnableGrpcWeb();
+				endpoints.MapGrpcService<Services.FuturesService>().RequireCors(CORS_POLICY).EnableGrpcWeb();
 
 				endpoints.MapGet("/", async context =>
 				{
