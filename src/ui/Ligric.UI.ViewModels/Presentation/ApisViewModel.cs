@@ -44,7 +44,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			canExecute: this.WhenAnyValue(x => x.AddingApi, api => CanSaveApi(api)));
 
 		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
-			execute: async (apiClient, ct) => await ExecuteShareApi(apiClient, ct));
+			execute: (apiClient, ct) => ExecuteShareApi(apiClient, ct), outputScheduler: RxApp.TaskpoolScheduler);
 
 		public ReactiveCommand<ApiClientDto, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteAttachApiStream);
 
