@@ -2,15 +2,22 @@
 
 import "common.proto";
 import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 
 option csharp_namespace = "Ligric.Protobuf";
 
 package ligric.protobuf;
 
 service Futures {
-    rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged);
-    rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged);
-    rpc PositionsSubscribe(FuturesSubscribeRequest) returns (stream PositionsChanged);
+    rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged){
+      option (google.api.http).get = "/v1/futures/stream/orders";
+	}
+    rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged){
+      option (google.api.http).get = "/v1/futures/stream/values";
+	}
+    rpc PositionsSubscribe(FuturesSubscribeRequest) returns (stream PositionsChanged){
+      option (google.api.http).get = "/v1/futures/stream/positions";
+	}
 }
 
 message FuturesSubscribeRequest
