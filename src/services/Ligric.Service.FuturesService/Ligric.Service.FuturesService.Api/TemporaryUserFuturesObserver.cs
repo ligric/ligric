@@ -16,7 +16,7 @@ namespace Ligric.Application.Orders
 		{
 			public ApiDto Api { get; init; }
 
-			public BinanceFuturesManager FuturesManager { get; init; }
+			public IFuturesManager FuturesManager { get; init; }
 
 			public IList<long> UserIds { get; } = new List<long>();
 
