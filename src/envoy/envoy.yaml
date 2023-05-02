@@ -25,7 +25,8 @@ static_resources:
                 route: { cluster: auth_service, timeout: 0s}
               - match: { prefix: "/ligric.protobuf.UserApis" }
                 route: { cluster: userapis_service, timeout: 0s }
-
+              - match: { prefix: "/ligric.protobuf.Futures" }
+                route: { cluster: userapis_service, timeout: 0s }
               #- match: { prefix: "/" }
               #  route:
               #    cluster: greeter-grpc-service
