@@ -25,9 +25,13 @@ namespace Ligric.CryptoObserver.Extensions
 				streamOrder.Price,
 				0);
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id)
 		{
-			return new FuturesPositionDto(0 /* 0 is temporary value */, streamPosition.Symbol, streamPosition.PositionSide.ToPositionSideDto(), streamPosition.EntryPrice);
+			return new FuturesPositionDto(
+				id,
+				streamPosition.Symbol,
+				streamPosition.PositionSide.ToPositionSideDto(),
+				streamPosition.EntryPrice);
 		}
 
 		public static Core.Types.OrderSide ToOrderSideDto(this OrderSide orderSide)
