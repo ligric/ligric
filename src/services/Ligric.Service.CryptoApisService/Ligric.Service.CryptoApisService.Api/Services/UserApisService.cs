@@ -53,6 +53,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 
 			return isSuccess ? ResponseHelper.GetSuccessResponseResult() : ResponseHelper.GetFailedResponseResult();
 		}
+
 		[Authorize]
 		public override async Task ApisSubscribe(ApiSubscribeRequest request, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{

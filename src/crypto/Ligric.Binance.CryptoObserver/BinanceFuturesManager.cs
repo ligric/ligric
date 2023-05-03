@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects;
@@ -13,6 +9,7 @@ using CryptoExchange.Net.Sockets;
 using Ligric.CryptoObserver.Extensions;
 using Ligric.Core.Types.Future;
 using Utils;
+using Utils.Extensions;
 
 namespace Ligric.CryptoObserver;
 
@@ -103,11 +100,24 @@ public class BinanceFuturesManager : IFuturesManager
 	private void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
 	{
 		var positions = account.Data.UpdateData.Positions;
-
 		foreach (var position in positions)
 		{
-			FuturesPositionDto positionDto = position.ToFuturesPositionDto();
-			_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+			FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol);
+
+			if (position.Quantity == 0)
+			{
+				if (existingItem != null)
+				{
+					_positions.RemoveAndRiseEvent(this, PositionsChanged, existingItem.Id, ref eventSync);
+				}
+				continue;
+			}
+
+			if (existingItem == null)
+			{
+				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong());
+				_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+			}
 		}
 	}
 

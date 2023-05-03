@@ -53,6 +53,7 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		private readonly IApiRepository _apiRepository;
 
+		private static readonly Object subLock = new Object();
 		private static readonly IList<TemporaryApiSubscriptions> subscribedApis = new List<TemporaryApiSubscriptions>();
 
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? OrdersChanged;
@@ -67,7 +68,9 @@ namespace Ligric.Service.CryptoApisService.Application
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-			TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			lock (subLock){
+				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>((x)
 				=> OrdersChanged += x, (x) => OrdersChanged -= x);
@@ -77,7 +80,9 @@ namespace Ligric.Service.CryptoApisService.Application
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)> GetValuesAsObservable(long userId, long userApiId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-			TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			lock (subLock) {
+				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>((x)
 				=> ValuesChanged += x, (x) => ValuesChanged -= x);
@@ -87,7 +92,9 @@ namespace Ligric.Service.CryptoApisService.Application
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-			TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			lock (subLock){
+				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>((x)
 				=> PositionsChanged += x, (x) => PositionsChanged -= x);
