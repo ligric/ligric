@@ -100,23 +100,20 @@ public class BinanceFuturesManager : IFuturesManager
 	private void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
 	{
 		var positions = account.Data.UpdateData.Positions;
-
 		foreach (var position in positions)
 		{
+			FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol);
 
 			if (position.Quantity == 0)
 			{
-				var removeItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol);
-
-				if (removeItem != null && _positions.Remove(removeItem.Id))
+				if (existingItem != null)
 				{
-					PositionsChanged?.Invoke(this,
-						NotifyActionDictionaryChangedEventArgs.RemoveKeyValuePair<long, FuturesPositionDto>(
-							removeItem.Id, eventSync++, DateTimeOffset.Now.ToUnixTimeMilliseconds())
-					);
+					_positions.RemoveAndRiseEvent(this, PositionsChanged, existingItem.Id, ref eventSync);
 				}
+				continue;
 			}
-			else
+
+			if (existingItem == null)
 			{
 				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong());
 				_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
