@@ -37,7 +37,7 @@ message PositionsChanged {
 message FuturesOrder {
 	int64 id = 1;
 	string symbol = 2;
-	OrderSide side = 3;
+	Side side = 3;
 	string quantity = 4;
 	string price = 5;
 	string value = 6;
@@ -53,18 +53,11 @@ message FuturesPosition {
 	int64 id = 1;
 	string Symbol = 2;
 	string EntryPrice = 3;
-	PositionSide Side = 4;
+	Side Side = 4;
 }
 
-enum OrderSide
+enum Side
 {
 	Sell = 0;
 	Buy = 1;
-}
-
-enum PositionSide
-{
-	Short = 0;
-	Long = 1;
-	Both = 2;
 }
