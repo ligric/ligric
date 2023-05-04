@@ -16,7 +16,8 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 				Quantity = dto.Quantity.ToString(),
 				Side = dto.Side.ToSideProto(),
 				Symbol = dto.Symbol,
-				Value = dto.Value.ToString()
+				Value = dto.Value.ToString(),
+				Type = dto.Type.ToString()
 			};
 		}
 

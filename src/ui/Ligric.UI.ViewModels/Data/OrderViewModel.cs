@@ -11,5 +11,6 @@ namespace Ligric.UI.ViewModels.Data
 		[Reactive] public string? Price { get; set; }
 		[Reactive] public string? Order { get; set; }
 		[Reactive] public string? Value { get; set; }
+		[Reactive] public string? Type { get; set; }
 	}
 }
