@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Utils\Utils.csproj" />
+    <Compile Remove="Types\UserAPIs\**" />
+    <EmbeddedResource Remove="Types\UserAPIs\**" />
+    <None Remove="Types\UserAPIs\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Types\UserAPIs\" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>
