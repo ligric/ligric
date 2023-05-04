@@ -67,8 +67,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId)
 		{
-			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 			lock (subLock){
+				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
 			}
 
@@ -79,8 +79,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)> GetValuesAsObservable(long userId, long userApiId)
 		{
-			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 			lock (subLock) {
+				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
 			}
 
@@ -91,8 +91,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId)
 		{
-			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 			lock (subLock){
+				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
 			}
 
