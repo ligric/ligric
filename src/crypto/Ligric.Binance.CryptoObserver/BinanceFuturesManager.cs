@@ -10,6 +10,8 @@ using Ligric.CryptoObserver.Extensions;
 using Ligric.Core.Types.Future;
 using Utils;
 using Utils.Extensions;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace Ligric.CryptoObserver;
 
@@ -72,6 +74,13 @@ public class BinanceFuturesManager : IFuturesManager
 		_ordersSubscribeCancellationToken = new CancellationTokenSource();
 		var token = _ordersSubscribeCancellationToken.Token;
 
+		await StartStream(token);
+
+		await SetupPrimaryOrders(token);
+	}
+
+	private async Task StartStream(CancellationToken token)
+	{
 		var startStreamResponse = await _client.UsdFuturesApi.Account.StartUserStreamAsync(token);
 		var listenKey = startStreamResponse.Data ?? throw new ArgumentNullException();
 
@@ -79,16 +88,20 @@ public class BinanceFuturesManager : IFuturesManager
 			listenKey, null, null,
 			OnAccountUpdated, OnOrdersUpdated, OnListenKeyExpired,
 			null, null, token);
+	}
 
+	private async Task SetupPrimaryOrders(CancellationToken token)
+	{
+		var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
+		var orders = ordersResponse.Data.Select(binanceOrder => binanceOrder.ToFuturesOrderDto()).ToList();
 
-
-		//var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
-		//_orders = ordersResponse.Data.Select(binanceOrder => binanceOrder.ToFuturesOrderDto()).ToList();
-
-		//foreach (var order in _orders)
-		//{
-
-		//}
+		lock(((ICollection)_orders).SyncRoot)
+		{
+			foreach (var order in orders)
+			{
+				_orders.AddAndRiseEvent(this, OrdersChanged, order.Id, order, ref eventSync);
+			}
+		}
 	}
 
 	private void OnAggregatedUpdated(DataEvent<BinanceStreamAggregatedTrade> obj)
