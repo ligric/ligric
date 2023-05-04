@@ -14,7 +14,7 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 				Id = dto.Id,
 				Price = dto.Price.ToString(),
 				Quantity = dto.Quantity.ToString(),
-				Side = dto.Side.ToOrderSideProto(),
+				Side = dto.Side.ToSideProto(),
 				Symbol = dto.Symbol,
 				Value = dto.Value.ToString()
 			};
@@ -37,54 +37,38 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 				entity.PrivateKey ?? throw new ArgumentNullException("Api private key is null"));
 		}
 
-		public static Ligric.Core.Types.OrderSide ToOrderSideDto(this Ligric.Protobuf.OrderSide sideInput)
+		public static Ligric.Core.Types.Side ToSideDto(this Ligric.Protobuf.Side sideInput)
 		{
 			switch (sideInput)
 			{
-				case Ligric.Protobuf.OrderSide.Sell:
-					return Ligric.Core.Types.OrderSide.Sell;
-				case Ligric.Protobuf.OrderSide.Buy:
-					return Ligric.Core.Types.OrderSide.Buy;
+				case Ligric.Protobuf.Side.Sell:
+					return Ligric.Core.Types.Side.Sell;
+				case Ligric.Protobuf.Side.Buy:
+					return Ligric.Core.Types.Side.Buy;
 			}
 			throw new NotImplementedException();
 		}
 
-		public static Ligric.Protobuf.OrderSide ToOrderSideProto(this Ligric.Core.Types.OrderSide sideInput)
+		public static Ligric.Protobuf.Side ToSideProto(this Ligric.Core.Types.Side sideInput)
 		{
 			switch (sideInput)
 			{
-				case Ligric.Core.Types.OrderSide.Sell:
-					return Ligric.Protobuf.OrderSide.Sell;
-				case Ligric.Core.Types.OrderSide.Buy:
-					return Ligric.Protobuf.OrderSide.Buy;
+				case Ligric.Core.Types.Side.Sell:
+					return Ligric.Protobuf.Side.Sell;
+				case Ligric.Core.Types.Side.Buy:
+					return Ligric.Protobuf.Side.Buy;
 			}
 			throw new NotImplementedException();
 		}
 
-		public static Ligric.Core.Types.PositionSide ToPositionSideDto(this Ligric.Protobuf.PositionSide sideInput)
+		public static Ligric.Protobuf.Side ToSide(this Ligric.Core.Types.Side sideInput)
 		{
 			switch (sideInput)
 			{
-				case Ligric.Protobuf.PositionSide.Short:
-					return Ligric.Core.Types.PositionSide.Short;
-				case Ligric.Protobuf.PositionSide.Long:
-					return Ligric.Core.Types.PositionSide.Long;
-				case Ligric.Protobuf.PositionSide.Both:
-					return Ligric.Core.Types.PositionSide.Both;
-			}
-			throw new NotImplementedException();
-		}
-
-		public static Ligric.Protobuf.PositionSide ToPositionSide(this Ligric.Core.Types.PositionSide sideInput)
-		{
-			switch (sideInput)
-			{
-				case Ligric.Core.Types.PositionSide.Short:
-					return Ligric.Protobuf.PositionSide.Short;
-				case Ligric.Core.Types.PositionSide.Long:
-					return Ligric.Protobuf.PositionSide.Long;
-				case Ligric.Core.Types.PositionSide.Both:
-					return Ligric.Protobuf.PositionSide.Both;
+				case Ligric.Core.Types.Side.Sell:
+					return Ligric.Protobuf.Side.Sell;
+				case Ligric.Core.Types.Side.Buy:
+					return Ligric.Protobuf.Side.Buy;
 			}
 			throw new NotImplementedException();
 		}
@@ -95,7 +79,7 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 			{
 				Id = dto.Id,
 				Symbol = dto.Symbol,
-				Side = dto.Side.ToPositionSide(),
+				Side = dto.Side.ToSide(),
 				EntryPrice = dto.EntryPrice.ToString()
 			};
 		}

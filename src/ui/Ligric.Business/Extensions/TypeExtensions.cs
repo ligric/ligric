@@ -1,5 +1,6 @@
 ﻿using System;
 using Ligric.Core.Ligric.Core.Types.Api;
+using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.Protobuf;
 
@@ -15,39 +16,25 @@ namespace Ligric.Business.Extensions
 		public static FuturesOrderDto ToFuturesOrderDto(this FuturesOrder futureOrder)
 		{
 			return new FuturesOrderDto(
-				futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToOrderSideDto(),
+				futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToSideDto(),
 				decimal.Parse(futureOrder.Quantity), decimal.Parse(futureOrder.Price), decimal.Parse(futureOrder.Value));
 		}
 
 		public static FuturesPositionDto ToFuturesPositionDto(this FuturesPosition futuresPosition)
 		{
 			return new FuturesPositionDto(
-				futuresPosition.Id, futuresPosition.Symbol, futuresPosition.Side.ToPositionSideDto(),
+				futuresPosition.Id, futuresPosition.Symbol, futuresPosition.Side.ToSideDto(),
 				decimal.Parse(futuresPosition.EntryPrice));
 		}
 
-		public static Core.Types.OrderSide ToOrderSideDto(this OrderSide sideInput)
+		public static Core.Types.Side ToSideDto(this Protobuf.Side sideInput)
 		{
 			switch (sideInput)
 			{
-				case OrderSide.Sell:
-					return Core.Types.OrderSide.Sell;
-				case OrderSide.Buy:
-					return Core.Types.OrderSide.Buy;
-			}
-			throw new NotImplementedException();
-		}
-
-		public static Core.Types.PositionSide ToPositionSideDto(this PositionSide sideInput)
-		{
-			switch (sideInput)
-			{
-				case PositionSide.Short:
-					return Core.Types.PositionSide.Short;
-				case PositionSide.Long:
-					return Core.Types.PositionSide.Long;
-				case PositionSide.Both:
-					return Core.Types.PositionSide.Both;
+				case Protobuf.Side.Sell:
+					return Core.Types.Side.Sell;
+				case Protobuf.Side.Buy:
+					return Core.Types.Side.Buy;
 			}
 			throw new NotImplementedException();
 		}

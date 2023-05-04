@@ -115,7 +115,8 @@ public class BinanceFuturesManager : IFuturesManager
 
 			if (existingItem == null)
 			{
-				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong());
+				OrderSide side = position.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
+				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side);
 				_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
 			}
 		}

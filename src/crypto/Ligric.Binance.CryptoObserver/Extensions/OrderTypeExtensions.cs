@@ -11,7 +11,7 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				binanceOrder.Id,
 				binanceOrder.Symbol,
-				binanceOrder.Side.ToOrderSideDto(),
+				binanceOrder.Side.ToSideDto(),
 				binanceOrder.Quantity,
 				binanceOrder.Price,
 				12345m);
@@ -20,28 +20,21 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				streamOrder.OrderId,
 				streamOrder.Symbol,
-				streamOrder.Side.ToOrderSideDto(),
+				streamOrder.Side.ToSideDto(),
 				streamOrder.BidNotional,
 				streamOrder.Price,
 				0);
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id, OrderSide side)
 		{
 			return new FuturesPositionDto(
 				id,
 				streamPosition.Symbol,
-				streamPosition.PositionSide.ToPositionSideDto(),
+				side.ToSideDto(),
 				streamPosition.EntryPrice);
 		}
 
-		public static Core.Types.OrderSide ToOrderSideDto(this OrderSide orderSide)
-			=> orderSide == OrderSide.Sell ? Core.Types.OrderSide.Sell : Core.Types.OrderSide.Buy;
-
-		public static Core.Types.PositionSide ToPositionSideDto(this PositionSide positionSide)
-		{
-			if (positionSide == PositionSide.Short) return Core.Types.PositionSide.Short;
-			if (positionSide == Binance.Net.Enums.PositionSide.Long) return Core.Types.PositionSide.Long;
-			return Core.Types.PositionSide.Both;
-		}
+		public static Core.Types.Side ToSideDto(this OrderSide orderSide)
+			=> orderSide == OrderSide.Sell ? Core.Types.Side.Sell : Core.Types.Side.Buy;
 	}
 }
