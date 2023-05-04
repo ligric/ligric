@@ -14,14 +14,17 @@
 
 		public decimal Value { get; init; }
 
-		public FuturesOrderDto(long id, string symbol, Side side, decimal quantity, decimal price, decimal value)
+		public OrderType Type { get; init; }
+
+		public FuturesOrderDto(long id, string symbol, Side side, decimal quantity, decimal price, decimal value, OrderType type)
 		{
 			Id = id;
 			Symbol = symbol;
-			Side= side;
-			Quantity= quantity;
-			Price= price;
-			Value= value;
+			Side = side;
+			Quantity = quantity;
+			Price = price;
+			Value = value;
+			Type = type;
 		}
 	}
 }
