@@ -37,6 +37,15 @@ namespace Ligric.CryptoObserver.Extensions
 				streamPosition.EntryPrice);
 		}
 
+		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, OrderSide side)
+		{
+			return new FuturesPositionDto(
+				id,
+				binancePosition.Symbol,
+				side.ToSideDto(),
+				binancePosition.EntryPrice);
+		}
+
 		public static Core.Types.Side ToSideDto(this OrderSide orderSide)
 			=> orderSide == OrderSide.Sell ? Core.Types.Side.Sell : Core.Types.Side.Buy;
 
