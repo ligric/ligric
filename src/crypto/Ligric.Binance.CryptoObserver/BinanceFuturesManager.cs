@@ -12,6 +12,9 @@ using Utils;
 using Utils.Extensions;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using CryptoExchange.Net.CommonObjects;
+using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.Objects;
 
 namespace Ligric.CryptoObserver;
 
@@ -77,6 +80,8 @@ public class BinanceFuturesManager : IFuturesManager
 		await StartStream(token);
 
 		await SetupPrimaryOrders(token);
+
+		await SetupPrimaryPositions(token);
 	}
 
 	private async Task StartStream(CancellationToken token)
@@ -93,13 +98,36 @@ public class BinanceFuturesManager : IFuturesManager
 	private async Task SetupPrimaryOrders(CancellationToken token)
 	{
 		var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
-		var orders = ordersResponse.Data.Select(binanceOrder => binanceOrder.ToFuturesOrderDto()).ToList();
+		var orders = ordersResponse.Data
+			.Select(binanceOrder => binanceOrder.ToFuturesOrderDto())
+			.ToList();
 
 		lock(((ICollection)_orders).SyncRoot)
 		{
 			foreach (var order in orders)
 			{
 				_orders.AddAndRiseEvent(this, OrdersChanged, order.Id, order, ref eventSync);
+			}
+		}
+	}
+
+	private async Task SetupPrimaryPositions(CancellationToken token)
+	{
+		var ordersResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
+		var openPositions = ordersResponse.Data
+			.Where(x => x.EntryPrice > 0)
+			.Select(binancePosition =>
+			{
+				OrderSide side = binancePosition.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
+				return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side);
+			})
+			.ToList();
+
+		lock (((ICollection)_positions).SyncRoot)
+		{
+			foreach (var position in openPositions)
+			{
+				_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
 			}
 		}
 	}
