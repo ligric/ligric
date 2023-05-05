@@ -103,6 +103,10 @@ public class BinanceFuturesManager : IFuturesManager
 			foreach (var order in orders)
 			{
 				_orders.AddAndRiseEvent(this, OrdersChanged, order.Id, order, ref eventSync);
+
+#pragma warning disable CS4014 // Should be async
+				SubscribeValuesUpdateAsync(order.Symbol);
+#pragma warning restore CS4014 // Should be async
 			}
 		}
 	}
