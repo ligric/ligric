@@ -128,6 +128,10 @@ public class BinanceFuturesManager : IFuturesManager
 			foreach (var position in openPositions)
 			{
 				_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
+
+#pragma warning disable CS4014 // Should be async
+				SubscribeValuesUpdateAsync(position.Symbol);
+#pragma warning restore CS4014 // Should be async
 			}
 		}
 	}
