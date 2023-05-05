@@ -10,11 +10,7 @@ using Ligric.CryptoObserver.Extensions;
 using Ligric.Core.Types.Future;
 using Utils;
 using Utils.Extensions;
-using Newtonsoft.Json.Linq;
 using System.Collections;
-using CryptoExchange.Net.CommonObjects;
-using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.Objects;
 
 namespace Ligric.CryptoObserver;
 
