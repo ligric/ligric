@@ -192,7 +192,9 @@ public class BinanceFuturesManager : IFuturesManager
 
 		if (streamOrder.Status is OrderStatus.New)
 		{
-			_socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(orderDto.Symbol, OnAggregatedUpdated);
+#pragma warning disable CS4014 // Should be async
+			SubscribeValuesUpdateAsync(orderDto.Symbol);
+#pragma warning restore CS4014 // Should be async
 
 			_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
 			return;
