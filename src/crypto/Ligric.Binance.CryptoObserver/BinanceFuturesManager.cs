@@ -73,14 +73,14 @@ public class BinanceFuturesManager : IFuturesManager
 		_ordersSubscribeCancellationToken = new CancellationTokenSource();
 		var token = _ordersSubscribeCancellationToken.Token;
 
-		await StartStream(token);
+		await StartFuturesStreamAsync(token);
 
-		await SetupPrimaryOrders(token);
+		await SetupPrimaryOrdersAsync(token);
 
-		await SetupPrimaryPositions(token);
+		await SetupPrimaryPositionsAsync(token);
 	}
 
-	private async Task StartStream(CancellationToken token)
+	private async Task StartFuturesStreamAsync(CancellationToken token)
 	{
 		var startStreamResponse = await _client.UsdFuturesApi.Account.StartUserStreamAsync(token);
 		var listenKey = startStreamResponse.Data ?? throw new ArgumentNullException();
@@ -91,7 +91,7 @@ public class BinanceFuturesManager : IFuturesManager
 			null, null, token);
 	}
 
-	private async Task SetupPrimaryOrders(CancellationToken token)
+	private async Task SetupPrimaryOrdersAsync(CancellationToken token)
 	{
 		var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
 		var orders = ordersResponse.Data
@@ -107,7 +107,7 @@ public class BinanceFuturesManager : IFuturesManager
 		}
 	}
 
-	private async Task SetupPrimaryPositions(CancellationToken token)
+	private async Task SetupPrimaryPositionsAsync(CancellationToken token)
 	{
 		var ordersResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
 		var openPositions = ordersResponse.Data
