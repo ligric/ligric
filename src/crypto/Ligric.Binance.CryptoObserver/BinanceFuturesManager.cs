@@ -132,6 +132,24 @@ public class BinanceFuturesManager : IFuturesManager
 		}
 	}
 
+	private async Task SubscribeValuesUpdateAsync(string symbol)
+	{
+		bool isAdded = false;
+		lock(((ICollection)_values).SyncRoot)
+		{
+			if (!_values.ContainsKey(symbol))
+			{
+				_values.Add(symbol, -1);
+				isAdded = true;
+			}
+		}
+
+		if (isAdded)
+		{
+			await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(symbol, OnAggregatedUpdated);
+		}
+	}
+
 	private void OnAggregatedUpdated(DataEvent<BinanceStreamAggregatedTrade> obj)
 	{
 		var data = obj.Data;
