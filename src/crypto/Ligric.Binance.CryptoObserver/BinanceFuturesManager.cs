@@ -10,11 +10,7 @@ using Ligric.CryptoObserver.Extensions;
 using Ligric.Core.Types.Future;
 using Utils;
 using Utils.Extensions;
-using Newtonsoft.Json.Linq;
 using System.Collections;
-using CryptoExchange.Net.CommonObjects;
-using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.Objects;
 
 namespace Ligric.CryptoObserver;
 
@@ -32,6 +28,7 @@ public class BinanceFuturesManager : IFuturesManager
 	private Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
 	private Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 	private Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
+	private Dictionary<string, CancellationTokenSource?> _valuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
 	public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? ValuesChanged;
 	public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OrdersChanged;
@@ -70,21 +67,21 @@ public class BinanceFuturesManager : IFuturesManager
 	public async Task AttachOrdersSubscribtionsAsync()
 	{
 		if (_ordersSubscribeCancellationToken != null
-				&& !_ordersSubscribeCancellationToken.IsCancellationRequested)
+		&& !_ordersSubscribeCancellationToken.IsCancellationRequested)
 		{
 			return;
 		}
 		_ordersSubscribeCancellationToken = new CancellationTokenSource();
 		var token = _ordersSubscribeCancellationToken.Token;
 
-		await StartStream(token);
+		await StartFuturesStreamAsync(token);
 
-		await SetupPrimaryOrders(token);
+		await SetupPrimaryOrdersAsync(token);
 
-		await SetupPrimaryPositions(token);
+		await SetupPrimaryPositionsAsync(token);
 	}
 
-	private async Task StartStream(CancellationToken token)
+	private async Task StartFuturesStreamAsync(CancellationToken token)
 	{
 		var startStreamResponse = await _client.UsdFuturesApi.Account.StartUserStreamAsync(token);
 		var listenKey = startStreamResponse.Data ?? throw new ArgumentNullException();
@@ -95,7 +92,7 @@ public class BinanceFuturesManager : IFuturesManager
 			null, null, token);
 	}
 
-	private async Task SetupPrimaryOrders(CancellationToken token)
+	private async Task SetupPrimaryOrdersAsync(CancellationToken token)
 	{
 		var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
 		var orders = ordersResponse.Data
@@ -107,11 +104,15 @@ public class BinanceFuturesManager : IFuturesManager
 			foreach (var order in orders)
 			{
 				_orders.AddAndRiseEvent(this, OrdersChanged, order.Id, order, ref eventSync);
+
+#pragma warning disable CS4014 // Should be async
+				AttachValuesSubscribeAsync(order.Symbol);
+#pragma warning restore CS4014 // Should be async
 			}
 		}
 	}
 
-	private async Task SetupPrimaryPositions(CancellationToken token)
+	private async Task SetupPrimaryPositionsAsync(CancellationToken token)
 	{
 		var ordersResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
 		var openPositions = ordersResponse.Data
@@ -128,6 +129,58 @@ public class BinanceFuturesManager : IFuturesManager
 			foreach (var position in openPositions)
 			{
 				_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
+
+#pragma warning disable CS4014 // Should be async
+				AttachValuesSubscribeAsync(position.Symbol);
+#pragma warning restore CS4014 // Should be async
+			}
+		}
+	}
+
+	private async Task AttachValuesSubscribeAsync(string symbol)
+	{
+		bool isAdded = false;
+		lock(((ICollection)_values).SyncRoot)
+		{
+			if (!_values.ContainsKey(symbol))
+			{
+				_values.Add(symbol, -1);
+				isAdded = true;
+			}
+		}
+
+		if (isAdded)
+		{
+			CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+			_valuesSubscribeCancellationTokens.Add(symbol, cancellationTokenSource);
+
+			await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(symbol, OnAggregatedUpdated, cancellationTokenSource.Token);
+		}
+	}
+
+	private void UnsubscribeValue(string symbol)
+	{
+		if (_valuesSubscribeCancellationTokens.TryGetValue(symbol, out var cancellationTokenSource))
+		{
+			_valuesSubscribeCancellationTokens.Remove(symbol);
+			cancellationTokenSource?.Cancel();
+			cancellationTokenSource?.Dispose();
+		}
+
+		_values.Remove(symbol);
+	}
+
+	private void TryUnsubscribeValueIfDependenciesMissing(string symbol)
+	{
+		if (_orders.Values.FirstOrDefault(x => x.Symbol == symbol) == null
+			&& _positions.Values.FirstOrDefault(x => x.Symbol == symbol) == null)
+		{
+			lock(((ICollection)_values).SyncRoot)
+			{
+				lock (((ICollection)_valuesSubscribeCancellationTokens).SyncRoot)
+				{
+					UnsubscribeValue(symbol);
+				}
 			}
 		}
 	}
@@ -135,6 +188,13 @@ public class BinanceFuturesManager : IFuturesManager
 	private void OnAggregatedUpdated(DataEvent<BinanceStreamAggregatedTrade> obj)
 	{
 		var data = obj.Data;
+
+		if (!_valuesSubscribeCancellationTokens.TryGetValue(data.Symbol, out var valueCancelationToken)
+			|| valueCancelationToken == null || valueCancelationToken.IsCancellationRequested)
+		{
+			return;
+		}
+
 		_values.SetAndRiseEvent(this, ValuesChanged, data.Symbol, data.Price, ref eventSync);
 	}
 
@@ -150,12 +210,17 @@ public class BinanceFuturesManager : IFuturesManager
 				if (existingItem != null)
 				{
 					_positions.RemoveAndRiseEvent(this, PositionsChanged, existingItem.Id, ref eventSync);
+					TryUnsubscribeValueIfDependenciesMissing(existingItem.Symbol);
 				}
 				continue;
 			}
 
 			if (existingItem == null)
 			{
+#pragma warning disable CS4014 // Should be async
+				AttachValuesSubscribeAsync(position.Symbol);
+#pragma warning restore CS4014 // Should be async
+
 				OrderSide side = position.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
 				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side);
 				_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
@@ -170,12 +235,15 @@ public class BinanceFuturesManager : IFuturesManager
 
 		if (streamOrder.Status is OrderStatus.New)
 		{
-			_socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(orderDto.Symbol, OnAggregatedUpdated);
+#pragma warning disable CS4014 // Should be async
+			AttachValuesSubscribeAsync(orderDto.Symbol);
+#pragma warning restore CS4014 // Should be async
 
 			_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
 			return;
 		}
 		_orders.RemoveAndRiseEvent(this, OrdersChanged, orderDto.Id, ref eventSync);
+		TryUnsubscribeValueIfDependenciesMissing(orderDto.Symbol);
 	}
 
 	private void OnListenKeyExpired(DataEvent<BinanceStreamEvent> obj)

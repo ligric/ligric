@@ -8,7 +8,7 @@
 
 		public Side Side { get; init; }
 
-		//public decimal Quantity { get; init; }
+		public decimal Quantity { get; init; }
 
 		public decimal EntryPrice { get; init; }
 
@@ -18,12 +18,12 @@
 
 		//public decimal GrossROE { get; init; }
 
-		public FuturesPositionDto(long id, string symbol, Side side, /*decimal quantity, */decimal openPrice/*, decimal currentPrice, decimal grossPNL, decimal grossROE*/)
+		public FuturesPositionDto(long id, string symbol, Side side, decimal quantity, decimal openPrice/*, decimal currentPrice, decimal grossPNL, decimal grossROE*/)
 		{
 			Id = id;
 			Symbol = symbol;
 			Side = side;
-			//Quantity = quantity;
+			Quantity = quantity;
 			EntryPrice = openPrice;
 			//CurrentPrice = currentPrice;
 			//GrossPNL = grossPNL;

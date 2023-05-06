@@ -30,7 +30,7 @@ namespace Ligric.UI.ViewModels.Extensions
 				Side = dto.Side.ToString(),
 				PnL = "Nan",
 				PnLPercent = "Nan",
-				Quantity = "Nan"
+				Quantity = dto.Quantity.ToString()
 			};
 		}
 	}

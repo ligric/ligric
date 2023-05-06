@@ -26,7 +26,7 @@ namespace Ligric.Business.Extensions
 		{
 			return new FuturesPositionDto(
 				futuresPosition.Id, futuresPosition.Symbol, futuresPosition.Side.ToSideDto(),
-				decimal.Parse(futuresPosition.EntryPrice));
+				decimal.Parse(futuresPosition.EntryPrice), decimal.Parse(futuresPosition.Quantity));
 		}
 
 		public static Core.Types.Side ToSideDto(this Protobuf.Side sideInput)

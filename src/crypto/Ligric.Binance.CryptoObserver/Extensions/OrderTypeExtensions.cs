@@ -34,6 +34,7 @@ namespace Ligric.CryptoObserver.Extensions
 				id,
 				streamPosition.Symbol,
 				side.ToSideDto(),
+				streamPosition.Quantity,
 				streamPosition.EntryPrice);
 		}
 
@@ -43,6 +44,7 @@ namespace Ligric.CryptoObserver.Extensions
 				id,
 				binancePosition.Symbol,
 				side.ToSideDto(),
+				binancePosition.Quantity,
 				binancePosition.EntryPrice);
 		}
 
