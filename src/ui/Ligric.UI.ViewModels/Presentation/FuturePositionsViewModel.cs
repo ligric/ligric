@@ -94,12 +94,22 @@ namespace Ligric.UI.ViewModels.Presentation
 							Quantity = oldValue.Quantity,
 							OpenPrice = oldValue.OpenPrice,
 							CurrentPrice = e.NewValue.ToString(),
-							PnL = oldValue.PnL,
+							PnL = CalculatePnL(oldValue.OpenPrice!, e.NewValue, oldValue.Quantity!),
 							PnLPercent = oldValue.PnLPercent,
 						};
 					}
 				}
 			}
+		}
+
+		private static string CalculatePnL(string openPriceString, decimal currentPrice, string quantityUsdtString)
+		{
+			if (!decimal.TryParse(openPriceString, out decimal openPrice)
+				|| !decimal.TryParse(quantityUsdtString, out decimal quantityUsdt))
+				return "NaN";
+
+			var cryptoQuantity = quantityUsdt/openPrice;
+			return ((quantityUsdt / 100 * 0.1m) + (currentPrice * cryptoQuantity / 100 * 0.1m)).ToString();
 		}
 	}
 }

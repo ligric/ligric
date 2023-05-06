@@ -62,6 +62,7 @@ message FuturesPosition {
 	string Symbol = 2;
 	string EntryPrice = 3;
 	Side Side = 4;
+	string Quantity = 5;
 }
 
 enum Side
