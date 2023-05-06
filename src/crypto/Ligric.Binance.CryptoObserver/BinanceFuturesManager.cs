@@ -28,6 +28,7 @@ public class BinanceFuturesManager : IFuturesManager
 	private Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
 	private Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 	private Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
+	private Dictionary<string, CancellationTokenSource?> _valuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
 	public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? ValuesChanged;
 	public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OrdersChanged;
@@ -105,7 +106,7 @@ public class BinanceFuturesManager : IFuturesManager
 				_orders.AddAndRiseEvent(this, OrdersChanged, order.Id, order, ref eventSync);
 
 #pragma warning disable CS4014 // Should be async
-				SubscribeValuesUpdateAsync(order.Symbol);
+				AttachValuesSubscribeAsync(order.Symbol);
 #pragma warning restore CS4014 // Should be async
 			}
 		}
@@ -150,13 +151,50 @@ public class BinanceFuturesManager : IFuturesManager
 
 		if (isAdded)
 		{
-			await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(symbol, OnAggregatedUpdated);
+			CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+			_valuesSubscribeCancellationTokens.Add(symbol, cancellationTokenSource);
+
+			await _socketClient.UsdFuturesStreams.SubscribeToAggregatedTradeUpdatesAsync(symbol, OnAggregatedUpdated, cancellationTokenSource.Token);
+		}
+	}
+
+	private void UnsubscribeValue(string symbol)
+	{
+		if (_valuesSubscribeCancellationTokens.TryGetValue(symbol, out var cancellationTokenSource))
+		{
+			_valuesSubscribeCancellationTokens.Remove(symbol);
+			cancellationTokenSource?.Cancel();
+			cancellationTokenSource?.Dispose();
+		}
+
+		_values.Remove(symbol);
+	}
+
+	private void TryUnsubscribeValueIfDependenciesMissing(string symbol)
+	{
+		if (_orders.Values.FirstOrDefault(x => x.Symbol == symbol) == null
+			&& _positions.Values.FirstOrDefault(x => x.Symbol == symbol) == null)
+		{
+			lock(((ICollection)_values).SyncRoot)
+			{
+				lock (((ICollection)_valuesSubscribeCancellationTokens).SyncRoot)
+				{
+					UnsubscribeValue(symbol);
+		}
+	}
 		}
 	}
 
 	private void OnAggregatedUpdated(DataEvent<BinanceStreamAggregatedTrade> obj)
 	{
 		var data = obj.Data;
+
+		if (!_valuesSubscribeCancellationTokens.TryGetValue(data.Symbol, out var valueCancelationToken)
+			|| valueCancelationToken == null || valueCancelationToken.IsCancellationRequested)
+		{
+			return;
+		}
+
 		_values.SetAndRiseEvent(this, ValuesChanged, data.Symbol, data.Price, ref eventSync);
 	}
 
@@ -172,6 +210,7 @@ public class BinanceFuturesManager : IFuturesManager
 				if (existingItem != null)
 				{
 					_positions.RemoveAndRiseEvent(this, PositionsChanged, existingItem.Id, ref eventSync);
+					TryUnsubscribeValueIfDependenciesMissing(existingItem.Symbol);
 				}
 				continue;
 			}
@@ -204,6 +243,7 @@ public class BinanceFuturesManager : IFuturesManager
 			return;
 		}
 		_orders.RemoveAndRiseEvent(this, OrdersChanged, orderDto.Id, ref eventSync);
+		TryUnsubscribeValueIfDependenciesMissing(orderDto.Symbol);
 	}
 
 	private void OnListenKeyExpired(DataEvent<BinanceStreamEvent> obj)
