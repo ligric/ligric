@@ -184,7 +184,7 @@
 				<TextBlock Grid.Column="1" Text="Side" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="3" Text="OpenPrice" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="4" Text="CurrentPrice" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="EntryPrice" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="5" Text="PnL" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="6" Text="PnLPercent" Foreground="White" VerticalAlignment="Center"/>
 			</Grid>
