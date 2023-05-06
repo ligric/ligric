@@ -67,7 +67,7 @@ public class BinanceFuturesManager : IFuturesManager
 	public async Task AttachOrdersSubscribtionsAsync()
 	{
 		if (_ordersSubscribeCancellationToken != null
-				&& !_ordersSubscribeCancellationToken.IsCancellationRequested)
+		&& !_ordersSubscribeCancellationToken.IsCancellationRequested)
 		{
 			return;
 		}
@@ -131,13 +131,13 @@ public class BinanceFuturesManager : IFuturesManager
 				_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
 
 #pragma warning disable CS4014 // Should be async
-				SubscribeValuesUpdateAsync(position.Symbol);
+				AttachValuesSubscribeAsync(position.Symbol);
 #pragma warning restore CS4014 // Should be async
 			}
 		}
 	}
 
-	private async Task SubscribeValuesUpdateAsync(string symbol)
+	private async Task AttachValuesSubscribeAsync(string symbol)
 	{
 		bool isAdded = false;
 		lock(((ICollection)_values).SyncRoot)
@@ -180,8 +180,8 @@ public class BinanceFuturesManager : IFuturesManager
 				lock (((ICollection)_valuesSubscribeCancellationTokens).SyncRoot)
 				{
 					UnsubscribeValue(symbol);
-		}
-	}
+				}
+			}
 		}
 	}
 
@@ -218,7 +218,7 @@ public class BinanceFuturesManager : IFuturesManager
 			if (existingItem == null)
 			{
 #pragma warning disable CS4014 // Should be async
-				SubscribeValuesUpdateAsync(position.Symbol);
+				AttachValuesSubscribeAsync(position.Symbol);
 #pragma warning restore CS4014 // Should be async
 
 				OrderSide side = position.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
@@ -236,7 +236,7 @@ public class BinanceFuturesManager : IFuturesManager
 		if (streamOrder.Status is OrderStatus.New)
 		{
 #pragma warning disable CS4014 // Should be async
-			SubscribeValuesUpdateAsync(orderDto.Symbol);
+			AttachValuesSubscribeAsync(orderDto.Symbol);
 #pragma warning restore CS4014 // Should be async
 
 			_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
