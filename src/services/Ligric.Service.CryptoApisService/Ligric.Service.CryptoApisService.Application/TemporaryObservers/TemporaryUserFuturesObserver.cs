@@ -15,7 +15,7 @@ namespace Ligric.Service.CryptoApisService.Application
 		{
 			public ApiDto Api { get; init; }
 
-			public IFuturesManager FuturesManager { get; init; }
+			public IFuturesClient FuturesClient { get; init; }
 
 			public IList<long> UserIds { get; } = new List<long>();
 
@@ -28,27 +28,21 @@ namespace Ligric.Service.CryptoApisService.Application
 			public TemporaryApiSubscriptions(ApiDto api, BinanceApiCredentials credentials, bool isTest = true)
 			{
 				Api = api;
-				FuturesManager = new BinanceFuturesManager(credentials, isTest);
-				FuturesManager.OrdersChanged += OnOrdersChanged;
-				FuturesManager.ValuesChanged += OnValuesChanged;
-				FuturesManager.PositionsChanged += OnPositionsChanged;
-				_ = FuturesManager.AttachOrdersSubscribtionsAsync();
+				FuturesClient = new BinanceFuturesClient(credentials, isTest);
+				FuturesClient.Orders.OrdersChanged += OnOrdersChanged;
+				FuturesClient.Values.ValuesChanged += OnValuesChanged;
+				FuturesClient.Positions.PositionsChanged += OnPositionsChanged;
+				FuturesClient.StartStreamAsync();
 			}
 
 			private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs)
-			{
-				ValuesChanged?.Invoke((UserIds, valueEventArgs));
-			}
+				=> ValuesChanged?.Invoke((UserIds, valueEventArgs));
 
 			private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> ordersChangedEventArgs)
-			{
-				OrdersChanged?.Invoke((UserIds, ordersChangedEventArgs));
-			}
+				=> OrdersChanged?.Invoke((UserIds, ordersChangedEventArgs));
 
 			private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> positionsChangedEventArgs)
-			{
-				PositionsChanged?.Invoke((UserIds, positionsChangedEventArgs));
-			}
+				=> PositionsChanged?.Invoke((UserIds, positionsChangedEventArgs));
 		}
 
 		private readonly IApiRepository _apiRepository;
@@ -129,18 +123,12 @@ namespace Ligric.Service.CryptoApisService.Application
 		}
 
 		private void OnPositionsChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> valueEventArgs) obj)
-		{
-			PositionsChanged?.Invoke(obj);
-		}
+			=> PositionsChanged?.Invoke(obj);
 
 		private void OnValuesChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs) obj)
-		{
-			ValuesChanged?.Invoke(obj);
-		}
+			=> ValuesChanged?.Invoke(obj);
 
 		private void OnOrdersChanged((IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> OrderEventArgs) obj)
-		{
-			OrdersChanged?.Invoke(obj);
-		}
+			=> OrdersChanged?.Invoke(obj);
 	}
 }
