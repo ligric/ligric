@@ -5,16 +5,16 @@ using Utils;
 
 namespace Ligric.CryptoObserver.Binance
 {
-	public class BinanceFuturesLastValues : IFuturesLastPrices
+	public class BinanceFuturesTrades : IFuturesTrades
 	{
 		private readonly BinanceSocketClient _socketClient;
 		private readonly IFuturesOrders _orders;
 		private readonly IFuturesPositions _positions;
 
-		private TradeDto[] _lastValues = new TradeDto[20];
-		private Dictionary<string, CancellationTokenSource?> _lastValuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
+		private TradeDto[] _trades = new TradeDto[20];
+		private Dictionary<string, CancellationTokenSource?> _tradesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
-		internal BinanceFuturesLastValues(
+		internal BinanceFuturesTrades(
 			BinanceSocketClient socketClient,
 			IFuturesOrders orders,
 			IFuturesPositions positions)
@@ -28,9 +28,9 @@ namespace Ligric.CryptoObserver.Binance
 
 		}
 
-		public TradeDto[] LastValues => _lastValues;
+		public TradeDto[] Trades => _trades;
 
-		public event EventHandler<TradeDto>? LastValueItemAdded;
+		public event EventHandler<TradeDto>? TradeItemAdded;
 
 		private async void OnOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, Core.Types.Future.FuturesOrderDto> e)
 		{
