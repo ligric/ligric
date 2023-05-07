@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects.Models.Futures.Socket;
+using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Sockets;
 using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Extensions;
@@ -59,9 +60,9 @@ namespace Ligric.CryptoObserver.Binance
 
 				if (position.Quantity == 0)
 				{
-					if (existingItem != null)
+					if (existingItem != null && _positions.TryGetValue(existingItem.Id, out var removingPosition))
 					{
-						_positions.RemoveAndRiseEvent(this, PositionsChanged, existingItem.Id, ref eventSync);
+						_positions.RemoveAndRiseEvent(this, PositionsChanged, removingPosition.Id, removingPosition, ref eventSync);
 					}
 					continue;
 				}
