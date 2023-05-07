@@ -2,7 +2,7 @@
 
 namespace Ligric.CryptoObserver.Interfaces
 {
-	public interface IFuturesLastPrices
+	public interface IFuturesTrades
 	{
 		TradeDto[] LastValues { get; }
 

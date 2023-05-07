@@ -5,7 +5,7 @@ using Utils;
 
 namespace Ligric.CryptoObserver.Binance
 {
-	public class BinanceFuturesLastValues : IFuturesLastPrices
+	public class BinanceFuturesTrades : IFuturesTrades
 	{
 		private readonly BinanceSocketClient _socketClient;
 		private readonly IFuturesOrders _orders;
@@ -14,7 +14,7 @@ namespace Ligric.CryptoObserver.Binance
 		private TradeDto[] _lastValues = new TradeDto[20];
 		private Dictionary<string, CancellationTokenSource?> _lastValuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
-		internal BinanceFuturesLastValues(
+		internal BinanceFuturesTrades(
 			BinanceSocketClient socketClient,
 			IFuturesOrders orders,
 			IFuturesPositions positions)
