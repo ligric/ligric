@@ -4,7 +4,7 @@ using Utils;
 
 namespace Ligric.CryptoObserver.Interfaces
 {
-	internal interface IFuturesOrders
+	public interface IFuturesOrders
 	{
 		ReadOnlyDictionary<long, FuturesOrderDto> Orders { get; }
 
