@@ -88,8 +88,8 @@ namespace Utils
           => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Added, key, default, value, number, senderTime);
 
         // Создание аргумента для события извещения об удалении из словаря пары ключ-значение.
-        public static NotifyDictionaryChangedEventArgs<TKey, TValue> RemoveKeyValuePair<TKey, TValue>(TKey key, int number, long senderTime)
-            => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Removed, key, default, default, number, senderTime);
+        public static NotifyDictionaryChangedEventArgs<TKey, TValue> RemoveKeyValuePair<TKey, TValue>(TKey key, int number, long senderTime, TValue? oldValue = default)
+            => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Removed, key, oldValue, default, number, senderTime);
 
         // Создание аргумента для события извещения о замене в словаря значения ключа.
         public static NotifyDictionaryChangedEventArgs<TKey, TValue> ChangeKeyValuePair<TKey, TValue>(TKey key, TValue oldValue, TValue newValue, int number, long senderTime)
