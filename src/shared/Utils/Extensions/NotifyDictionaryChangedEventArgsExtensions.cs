@@ -95,9 +95,22 @@ namespace Utils
 
         }
 
-        ///<summary> Задание в словаре значения ключу.
-        /// Возвращает false, если такого ключа нет и вместо замены было выполнено добавление.</summary>
-        public static bool SetAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey changeKey, TValue changeValue, ref int actionNumber)
+		///<summary>Удаление из словаря пары: ключ-значение.
+		/// Возвращает false, если такого ключа нет и удаление не было выполнено.</summary>
+		public static bool RemoveAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey removeKey, TValue oldValue, ref int actionNumber)
+		{
+			if (currentEntities.Remove(removeKey))
+			{
+				action?.Invoke(sender, NotifyActionDictionaryChangedEventArgs.RemoveKeyValuePair<TKey, TValue>(removeKey, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds(), oldValue));
+				return true;
+			}
+			return false;
+
+		}
+
+		///<summary> Задание в словаре значения ключу.
+		/// Возвращает false, если такого ключа нет и вместо замены было выполнено добавление.</summary>
+		public static bool SetAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey changeKey, TValue changeValue, ref int actionNumber)
         {
             if (currentEntities.TryGetValue(changeKey, out TValue oldValue))
             {
