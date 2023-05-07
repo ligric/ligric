@@ -22,11 +22,11 @@ namespace Ligric.CryptoObserver.Binance
 		internal BinanceFuturesValues(
 			BinanceSocketClient socketClient,
 			IFuturesOrders orders,
-			IFuturesPositions futures)
+			IFuturesPositions positions)
 		{
 			_socketClient = socketClient;
 			_orders = orders;
-			_positions = futures;
+			_positions = positions;
 
 			_orders.OrdersChanged += OnOrdersChanged;
 			_positions.PositionsChanged += OnPositionsChanged;
