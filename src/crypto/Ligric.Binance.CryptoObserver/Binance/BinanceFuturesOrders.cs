@@ -43,7 +43,7 @@ namespace Ligric.CryptoObserver.Binance
 			// Removing
 			if(_orders.TryGetValue(streamOrder.OrderId, out var removingOrder))
 			{
-				_orders.RemoveAndRiseEvent(this, OrdersChanged, streamOrder.OrderId, removingOrder, ref eventSync);
+				_orders.RemoveAndRiseEvent(this, OrdersChanged, removingOrder.Id, removingOrder, ref eventSync);
 			}
 		}
 
