@@ -114,16 +114,10 @@ namespace Ligric.CryptoObserver.Binance
 			switch (e.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					//await AttachValuesSubscribeAsync(e.NewValue!.Symbol);
+					await AttachValuesSubscribeAsync(e.NewValue!.Symbol);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
-					//TryUnsubscribeValueIfDependenciesMissing(e.OldValue!.Symbol);
-					break;
-				case NotifyDictionaryChangedAction.Changed:
-					break;
-				case NotifyDictionaryChangedAction.Cleared:
-					break;
-				case NotifyDictionaryChangedAction.Initialized:
+					TryUnsubscribeValueIfDependenciesMissing(e.OldValue!.Symbol);
 					break;
 			}
 		}
