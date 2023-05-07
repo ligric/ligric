@@ -31,14 +31,20 @@ namespace Ligric.CryptoObserver.Binance
 		internal void OnOrdersUpdated(DataEvent<BinanceFuturesStreamOrderUpdate> order)
 		{
 			BinanceFuturesStreamOrderUpdateData streamOrder = order.Data.UpdateData;
-			FuturesOrderDto orderDto = streamOrder.ToFuturesOrderDto();
 
+			// Adding
 			if (streamOrder.Status is OrderStatus.New)
 			{
+				FuturesOrderDto orderDto = streamOrder.ToFuturesOrderDto();
 				_orders.AddAndRiseEvent(this, OrdersChanged, orderDto.Id, orderDto, ref eventSync);
 				return;
 			}
-			_orders.RemoveAndRiseEvent(this, OrdersChanged, orderDto.Id, ref eventSync);
+
+			// Removing
+			if(_orders.TryGetValue(streamOrder.OrderId, out var removingOrder))
+			{
+				_orders.RemoveAndRiseEvent(this, OrdersChanged, streamOrder.OrderId, removingOrder, ref eventSync);
+			}
 		}
 
 		internal async Task SetupPrimaryOrdersAsync(CancellationToken token)

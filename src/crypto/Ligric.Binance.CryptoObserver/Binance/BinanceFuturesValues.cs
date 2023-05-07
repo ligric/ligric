@@ -104,7 +104,7 @@ namespace Ligric.CryptoObserver.Binance
 					//await AttachValuesSubscribeAsync(e.NewValue!.Symbol);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
-					//TryUnsubscribeValueIfDependenciesMissing(e.OldValue!.Symbol);
+					TryUnsubscribeValueIfDependenciesMissing(e.OldValue!.Symbol);
 					break;
 				case NotifyDictionaryChangedAction.Changed:
 					break;
