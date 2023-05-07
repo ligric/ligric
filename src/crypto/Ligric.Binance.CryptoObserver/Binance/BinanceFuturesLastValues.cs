@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using Binance.Net.Clients;
+﻿using Binance.Net.Clients;
+using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Interfaces;
 using Utils;
 
@@ -11,7 +11,7 @@ namespace Ligric.CryptoObserver.Binance
 		private readonly IFuturesOrders _orders;
 		private readonly IFuturesPositions _positions;
 
-		private Dictionary<string, decimal> _lastValues = new Dictionary<string, decimal>();
+		private TradeDto[] _lastValues = new TradeDto[20];
 		private Dictionary<string, CancellationTokenSource?> _lastValuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
 		internal BinanceFuturesLastValues(
@@ -28,9 +28,9 @@ namespace Ligric.CryptoObserver.Binance
 
 		}
 
-		public ReadOnlyDictionary<string, decimal> LastValues => new ReadOnlyDictionary<string, decimal>(_lastValues);
+		public TradeDto[] LastValues => _lastValues;
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? LastValuesChanged;
+		public event EventHandler<TradeDto>? LastValueItemAdded;
 
 		private async void OnOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, Core.Types.Future.FuturesOrderDto> e)
 		{

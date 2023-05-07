@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using Utils;
+﻿using Ligric.Core.Types.Future;
 
 namespace Ligric.CryptoObserver.Interfaces
 {
 	public interface IFuturesLastPrices
 	{
-		ReadOnlyDictionary<string, decimal> LastValues { get; }
+		TradeDto[] LastValues { get; }
 
-		event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? LastValuesChanged;
+		event EventHandler<TradeDto>? LastValueItemAdded;
 	}
 }
