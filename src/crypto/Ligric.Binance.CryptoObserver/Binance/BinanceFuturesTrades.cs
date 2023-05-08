@@ -1,6 +1,9 @@
-﻿using Binance.Net.Clients;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
+using Binance.Net.Clients;
 using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Interfaces;
+using Newtonsoft.Json.Linq;
 using Utils;
 
 namespace Ligric.CryptoObserver.Binance
@@ -11,7 +14,7 @@ namespace Ligric.CryptoObserver.Binance
 		private readonly IFuturesOrders _orders;
 		private readonly IFuturesPositions _positions;
 
-		private TradeDto[] _trades = new TradeDto[20];
+		private Dictionary<string, TradeDto[]> _trades = new Dictionary<string, TradeDto[]>();
 		private Dictionary<string, CancellationTokenSource?> _tradesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
 		internal BinanceFuturesTrades(
@@ -28,16 +31,39 @@ namespace Ligric.CryptoObserver.Binance
 
 		}
 
-		public TradeDto[] Trades => _trades;
+		public ReadOnlyDictionary<string, TradeDto[]> Trades => new ReadOnlyDictionary<string, TradeDto[]>(_trades);
 
+#pragma warning disable CS0067 // The event 'BinanceFuturesTrades.TradeItemAdded' is never used
 		public event EventHandler<TradeDto>? TradeItemAdded;
+#pragma warning restore CS0067 // The event 'BinanceFuturesTrades.TradeItemAdded' is never used
+
+		private async Task AttachTradesSubscribeAsync(string symbol)
+		{
+			bool isAdded = false;
+			lock (((ICollection)_trades).SyncRoot)
+			{
+				if (!_trades.ContainsKey(symbol))
+				{
+					_trades.Add(symbol, new TradeDto[20]);
+					isAdded = true;
+				}
+			}
+
+			if (isAdded)
+			{
+				CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+				_tradesSubscribeCancellationTokens.Add(symbol, cancellationTokenSource);
+
+				//await _socketClient.UsdFuturesStreams.(symbol, OnAggregatedUpdated, cancellationTokenSource.Token);
+			}
+		}
 
 		private async void OnOrdersChanged(object sender, NotifyDictionaryChangedEventArgs<long, Core.Types.Future.FuturesOrderDto> e)
 		{
 			switch (e.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					//await AttachValuesSubscribeAsync(e.NewValue!.Symbol);
+					await AttachTradesSubscribeAsync(e.NewValue!.Symbol);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
 					//TryUnsubscribeValueIfDependenciesMissing(e.OldValue!.Symbol);
@@ -50,7 +76,7 @@ namespace Ligric.CryptoObserver.Binance
 			switch (e.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					//await AttachValuesSubscribeAsync(e.NewValue!.Symbol);
+					await AttachTradesSubscribeAsync(e.NewValue!.Symbol);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
 					//TryUnsubscribeValueIfDependenciesMissing(e.OldValue!.Symbol);

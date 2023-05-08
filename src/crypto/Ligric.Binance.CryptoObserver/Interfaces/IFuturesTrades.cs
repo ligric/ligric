@@ -1,10 +1,11 @@
-﻿using Ligric.Core.Types.Future;
+﻿using System.Collections.ObjectModel;
+using Ligric.Core.Types.Future;
 
 namespace Ligric.CryptoObserver.Interfaces
 {
 	public interface IFuturesTrades
 	{
-		TradeDto[] Trades { get; }
+		ReadOnlyDictionary<string, TradeDto[]> Trades { get; }
 
 		event EventHandler<TradeDto>? TradeItemAdded;
 	}
