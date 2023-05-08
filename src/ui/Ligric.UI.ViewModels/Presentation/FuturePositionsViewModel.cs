@@ -108,7 +108,7 @@ namespace Ligric.UI.ViewModels.Presentation
 				|| !decimal.TryParse(quantityUsdtString, out decimal quantityUsdt))
 				return "NaN";
 
-			return ((openPrice - currentPrice) * quantityUsdt).ToString();
+			return ((currentPrice - openPrice) * quantityUsdt).ToString();
 		}
 	}
 }
