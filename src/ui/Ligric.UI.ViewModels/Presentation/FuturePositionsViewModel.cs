@@ -95,28 +95,30 @@ namespace Ligric.UI.ViewModels.Presentation
 							OpenPrice = oldValue.OpenPrice,
 							CurrentPrice = e.NewValue.ToString(),
 							PnL = CalculatePnL(oldValue.OpenPrice!, e.NewValue, oldValue.Quantity!),
-							PnLPercent = CalculateROE(oldValue.OpenPrice!, e.NewValue),
+							PnLPercent = CalculateROE(oldValue.OpenPrice!, e.NewValue)
 						};
 					}
 				}
 			}
 		}
 
-		private static string CalculatePnL(string openPriceString, decimal currentPrice, string quantityUsdtString)
+		private static decimal? CalculatePnL(string openPriceString, decimal currentPrice, string quantityUsdtString)
 		{
 			if (!decimal.TryParse(openPriceString, out decimal openPrice)
 				|| !decimal.TryParse(quantityUsdtString, out decimal quantityUsdt))
-				return "NaN";
+				return null;
 
-			return ((currentPrice - openPrice) * quantityUsdt).ToString();
+			decimal pnl = (currentPrice - openPrice) * quantityUsdt;
+			return Math.Round(pnl, 2);
 		}
 
-		private static string CalculateROE(string openPriceString, decimal currentPrice)
+		private static decimal? CalculateROE(string openPriceString, decimal currentPrice)
 		{
 			if (!decimal.TryParse(openPriceString, out decimal openPrice))
-				return "NaN";
+				return null;
 
-			return ((currentPrice - openPrice) / openPrice * 100).ToString();
+			decimal roe = (currentPrice - openPrice) / openPrice * 100;
+			return Math.Round(roe, 2);
 		}
 	}
 }

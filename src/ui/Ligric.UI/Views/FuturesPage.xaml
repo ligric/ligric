@@ -1,11 +1,19 @@
 ﻿<Page x:Class="Ligric.UI.Views.FuturesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+	  xmlns:vm="using:Ligric.UI.ViewModels.Data"
+	  xmlns:converters="using:Ligric.UI.Converters"
 	  
 	  xmlns:i="using:Microsoft.Xaml.Interactivity"
 	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
 	  
       d:Height="1334" d:Width="1334"
       Background="#FFcbcbcd">
+
+	<Page.Resources>
+		<converters:FormatStringConverter x:Key="FormatStringConverter"/>
+		<converters:NullToEmptyStringConverter x:Key="NullToEmptyStringConverter"/>
+		<converters:ValueToStringConverter x:Key="ValueToStringConverter"/>
+	</Page.Resources>
 
 	<Grid ColumnSpacing="20" Margin="20">
 		<Grid.ColumnDefinitions>
@@ -176,17 +184,13 @@
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Column="0" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="1" Text="Side" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="3" Text="OpenPrice" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="4" Text="EntryPrice" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="5" Text="PnL" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="6" Text="ROE" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="PnL/ROE" Foreground="White" VerticalAlignment="Center"/>
 			</Grid>
 
 			<!-- Positions -->
@@ -194,16 +198,16 @@
                           VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
-						<DataTemplate>
-							<Grid x:Name="GridBackground" CornerRadius="20" Background="#3888cd" Padding="20">
-								<i:Interaction.Behaviors>
+						<DataTemplate x:DataType="vm:PositionViewModel">
+							<Grid x:Name="GridBackground" CornerRadius="20" Background="#222833" Padding="20">
+								<!--<i:Interaction.Behaviors>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
 										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#0ecb81"/>
 									</core:DataTriggerBehavior>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
 										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#f6465d"/>
 									</core:DataTriggerBehavior>
-								</i:Interaction.Behaviors>
+								</i:Interaction.Behaviors>-->
 
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition/>
@@ -211,17 +215,53 @@
 									<ColumnDefinition/>
 									<ColumnDefinition/>
 									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Text="{Binding Symbol}"/>
-								<TextBlock Grid.Column="1" Text="{Binding Side}"/>
-								<TextBlock Grid.Column="2" Text="{Binding Quantity}"/>
-								<TextBlock Grid.Column="3" Text="{Binding OpenPrice}"/>
-								<TextBlock Grid.Column="4" Text="{Binding CurrentPrice}"/>
-								<TextBlock Grid.Column="5" Text="{Binding PnL}"/>
-								<TextBlock Grid.Column="6" Text="{Binding PnLPercent}"/>
+								<TextBlock Grid.Column="0" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding OpenPrice}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
+
+								<StackPanel Grid.Column="4" VerticalAlignment="Center">
+									<TextBlock x:Name="PnLTextBlock" Foreground="White" Text="{Binding PnL, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:+0.00;-0.00;0.00} USDT'}">
+										<i:Interaction.Behaviors>
+											<core:DataTriggerBehavior Binding="{Binding PnL, Converter={StaticResource NullToEmptyStringConverter}}" ComparisonCondition="Equal" Value="">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=PnLTextBlock}" PropertyName="Foreground" Value="White"/>
+											</core:DataTriggerBehavior>
+											
+											<core:DataTriggerBehavior Binding="{Binding PnL, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="GreaterThan" Value="0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=PnLTextBlock}" PropertyName="Foreground" Value="#5CFF94"/>
+											</core:DataTriggerBehavior>
+
+											<core:DataTriggerBehavior Binding="{Binding PnL, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="LessThan" Value="0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=PnLTextBlock}" PropertyName="Foreground" Value="#FF5C5C"/>
+											</core:DataTriggerBehavior>
+											
+											<core:DataTriggerBehavior Binding="{Binding PnL, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="Equal" Value="0.00">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=PnLTextBlock}" PropertyName="Foreground" Value="White"/>
+											</core:DataTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</TextBlock>
+									<TextBlock x:Name="ROETextBlock" Foreground="White" Text="{Binding PnLPercent, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:+0.00;-0.00;0.00} %'}">
+										<i:Interaction.Behaviors>
+											<core:DataTriggerBehavior Binding="{Binding PnLPercent, Converter={StaticResource NullToEmptyStringConverter}}" ComparisonCondition="Equal" Value="">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=ROETextBlock}" PropertyName="Foreground" Value="White"/>
+											</core:DataTriggerBehavior>
+											
+											<core:DataTriggerBehavior Binding="{Binding PnLPercent, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="GreaterThan" Value="0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=ROETextBlock}" PropertyName="Foreground" Value="#5CFF94"/>
+											</core:DataTriggerBehavior>
+
+											<core:DataTriggerBehavior Binding="{Binding PnLPercent, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="LessThan" Value="0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=ROETextBlock}" PropertyName="Foreground" Value="#FF5C5C"/>
+											</core:DataTriggerBehavior>
+											
+											<core:DataTriggerBehavior Binding="{Binding PnLPercent, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="Equal" Value="0.0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=ROETextBlock}" PropertyName="Foreground" Value="White"/>
+											</core:DataTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</TextBlock>
+								</StackPanel>
 							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
