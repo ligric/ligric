@@ -13,6 +13,8 @@
 		<converters:FormatStringConverter x:Key="FormatStringConverter"/>
 		<converters:NullToEmptyStringConverter x:Key="NullToEmptyStringConverter"/>
 		<converters:ValueToStringConverter x:Key="ValueToStringConverter"/>
+
+		<GridLength x:Key="SideColumnWidth">5</GridLength>
 	</Page.Resources>
 
 	<Grid ColumnSpacing="20" Margin="20">
@@ -177,20 +179,21 @@
 			</ScrollViewer>
 
 			<!-- Header Positions -->
-			<Grid Grid.Row="2" Height="40" Background="Black" CornerRadius="15" Margin="10" Padding="10,5,10,5">
+			<Grid Grid.Row="2" Height="40" Background="Black" CornerRadius="15" Margin="10" Padding="20,5,20,5" ColumnSpacing="5">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
+					<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBlock Grid.Column="0" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="1" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="2" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="3" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="4" Text="PnL/ROE" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="5" Text="PnL/ROE" Foreground="White" VerticalAlignment="Center"/>
 			</Grid>
 
 			<!-- Positions -->
@@ -199,30 +202,33 @@
 				<controls:ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate x:DataType="vm:PositionViewModel">
-							<Grid x:Name="GridBackground" CornerRadius="20" Background="#222833" Padding="20">
-								<!--<i:Interaction.Behaviors>
+							<Grid x:Name="GridBackground" CornerRadius="20" Background="#222833" Padding="20" ColumnSpacing="5">
+								<i:Interaction.Behaviors>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
-										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#0ecb81"/>
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#5CFF94"/>
 									</core:DataTriggerBehavior>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
-										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#f6465d"/>
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#FF5C5C"/>
 									</core:DataTriggerBehavior>
-								</i:Interaction.Behaviors>-->
+								</i:Interaction.Behaviors>
 
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
+									<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
+									<ColumnDefinition MinWidth="100"/>
+									<ColumnDefinition MinWidth="100"/>
+									<ColumnDefinition MinWidth="100"/>
+									<ColumnDefinition MinWidth="100"/>
+									<ColumnDefinition MinWidth="100"/>
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding OpenPrice}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
+								<Rectangle x:Name="SideRectangle" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-								<StackPanel Grid.Column="4" VerticalAlignment="Center">
+								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding OpenPrice}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
+
+								<StackPanel Grid.Column="5" VerticalAlignment="Center">
 									<TextBlock x:Name="PnLTextBlock" Foreground="White" Text="{Binding PnL, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:+0.00;-0.00;0.00} USDT'}">
 										<i:Interaction.Behaviors>
 											<core:DataTriggerBehavior Binding="{Binding PnL, Converter={StaticResource NullToEmptyStringConverter}}" ComparisonCondition="Equal" Value="">
