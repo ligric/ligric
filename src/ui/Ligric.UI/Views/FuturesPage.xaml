@@ -14,7 +14,7 @@
 		<converters:NullToEmptyStringConverter x:Key="NullToEmptyStringConverter"/>
 		<converters:ValueToStringConverter x:Key="ValueToStringConverter"/>
 
-		<GridLength x:Key="SideColumnWidth">5</GridLength>
+		<GridLength x:Key="SideColumnWidth">7</GridLength>
 	</Page.Resources>
 
 	<Grid ColumnSpacing="20" Margin="20">
@@ -221,7 +221,7 @@
 									<ColumnDefinition MinWidth="100"/>
 								</Grid.ColumnDefinitions>
 
-								<Rectangle x:Name="SideRectangle" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+								<Rectangle x:Name="SideRectangle" Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
