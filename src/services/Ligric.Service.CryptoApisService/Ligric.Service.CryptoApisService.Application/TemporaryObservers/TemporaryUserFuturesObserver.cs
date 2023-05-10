@@ -25,6 +25,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 			public event Action<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> valueEventArgs)>? PositionsChanged;
 
+			public event Action<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, byte> leverageEventArgs)>? LeveragesChanged;
+
 			public TemporaryApiSubscriptions(ApiDto api, BinanceApiCredentials credentials, bool isTest = true)
 			{
 				Api = api;
@@ -32,6 +34,7 @@ namespace Ligric.Service.CryptoApisService.Application
 				FuturesClient.Orders.OrdersChanged += OnOrdersChanged;
 				FuturesClient.Values.ValuesChanged += OnValuesChanged;
 				FuturesClient.Positions.PositionsChanged += OnPositionsChanged;
+				FuturesClient.Leverages.LeveragesChanged += OnLeveragesChanged;
 				FuturesClient.StartStreamAsync();
 			}
 
@@ -43,6 +46,9 @@ namespace Ligric.Service.CryptoApisService.Application
 
 			private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> positionsChangedEventArgs)
 				=> PositionsChanged?.Invoke((UserIds, positionsChangedEventArgs));
+
+			private void OnLeveragesChanged(object? sender, NotifyDictionaryChangedEventArgs<long, byte> leveragesChangedEventArgs)
+				=> LeveragesChanged?.Invoke((UserIds, leveragesChangedEventArgs));
 		}
 
 		private readonly IApiRepository _apiRepository;
@@ -53,6 +59,7 @@ namespace Ligric.Service.CryptoApisService.Application
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? OrdersChanged;
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>? ValuesChanged;
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>? PositionsChanged;
+		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<long, byte> EventArgs)>? LaveragesChanged;
 
 		public TemporaryUserFuturesObserver(IApiRepository apiRepository)
 		{
@@ -92,6 +99,19 @@ namespace Ligric.Service.CryptoApisService.Application
 
 			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>((x)
 				=> PositionsChanged += x, (x) => PositionsChanged -= x);
+			return updatedApiStateNotifications;
+		}
+
+		public IObservable<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, byte> EventArgs)> GetLeveragesAsObservable(long userId, long userApiId)
+		{
+			lock (subLock)
+			{
+				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
+				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+			}
+
+			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, NotifyDictionaryChangedEventArgs<long, byte> EventArgs)>((x)
+				=> LaveragesChanged += x, (x) => LaveragesChanged -= x);
 			return updatedApiStateNotifications;
 		}
 

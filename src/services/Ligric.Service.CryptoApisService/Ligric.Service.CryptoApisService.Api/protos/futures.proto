@@ -18,6 +18,9 @@ service Futures {
     rpc PositionsSubscribe(FuturesSubscribeRequest) returns (stream PositionsChanged){
       option (google.api.http).get = "/v1/futures/stream/positions";
 	}
+	rpc LeverageSubscribe(FuturesSubscribeRequest) returns (stream LeverageChanged){
+      option (google.api.http).get = "/v1/futures/stream/leverage";
+	}
 }
 
 message FuturesSubscribeRequest
@@ -38,6 +41,11 @@ message ValuesChanged {
 
 message PositionsChanged {
 	FuturesPosition Position = 1;
+	Action action = 2;
+}
+
+message LeverageChanged {
+	FuturesLeverage Leverage = 1;
 	Action action = 2;
 }
 
@@ -63,6 +71,11 @@ message FuturesPosition {
 	string EntryPrice = 3;
 	Side Side = 4;
 	string Quantity = 5;
+}
+
+message FuturesLeverage {
+	int64 positionId = 1;
+	string Value = 3;
 }
 
 enum Side

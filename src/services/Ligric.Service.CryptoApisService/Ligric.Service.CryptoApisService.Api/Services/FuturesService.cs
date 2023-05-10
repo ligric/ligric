@@ -107,5 +107,31 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 		}
+
+		[Authorize]
+		public override async Task LeverageSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<LeverageChanged> responseStream, ServerCallContext context)
+		{
+			await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId)
+				.ToAsyncEnumerable()
+				.ForEachAwaitAsync(async (x) =>
+				{
+					if (x.UserIds.Contains(request.UserId))
+					{
+						var orderChanged = new LeverageChanged
+						{
+							Action = x.EventArgs.Action.ToProtosAction(),
+							Leverage = new FuturesLeverage
+							{
+								PositionId  = x.EventArgs.Key,
+								Value = x.EventArgs.NewValue.ToString()
+							}
+						};
+
+						await responseStream.WriteAsync(orderChanged);
+					}
+				}, context.CancellationToken)
+				.ConfigureAwait(false);
+		}
+
 	}
 }
