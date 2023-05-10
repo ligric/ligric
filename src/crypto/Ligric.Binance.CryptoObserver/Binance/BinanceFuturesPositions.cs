@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects.Models.Futures.Socket;
-using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Sockets;
 using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Extensions;

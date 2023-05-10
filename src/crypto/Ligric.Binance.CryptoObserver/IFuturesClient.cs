@@ -11,6 +11,8 @@ namespace Ligric.CryptoObserver
 
 		IFuturesValues Values { get; }
 
+		IFuturesLeverages Leverages { get; }
+
 		Task StartStreamAsync();
 
 		void StopStream();

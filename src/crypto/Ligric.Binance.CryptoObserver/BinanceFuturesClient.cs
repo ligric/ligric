@@ -1,6 +1,7 @@
 ﻿using Binance.Net.Clients;
 using Binance.Net.Objects;
 using Binance.Net.Objects.Models;
+using Binance.Net.Objects.Models.Futures.Socket;
 using CryptoExchange.Net.Sockets;
 using Ligric.CryptoObserver.Binance;
 using Ligric.CryptoObserver.Interfaces;
@@ -15,6 +16,7 @@ public class BinanceFuturesClient : IFuturesClient
 	private readonly BinanceFuturesOrders _orders;
 	private readonly BinanceFuturesPositions _positions;
 	private readonly BinanceFuturesValues _values;
+	private readonly BinanceFuturesLeverages _leverages;
 
 	private CancellationTokenSource? _streamCancellationToken;
 
@@ -41,6 +43,7 @@ public class BinanceFuturesClient : IFuturesClient
 		_orders = new BinanceFuturesOrders(_client);
 		_positions = new BinanceFuturesPositions(_client);
 		_values = new BinanceFuturesValues(_socketClient, _orders, _positions);
+		_leverages = new BinanceFuturesLeverages(_client, _positions);
 	}
 
 	public IFuturesOrders Orders => _orders;
@@ -48,6 +51,8 @@ public class BinanceFuturesClient : IFuturesClient
 	public IFuturesPositions Positions => _positions;
 
 	public IFuturesValues Values => _values;
+
+	public IFuturesLeverages Leverages => _leverages;
 
 	public async Task StartStreamAsync()
 	{
@@ -82,7 +87,7 @@ public class BinanceFuturesClient : IFuturesClient
 		var listenKey = startStreamResponse.Data ?? throw new ArgumentNullException();
 
 		var updateSubscription = await _socketClient.UsdFuturesStreams.SubscribeToUserDataUpdatesAsync(
-			listenKey, null, null,
+			listenKey, _leverages.OnLeveragesUpdated, null,
 			_positions.OnAccountUpdated, _orders.OnOrdersUpdated, OnListenKeyExpired,
 			null, null, token);
 	}
