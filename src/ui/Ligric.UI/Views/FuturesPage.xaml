@@ -142,19 +142,19 @@
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater ItemsSource="{Binding FuturesOrders.Orders}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
-						<DataTemplate>
-							<Grid x:Name="GridBackground" CornerRadius="20" Padding="20">
+						<DataTemplate x:DataType="vm:OrderViewModel">
+							<Grid Background="#222833" CornerRadius="20" Padding="20" ColumnSpacing="5">
 								<i:Interaction.Behaviors>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
-										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#0ecb81"/>
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#5CFF94"/>
 									</core:DataTriggerBehavior>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
-										<core:ChangePropertyAction TargetObject="{Binding ElementName=GridBackground}" PropertyName="Background" Value="#f6465d"/>
+										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#FF5C5C"/>
 									</core:DataTriggerBehavior>
 								</i:Interaction.Behaviors>
 
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
+									<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
 									<ColumnDefinition/>
 									<ColumnDefinition/>
 									<ColumnDefinition/>
@@ -162,12 +162,13 @@
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Text="{Binding Symbol}"/>
-								<TextBlock Grid.Column="1" Text="{Binding Side}"/>
-								<TextBlock Grid.Column="2" Text="{Binding Quantity}"/>
-								<TextBlock Grid.Column="3" Text="{Binding Price}"/>
-								<TextBlock Grid.Column="4" Text="{Binding Order}"/>
+								<Rectangle x:Name="SideRectangle" Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding Price}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="5" Foreground="White" Text="{Binding Type}" VerticalAlignment="Center"/>
 							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
