@@ -202,7 +202,7 @@
 				<controls:ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate x:DataType="vm:PositionViewModel">
-							<Grid x:Name="GridBackground" CornerRadius="20" Background="#222833" Padding="20" ColumnSpacing="5">
+							<Grid Background="#222833" CornerRadius="20" Padding="20" ColumnSpacing="5">
 								<i:Interaction.Behaviors>
 									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
 										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#5CFF94"/>
