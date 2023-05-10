@@ -7,14 +7,14 @@ using Microsoft.UI;
 
 namespace Ligric.UI.Views
 {
-    public partial class FuturesPage : Page
+	public partial class FuturesPage : Page
     {
 		private static readonly SolidColorBrush
 			RED_COLOR = ToBrush("#FF5C5C"),
 			GREEN_COLOR = ToBrush("#5CFF94"),
 			SIMPLE_COLOR = new SolidColorBrush(Colors.White);
 
-        public FuturesPage()
+		public FuturesPage()
         {
             this.InitializeComponent();
 			DataContextChanged += OnDataContextChanged;
@@ -59,6 +59,24 @@ namespace Ligric.UI.Views
 
 		private void OnApiCheckBoxUnchecked(object sender, RoutedEventArgs e)
 		{
+
+		}
+
+		public static string GetOrderSideFromOrderViewModel(OrderViewModel orderVm)
+		{
+			const string closeShort = "Close Short", closeLong = "Close Long",
+						 openShort = "Open Short", openLong = "Open Long";
+
+			bool isSell = orderVm.Side is "Sell";
+			
+			return orderVm.Type switch
+			{
+				"TakeProfitMarket" => isSell ? closeShort : closeLong,
+				"StopMarket" => isSell ? closeShort : closeLong,
+				"Limit" => isSell ? openShort : openLong,
+				_ => "-"
+			};
+		}
 
 
 		public static Brush SideRectangleBrushFromOrderViewModel(OrderViewModel orderVm)

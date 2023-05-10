@@ -157,11 +157,17 @@
 								<Rectangle Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 										   Fill="{x:Bind local:FuturesPage.SideRectangleBrushFromOrderViewModel((vm:OrderViewModel))}" />
 
-								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding Price}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="5" Foreground="White" Text="{Binding Type}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="1" Foreground="White" Text="{x:Bind Symbol}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="2" Foreground="White" Text="{x:Bind Quantity}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="3" Foreground="White" Text="{x:Bind Price}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind CurrentPrice}" VerticalAlignment="Center"/>
+
+								<StackPanel Grid.Column="5" VerticalAlignment="Center">
+									<TextBlock Foreground="White" Text="{x:Bind Type}"/>
+									<TextBlock x:Name="SideTextBlock"
+											   Text="{x:Bind local:FuturesPage.GetOrderSideFromOrderViewModel((vm:OrderViewModel))}"
+											   Foreground="{x:Bind local:FuturesPage.SideTextBlockForegroundFromOrderViewModel((vm:OrderViewModel))}"/>
+								</StackPanel>
 							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
