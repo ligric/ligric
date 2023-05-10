@@ -12,7 +12,7 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				binanceOrder.Id,
 				binanceOrder.Symbol,
-				binanceOrder.Side.ToSideDto(),
+				binanceOrder.PositionSide.ToSideDto(),
 				binanceOrder.Quantity,
 				binanceOrder.Price,
 				null,
@@ -22,7 +22,7 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				streamOrder.OrderId,
 				streamOrder.Symbol,
-				streamOrder.Side.ToSideDto(),
+				streamOrder.PositionSide.ToSideDto(),
 				streamOrder.BidNotional,
 				streamOrder.Price,
 				null,
@@ -50,6 +50,14 @@ namespace Ligric.CryptoObserver.Extensions
 
 		public static Core.Types.Side ToSideDto(this OrderSide orderSide)
 			=> orderSide == OrderSide.Sell ? Core.Types.Side.Sell : Core.Types.Side.Buy;
+
+		public static Core.Types.Side ToSideDto(this PositionSide positionSide)
+			=> positionSide switch
+			{
+				PositionSide.Short => Core.Types.Side.Sell,
+				PositionSide.Long => Core.Types.Side.Buy,
+				_ => throw new InvalidEnumArgumentException(nameof(positionSide), (int)positionSide, typeof(PositionSide))
+			};
 
 		public static Core.Types.OrderType ToOrderTypeDto(this FuturesOrderType type)
 			=> type switch
