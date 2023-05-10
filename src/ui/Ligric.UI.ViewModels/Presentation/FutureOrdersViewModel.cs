@@ -87,7 +87,7 @@ namespace Ligric.UI.ViewModels.Presentation
 						{
 							Id = oldValue.Id,
 							Symbol = oldValue.Symbol,
-							Order = oldValue.Order,
+							Type = oldValue.Type,
 							Price = oldValue.Price,
 							Quantity = oldValue.Quantity,
 							Side = oldValue.Side,
