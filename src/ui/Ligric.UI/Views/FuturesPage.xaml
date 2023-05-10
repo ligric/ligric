@@ -2,6 +2,7 @@
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:vm="using:Ligric.UI.ViewModels.Data"
 	  xmlns:converters="using:Ligric.UI.Converters"
+	  xmlns:local="using:Ligric.UI.Views"
 	  
 	  xmlns:i="using:Microsoft.Xaml.Interactivity"
 	  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
@@ -144,15 +145,6 @@
 					<controls:ItemsRepeater.ItemTemplate>
 						<DataTemplate x:DataType="vm:OrderViewModel">
 							<Grid Background="#222833" CornerRadius="20" Padding="20" ColumnSpacing="5">
-								<i:Interaction.Behaviors>
-									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
-										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#5CFF94"/>
-									</core:DataTriggerBehavior>
-									<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
-										<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#FF5C5C"/>
-									</core:DataTriggerBehavior>
-								</i:Interaction.Behaviors>
-
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
 									<ColumnDefinition/>
@@ -162,7 +154,8 @@
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
 
-								<Rectangle x:Name="SideRectangle" Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+								<Rectangle Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+										   Fill="{x:Bind local:FuturesPage.SideRectangleBrushFromOrderViewModel((vm:OrderViewModel))}" />
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
