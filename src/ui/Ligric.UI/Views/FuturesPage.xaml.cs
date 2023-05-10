@@ -90,7 +90,7 @@ namespace Ligric.UI.Views
 			{
 				"TakeProfitMarket" => isSell ? GREEN_COLOR : RED_COLOR,
 				"StopMarket" => isSell ? GREEN_COLOR : RED_COLOR,
-				"Limit" => isSell ? GREEN_COLOR : RED_COLOR,
+				"Limit" => isSell ? RED_COLOR : GREEN_COLOR,
 				_ => SIMPLE_COLOR
 			};
 		}
