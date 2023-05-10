@@ -30,8 +30,9 @@ message FuturesSubscribeRequest
 }
 
 message OrdersChanged {
-	FuturesOrder Order = 1;
-	Action action = 2;
+	string ExchangeId = 1;
+	FuturesOrder Order = 2;
+	Action action = 3;
 }
 
 message ValuesChanged {
@@ -40,13 +41,15 @@ message ValuesChanged {
 }
 
 message PositionsChanged {
-	FuturesPosition Position = 1;
-	Action action = 2;
+	string ExchangeId = 1;
+	FuturesPosition Position = 2;
+	Action action = 3;
 }
 
 message LeverageChanged {
-	FuturesLeverage Leverage = 1;
-	Action action = 2;
+	string ExchangeId = 1;
+	FuturesLeverage Leverage = 2;
+	Action action = 3;
 }
 
 message FuturesOrder {
