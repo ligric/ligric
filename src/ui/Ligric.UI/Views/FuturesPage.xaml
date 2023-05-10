@@ -120,22 +120,21 @@
 			<Border Grid.RowSpan="4" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
 			<!-- Header Orders -->
-			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="10" Padding="10,5,10,5">
+			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="10, 5" Padding="20,5,20,5">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
-					<ColumnDefinition/>
+					<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
+					<ColumnDefinition MinWidth="100"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBlock Grid.Column="0" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="1" Text="Side" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="1" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="3" Text="Price" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="4" Text="Order" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="5" Text="Value" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="5" Text="Type" Foreground="White" VerticalAlignment="Center"/>
 			</Grid>
 
 			<!-- Orders -->
