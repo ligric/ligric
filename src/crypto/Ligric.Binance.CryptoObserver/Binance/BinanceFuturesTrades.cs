@@ -14,8 +14,8 @@ namespace Ligric.CryptoObserver.Binance
 		private readonly IFuturesOrders _orders;
 		private readonly IFuturesPositions _positions;
 
-		private Dictionary<string, TradeDto[]> _trades = new Dictionary<string, TradeDto[]>();
-		private Dictionary<string, CancellationTokenSource?> _tradesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
+		private readonly Dictionary<string, TradeDto[]> _trades = new Dictionary<string, TradeDto[]>();
+		private readonly Dictionary<string, CancellationTokenSource?> _tradesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
 		internal BinanceFuturesTrades(
 			BinanceSocketClient socketClient,

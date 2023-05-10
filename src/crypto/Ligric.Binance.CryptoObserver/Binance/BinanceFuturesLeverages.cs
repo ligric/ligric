@@ -16,7 +16,8 @@ namespace Ligric.CryptoObserver.Binance
 		private readonly BinanceClient _client;
 		private readonly IFuturesPositions _futuresPositions;
 
-		private Dictionary<long, byte> _leverages = new Dictionary<long, byte>();
+		private readonly Dictionary<string, byte> _leverages = new Dictionary<string, byte>();
+		private readonly Dictionary<string, CancellationTokenSource?> _valuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
 		internal BinanceFuturesLeverages(BinanceClient client, IFuturesPositions futuresPositions)
 		{
