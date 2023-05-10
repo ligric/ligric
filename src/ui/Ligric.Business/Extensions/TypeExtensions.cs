@@ -18,7 +18,7 @@ namespace Ligric.Business.Extensions
 			if (!Enum.TryParse(futureOrder.Type, true, out OrderType type)) throw new InvalidEnumArgumentException(futureOrder.Type);
 			return new FuturesOrderDto(
 				futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToSideDto(),
-				decimal.Parse(futureOrder.Quantity), decimal.Parse(futureOrder.Price), decimal.Parse(futureOrder.Value),
+				decimal.Parse(futureOrder.Quantity), decimal.Parse(futureOrder.Price), decimal.Parse(futureOrder.CurrentPrice),
 				type);
 		}
 

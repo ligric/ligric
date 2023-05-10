@@ -15,7 +15,7 @@ namespace Ligric.CryptoObserver.Extensions
 				binanceOrder.Side.ToSideDto(),
 				binanceOrder.Quantity,
 				binanceOrder.Price,
-				12345m,
+				null,
 				binanceOrder.Type.ToOrderTypeDto());
 
 		public static FuturesOrderDto ToFuturesOrderDto(this BinanceFuturesStreamOrderUpdateData streamOrder)
@@ -25,7 +25,7 @@ namespace Ligric.CryptoObserver.Extensions
 				streamOrder.Side.ToSideDto(),
 				streamOrder.BidNotional,
 				streamOrder.Price,
-				0,
+				null,
 				streamOrder.Type.ToOrderTypeDto());
 
 		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id, OrderSide side)

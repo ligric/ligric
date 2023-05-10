@@ -91,7 +91,7 @@ namespace Ligric.UI.ViewModels.Presentation
 							Price = oldValue.Price,
 							Quantity = oldValue.Quantity,
 							Side = oldValue.Side,
-							Value = e.NewValue.ToString()
+							CurrentPrice = e.NewValue.ToString()
 						};
 					}
 				}

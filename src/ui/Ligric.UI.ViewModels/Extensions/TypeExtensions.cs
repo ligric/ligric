@@ -14,7 +14,7 @@ namespace Ligric.UI.ViewModels.Extensions
 				Price = dto.Price.ToString(),
 				Side = dto.Side.ToString(),
 				Quantity = dto.Quantity.ToString(),
-				Value = dto.Value.ToString(),
+				CurrentPrice = dto.CurrentPrice.ToString(),
 				Order = dto.Type.ToString(),
 			};
 		}
