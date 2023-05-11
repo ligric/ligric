@@ -23,6 +23,11 @@ namespace Ligric.Business.Extensions
 				type);
 		}
 
+		public static LeverageDto ToFuturesLeverageDto(this FuturesLeverage futureLeverage)
+		{
+			return new LeverageDto(futureLeverage.Symbol, byte.Parse(futureLeverage.Value);
+		}
+
 		public static FuturesPositionDto ToFuturesPositionDto(this FuturesPosition futuresPosition)
 		{
 			return new FuturesPositionDto(
