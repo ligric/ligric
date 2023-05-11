@@ -65,10 +65,11 @@ message FuturesPosition {
 	string EntryPrice = 3;
 	Side Side = 4;
 	string Quantity = 5;
+	string Leverage = 6;
 }
 
 message FuturesLeverage {
-	int64 positionId = 1;
+	string Symbol = 1;
 	string Value = 3;
 }
 
