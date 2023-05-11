@@ -28,7 +28,8 @@ namespace Ligric.UI.ViewModels.Extensions
 				OpenPrice = dto.EntryPrice.ToString(),
 				CurrentPrice = "Nan",
 				Side = dto.Side.ToString(),
-				Quantity = dto.Quantity.ToString()
+				Quantity = dto.Quantity.ToString(),
+				Leverage = dto.Leverage
 			};
 		}
 	}
