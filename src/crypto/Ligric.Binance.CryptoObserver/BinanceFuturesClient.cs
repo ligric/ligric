@@ -1,7 +1,6 @@
 ﻿using Binance.Net.Clients;
 using Binance.Net.Objects;
 using Binance.Net.Objects.Models;
-using Binance.Net.Objects.Models.Futures.Socket;
 using CryptoExchange.Net.Sockets;
 using Ligric.CryptoObserver.Binance;
 using Ligric.CryptoObserver.Interfaces;
@@ -41,9 +40,9 @@ public class BinanceFuturesClient : IFuturesClient
 		});
 
 		_orders = new BinanceFuturesOrders(_client);
-		_positions = new BinanceFuturesPositions(_client);
+		_leverages = new BinanceFuturesLeverages(_client);
+		_positions = new BinanceFuturesPositions(_client, _leverages);
 		_values = new BinanceFuturesValues(_socketClient, _orders, _positions);
-		_leverages = new BinanceFuturesLeverages(_client, _positions);
 	}
 
 	public IFuturesOrders Orders => _orders;
