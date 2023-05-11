@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
+using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
@@ -29,7 +30,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
-		private void OnOpenOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		private void OnOpenOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>> obj)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
@@ -45,13 +46,13 @@ namespace Ligric.UI.ViewModels.Presentation
 			});
 		}
 
-		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>> obj)
 		{
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					var addedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
-					Orders.Add(addedOrder.ToOrderViewModel());
+					var addedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
+					Orders.Add(addedOrder.ToOrderViewModel(obj.NewValue.ExchengedId));
 					break;
 				case NotifyDictionaryChangedAction.Removed:
 					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key.ToString());
@@ -59,13 +60,13 @@ namespace Ligric.UI.ViewModels.Presentation
 					Orders.Remove(removedOrder);
 					break;
 				case NotifyDictionaryChangedAction.Changed:
-					var changedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
+					var changedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
 					var stringId = changedOrder.Id.ToString();
 					for (int i = 0; i < Orders.Count; i++)
 					{
 						if (Orders[i].Id == stringId)
 						{
-							Orders[i] = changedOrder.ToOrderViewModel();
+							Orders[i] = changedOrder.ToOrderViewModel(obj.NewValue.ExchengedId);
 							break;
 						}
 					}

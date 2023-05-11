@@ -7,13 +7,14 @@ using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Protobuf;
 using static Ligric.Protobuf.Futures;
+using Ligric.Core.Types;
 
 namespace Ligric.Business.Clients.Futures
 {
 	public class PositionsService : IPositionsService
 	{
 		private int syncOrderChanged = 0;
-		private readonly Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
+		private readonly Dictionary<long, ExchangedEntity<FuturesPositionDto>> _positions = new Dictionary<long, ExchangedEntity<FuturesPositionDto>>();
 		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IMetadataManager _metadataManager;
@@ -29,9 +30,9 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<long, FuturesPositionDto> Positions => new ReadOnlyDictionary<long, FuturesPositionDto>(_positions);
+		public IReadOnlyDictionary<long, ExchangedEntity<FuturesPositionDto>> Positions => new ReadOnlyDictionary<long, ExchangedEntity<FuturesPositionDto>>(_positions);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>? PositionsChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>>>? PositionsChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
@@ -71,8 +72,11 @@ namespace Ligric.Business.Clients.Futures
 			switch (positionsChanged.Action)
 			{
 				case Protobuf.Action.Added:
-					var positionDto = positionsChanged.Position.ToFuturesPositionDto();
-					_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, positionDto, ref syncOrderChanged);
+					var exchangedPositionDto = new ExchangedEntity<FuturesPositionDto>(
+						Guid.Parse(positionsChanged.ExchangeId),
+						positionsChanged.Position.ToFuturesPositionDto());
+
+					_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncOrderChanged);
 					break;
 				case Protobuf.Action.Removed:
 					_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncOrderChanged);
