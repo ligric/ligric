@@ -25,7 +25,7 @@ namespace Ligric.Business.Extensions
 
 		public static LeverageDto ToFuturesLeverageDto(this FuturesLeverage futureLeverage)
 		{
-			return new LeverageDto(futureLeverage.Symbol, byte.Parse(futureLeverage.Value);
+			return new LeverageDto(futureLeverage.Symbol, byte.Parse(futureLeverage.Value));
 		}
 
 		public static FuturesPositionDto ToFuturesPositionDto(this FuturesPosition futuresPosition)

@@ -6,6 +6,7 @@ using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
+using Ligric.Core.Types;
 using static Ligric.Protobuf.Futures;
 
 namespace Ligric.Business.Clients.Futures
@@ -13,7 +14,7 @@ namespace Ligric.Business.Clients.Futures
 	public class OrdersService : IOrdersService
 	{
 		private int syncOrderChanged = 0;
-		private readonly Dictionary<long, FuturesOrderDto> _openOrders = new Dictionary<long, FuturesOrderDto>();
+		private readonly Dictionary<long, ExchangedEntity<FuturesOrderDto>> _openOrders = new Dictionary<long, ExchangedEntity<FuturesOrderDto>>();
 		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IMetadataManager _metadataManager;
@@ -29,9 +30,9 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<long, FuturesOrderDto> OpenOrders => new ReadOnlyDictionary<long, FuturesOrderDto>(_openOrders);
+		public IReadOnlyDictionary<long, ExchangedEntity<FuturesOrderDto>> OpenOrders => new ReadOnlyDictionary<long, ExchangedEntity<FuturesOrderDto>>(_openOrders);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OpenOrdersChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>>>? OpenOrdersChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
@@ -71,8 +72,11 @@ namespace Ligric.Business.Clients.Futures
 			switch (api.Action)
 			{
 				case Protobuf.Action.Added:
-					var orderDto = api.Order.ToFuturesOrderDto();
-					_openOrders.SetAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, orderDto, ref syncOrderChanged);
+					var exchangedOrderDto = new ExchangedEntity<FuturesOrderDto>(
+						Guid.Parse(api.ExchangeId),
+						api.Order.ToFuturesOrderDto());
+
+					_openOrders.SetAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, exchangedOrderDto, ref syncOrderChanged);
 					break;
 				case Protobuf.Action.Removed:
 					_openOrders.RemoveAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, ref syncOrderChanged);
