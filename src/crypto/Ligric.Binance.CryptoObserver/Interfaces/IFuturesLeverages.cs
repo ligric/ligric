@@ -1,12 +1,18 @@
 ﻿using System.Collections.ObjectModel;
+using Ligric.Core.Types.Future;
 using Utils;
 
 namespace Ligric.CryptoObserver.Interfaces
 {
-	public interface IFuturesLeverages
+	public interface IFuturesLeverages : IFuturesLeveragesUpdatedFromPositions
 	{
-		ReadOnlyDictionary<long, byte> Leverages { get; }
+		ReadOnlyDictionary<string, byte> Leverages { get; }
 
-		event EventHandler<NotifyDictionaryChangedEventArgs<long, byte>>? LeveragesChanged;
+		event EventHandler<NotifyDictionaryChangedEventArgs<string, byte>>? LeveragesChanged;
+	}
+
+	public interface IFuturesLeveragesUpdatedFromPositions
+	{
+		internal Task UpdateLeveragesFromAddedPosition(FuturesPositionDto addedPosition);
 	}
 }
