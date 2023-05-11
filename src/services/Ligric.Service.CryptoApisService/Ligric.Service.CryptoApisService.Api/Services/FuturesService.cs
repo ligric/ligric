@@ -125,7 +125,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 							Action = x.EventArgs.Action.ToProtosAction(),
 							Leverage = new FuturesLeverage
 							{
-								PositionId  = x.EventArgs.Key,
+								Symbol = x.EventArgs.Key,
 								Value = x.EventArgs.NewValue.ToString()
 							}
 						};

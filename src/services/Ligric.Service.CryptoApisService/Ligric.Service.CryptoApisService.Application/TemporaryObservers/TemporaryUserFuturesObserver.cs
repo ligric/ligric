@@ -6,7 +6,6 @@ using Ligric.Core.Types.Future;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.Service.CryptoApisService.Domain.Extensions;
 using Ligric.Service.CryptoApisService.Application.Repositories;
-using Utils.Extensions;
 
 namespace Ligric.Service.CryptoApisService.Application
 {
@@ -28,7 +27,7 @@ namespace Ligric.Service.CryptoApisService.Application
 
 			public event Action<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> valueEventArgs)>? PositionsChanged;
 
-			public event Action<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, byte> leverageEventArgs)>? LeveragesChanged;
+			public event Action<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> leverageEventArgs)>? LeveragesChanged;
 
 			public TemporaryApiSubscriptions(ApiDto api, BinanceApiCredentials credentials, bool isTest = true)
 			{
@@ -51,7 +50,7 @@ namespace Ligric.Service.CryptoApisService.Application
 			private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> positionsChangedEventArgs)
 				=> PositionsChanged?.Invoke((UserIds, ExchangeId, positionsChangedEventArgs));
 
-			private void OnLeveragesChanged(object? sender, NotifyDictionaryChangedEventArgs<long, byte> leveragesChangedEventArgs)
+			private void OnLeveragesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, byte> leveragesChangedEventArgs)
 				=> LeveragesChanged?.Invoke((UserIds, ExchangeId, leveragesChangedEventArgs));
 		}
 
@@ -63,7 +62,7 @@ namespace Ligric.Service.CryptoApisService.Application
 		private event Action<(IEnumerable<long> UserId, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? OrdersChanged;
 		private event Action<(IEnumerable<long> UserId, NotifyDictionaryChangedEventArgs<string, decimal> EventArgs)>? ValuesChanged;
 		private event Action<(IEnumerable<long> UserId, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>? PositionsChanged;
-		private event Action<(IEnumerable<long> UserId, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, byte> EventArgs)>? LaveragesChanged;
+		private event Action<(IEnumerable<long> UserId, Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)>? LaveragesChanged;
 
 		public TemporaryUserFuturesObserver(IApiRepository apiRepository)
 		{
@@ -106,7 +105,7 @@ namespace Ligric.Service.CryptoApisService.Application
 			return updatedApiStateNotifications;
 		}
 
-		public IObservable<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, byte> EventArgs)> GetLeveragesAsObservable(long userId, long userApiId)
+		public IObservable<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)> GetLeveragesAsObservable(long userId, long userApiId)
 		{
 			lock (subLock)
 			{
@@ -114,7 +113,7 @@ namespace Ligric.Service.CryptoApisService.Application
 				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
 			}
 
-			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, byte> EventArgs)>((x)
+			var updatedApiStateNotifications = Observable.FromEvent<(IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)>((x)
 				=> LaveragesChanged += x, (x) => LaveragesChanged -= x);
 			return updatedApiStateNotifications;
 		}
@@ -156,7 +155,7 @@ namespace Ligric.Service.CryptoApisService.Application
 		private void OnOrdersChanged((IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> OrderEventArgs) obj)
 			=> OrdersChanged?.Invoke(obj);
 
-		private void OnLeveragesChanged((IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, byte> leverageEventArgs) obj)
+		private void OnLeveragesChanged((IEnumerable<long> UserIds, Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> leverageEventArgs) obj)
 			=> LaveragesChanged?.Invoke(obj);
 
 	}
