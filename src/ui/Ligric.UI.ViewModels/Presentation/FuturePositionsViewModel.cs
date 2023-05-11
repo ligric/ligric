@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
+using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
@@ -32,7 +33,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_valuesService.ValuesChanged += OnValuesChanged;
 		}
 
-		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
+		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>> e)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
@@ -48,13 +49,13 @@ namespace Ligric.UI.ViewModels.Presentation
 			});
 		}
 
-		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> obj)
+		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>> obj)
 		{
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					var addedPosition = obj.NewValue ?? throw new ArgumentException("Order is null");
-					Positions.Add(addedPosition.ToPositionViewModel());
+					var addedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
+					Positions.Add(addedPosition.ToPositionViewModel(obj.NewValue.ExchengedId));
 					break;
 				case NotifyDictionaryChangedAction.Removed:
 					var removedPosition = Positions.FirstOrDefault(x => x.Id == obj.Key.ToString());
@@ -62,13 +63,13 @@ namespace Ligric.UI.ViewModels.Presentation
 					Positions.Remove(removedPosition);
 					break;
 				case NotifyDictionaryChangedAction.Changed:
-					var changedPosition = obj.NewValue ?? throw new ArgumentException("Order is null");
+					var changedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
 					var stringId = changedPosition.Id.ToString();
 					for (int i = 0; i < Positions.Count; i++)
 					{
 						if (Positions[i].Id == stringId)
 						{
-							Positions[i] = changedPosition.ToPositionViewModel();
+							Positions[i] = changedPosition.ToPositionViewModel(obj.NewValue.ExchengedId);
 							break;
 						}
 					}
