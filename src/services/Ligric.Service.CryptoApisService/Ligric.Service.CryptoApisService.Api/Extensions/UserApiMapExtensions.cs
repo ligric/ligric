@@ -83,6 +83,7 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 				Side = dto.Side.ToSide(),
 				EntryPrice = dto.EntryPrice.ToString(),
 				Quantity = dto.Quantity.ToString(),
+				Leverage = dto.Leverage?.ToString() ?? "",
 			};
 		}
 	}
