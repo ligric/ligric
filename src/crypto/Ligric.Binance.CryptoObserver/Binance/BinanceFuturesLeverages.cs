@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Objects.Models.Futures.Socket;
 using CryptoExchange.Net.Sockets;
+using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Interfaces;
 using Utils;
 
@@ -9,50 +11,45 @@ namespace Ligric.CryptoObserver.Binance
 {
 	public class BinanceFuturesLeverages : IFuturesLeverages
 	{
-#pragma warning disable CS0414 // The field 'BinanceFuturesLeverages.eventSync' is assigned but its value is never used
 		private int eventSync = 0;
-#pragma warning restore CS0414 // The field 'BinanceFuturesLeverages.eventSync' is assigned but its value is never used
 
 		private readonly BinanceClient _client;
-		private readonly IFuturesPositions _futuresPositions;
 
 		private readonly Dictionary<string, byte> _leverages = new Dictionary<string, byte>();
-		private readonly Dictionary<string, CancellationTokenSource?> _valuesSubscribeCancellationTokens = new Dictionary<string, CancellationTokenSource?>();
 
-		internal BinanceFuturesLeverages(BinanceClient client, IFuturesPositions futuresPositions)
+		internal BinanceFuturesLeverages(BinanceClient client)
 		{
 			_client = client;
-			_futuresPositions = futuresPositions;
 		}
 
-		public ReadOnlyDictionary<long, byte> Leverages => new ReadOnlyDictionary<long, byte>(_leverages);
+		public ReadOnlyDictionary<string, byte> Leverages => new ReadOnlyDictionary<string, byte>(_leverages);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<long, byte>>? LeveragesChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<string, byte>>? LeveragesChanged;
 
-		internal async Task SetupPrimaryLeveragesAsync(CancellationToken token)
+		private async Task SetupPrimaryLeveragesAsync(string symbol)
 		{
-			//var ordersResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
-			//var openPositions = ordersResponse.Data
-			//	.Where(x => x.EntryPrice > 0)
-			//	.Select(binancePosition =>
-			//	{
-			//		OrderSide side = binancePosition.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
-			//		return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side);
-			//	})
-			//	.ToList();
+			if (_leverages.ContainsKey(symbol)) return;
 
-			//lock (((ICollection)_positions).SyncRoot)
-			//{
-			//	foreach (var position in openPositions)
-			//	{
-			//		_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
-			//	}
-			//}
+			var positionsResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(symbol);
+			var position = positionsResponse.Data.First();
+			lock (((ICollection)_leverages).SyncRoot)
+			{
+				_leverages.EqualBeforeAddOrSetAndRiseEvent(this, LeveragesChanged, symbol, (byte)position.Leverage, ref eventSync);
+			}
 		}
 
 		internal void OnLeveragesUpdated(DataEvent<BinanceFuturesStreamConfigUpdate> obj)
 		{
+			BinanceFuturesStreamLeverageUpdateData leverage = obj.Data.LeverageUpdateData;
+			lock (((ICollection)_leverages).SyncRoot)
+			{
+				_leverages.EqualBeforeAddOrSetAndRiseEvent(this, LeveragesChanged, leverage.Symbol!, (byte)leverage.Leverage, ref eventSync);
+			}
+		}
 
+		async Task IFuturesLeveragesUpdatedFromPositions.UpdateLeveragesFromAddedPosition(FuturesPositionDto addedPosition)
+		{
+			await SetupPrimaryLeveragesAsync(addedPosition.Symbol);
 		}
 	}
 }
