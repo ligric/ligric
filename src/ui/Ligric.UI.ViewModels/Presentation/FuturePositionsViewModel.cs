@@ -11,25 +11,34 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FuturePositionsViewModel
 	{
 		private readonly IDispatcher _dispatcher;
-		private readonly IOrdersService _ordersService;
 		private readonly IValuesService _valuesService;
 		private readonly IPositionsService _postionsService;
+		private readonly ILeveragesService _leverages;
 
 		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
 
 		internal FuturePositionsViewModel(
 			IDispatcher dispatcher,
-			IOrdersService ordersService,
 			IValuesService valuesService,
-			IPositionsService postionsService)
+			IPositionsService postionsService,
+			ILeveragesService leveragesService)
 		{
 			_dispatcher = dispatcher;
-			_ordersService = ordersService;
 			_valuesService = valuesService;
 			_postionsService = postionsService;
+			_leverages = leveragesService;
 
 			_postionsService.PositionsChanged += OnPositionsChanged;
 			_valuesService.ValuesChanged += OnValuesChanged;
+			_leverages.LeveragesChanged += OnLeveragesChanged;
+		}
+
+		private void OnLeveragesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, LeverageDto> e)
+		{
+			//switch (e.Key)
+			//{
+
+			//}
 		}
 
 		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> e)
