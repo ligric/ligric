@@ -57,7 +57,9 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task ApisSubscribe(ApiSubscribeRequest request, IServerStreamWriter<ApisChanged> responseStream, ServerCallContext context)
 		{
-			await _userApiObserver.GetApisAsObservable(request.UserId)
+			try
+			{
+				await _userApiObserver.GetApisAsObservable(request.UserId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -76,6 +78,16 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					}
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
+			}
+			catch (TaskCanceledException)
+			{
+				System.Diagnostics.Debug.WriteLine($"ApisSubscribe was canceled.");
+			}
+			catch
+			{
+				System.Diagnostics.Debug.WriteLine($"ApisSubscribe thrown an error.");
+				throw;
+			}
 		}
 	}
 }
