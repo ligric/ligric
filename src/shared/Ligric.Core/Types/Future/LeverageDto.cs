@@ -1,4 +1,4 @@
 ﻿namespace Ligric.Core.Types.Future
 {
-	public record LeverageDto(string symbol, byte leverage);
+	public record LeverageDto(string Symbol, byte Leverage);
 }
