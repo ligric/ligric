@@ -24,7 +24,7 @@ namespace Ligric.UI.ViewModels.Extensions
 		{
 			return new PositionViewModel(dto.Id, exchangeId, dto.Symbol, dto.Side.ToString(),  dto.EntryPrice)
 			{
-				Quantity = dto.Quantity.ToString(),
+				Quantity = dto.Quantity,
 				Leverage = dto.Leverage,
 			};
 		}
