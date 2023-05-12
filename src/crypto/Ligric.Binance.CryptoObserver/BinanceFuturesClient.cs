@@ -14,7 +14,7 @@ public class BinanceFuturesClient : IFuturesClient
 
 	private readonly BinanceFuturesOrders _orders;
 	private readonly BinanceFuturesPositions _positions;
-	private readonly BinanceFuturesValues _values;
+	private readonly BinanceFuturesTrades _trades;
 	private readonly BinanceFuturesLeverages _leverages;
 
 	private CancellationTokenSource? _streamCancellationToken;
@@ -42,14 +42,14 @@ public class BinanceFuturesClient : IFuturesClient
 		_orders = new BinanceFuturesOrders(_client);
 		_leverages = new BinanceFuturesLeverages(_client);
 		_positions = new BinanceFuturesPositions(_client, _leverages);
-		_values = new BinanceFuturesValues(_socketClient, _orders, _positions);
+		_trades = new BinanceFuturesTrades(_socketClient, _orders, _positions);
 	}
 
 	public IFuturesOrders Orders => _orders;
 
 	public IFuturesPositions Positions => _positions;
 
-	public IFuturesValues Values => _values;
+	public IFuturesTrades Trades => _trades;
 
 	public IFuturesLeverages Leverages => _leverages;
 
@@ -94,5 +94,13 @@ public class BinanceFuturesClient : IFuturesClient
 	private void OnListenKeyExpired(DataEvent<BinanceStreamEvent> obj)
 	{
 		System.Diagnostics.Debug.WriteLine("Listen key expired");
+	}
+
+	public void Dispose()
+	{
+		StopStream();
+		_trades.Dispose();
+		_client.Dispose();
+		_socketClient.Dispose();
 	}
 }
