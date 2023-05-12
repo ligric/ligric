@@ -93,12 +93,12 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			catch (TaskCanceledException)
 			{
 				_futuresObserver.UnsubscribeUser(subscribedId);
-				System.Diagnostics.Debug.WriteLine($"Values subscribtion {subscribedId} was canceled.");
+				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} was canceled.");
 			}
 			catch
 			{
 				_futuresObserver.UnsubscribeUser(subscribedId);
-				System.Diagnostics.Debug.WriteLine($"Values subscribtion {subscribedId} thrown an error.");
+				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
 		}

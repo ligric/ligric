@@ -31,7 +31,7 @@ namespace Ligric.Application.Orders
 				Api = api;
 				FuturesClient = new BinanceFuturesClient(credentials, isTest);
 				FuturesClient.Orders.OrdersChanged += OnOrdersChanged;
-				FuturesClient.Values.ValuesChanged += OnValuesChanged;
+				FuturesClient.Trades.ValuesChanged += OnValuesChanged;
 				FuturesClient.Positions.PositionsChanged += OnPositionsChanged;
 				FuturesClient.StartStreamAsync();
 			}

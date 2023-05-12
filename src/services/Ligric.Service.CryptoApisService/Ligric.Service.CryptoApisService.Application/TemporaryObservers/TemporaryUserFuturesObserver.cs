@@ -6,12 +6,13 @@ using Ligric.Core.Types.Future;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.Service.CryptoApisService.Domain.Extensions;
 using Ligric.Service.CryptoApisService.Application.Repositories;
+using System.Collections;
 
 namespace Ligric.Service.CryptoApisService.Application
 {
 	public class TemporaryUserFuturesObserver : ITemporaryUserFuturesObserver
 	{
-		public record TemporaryApiSubscriptions
+		public record TemporaryApiSubscriptions : IDisposable
 		{
 			public Guid ExchangeId { get; init; }
 
@@ -25,7 +26,7 @@ namespace Ligric.Service.CryptoApisService.Application
 				Api = api;
 				FuturesClient = new BinanceFuturesClient(credentials, isTest);
 				FuturesClient.Orders.OrdersChanged += OnOrdersChanged;
-				FuturesClient.Values.ValuesChanged += OnValuesChanged;
+				FuturesClient.Trades.ValuesChanged += OnValuesChanged;
 				FuturesClient.Positions.PositionsChanged += OnPositionsChanged;
 				FuturesClient.Leverages.LeveragesChanged += OnLeveragesChanged;
 				FuturesClient.StartStreamAsync();
@@ -41,11 +42,21 @@ namespace Ligric.Service.CryptoApisService.Application
 
 			public event Action<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> leverageEventArgs)>? LeveragesChanged;
 
+			public void Dispose()
+			{
+				FuturesClient.Orders.OrdersChanged -= OnOrdersChanged;
+				FuturesClient.Trades.ValuesChanged -= OnValuesChanged;
+				FuturesClient.Positions.PositionsChanged -= OnPositionsChanged;
+				FuturesClient.Leverages.LeveragesChanged -= OnLeveragesChanged;
+				FuturesClient.StopStream();
+				FuturesClient.Dispose();
+			}
+
 			private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> valueEventArgs)
 				=> ValuesChanged?.Invoke((valueEventArgs));
 
 			private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> ordersChangedEventArgs)
-				=> OrdersChanged?.Invoke((ExchangeId,  ordersChangedEventArgs));
+				=> OrdersChanged?.Invoke((ExchangeId, ordersChangedEventArgs));
 
 			private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> positionsChangedEventArgs)
 				=> PositionsChanged?.Invoke((ExchangeId, positionsChangedEventArgs));
@@ -71,7 +82,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
-			lock (subLock){
+			lock (subLock)
+			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 				SubscribeUser(userId, api, out subscribtionId);
 			}
@@ -83,7 +95,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<NotifyDictionaryChangedEventArgs<string, decimal>> GetValuesAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
-			lock (subLock) {
+			lock (subLock)
+			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 				SubscribeUser(userId, api, out subscribtionId);
 			}
@@ -95,7 +108,8 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
-			lock (subLock){
+			lock (subLock)
+			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
 				SubscribeUser(userId, api, out subscribtionId);
 			}
@@ -125,7 +139,18 @@ namespace Ligric.Service.CryptoApisService.Application
 			{
 				if (subscribedApi.UsersSubscribtions.ContainsKey(subscribtionId))
 				{
-					subscribedApi.UsersSubscribtions.Remove(subscribtionId);
+					lock (((ICollection)subscribedApi.UsersSubscribtions).SyncRoot)
+					{
+						subscribedApi.UsersSubscribtions.Remove(subscribtionId);
+						if (subscribedApi.UsersSubscribtions.Count == 0)
+						{
+							lock (((ICollection)subscribedApis).SyncRoot)
+							{
+								subscribedApis.Remove(subscribedApi);
+								subscribedApi.Dispose();
+							}
+						}
+					}
 					return;
 				}
 			}
@@ -164,6 +189,5 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		private void OnLeveragesChanged((Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> leverageEventArgs) obj)
 			=> LaveragesChanged?.Invoke(obj);
-
 	}
 }
