@@ -10,20 +10,20 @@
 
 		public decimal Quantity { get; init; }
 
-		public decimal Price { get; init; }
+		public decimal? Price { get; init; }
 
-		public decimal Value { get; init; }
+		public decimal? CurrentPrice { get; init; }
 
 		public OrderType Type { get; init; }
 
-		public FuturesOrderDto(long id, string symbol, Side side, decimal quantity, decimal price, decimal value, OrderType type)
+		public FuturesOrderDto(long id, string symbol, Side side, decimal quantity, decimal? price, decimal? currentPrice, OrderType type)
 		{
 			Id = id;
 			Symbol = symbol;
 			Side = side;
 			Quantity = quantity;
 			Price = price;
-			Value = value;
+			CurrentPrice = currentPrice;
 			Type = type;
 		}
 	}

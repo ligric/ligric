@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects.Models.Futures.Socket;
-using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Sockets;
 using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Extensions;
@@ -18,12 +17,16 @@ namespace Ligric.CryptoObserver.Binance
 		private int eventSync = 0;
 
 		private readonly BinanceClient _client;
+		private readonly IFuturesLeverages _leverages;
 
-		private Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
+		private readonly Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
 
-		internal BinanceFuturesPositions(BinanceClient client)
+		internal BinanceFuturesPositions(
+			BinanceClient client,
+			IFuturesLeverages leverages)
 		{
 			_client = client;
+			_leverages = leverages;
 		}
 
 		public ReadOnlyDictionary<long, FuturesPositionDto> Positions => new ReadOnlyDictionary<long, FuturesPositionDto>(_positions);
@@ -32,13 +35,14 @@ namespace Ligric.CryptoObserver.Binance
 
 		internal async Task SetupPrimaryPositionsAsync(CancellationToken token)
 		{
-			var ordersResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
-			var openPositions = ordersResponse.Data
+			var positionssResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
+			var openPositions = positionssResponse.Data
 				.Where(x => x.EntryPrice > 0)
 				.Select(binancePosition =>
 				{
 					OrderSide side = binancePosition.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
-					return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side);
+					byte? leverage = _leverages.Leverages.TryGetValue(binancePosition.Symbol, out byte leverageOut) ? leverageOut : null;
+					return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
 				})
 				.ToList();
 
@@ -47,6 +51,7 @@ namespace Ligric.CryptoObserver.Binance
 				foreach (var position in openPositions)
 				{
 					_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
+					_leverages.UpdateLeveragesFromAddedPosition(position);
 				}
 			}
 		}
@@ -70,8 +75,10 @@ namespace Ligric.CryptoObserver.Binance
 				if (existingItem == null)
 				{
 					OrderSide side = position.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
-					FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side);
+					byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
+					FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
 					_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+					_leverages.UpdateLeveragesFromAddedPosition(positionDto);
 				}
 			}
 		}

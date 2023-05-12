@@ -1,6 +1,6 @@
 ﻿namespace Ligric.UI.Converters
 {
-	public class EnumToStringConverter : IValueConverter
+	public class ValueToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
