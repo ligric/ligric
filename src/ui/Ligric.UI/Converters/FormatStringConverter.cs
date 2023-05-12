@@ -10,7 +10,14 @@
 			decimal? valueDecimal = value as decimal?;
 
 			if (valueDecimal == null)
+			{
+				byte? valueByte = value as byte?;
+				if (valueByte != null)
+				{
+					return string.Format((string)parameter, valueByte);
+				}
 				return "Nan";
+			}
 
 			return string.Format((string)parameter, valueDecimal);
 		}
