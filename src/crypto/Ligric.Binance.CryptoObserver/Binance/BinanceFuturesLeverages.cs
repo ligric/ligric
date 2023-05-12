@@ -37,7 +37,7 @@ namespace Ligric.CryptoObserver.Binance
 				_leverages.EqualBeforeAddOrSetAndRiseEvent(this, LeveragesChanged, symbol, (byte)position.Leverage, ref eventSync);
 			}
 		}
-
+			
 		internal void OnLeveragesUpdated(DataEvent<BinanceFuturesStreamConfigUpdate> obj)
 		{
 			BinanceFuturesStreamLeverageUpdateData leverage = obj.Data.LeverageUpdateData;
