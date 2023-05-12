@@ -6,7 +6,6 @@ using Ligric.Core.Types.Future;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.Service.CryptoApisService.Domain.Extensions;
 using Ligric.Service.CryptoApisService.Application.Repositories;
-using System.Collections.ObjectModel;
 
 namespace Ligric.Service.CryptoApisService.Application
 {
@@ -70,11 +69,11 @@ namespace Ligric.Service.CryptoApisService.Application
 			_apiRepository = apiRepository;
 		}
 
-		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId)
+		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
 			lock (subLock){
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+				SubscribeUser(userId, api, out subscribtionId);
 			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>((x)
@@ -82,11 +81,11 @@ namespace Ligric.Service.CryptoApisService.Application
 			return updatedApiStateNotifications;
 		}
 
-		public IObservable<NotifyDictionaryChangedEventArgs<string, decimal>> GetValuesAsObservable(long userId, long userApiId)
+		public IObservable<NotifyDictionaryChangedEventArgs<string, decimal>> GetValuesAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
 			lock (subLock) {
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+				SubscribeUser(userId, api, out subscribtionId);
 			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<NotifyDictionaryChangedEventArgs<string, decimal>>((x)
@@ -94,11 +93,11 @@ namespace Ligric.Service.CryptoApisService.Application
 			return updatedApiStateNotifications;
 		}
 
-		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId)
+		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
 			lock (subLock){
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+				SubscribeUser(userId, api, out subscribtionId);
 			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>((x)
@@ -107,12 +106,12 @@ namespace Ligric.Service.CryptoApisService.Application
 			return updatedApiStateNotifications;
 		}
 
-		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)> GetLeveragesAsObservable(long userId, long userApiId)
+		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)> GetLeveragesAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
 			lock (subLock)
 			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				TryAddUserIdToSubscrions(userId, api, out var subscribedApi);
+				SubscribeUser(userId, api, out subscribtionId);
 			}
 
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)>((x)
@@ -120,32 +119,26 @@ namespace Ligric.Service.CryptoApisService.Application
 			return updatedApiStateNotifications;
 		}
 
-		private bool TryAddUserIdToSubscrions(long userId, ApiDto api, out TemporaryApiSubscriptions? subscribedApi)
+		private void SubscribeUser(long userId, ApiDto api, out Guid subscribtionId)
 		{
-			subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
+			TemporaryApiSubscriptions? subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
 
 			if (subscribedApi != null)
 			{
-				long? subscribedUser = subscribedApi.UsersSubscribtions.Values.FirstOrDefault(subscribedUserId => subscribedUserId == userId);
-				if (subscribedUser == null)
-				{
-					subscribedApi.UsersSubscribtions.Add(Guid.NewGuid() ,userId);
-					return true;
-				}
+				subscribtionId = Guid.NewGuid();
+				subscribedApi.UsersSubscribtions.Add(subscribtionId, userId);
 			}
 			else
 			{
 				subscribedApi = new TemporaryApiSubscriptions(api, new BinanceApiCredentials(api.PublicKey, api.PrivateKey));
-				subscribedApi.UsersSubscribtions.Add(Guid.NewGuid(), userId);
+				subscribtionId = Guid.NewGuid();
+				subscribedApi.UsersSubscribtions.Add(subscribtionId, userId);
 				subscribedApi.OrdersChanged += OnOrdersChanged;
 				subscribedApi.ValuesChanged += OnValuesChanged;
 				subscribedApi.PositionsChanged += OnPositionsChanged;
 				subscribedApi.LeveragesChanged += OnLeveragesChanged;
 				subscribedApis.Add(subscribedApi);
-				return true;
 			}
-
-			return false;
 		}
 
 		private void OnPositionsChanged((Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> valueEventArgs) obj)

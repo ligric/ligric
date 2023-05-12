@@ -22,7 +22,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task OrdersSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId)
+			await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId, out Guid SubscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -53,7 +53,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task ValuesSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<ValuesChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId)
+			await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId, out Guid SubscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -75,7 +75,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task PositionsSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<PositionsChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId)
+			await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId, out Guid SubscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -108,7 +108,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		{
 			try
 			{
-				await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId)
+				await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId, out Guid SubscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
