@@ -22,119 +22,170 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task OrdersSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId)
+			Guid subscribedId = Guid.Empty;
+
+			try
+			{
+				await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
-					if (x.UserIds.Contains(request.UserId))
+					var eventArgs = x.EventArgs;
+					FuturesOrder? order = null;
+					if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
 					{
-						var eventArgs = x.EventArgs;
-						FuturesOrder? order = null;
-						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
-						{
-							order = new FuturesOrder { Id = eventArgs.Key };
-						}
-						else if (eventArgs.NewValue != null)
-						{
-							order = eventArgs.NewValue.ToFutureOrder();
-						}
-
-						var orderChanged = new OrdersChanged
-						{
-						    ExchangeId = x.ExchangeId.ToString(),
-							Action = x.EventArgs.Action.ToProtosAction(),
-							Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
-						};
-
-						await responseStream.WriteAsync(orderChanged);
+						order = new FuturesOrder { Id = eventArgs.Key };
 					}
+					else if (eventArgs.NewValue != null)
+					{
+						order = eventArgs.NewValue.ToFutureOrder();
+					}
+
+					var orderChanged = new OrdersChanged
+					{
+						ExchangeId = x.ExchangeId.ToString(),
+						Action = x.EventArgs.Action.ToProtosAction(),
+						Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+					};
+
+					await responseStream.WriteAsync(orderChanged);
+
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
+			}
+			catch (TaskCanceledException)
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} thrown an error.");
+				throw;
+			}
 		}
 
 		[Authorize]
 		public override async Task ValuesSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<ValuesChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId)
+			Guid subscribedId = Guid.Empty;
+			try
+			{
+				await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
-					if (x.UserIds.Contains(request.UserId))
+					var orderChanged = new ValuesChanged
 					{
-						var orderChanged = new ValuesChanged
+						Action = x.Action.ToProtosAction(),
+						Value = new FuturesValue
 						{
-							Action = x.EventArgs.Action.ToProtosAction(),
-							Value = new FuturesValue
-							{
-							   Symbol = x.EventArgs.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
-							   Value = x.EventArgs.NewValue.ToString()
-							}
-						};
+							Symbol = x.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
+							Value = x.NewValue.ToString()
+						}
+					};
+					await responseStream.WriteAsync(orderChanged);
 
-						await responseStream.WriteAsync(orderChanged);
-					}
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
+			}
+			catch (TaskCanceledException)
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} thrown an error.");
+				throw;
+			}
 		}
 
 		[Authorize]
 		public override async Task PositionsSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<PositionsChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId)
+			Guid subscribedId = Guid.Empty;
+			try
+			{
+				await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
-					if (x.UserIds.Contains(request.UserId))
+					var eventArgs = x.EventArgs;
+					FuturesPosition? position = null;
+					if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
 					{
-						var eventArgs = x.EventArgs;
-						FuturesPosition? position = null;
-						if (eventArgs.Action == Utils.NotifyDictionaryChangedAction.Removed)
-						{
-							position = new FuturesPosition { Id = eventArgs.Key };
-						}
-						else if (eventArgs.NewValue != null)
-						{
-							position = eventArgs.NewValue.ToFuturesPosition();
-						}
-
-						var positionsChanged = new PositionsChanged
-						{
-							ExchangeId = x.ExchangeId.ToString(),
-							Action = x.EventArgs.Action.ToProtosAction(),
-							Position = position ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
-						};
-
-						await responseStream.WriteAsync(positionsChanged);
+						position = new FuturesPosition { Id = eventArgs.Key };
 					}
+					else if (eventArgs.NewValue != null)
+					{
+						position = eventArgs.NewValue.ToFuturesPosition();
+					}
+
+					var positionsChanged = new PositionsChanged
+					{
+						ExchangeId = x.ExchangeId.ToString(),
+						Action = x.EventArgs.Action.ToProtosAction(),
+						Position = position ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+					};
+
+					await responseStream.WriteAsync(positionsChanged);
+
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
+			}
+			catch (TaskCanceledException)
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} thrown an error.");
+				throw;
+			}
 		}
 
 		[Authorize]
 		public override async Task LeverageSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<LeverageChanged> responseStream, ServerCallContext context)
 		{
-			await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId)
+			Guid subscribedId = Guid.Empty;
+			try
+			{
+				await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
-					if (x.UserIds.Contains(request.UserId))
+					var orderChanged = new LeverageChanged
 					{
-						var orderChanged = new LeverageChanged
+						ExchangeId = x.ExchangeId.ToString(),
+						Action = x.EventArgs.Action.ToProtosAction(),
+						Leverage = new FuturesLeverage
 						{
-							ExchangeId = x.ExchangeId.ToString(),
-							Action = x.EventArgs.Action.ToProtosAction(),
-							Leverage = new FuturesLeverage
-							{
-								Symbol = x.EventArgs.Key,
-								Value = x.EventArgs.NewValue.ToString()
-							}
-						};
+							Symbol = x.EventArgs.Key,
+							Value = x.EventArgs.NewValue.ToString()
+						}
+					};
 
-						await responseStream.WriteAsync(orderChanged);
-					}
+					await responseStream.WriteAsync(orderChanged);
+
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
+			}
+			catch (TaskCanceledException)
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} thrown an error.");
+				throw;
+			}
 		}
-
 	}
 }

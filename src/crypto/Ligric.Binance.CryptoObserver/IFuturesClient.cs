@@ -3,13 +3,13 @@ using Ligric.CryptoObserver.Interfaces;
 
 namespace Ligric.CryptoObserver
 {
-	public interface IFuturesClient
+	public interface IFuturesClient : IDisposable
 	{
 		IFuturesOrders Orders { get; }
 
 		IFuturesPositions Positions { get; }
 
-		IFuturesValues Values { get; }
+		IFuturesTrades Trades { get; }
 
 		IFuturesLeverages Leverages { get; }
 
