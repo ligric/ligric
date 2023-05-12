@@ -55,7 +55,14 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			}
 			catch (TaskCanceledException)
 			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} thrown an error.");
+				throw;
 			}
 		}
 
@@ -85,7 +92,14 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			}
 			catch (TaskCanceledException)
 			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Values subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Values subscribtion {subscribedId} thrown an error.");
+				throw;
 			}
 		}
 
@@ -124,7 +138,14 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			}
 			catch (TaskCanceledException)
 			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} thrown an error.");
+				throw;
 			}
 		}
 
@@ -156,7 +177,14 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			}
 			catch (TaskCanceledException)
 			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} was canceled.");
+			}
+			catch
+			{
+				_futuresObserver.UnsubscribeUser(subscribedId);
+				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} thrown an error.");
+				throw;
 			}
 		}
 	}

@@ -119,6 +119,18 @@ namespace Ligric.Service.CryptoApisService.Application
 			return updatedApiStateNotifications;
 		}
 
+		public void UnsubscribeUser(Guid subscribtionId)
+		{
+			foreach (var subscribedApi in subscribedApis)
+			{
+				if (subscribedApi.UsersSubscribtions.ContainsKey(subscribtionId))
+				{
+					subscribedApi.UsersSubscribtions.Remove(subscribtionId);
+					return;
+				}
+			}
+		}
+
 		private void SubscribeUser(long userId, ApiDto api, out Guid subscribtionId)
 		{
 			TemporaryApiSubscriptions? subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
