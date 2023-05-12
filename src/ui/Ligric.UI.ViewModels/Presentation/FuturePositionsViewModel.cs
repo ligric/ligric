@@ -125,7 +125,7 @@ namespace Ligric.UI.ViewModels.Presentation
 						var position = Positions[i];
 						Positions[i] = position with
 						{
-							CurrentPrice = e.NewValue.ToString(),
+							CurrentPrice = e.NewValue,
 							PnL = CalculatePnL(position.EntryPrice, e.NewValue, position.Quantity!),
 							PnLPercent = CalculateROE(position.EntryPrice, e.NewValue)
 						};
