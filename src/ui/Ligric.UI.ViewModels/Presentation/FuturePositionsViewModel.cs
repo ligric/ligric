@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Reactive.Linq;
 using Ligric.Business.Futures;
 using Ligric.Core.Types;
@@ -67,19 +68,21 @@ namespace Ligric.UI.ViewModels.Presentation
 					Positions.Add(addedPosition.ToPositionViewModel(obj.NewValue.ExchengedId));
 					break;
 				case NotifyDictionaryChangedAction.Removed:
-					var removedPosition = Positions.FirstOrDefault(x => x.Id == obj.Key.ToString());
+					var removedPosition = Positions.FirstOrDefault(x => x.Id == obj.Key);
 					if (removedPosition == null) break;
 					Positions.Remove(removedPosition);
 					break;
 				case NotifyDictionaryChangedAction.Changed:
 					var changedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
-					var stringId = changedPosition.Id.ToString();
 					for (int i = 0; i < Positions.Count; i++)
 					{
-						if (Positions[i].Id == stringId)
+						if (Positions[i].Id == changedPosition.Id)
 						{
 							Positions[i] = changedPosition.ToPositionViewModel(obj.NewValue.ExchengedId);
 							break;
+						}
+					}
+					break;
 						}
 					}
 					break;
@@ -95,39 +98,30 @@ namespace Ligric.UI.ViewModels.Presentation
 				{
 					if (Positions[i].Symbol == e.Key)
 					{
-						var oldValue = Positions[i];
-						Positions[i] = new PositionViewModel
+						var position = Positions[i];
+						Positions[i] = position with
 						{
-							Id = oldValue.Id,
-							Symbol = oldValue.Symbol,
-							Side = oldValue.Side,
-							Quantity = oldValue.Quantity,
-							OpenPrice = oldValue.OpenPrice,
 							CurrentPrice = e.NewValue.ToString(),
-							PnL = CalculatePnL(oldValue.OpenPrice!, e.NewValue, oldValue.Quantity!),
-							PnLPercent = CalculateROE(oldValue.OpenPrice!, e.NewValue)
+							PnL = CalculatePnL(position.EntryPrice, e.NewValue, position.Quantity!),
+							PnLPercent = CalculateROE(position.EntryPrice, e.NewValue)
 						};
 					}
 				}
 			}
 		}
 
-		private static decimal? CalculatePnL(string openPriceString, decimal currentPrice, string quantityUsdtString)
+		private static decimal? CalculatePnL(decimal entryPrice, decimal currentPrice, string quantityUsdtString)
 		{
-			if (!decimal.TryParse(openPriceString, out decimal openPrice)
-				|| !decimal.TryParse(quantityUsdtString, out decimal quantityUsdt))
+			if (!decimal.TryParse(quantityUsdtString, out decimal quantityUsdt))
 				return null;
 
-			decimal pnl = (currentPrice - openPrice) * quantityUsdt;
+			decimal pnl = (currentPrice - entryPrice) * quantityUsdt;
 			return Math.Round(pnl, 2);
 		}
 
-		private static decimal? CalculateROE(string openPriceString, decimal currentPrice)
+		private static decimal? CalculateROE(decimal entryPriceString, decimal currentPrice)
 		{
-			if (!decimal.TryParse(openPriceString, out decimal openPrice))
-				return null;
-
-			decimal roe = (currentPrice - openPrice) / openPrice * 100;
+			decimal roe = (currentPrice - entryPriceString) / entryPriceString * 100;
 			return Math.Round(roe, 2);
 		}
 	}

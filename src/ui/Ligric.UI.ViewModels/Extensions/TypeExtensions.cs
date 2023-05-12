@@ -22,16 +22,11 @@ namespace Ligric.UI.ViewModels.Extensions
 
 		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto, Guid exchangeId)
 		{
-			return new PositionViewModel
+			return new PositionViewModel(dto.Id, exchangeId, dto.Symbol, dto.Side.ToString(),  dto.EntryPrice)
 			{
-				Id = dto.Id.ToString(),
-				ExchangeId = exchangeId,
-				Symbol = dto.Symbol,
-				OpenPrice = dto.EntryPrice.ToString(),
 				CurrentPrice = "Nan",
-				Side = dto.Side.ToString(),
 				Quantity = dto.Quantity.ToString(),
-				Leverage = dto.Leverage
+				Leverage = dto.Leverage,
 			};
 		}
 	}
