@@ -35,12 +35,12 @@ namespace Ligric.UI.ViewModels.Presentation
 			_leverages.LeveragesChanged += OnLeveragesChanged;
 		}
 
-		private void OnLeveragesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, LeverageDto> e)
+		private void OnLeveragesChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			//switch (e.Key)
-			//{
-
-			//}
+			_dispatcher.TryEnqueue(() =>
+			{
+				UpdatePostionsFromAction(e);
+			});
 		}
 
 		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>> e)
@@ -83,9 +83,33 @@ namespace Ligric.UI.ViewModels.Presentation
 						}
 					}
 					break;
+			}
+		}
+
+		private void UpdatePostionsFromAction(NotifyCollectionChangedEventArgs obj)
+		{
+			switch (obj.Action)
+			{
+				case NotifyCollectionChangedAction.Add:
+					var addedLeverage = (ExchangedEntity<LeverageDto>)(obj.NewItems?[0] ?? throw new ArgumentException("Leverage is null"));
+					for (int i = 0; i < Positions.Count; i++)
+					{
+						var position = Positions[i];
+						if (position.ExchangeId! == addedLeverage.ExchengedId
+							&& position.Symbol == addedLeverage.Entity.Symbol)
+						{
+							Positions[i] = position with
+							{
+								Leverage = addedLeverage.Entity.Leverage,
+								//PnL = CalculatePnL(position.EntryPrice, position.CurrentPrice, position.Quantity!),
+								//PnLPercent = CalculateROE(position.EntryPrice, position.CurrentPrice)
+							};
 						}
 					}
 					break;
+
+				case NotifyCollectionChangedAction.Replace:
+					goto case NotifyCollectionChangedAction.Replace;
 			}
 		}
 

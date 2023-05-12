@@ -10,11 +10,12 @@ namespace Ligric.UI.ViewModels.Presentation
 			IApiesService apiesService,
 			IOrdersService orderService,
 			IValuesService valuesService,
-			IPositionsService postionsService)
+			IPositionsService postionsService,
+			ILeveragesService leveragesService)
 		{
-			Api = new ApisViewModel(dispatcher, apiesService, orderService, valuesService, postionsService);
+			Api = new ApisViewModel(dispatcher, apiesService, orderService, valuesService, postionsService, leveragesService);
 			FuturesOrders = new FutureOrdersViewModel(dispatcher, orderService, valuesService);
-			FuturePositions = new FuturePositionsViewModel(dispatcher, orderService, valuesService, postionsService);
+			FuturePositions = new FuturePositionsViewModel(dispatcher, valuesService, postionsService, leveragesService);
 		}
 
 		public ApisViewModel Api { get; }
