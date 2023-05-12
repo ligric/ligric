@@ -135,7 +135,7 @@ namespace Utils
 			{
 				if (oldValue == null || !oldValue.Equals(changeValue))
 				{
-					currentEntities[changeKey] = oldValue;
+					currentEntities[changeKey] = changeValue;
 					action?.Invoke(sender, NotifyActionDictionaryChangedEventArgs.ChangeKeyValuePair(changeKey, oldValue, changeValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
 					return NotifyDictionaryChangedAction.Changed;
 				}
