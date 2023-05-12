@@ -41,6 +41,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 
 						var orderChanged = new OrdersChanged
 						{
+						    ExchangeId = x.ExchangeId.ToString(),
 							Action = x.EventArgs.Action.ToProtosAction(),
 							Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
 						};
@@ -98,6 +99,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 
 						var positionsChanged = new PositionsChanged
 						{
+							ExchangeId = x.ExchangeId.ToString(),
 							Action = x.EventArgs.Action.ToProtosAction(),
 							Position = position ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
 						};
@@ -107,5 +109,32 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 		}
+
+		[Authorize]
+		public override async Task LeverageSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<LeverageChanged> responseStream, ServerCallContext context)
+		{
+			await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId)
+				.ToAsyncEnumerable()
+				.ForEachAwaitAsync(async (x) =>
+				{
+					if (x.UserIds.Contains(request.UserId))
+					{
+						var orderChanged = new LeverageChanged
+						{
+							ExchangeId = x.ExchangeId.ToString(),
+							Action = x.EventArgs.Action.ToProtosAction(),
+							Leverage = new FuturesLeverage
+							{
+								Symbol = x.EventArgs.Key,
+								Value = x.EventArgs.NewValue.ToString()
+							}
+						};
+
+						await responseStream.WriteAsync(orderChanged);
+					}
+				}, context.CancellationToken)
+				.ConfigureAwait(false);
+		}
+
 	}
 }

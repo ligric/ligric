@@ -52,6 +52,7 @@ public static class ServiceCollectionExtensions
 			.AddSingleton(cryptoClient.Orders)
 			.AddSingleton(cryptoClient.Values)
 			.AddSingleton(cryptoClient.Positions)
+			.AddSingleton(cryptoClient.Leverages)
 
 			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 

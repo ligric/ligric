@@ -222,9 +222,15 @@
 
 								<Rectangle x:Name="SideRectangle" Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
+								<StackPanel Grid.Column="1" Orientation="Horizontal">
+									<TextBlock Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
+									<Border Background="#4A5E75" CornerRadius="5" VerticalAlignment="Center" Padding="3" MinWidth="20">
+										<TextBlock Foreground="White" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center"
+												   Text="{Binding Leverage, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0}x'}"/>
+									</Border>
+								</StackPanel>
 								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding OpenPrice}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding EntryPrice}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
 
 								<StackPanel Grid.Column="5" VerticalAlignment="Center">

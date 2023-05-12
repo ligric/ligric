@@ -4,7 +4,7 @@ namespace Ligric.Business.Extensions
 {
 	internal static class NotifyCollectionChangedEventHandlerExtensions
 	{
-		public static bool AddAndRiseEvent<T>(this ICollection<T> collection, object sender, T element, NotifyCollectionChangedEventHandler? handler)
+		public static bool AddAndRiseEvent<T>(this ICollection<T> collection, object sender, NotifyCollectionChangedEventHandler? handler, T element)
 			where T : notnull
 		{ 
 			if (collection.Contains(element))
@@ -16,7 +16,7 @@ namespace Ligric.Business.Extensions
 			return true;
 		}
 
-		public static bool RemoveAndRiseEvent<T>(this ICollection<T> collection, object sender, T element, NotifyCollectionChangedEventHandler? handler)
+		public static bool RemoveAndRiseEvent<T>(this ICollection<T> collection, object sender, NotifyCollectionChangedEventHandler? handler, T element)
 			where T : notnull
 		{
 			if (!collection.Contains(element))

@@ -124,9 +124,32 @@ namespace Utils
             return false;
         }
 
-        ///<summary>Очистка словаря.
-        /// Возвращает false, если словарь был пустой.</summary>
-        public static bool ClearAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, ref int actionNumber)
+		/// <summary> Задание в словаре значения ключу.</summary>
+		/// <returns><see cref="NotifyDictionaryChangedAction.Added"/> if value was added.<br/>
+		/// <see cref="NotifyDictionaryChangedAction.Changed"/> if item was changed.<br/>
+		/// <see cref="Nullable"/> result if nothing was happend.</returns>
+		/// <remarks> <paramref name="changeValue"/> cannot be null </remarks>
+		public static NotifyDictionaryChangedAction? EqualBeforeAddOrSetAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, TKey changeKey, TValue changeValue, ref int actionNumber)
+		{
+			if (currentEntities.TryGetValue(changeKey, out TValue oldValue))
+			{
+				if (oldValue == null || !oldValue.Equals(changeValue))
+				{
+					currentEntities[changeKey] = changeValue;
+					action?.Invoke(sender, NotifyActionDictionaryChangedEventArgs.ChangeKeyValuePair(changeKey, oldValue, changeValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+					return NotifyDictionaryChangedAction.Changed;
+				}
+				return null;
+			}
+
+			currentEntities.Add(changeKey, changeValue);
+			action?.Invoke(sender, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(changeKey, changeValue, actionNumber++, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+			return NotifyDictionaryChangedAction.Added;
+		}
+
+		///<summary>Очистка словаря.
+		/// Возвращает false, если словарь был пустой.</summary>
+		public static bool ClearAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, ref int actionNumber)
         {
             var isEmpty = currentEntities.Count == 0;
 

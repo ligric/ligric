@@ -28,24 +28,26 @@ namespace Ligric.CryptoObserver.Extensions
 				null,
 				streamOrder.Type.ToOrderTypeDto());
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id, OrderSide side)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id, OrderSide side, byte? leverage)
 		{
 			return new FuturesPositionDto(
 				id,
 				streamPosition.Symbol,
 				side.ToSideDto(),
 				streamPosition.Quantity,
-				streamPosition.EntryPrice);
+				streamPosition.EntryPrice,
+				leverage);
 		}
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, OrderSide side)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, OrderSide side, byte? leverage)
 		{
 			return new FuturesPositionDto(
 				id,
 				binancePosition.Symbol,
 				side.ToSideDto(),
 				binancePosition.Quantity,
-				binancePosition.EntryPrice);
+				binancePosition.EntryPrice,
+				leverage);
 		}
 
 		public static Core.Types.Side ToSideDto(this OrderSide orderSide)

@@ -23,11 +23,17 @@ namespace Ligric.Business.Extensions
 				type);
 		}
 
+		public static LeverageDto ToFuturesLeverageDto(this FuturesLeverage futureLeverage)
+		{
+			return new LeverageDto(futureLeverage.Symbol, byte.Parse(futureLeverage.Value));
+		}
+
 		public static FuturesPositionDto ToFuturesPositionDto(this FuturesPosition futuresPosition)
 		{
 			return new FuturesPositionDto(
 				futuresPosition.Id, futuresPosition.Symbol, futuresPosition.Side.ToSideDto(),
-				decimal.Parse(futuresPosition.Quantity), decimal.Parse(futuresPosition.EntryPrice));
+				decimal.Parse(futuresPosition.Quantity), decimal.Parse(futuresPosition.EntryPrice),
+				byte.TryParse(futuresPosition.Leverage, out byte leverageOut) ? leverageOut : null);
 		}
 
 		public static Core.Types.Side ToSideDto(this Protobuf.Side sideInput)

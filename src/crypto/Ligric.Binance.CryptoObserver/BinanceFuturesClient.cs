@@ -15,6 +15,7 @@ public class BinanceFuturesClient : IFuturesClient
 	private readonly BinanceFuturesOrders _orders;
 	private readonly BinanceFuturesPositions _positions;
 	private readonly BinanceFuturesValues _values;
+	private readonly BinanceFuturesLeverages _leverages;
 
 	private CancellationTokenSource? _streamCancellationToken;
 
@@ -39,7 +40,8 @@ public class BinanceFuturesClient : IFuturesClient
 		});
 
 		_orders = new BinanceFuturesOrders(_client);
-		_positions = new BinanceFuturesPositions(_client);
+		_leverages = new BinanceFuturesLeverages(_client);
+		_positions = new BinanceFuturesPositions(_client, _leverages);
 		_values = new BinanceFuturesValues(_socketClient, _orders, _positions);
 	}
 
@@ -48,6 +50,8 @@ public class BinanceFuturesClient : IFuturesClient
 	public IFuturesPositions Positions => _positions;
 
 	public IFuturesValues Values => _values;
+
+	public IFuturesLeverages Leverages => _leverages;
 
 	public async Task StartStreamAsync()
 	{
@@ -82,7 +86,7 @@ public class BinanceFuturesClient : IFuturesClient
 		var listenKey = startStreamResponse.Data ?? throw new ArgumentNullException();
 
 		var updateSubscription = await _socketClient.UsdFuturesStreams.SubscribeToUserDataUpdatesAsync(
-			listenKey, null, null,
+			listenKey, _leverages.OnLeveragesUpdated, null,
 			_positions.OnAccountUpdated, _orders.OnOrdersUpdated, OnListenKeyExpired,
 			null, null, token);
 	}

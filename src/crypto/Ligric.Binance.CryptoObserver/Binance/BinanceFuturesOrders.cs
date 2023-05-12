@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
@@ -17,7 +18,7 @@ namespace Ligric.CryptoObserver.Binance
 
 		private readonly BinanceClient _client;
 
-		private Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
+		private readonly Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 
 		internal BinanceFuturesOrders(BinanceClient client)
 		{
