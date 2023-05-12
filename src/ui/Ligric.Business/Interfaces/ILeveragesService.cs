@@ -1,14 +1,14 @@
-﻿using Ligric.Core.Types.Future;
-using Utils;
+﻿using System.Collections.Specialized;
+using Ligric.Core.Types;
+using Ligric.Core.Types.Future;
 
 namespace Ligric.Business.Futures
 {
 	public interface ILeveragesService : IDisposable
 	{
-		IReadOnlyDictionary<Guid, LeverageDto> Leverages { get; }
+		IReadOnlyCollection<ExchangedEntity<LeverageDto>> Leverages { get; }
 
-		event EventHandler<NotifyDictionaryChangedEventArgs<Guid, LeverageDto>> LeveragesChanged;
-
+		event NotifyCollectionChangedEventHandler? LeveragesChanged;
 		Task AttachStreamAsync(long userApiId);
 	}
 }

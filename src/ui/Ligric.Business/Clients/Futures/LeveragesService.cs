@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Ligric.Business.Authorization;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Business.Metadata;
+using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.Protobuf;
 using Utils;
@@ -12,15 +14,13 @@ namespace Ligric.Business.Clients.Futures
 {
 	public class LeveragesService : ILeveragesService
 	{
-		private int syncLeveragesChanged = 0;
-
-		private readonly Dictionary<Guid, LeverageDto> _leverages = new Dictionary<Guid, LeverageDto>();
+		private readonly List<ExchangedEntity<LeverageDto>> _leverages = new List<ExchangedEntity<LeverageDto>>();
 		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
 		private readonly IAuthorizationService _authorizationService;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		public LeveragesService(
+		internal LeveragesService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			IAuthorizationService authorizationService)
@@ -30,9 +30,9 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<Guid, LeverageDto> Leverages => new ReadOnlyDictionary<Guid, LeverageDto>(_leverages);
+		public IReadOnlyCollection<ExchangedEntity<LeverageDto>> Leverages => new ReadOnlyCollection<ExchangedEntity<LeverageDto>>(_leverages);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, LeverageDto>>? LeveragesChanged;
+		public event NotifyCollectionChangedEventHandler? LeveragesChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
@@ -70,8 +70,10 @@ namespace Ligric.Business.Clients.Futures
 			{
 				case Protobuf.Action.Added:
 					var leverageDto = changes.Leverage.ToFuturesLeverageDto();
-					_leverages.AddAndRiseEvent(this, LeveragesChanged, Guid.Parse(changes.ExchangeId), leverageDto, ref syncLeveragesChanged);
+					_leverages.AddAndRiseEvent(this, LeveragesChanged, new ExchangedEntity<LeverageDto>(Guid.Parse(changes.ExchangeId), leverageDto));
 					break;
+				case Protobuf.Action.Changed:
+					goto case Protobuf.Action.Added;
 			}
 		}
 	}
