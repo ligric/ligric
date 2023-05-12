@@ -49,7 +49,7 @@ namespace Ligric.Business.Clients.Apies
 			var apiId = response.ApiId;
 
 			var newApi = new ApiClientDto(apiId, name, 31);
-			_availableApies.AddAndRiseEvent(this, newApi, ApiesChanged);
+			_availableApies.AddAndRiseEvent(this, ApiesChanged, newApi);
 			return apiId;
 		}
 
@@ -121,10 +121,10 @@ namespace Ligric.Business.Clients.Apies
 			switch (changedInfo.Action)
 			{
 				case Protobuf.Action.Added:
-					_availableApies.AddAndRiseEvent(this, apiClient, ApiesChanged);
+					_availableApies.AddAndRiseEvent(this, ApiesChanged, apiClient);
 					break;
 				case Protobuf.Action.Removed:
-					_availableApies.RemoveAndRiseEvent(this, apiClient, ApiesChanged);
+					_availableApies.RemoveAndRiseEvent(this, ApiesChanged, apiClient);
 					break;
 				case Protobuf.Action.Changed:
 					var oldApi = _availableApies.First(x => x.UserApiId == apiClient.UserApiId);
