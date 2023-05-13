@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
+using Binance.Net.Objects.Models.Futures;
 using Binance.Net.Objects.Models.Futures.Socket;
 using CryptoExchange.Net.Sockets;
 using Ligric.Core.Types.Future;
@@ -45,16 +46,12 @@ namespace Ligric.CryptoObserver.Binance
 					OrderSide side = binancePosition.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
 					byte? leverage = _leverages.Leverages.TryGetValue(binancePosition.Symbol, out byte leverageOut) ? leverageOut : null;
 
-					//var positionssResponse = await ((IBaseRestClient)_client.UsdFuturesApi).GetClosedOrdersAsync(binancePosition.Symbol, ct: token);
-					var ordersHistory = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
-						 binancePosition.Symbol,
-						 startTime: binancePosition.UpdateTime.AddMinutes(-2),
-						 endTime : binancePosition.UpdateTime.AddMinutes(1),
-						 ct: token);
+					return binancePosition.ToFuturesPositionDto(
+						(long)RandomHelper.GetRandomUlong(),
+						side,
+						leverage,
+						await GetPositionQuoteQuantityFilled(binancePosition.Symbol, binancePosition.Quantity, binancePosition.UpdateTime, token));
 
-					var filledOrders = ordersHistory.Data.Where(o => o.Status == OrderStatus.Filled).OrderByDescending(order => order.UpdateTime);
-
-					return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage, (decimal)filledOrders.First().QuoteQuantityFilled!);
 				}).ForEachAwaitAsync(async position =>
 				{
 					lock (((ICollection)_positions).SyncRoot)
@@ -63,6 +60,69 @@ namespace Ligric.CryptoObserver.Binance
 						_leverages.UpdateLeveragesFromAddedPosition(position);
 					}
 				}, token);
+		}
+
+		private async Task<decimal> GetPositionQuoteQuantityFilled(string symbol, decimal quantity, DateTime positionUpdated, CancellationToken token)
+		{
+			var ordersHistoryResponse = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
+				 symbol,
+				 startTime: positionUpdated,
+				 endTime: positionUpdated,
+				 ct: token);
+			var ordersHistory = ordersHistoryResponse.Data;
+
+			var lastFilledOrder = ordersHistoryResponse.Data.Where(o => o.Status == OrderStatus.Filled).OrderByDescending(order => order.UpdateTime).First();
+
+			System.Diagnostics.Debug.WriteLine(lastFilledOrder.LastFilledQuantity);
+
+			if (lastFilledOrder.LastFilledQuantity == quantity)
+			{
+				return (decimal)lastFilledOrder.QuoteQuantityFilled!;
+			}
+
+
+			List<BinanceFuturesOrder> lastFilledOrders = new List<BinanceFuturesOrder>() { lastFilledOrder };
+
+			DateTime lastTime = lastFilledOrder.UpdateTime;
+			while (true)
+			{
+				var newTime = lastTime.AddHours(-1);
+
+				var nextFilledOrdersResponse = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
+					 symbol,
+					 startTime: newTime,
+					 endTime: lastTime,
+					 ct: token);
+
+				var nextFilledOrders = nextFilledOrdersResponse.Data;
+
+				if (nextFilledOrders.Count() == 0)
+				{
+					break;
+				}
+
+				foreach (var order in nextFilledOrders.Reverse())
+				{
+					if (lastFilledOrders.FirstOrDefault(x => x.Id == order.Id) != null)
+					{
+						continue;
+					}
+
+					if (order.Status == OrderStatus.Filled)
+					{
+						lastFilledOrders.Add(order);
+						if (quantity == lastFilledOrders.Sum(x => x.LastFilledQuantity))
+						{
+							return lastFilledOrders.Sum(x => (decimal)x.QuoteQuantityFilled!);
+						}
+					}
+
+				}
+
+				lastTime = newTime;
+			}
+
+			throw new InvalidOperationException("Position quantity was not finded");
 		}
 
 		internal void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
