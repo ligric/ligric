@@ -4,10 +4,13 @@ using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects.Models.Futures;
 using Binance.Net.Objects.Models.Futures.Socket;
+using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Sockets;
 using Ligric.Core.Types.Future;
+using Ligric.CryptoObserver.Binance.Types;
 using Ligric.CryptoObserver.Extensions;
 using Ligric.CryptoObserver.Interfaces;
+using Newtonsoft.Json.Linq;
 using Utils;
 using Utils.Extensions;
 
@@ -18,15 +21,18 @@ namespace Ligric.CryptoObserver.Binance
 		private int eventSync = 0;
 
 		private readonly BinanceClient _client;
+		private readonly IFuturesOrdersCashed _cashedOrders;
 		private readonly IFuturesLeverages _leverages;
 
 		private readonly Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
 
 		internal BinanceFuturesPositions(
 			BinanceClient client,
+			IFuturesOrdersCashed cashedOrders,
 			IFuturesLeverages leverages)
 		{
 			_client = client;
+			_cashedOrders = cashedOrders;
 			_leverages = leverages;
 		}
 
@@ -50,7 +56,7 @@ namespace Ligric.CryptoObserver.Binance
 						(long)RandomHelper.GetRandomUlong(),
 						side,
 						leverage,
-						await GetPositionQuoteQuantityFilled(binancePosition.Symbol, binancePosition.Quantity, binancePosition.UpdateTime, token));
+						await GetFilledOrdersQuoteQuantity(binancePosition.Symbol, binancePosition.Quantity, binancePosition.UpdateTime, token));
 
 				}).ForEachAwaitAsync(async position =>
 				{
@@ -60,69 +66,6 @@ namespace Ligric.CryptoObserver.Binance
 						_leverages.UpdateLeveragesFromAddedPosition(position);
 					}
 				}, token);
-		}
-
-		private async Task<decimal> GetPositionQuoteQuantityFilled(string symbol, decimal quantity, DateTime positionUpdated, CancellationToken token)
-		{
-			var ordersHistoryResponse = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
-				 symbol,
-				 startTime: positionUpdated,
-				 endTime: positionUpdated,
-				 ct: token);
-			var ordersHistory = ordersHistoryResponse.Data;
-
-			var lastFilledOrder = ordersHistoryResponse.Data.Where(o => o.Status == OrderStatus.Filled).OrderByDescending(order => order.UpdateTime).First();
-
-			System.Diagnostics.Debug.WriteLine(lastFilledOrder.LastFilledQuantity);
-
-			if (lastFilledOrder.LastFilledQuantity == quantity)
-			{
-				return (decimal)lastFilledOrder.QuoteQuantityFilled!;
-			}
-
-
-			List<BinanceFuturesOrder> lastFilledOrders = new List<BinanceFuturesOrder>() { lastFilledOrder };
-
-			DateTime lastTime = lastFilledOrder.UpdateTime;
-			while (true)
-			{
-				var newTime = lastTime.AddHours(-1);
-
-				var nextFilledOrdersResponse = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
-					 symbol,
-					 startTime: newTime,
-					 endTime: lastTime,
-					 ct: token);
-
-				var nextFilledOrders = nextFilledOrdersResponse.Data;
-
-				if (nextFilledOrders.Count() == 0)
-				{
-					break;
-				}
-
-				foreach (var order in nextFilledOrders.Reverse())
-				{
-					if (lastFilledOrders.FirstOrDefault(x => x.Id == order.Id) != null)
-					{
-						continue;
-					}
-
-					if (order.Status == OrderStatus.Filled)
-					{
-						lastFilledOrders.Add(order);
-						if (quantity == lastFilledOrders.Sum(x => x.LastFilledQuantity))
-						{
-							return lastFilledOrders.Sum(x => (decimal)x.QuoteQuantityFilled!);
-						}
-					}
-
-				}
-
-				lastTime = newTime;
-			}
-
-			throw new InvalidOperationException("Position quantity was not finded");
 		}
 
 		internal void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
@@ -150,6 +93,107 @@ namespace Ligric.CryptoObserver.Binance
 					_leverages.UpdateLeveragesFromAddedPosition(positionDto);
 				}
 			}
+		}
+
+		private async Task<decimal> GetFilledOrdersQuoteQuantity(
+			string symbol,
+			decimal quantity,
+			DateTime positionUpdated,
+			CancellationToken token)
+		{
+			var orders = await GetFilledOrdersWithQuoteQuantity(symbol, quantity, positionUpdated, token);
+
+			return orders.Sum(x => x.QuoteQuantity);
+		}
+
+		private async Task<IEnumerable<BinanceFuturesFilledOrder>> GetFilledOrdersWithQuoteQuantity(
+			string symbol,
+			decimal quantity,
+			DateTime positionUpdated,
+			CancellationToken token)
+		{
+			var cashedOrders = TryGetOrdersFromCash(symbol, quantity, positionUpdated, out decimal quantitySum);
+
+			if (quantitySum == quantity)
+			{
+			    return cashedOrders;
+			}
+
+			var ordersCollectingResult = await GetOrdersFromBinanceAsync(
+				symbol, quantity, cashedOrders.LastOrDefault()?.UpdatedTime ?? positionUpdated,
+				token, quantitySum, cashedOrders);
+
+			if (ordersCollectingResult.QuantitySum != quantity)
+			{
+				throw new InvalidOperationException("Position quote quantity was not finded");
+			}
+
+			return ordersCollectingResult.Orders;
+		}
+
+		private async Task<(IEnumerable<BinanceFuturesFilledOrder> Orders, decimal QuantitySum)> GetOrdersFromBinanceAsync(
+			string symbol,
+			decimal quantity,
+			DateTime lastOrderUpdatedTime,
+			CancellationToken token,
+			decimal quantitySum,
+			List<BinanceFuturesFilledOrder> lastFilledOrders)
+		{
+			while (true)
+			{
+				var newTime = lastOrderUpdatedTime.AddHours(-1);
+
+				var nextFilledOrdersResponse = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
+					 symbol, startTime: newTime, endTime: lastOrderUpdatedTime, ct: token);
+
+				var nextFilledOrders = nextFilledOrdersResponse.Data;
+
+				foreach (var order in nextFilledOrders.Reverse())
+				{
+					if (lastFilledOrders.FirstOrDefault(x => x.Id == order.Id) != null)
+					{
+						continue;
+					}
+
+					if (order.Status == OrderStatus.Filled)
+					{
+						lastFilledOrders.Add(order.ToBinanceFuturesFilledOrder());
+						quantitySum += order.LastFilledQuantity;
+						if (quantity == quantitySum)
+						{
+							return new(lastFilledOrders, quantitySum);
+						}
+					}
+				}
+				lastOrderUpdatedTime = newTime;
+			}
+		}
+
+		private List<BinanceFuturesFilledOrder> TryGetOrdersFromCash(string symbol, decimal quantity, DateTime positionUpdatedTime, out decimal quantitySum)
+		{
+			var cashedOrders = new List<BinanceFuturesFilledOrder>(0);
+			quantitySum = 0m;
+
+			foreach (var cashedOrder in _cashedOrders.LastFilledOrders)
+			{
+				if (cashedOrder.Symbol.Equals(symbol))
+				{
+					if (cashedOrder.UpdatedTime > positionUpdatedTime)
+					{
+						return cashedOrders;
+					}
+
+					quantitySum += cashedOrder.Quantity;
+					cashedOrders.Add(cashedOrder);
+
+					if (quantitySum == quantity)
+					{
+						break;
+					}
+				}
+			}
+
+			return cashedOrders;
 		}
 	}
 }

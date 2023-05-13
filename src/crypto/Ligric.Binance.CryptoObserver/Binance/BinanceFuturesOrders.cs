@@ -12,7 +12,7 @@ using Utils;
 
 namespace Ligric.CryptoObserver.Binance
 {
-	public class BinanceFuturesOrders : IFuturesOrders
+	public class BinanceFuturesOrders : IFuturesOrders, IFuturesOrdersCashed
 	{
 		private int eventSync = 0;
 
@@ -20,12 +20,14 @@ namespace Ligric.CryptoObserver.Binance
 
 		private readonly Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 
-		private readonly List<BinanceFuturesFilledOrder> _lastFilledOrders = new List<BinanceFuturesFilledOrder>();
+		public readonly List<BinanceFuturesFilledOrder> _lastFilledOrders = new List<BinanceFuturesFilledOrder>();
 
 		internal BinanceFuturesOrders(BinanceClient client)
 		{
 			_client = client;
 		}
+
+		public ReadOnlyCollection<BinanceFuturesFilledOrder> LastFilledOrders => new ReadOnlyCollection<BinanceFuturesFilledOrder>(_lastFilledOrders);
 
 		public ReadOnlyDictionary<long, FuturesOrderDto> Orders => new ReadOnlyDictionary<long, FuturesOrderDto>(_orders);
 

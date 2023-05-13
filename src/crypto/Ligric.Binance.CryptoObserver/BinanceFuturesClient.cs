@@ -41,7 +41,7 @@ public class BinanceFuturesClient : IFuturesClient
 
 		_orders = new BinanceFuturesOrders(_client);
 		_leverages = new BinanceFuturesLeverages(_client);
-		_positions = new BinanceFuturesPositions(_client, _leverages);
+		_positions = new BinanceFuturesPositions(_client, _orders, _leverages);
 		_trades = new BinanceFuturesTrades(_socketClient, _orders, _positions);
 	}
 
