@@ -36,24 +36,33 @@ namespace Ligric.CryptoObserver.Binance
 		internal async Task SetupPrimaryPositionsAsync(CancellationToken token)
 		{
 			var positionssResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
+
 			var openPositions = positionssResponse.Data
 				.Where(x => x.EntryPrice > 0)
-				.Select(binancePosition =>
+				.ToAsyncEnumerable()
+				.SelectAwaitWithCancellation(async (binancePosition, token) =>
 				{
 					OrderSide side = binancePosition.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
 					byte? leverage = _leverages.Leverages.TryGetValue(binancePosition.Symbol, out byte leverageOut) ? leverageOut : null;
-					return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
-				})
-				.ToList();
 
-			lock (((ICollection)_positions).SyncRoot)
-			{
-				foreach (var position in openPositions)
+					//var positionssResponse = await ((IBaseRestClient)_client.UsdFuturesApi).GetClosedOrdersAsync(binancePosition.Symbol, ct: token);
+					var ordersHistory = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
+						 binancePosition.Symbol,
+						 startTime: binancePosition.UpdateTime.AddMinutes(-2),
+						 endTime : binancePosition.UpdateTime.AddMinutes(1),
+						 ct: token);
+
+					var filledOrders = ordersHistory.Data.Where(o => o.Status == OrderStatus.Filled).OrderByDescending(order => order.UpdateTime);
+
+					return binancePosition.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage, (decimal)filledOrders.First().QuoteQuantityFilled!);
+				}).ForEachAwaitAsync(async position =>
 				{
-					_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
-					_leverages.UpdateLeveragesFromAddedPosition(position);
-				}
-			}
+					lock (((ICollection)_positions).SyncRoot)
+					{
+						_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
+						_leverages.UpdateLeveragesFromAddedPosition(position);
+					}
+				}, token);
 		}
 
 		internal void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)

@@ -39,13 +39,13 @@ namespace Ligric.CryptoObserver.Extensions
 				leverage);
 		}
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, OrderSide side, byte? leverage)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, OrderSide side, byte? leverage, decimal quantityUsdt)
 		{
 			return new FuturesPositionDto(
 				id,
 				binancePosition.Symbol,
 				side.ToSideDto(),
-				binancePosition.Quantity,
+				quantityUsdt,
 				binancePosition.EntryPrice,
 				leverage);
 		}

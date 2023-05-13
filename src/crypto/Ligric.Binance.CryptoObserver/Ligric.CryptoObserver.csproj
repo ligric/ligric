@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Binance.Net" Version="8.4.2" />
-  </ItemGroup>
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\Ligric.Core\Ligric.Core.csproj" />
