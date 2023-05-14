@@ -12,44 +12,54 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				binanceOrder.Id,
 				binanceOrder.Symbol,
-				binanceOrder.Side.ToSideDto(),
+				binanceOrder.PositionSide.ToSideDto(),
 				binanceOrder.Quantity,
 				binanceOrder.Price,
-				12345m,
+				null,
 				binanceOrder.Type.ToOrderTypeDto());
 
 		public static FuturesOrderDto ToFuturesOrderDto(this BinanceFuturesStreamOrderUpdateData streamOrder)
 			=> new FuturesOrderDto(
 				streamOrder.OrderId,
 				streamOrder.Symbol,
-				streamOrder.Side.ToSideDto(),
+				streamOrder.PositionSide.ToSideDto(),
 				streamOrder.BidNotional,
 				streamOrder.Price,
-				0,
+				null,
 				streamOrder.Type.ToOrderTypeDto());
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id, OrderSide side)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinanceFuturesStreamPosition streamPosition, long id, Core.Types.Side side, byte? leverage)
 		{
 			return new FuturesPositionDto(
 				id,
 				streamPosition.Symbol,
-				side.ToSideDto(),
+				side,
 				streamPosition.Quantity,
-				streamPosition.EntryPrice);
+				streamPosition.EntryPrice,
+				leverage);
 		}
 
-		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, OrderSide side)
+		public static FuturesPositionDto ToFuturesPositionDto(this BinancePositionDetailsUsdt binancePosition, long id, Core.Types.Side side, byte? leverage, decimal quantityUsdt)
 		{
 			return new FuturesPositionDto(
 				id,
 				binancePosition.Symbol,
-				side.ToSideDto(),
-				binancePosition.Quantity,
-				binancePosition.EntryPrice);
+				side,
+				quantityUsdt,
+				binancePosition.EntryPrice,
+				leverage);
 		}
 
 		public static Core.Types.Side ToSideDto(this OrderSide orderSide)
 			=> orderSide == OrderSide.Sell ? Core.Types.Side.Sell : Core.Types.Side.Buy;
+
+		public static Core.Types.Side ToSideDto(this PositionSide positionSide)
+			=> positionSide switch
+			{
+				PositionSide.Short => Core.Types.Side.Sell,
+				PositionSide.Long => Core.Types.Side.Buy,
+				_ => throw new InvalidEnumArgumentException(nameof(positionSide), (int)positionSide, typeof(PositionSide))
+			};
 
 		public static Core.Types.OrderType ToOrderTypeDto(this FuturesOrderType type)
 			=> type switch

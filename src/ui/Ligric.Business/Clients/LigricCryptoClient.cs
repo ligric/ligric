@@ -27,6 +27,7 @@ namespace Ligric.Business.Clients
 			Orders = new OrdersService(futuresClient, metadata, _authorization);
 			Values = new ValuesService(futuresClient, metadata, _authorization);
 			Positions = new PositionsService(futuresClient, metadata, _authorization);
+			Leverages = new LeveragesService(futuresClient, metadata, _authorization);
 
 			_authorization.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
@@ -38,6 +39,8 @@ namespace Ligric.Business.Clients
 		public IValuesService Values { get; }
 
 		public IPositionsService Positions { get; }
+
+		public ILeveragesService Leverages { get; }
 
 		public void Dispose() => throw new NotImplementedException();
 

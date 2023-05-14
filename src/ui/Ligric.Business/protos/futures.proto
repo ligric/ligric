@@ -11,6 +11,7 @@ service Futures {
     rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged);
     rpc ValuesSubscribe(FuturesSubscribeRequest) returns (stream ValuesChanged);
     rpc PositionsSubscribe(FuturesSubscribeRequest) returns (stream PositionsChanged);
+	rpc LeverageSubscribe(FuturesSubscribeRequest) returns (stream LeverageChanged);
 }
 
 message FuturesSubscribeRequest
@@ -20,8 +21,9 @@ message FuturesSubscribeRequest
 }
 
 message OrdersChanged {
-	FuturesOrder Order = 1;
-	Action action = 2;
+	string ExchangeId = 1;
+	FuturesOrder Order = 2;
+	Action action = 3;
 }
 
 message ValuesChanged {
@@ -30,8 +32,15 @@ message ValuesChanged {
 }
 
 message PositionsChanged {
-	FuturesPosition Position = 1;
-	Action action = 2;
+	string ExchangeId = 1;
+	FuturesPosition Position = 2;
+	Action action = 3;
+}
+
+message LeverageChanged {
+	string ExchangeId = 1;
+	FuturesLeverage Leverage = 2;
+	Action action = 3;
 }
 
 message FuturesOrder {
@@ -40,9 +49,8 @@ message FuturesOrder {
 	Side side = 3;
 	string quantity = 4;
 	string price = 5;
-	string value = 6;
+	string currentPrice = 6;
 	string type = 7;
-
 }
 
 message FuturesValue
@@ -57,6 +65,12 @@ message FuturesPosition {
 	string EntryPrice = 3;
 	Side Side = 4;
 	string Quantity = 5;
+	string Leverage = 6;
+}
+
+message FuturesLeverage {
+	string Symbol = 1;
+	string Value = 3;
 }
 
 enum Side

@@ -2,15 +2,14 @@
 
 namespace Ligric.UI.ViewModels.Data
 {
-	public class PositionViewModel
+	public partial record PositionViewModel(long Id, Guid ExchangeId, string Symbol, string Side, decimal EntryPrice)
 	{
-		[Reactive] public string? Id { get; set; }
-		[Reactive] public string? Symbol { get; set; }
-		[Reactive] public string? Side { get; set; }
-		[Reactive] public string? Quantity { get; set; }
-		[Reactive] public string? OpenPrice { get; set; }
-		[Reactive] public string? CurrentPrice { get; set; }
-		[Reactive] public string? PnL { get; set; }
-		[Reactive] public string? PnLPercent { get; set; }
+		[Reactive] public decimal? CurrentPrice { get; set; }
+		[Reactive] public decimal? Quantity { get; set; }
+		[Reactive] public decimal? QuoteQuantity { get; set; }
+		[Reactive] public decimal? Size { get; set; }
+		[Reactive] public decimal? PnL { get; set; }
+		[Reactive] public decimal? PnLPercent { get; set; }
+		[Reactive] public byte? Leverage { get; set; }
 	}
 }

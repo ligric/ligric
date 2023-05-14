@@ -5,32 +5,28 @@ namespace Ligric.UI.ViewModels.Extensions
 {
 	public static class TypeExtensions
 	{
-		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto)
+		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto, Guid exchangeId)
 		{
 			return new OrderViewModel
 			{
 				Id = dto.Id.ToString(),
+				ExchangeId = exchangeId,
 				Symbol = dto.Symbol,
 				Price = dto.Price.ToString(),
 				Side = dto.Side.ToString(),
 				Quantity = dto.Quantity.ToString(),
-				Value = dto.Value.ToString(),
-				Order = dto.Type.ToString(),
+				CurrentPrice = dto.CurrentPrice.ToString(),
+				Type = dto.Type.ToString(),
 			};
 		}
 
-		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto)
+		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto, Guid exchangeId)
 		{
-			return new PositionViewModel
+			return new PositionViewModel(dto.Id, exchangeId, dto.Symbol, dto.Side.ToString(), dto.EntryPrice)
 			{
-				Id = dto.Id.ToString(),
-				Symbol = dto.Symbol,
-				OpenPrice = dto.EntryPrice.ToString(),
-				CurrentPrice = "Nan",
-				Side = dto.Side.ToString(),
-				PnL = "Nan",
-				PnLPercent = "Nan",
-				Quantity = dto.Quantity.ToString()
+				Quantity = dto.Quantity,
+				QuoteQuantity = dto.EntryPrice * dto.Quantity,
+				Leverage = dto.Leverage,
 			};
 		}
 	}

@@ -17,19 +17,22 @@ namespace Ligric.UI.ViewModels.Presentation
 		private readonly IOrdersService _ordersService;
 		private readonly IValuesService _valuesService;
 		private readonly IPositionsService _postionsService;
+		private readonly ILeveragesService _leveragesService;
 
 		internal ApisViewModel(
 			IDispatcher dispatcher,
 			IApiesService apiesService,
 			IOrdersService ordersService,
 			IValuesService valuesService,
-			IPositionsService positionsService)
+			IPositionsService positionsService,
+			ILeveragesService leveragesService)
 		{
 			_dispatcher = dispatcher;
 			_apiService = apiesService;
 			_ordersService = ordersService;
 			_valuesService = valuesService;
 			_postionsService = positionsService;
+			_leveragesService = leveragesService;
 
 			_apiService.ApiesChanged += OnApiesChanged;
 		}
@@ -69,6 +72,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_ordersService.AttachStreamAsync((long)apiClient.UserApiId);
 			_valuesService.AttachStreamAsync((long)apiClient.UserApiId);
 			_postionsService.AttachStreamAsync((long)apiClient.UserApiId);
+			_leveragesService.AttachStreamAsync((long)apiClient.UserApiId);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 		}
 
