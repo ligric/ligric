@@ -2,15 +2,13 @@
 using System.Collections.ObjectModel;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
-using Binance.Net.Objects.Models.Futures;
 using Binance.Net.Objects.Models.Futures.Socket;
-using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Sockets;
+using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver.Binance.Types;
 using Ligric.CryptoObserver.Extensions;
 using Ligric.CryptoObserver.Interfaces;
-using Newtonsoft.Json.Linq;
 using Utils;
 using Utils.Extensions;
 
@@ -49,7 +47,7 @@ namespace Ligric.CryptoObserver.Binance
 				.ToAsyncEnumerable()
 				.SelectAwaitWithCancellation(async (binancePosition, token) =>
 				{
-					OrderSide side = binancePosition.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
+					Side side = binancePosition.Quantity > 0 ? Side.Buy : Side.Sell;
 					byte? leverage = _leverages.Leverages.TryGetValue(binancePosition.Symbol, out byte leverageOut) ? leverageOut : null;
 
 					return binancePosition.ToFuturesPositionDto(
@@ -73,7 +71,7 @@ namespace Ligric.CryptoObserver.Binance
 			var positions = account.Data.UpdateData.Positions;
 			foreach (var position in positions)
 			{
-				FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol);
+				Side side = position.Quantity > 0 ? Side.Buy : Side.Sell;
 
 				if (position.Quantity == 0)
 				{
