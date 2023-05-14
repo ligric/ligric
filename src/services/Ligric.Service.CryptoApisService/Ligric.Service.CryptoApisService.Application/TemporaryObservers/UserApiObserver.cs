@@ -31,7 +31,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			long userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 
 			userApiSaveEntity.Id = userApiId;
-			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToApiClientResponseDto()));
+			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToApiClientResponseDto()));
 
 			return userApiId;
 		}
@@ -75,7 +75,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 			userApiSaveEntity.Id = newUserApiId;
 
-			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToApiClientResponseDto()));
+			ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToApiClientResponseDto()));
 
 			return userApiId;
 		}
