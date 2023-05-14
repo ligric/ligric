@@ -6,6 +6,7 @@ namespace Ligric.UI.ViewModels.Data
 	{
 		[Reactive] public decimal? CurrentPrice { get; set; }
 		[Reactive] public decimal? Quantity { get; set; }
+		[Reactive] public decimal? Size { get; set; }
 		[Reactive] public decimal? PnL { get; set; }
 		[Reactive] public decimal? PnLPercent { get; set; }
 		[Reactive] public byte? Leverage { get; set; }

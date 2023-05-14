@@ -229,7 +229,12 @@
 												   Text="{Binding Leverage, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0}x'}"/>
 									</Border>
 								</StackPanel>
-								<TextBlock Grid.Column="2" Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
+
+								<StackPanel Grid.Column="2" VerticalAlignment="Center">
+									<TextBlock Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
+									<TextBlock Foreground="White" Text="{Binding Size}" VerticalAlignment="Center"/>
+								</StackPanel>
+								
 								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding EntryPrice}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding CurrentPrice}" VerticalAlignment="Center"/>
 
