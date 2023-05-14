@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Binance.Net.Clients;
 using Binance.Net.Enums;
 using Binance.Net.Objects.Models.Futures.Socket;
@@ -71,7 +72,15 @@ namespace Ligric.CryptoObserver.Binance
 			var positions = account.Data.UpdateData.Positions;
 			foreach (var position in positions)
 			{
-				Side side = position.Quantity > 0 ? Side.Buy : Side.Sell;
+				Side side;
+				if (position.PositionSide == global::Binance.Net.Enums.PositionSide.Both)
+				{
+					side = position.Quantity > 0 ? Side.Buy : Side.Sell;
+				}
+				else
+				{
+					side = position.PositionSide.ToSideDto();
+				}
 
 				FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
 
@@ -80,6 +89,7 @@ namespace Ligric.CryptoObserver.Binance
 					if (existingItem != null && _positions.TryGetValue(existingItem.Id, out var removingPosition))
 					{
 						_positions.RemoveAndRiseEvent(this, PositionsChanged, removingPosition.Id, removingPosition, ref eventSync);
+						System.Diagnostics.Debug.WriteLine($"Removed {removingPosition.Symbol}");
 					}
 					continue;
 				}
