@@ -78,7 +78,21 @@ namespace Ligric.UI.ViewModels.Presentation
 					{
 						if (Positions[i].Id == changedPosition.Id)
 						{
-							Positions[i] = changedPosition.ToPositionViewModel(obj.NewValue.ExchengedId);
+							var changedItem = changedPosition.ToPositionViewModel(obj.NewValue.ExchengedId);
+							changedItem.Size = CalculateSize(
+								changedItem.CurrentPrice,
+								(decimal)changedItem.Quantity!);
+							changedItem.PnL = CalculatePnL(
+								changedItem.EntryPrice,
+								changedItem.CurrentPrice,
+								(decimal)changedItem.Quantity!);
+							changedItem.PnLPercent = CalculateROE(
+								changedItem.EntryPrice,
+								changedItem.CurrentPrice,
+								changedItem.Leverage,
+								(decimal)changedItem.Quantity!,
+								changedItem.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1);
+							Positions[i] = changedItem;
 							break;
 						}
 					}
