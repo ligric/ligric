@@ -12,6 +12,6 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 
 		long Share(long userApiId, long sharedUserId, int permissions);
 
-		IObservable<(EventAction Action, ApiClientResponseDto Api)> GetApisAsObservable(long userId);
+		IObservable<(EventAction Action, long UserId, ApiClientResponseDto Api)> GetApisAsObservable(long userId);
 	}
 }

@@ -10,7 +10,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 	public class UserApiObserver : IUserApiObserver
 	{
 		private readonly IUserApiRepository _userApiRepository;
-		private event Action<(EventAction Action, ApiClientResponseDto userApi)>? ApiChanged;
+		private event Action<(EventAction Action, long UserId, ApiClientResponseDto userApi)>? ApiChanged;
 
 		public UserApiObserver(IUserApiRepository userApiRepository)
 		{
@@ -80,11 +80,11 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			return userApiId;
 		}
 
-		public IObservable<(EventAction Action, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
+		public IObservable<(EventAction Action, long UserId, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
 		{
 			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
-			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x)).ToObservable();
-			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, ApiClientResponseDto Api)>(
+			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, userId, x)).ToObservable();
+			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, ApiClientResponseDto Api)>(
 				(x) => ApiChanged += x, (x) => ApiChanged -= x);
 
 			return currentApiStateNotifications.Concat(updatedApiStateNotifications);

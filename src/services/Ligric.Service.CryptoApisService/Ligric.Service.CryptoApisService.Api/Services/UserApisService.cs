@@ -63,16 +63,19 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
-					await responseStream.WriteAsync(new ApisChanged
+					if (x.UserId == request.UserId)
 					{
-						Action = x.Action.ToProtosAction(),
-						Api = new ApiClient
+						await responseStream.WriteAsync(new ApisChanged
 						{
-							Id = x.Api.UserApiId,
-							Name = x.Api.Name,
-							Permissions = x.Api.Permissions
-						}
-					});
+							Action = x.Action.ToProtosAction(),
+							Api = new ApiClient
+							{
+								Id = x.Api.UserApiId,
+								Name = x.Api.Name,
+								Permissions = x.Api.Permissions
+							}
+						});
+					}
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 			}
