@@ -10,7 +10,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 	public class UserApiObserver : IUserApiObserver
 	{
 		private readonly IUserApiRepository _userApiRepository;
-		private event Action<(EventAction Action, long UserId, ApiClientResponseDto userApi)>? ApiChanged;
+		private event Action<(EventAction Action, ApiClientResponseDto userApi)>? ApiChanged;
 
 		public UserApiObserver(IUserApiRepository userApiRepository)
 		{
@@ -31,7 +31,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			long userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 
 			userApiSaveEntity.Id = userApiId;
-			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToApiClientResponseDto()));
+			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToApiClientResponseDto()));
 
 			return userApiId;
 		}
@@ -75,16 +75,17 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 			userApiSaveEntity.Id = newUserApiId;
 
-			ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToApiClientResponseDto()));
+			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToApiClientResponseDto()));
 
 			return userApiId;
 		}
 
-		public IObservable<(EventAction Action, long UserId, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
+		public IObservable<(EventAction Action, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
 		{
 			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
-			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, userId, x)).ToObservable();
-			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, long UserId, ApiClientResponseDto Api)>(
+			System.Diagnostics.Debug.WriteLine($"[USERAPI]: {userApiEntities.First().Name}, {userApiEntities.First().UserApiId}");
+			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x)).ToObservable();
+			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, ApiClientResponseDto Api)>(
 				(x) => ApiChanged += x, (x) => ApiChanged -= x);
 
 			return currentApiStateNotifications.Concat(updatedApiStateNotifications);

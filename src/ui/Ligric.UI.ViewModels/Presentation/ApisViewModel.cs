@@ -1,12 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reactive;
 using Ligric.Business.Apies;
 using Ligric.Business.Futures;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.UI.ViewModels.Data;
+using Microsoft.VisualBasic;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Uno.Extensions;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -35,6 +38,11 @@ namespace Ligric.UI.ViewModels.Presentation
 			_leveragesService = leveragesService;
 
 			_apiService.ApiesChanged += OnApiesChanged;
+
+			lock (((ICollection)Apis).SyncRoot)
+			{
+				Apis.AddRange(_apiService.AvailableApies);
+			}
 		}
 
 		public ObservableCollection<ApiClientDto> Apis { get; init; } = new();
