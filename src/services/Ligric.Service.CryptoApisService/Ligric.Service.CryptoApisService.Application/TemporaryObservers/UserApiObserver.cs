@@ -31,7 +31,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			long userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 
 			userApiSaveEntity.Id = userApiId;
-			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToApiClientResponseDto()));
+			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToApiClientResponseDto()));
 
 			return userApiId;
 		}
@@ -75,7 +75,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 			userApiSaveEntity.Id = newUserApiId;
 
-			ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToApiClientResponseDto()));
+			ApiChanged?.Invoke((EventAction.Added, userApiSaveEntity.ToApiClientResponseDto()));
 
 			return userApiId;
 		}
@@ -83,6 +83,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 		public IObservable<(EventAction Action, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
 		{
 			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
+			System.Diagnostics.Debug.WriteLine($"[USERAPI]: {userApiEntities.First().Name}, {userApiEntities.First().UserApiId}");
 			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x)).ToObservable();
 			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, ApiClientResponseDto Api)>(
 				(x) => ApiChanged += x, (x) => ApiChanged -= x);
