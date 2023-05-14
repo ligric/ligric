@@ -101,7 +101,6 @@ namespace Ligric.UI.ViewModels.Presentation
 							Positions[i] = position with
 							{
 								Size = CalculateSize(
-									position.EntryPrice,
 									position.CurrentPrice,
 									(decimal)position.Quantity!),
 								Leverage = addedLeverage.Entity.Leverage,
@@ -139,7 +138,6 @@ namespace Ligric.UI.ViewModels.Presentation
 						{
 							CurrentPrice = e.NewValue,
 							Size = CalculateSize(
-								position.EntryPrice,
 								e.NewValue,
 								(decimal)position.Quantity!),
 							PnL = CalculatePnL(
@@ -172,17 +170,18 @@ namespace Ligric.UI.ViewModels.Presentation
 
 			//decimal roe = (((decimal)currentPrice - entryPrice) * direction * quantity) / ((decimal)currentPrice * (byte)leverage * (decimal)currentPrice * (1/ (byte)leverage));
 
-			//decimal pnl = ((decimal)currentPrice! - entryPrice) - ((byte)leverage! * quantityUsdt - quantityUsdt);
+			//decimal pnl = ((decimal)currentPrice! - entryPrice) - ((byte)leverage! * quantity - quantity);
 
 			decimal roe = (((decimal)currentPrice! * (byte)leverage!) - entryPrice) / entryPrice * 100;
 			return Math.Round(roe, 2);
 		}
 
-		private static decimal? CalculateSize(decimal entryPrice, decimal? currentPrice, decimal quantityUsdt)
+		private static decimal? CalculateSize(decimal? currentPrice, decimal quantity)
 		{
 			if (currentPrice == null) return null;
 
-			return entryPrice / (decimal)currentPrice * quantityUsdt;
+			decimal size = (decimal)currentPrice * quantity;
+			return Math.Round(size, 2);
 		}
 	}
 }

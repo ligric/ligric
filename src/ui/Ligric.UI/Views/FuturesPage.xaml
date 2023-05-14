@@ -189,7 +189,7 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Column="1" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Quantity/Size" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="3" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="4" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="5" Text="PnL/ROE" Foreground="White" VerticalAlignment="Center"/>
@@ -231,8 +231,26 @@
 								</StackPanel>
 
 								<StackPanel Grid.Column="2" VerticalAlignment="Center">
-									<TextBlock Foreground="White" Text="{Binding Quantity}" VerticalAlignment="Center"/>
-									<TextBlock Foreground="White" Text="{Binding Size}" VerticalAlignment="Center"/>
+									<TextBlock Foreground="White" Text="{Binding QuoteQuantity}" VerticalAlignment="Center"/>
+									<TextBlock x:Name="SizeTextBlock" Foreground="White" Text="{Binding Size, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center">
+										<i:Interaction.Behaviors>
+											<core:DataTriggerBehavior Binding="{Binding Size, Converter={StaticResource NullToEmptyStringConverter}}" ComparisonCondition="Equal" Value="">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=SizeTextBlock}" PropertyName="Foreground" Value="White"/>
+											</core:DataTriggerBehavior>
+											
+											<core:DataTriggerBehavior Binding="{Binding Size, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="GreaterThan" Value="0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=SizeTextBlock}" PropertyName="Foreground" Value="#5CFF94"/>
+											</core:DataTriggerBehavior>
+
+											<core:DataTriggerBehavior Binding="{Binding Size, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="LessThan" Value="0">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=SizeTextBlock}" PropertyName="Foreground" Value="#FF5C5C"/>
+											</core:DataTriggerBehavior>
+											
+											<core:DataTriggerBehavior Binding="{Binding Size, Converter={StaticResource ValueToStringConverter}}" ComparisonCondition="Equal" Value="0.00">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=SizeTextBlock}" PropertyName="Foreground" Value="White"/>
+											</core:DataTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</TextBlock>
 								</StackPanel>
 								
 								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding EntryPrice}" VerticalAlignment="Center"/>

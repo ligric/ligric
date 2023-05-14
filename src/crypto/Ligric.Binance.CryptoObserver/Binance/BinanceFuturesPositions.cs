@@ -56,7 +56,7 @@ namespace Ligric.CryptoObserver.Binance
 						(long)RandomHelper.GetRandomUlong(),
 						side,
 						leverage,
-						await GetFilledOrdersQuoteQuantity(binancePosition.Symbol, binancePosition.Quantity, binancePosition.UpdateTime, token));
+						binancePosition.Quantity);
 
 				}).ForEachAwaitAsync(async position =>
 				{
