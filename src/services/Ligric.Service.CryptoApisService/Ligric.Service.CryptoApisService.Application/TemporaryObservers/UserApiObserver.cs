@@ -83,7 +83,6 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 		public IObservable<(EventAction Action, ApiClientResponseDto Api)> GetApisAsObservable(long userId)
 		{
 			var userApiEntities = _userApiRepository.GetAllowedApiInfoByUserId(userId);
-			System.Diagnostics.Debug.WriteLine($"[USERAPI]: {userApiEntities.First().Name}, {userApiEntities.First().UserApiId}");
 			var currentApiStateNotifications = userApiEntities.Select(x => (EventAction.Added, x)).ToObservable();
 			var updatedApiStateNotifications = Observable.FromEvent<(EventAction Action, ApiClientResponseDto Api)>(
 				(x) => ApiChanged += x, (x) => ApiChanged -= x);
