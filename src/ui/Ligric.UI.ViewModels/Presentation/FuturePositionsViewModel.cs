@@ -112,16 +112,17 @@ namespace Ligric.UI.ViewModels.Presentation
 						if (position.ExchangeId! == addedLeverage.ExchengedId
 							&& position.Symbol == addedLeverage.Entity.Symbol)
 						{
+							var pnl = CalculatePnL(
+									position.EntryPrice,
+									position.CurrentPrice,
+									(decimal)position.Quantity!);
 							Positions[i] = position with
 							{
 								Size = CalculateSize(
 									position.CurrentPrice,
 									(decimal)position.Quantity!),
 								Leverage = addedLeverage.Entity.Leverage,
-								PnL = CalculatePnL(
-									position.EntryPrice,
-									position.CurrentPrice,
-									(decimal)position.Quantity!),
+								PnL = pnl,
 								PnLPercent = CalculateROE(
 									position.EntryPrice,
 									position.CurrentPrice,
@@ -148,16 +149,17 @@ namespace Ligric.UI.ViewModels.Presentation
 					if (Positions[i].Symbol == e.Key)
 					{
 						var position = Positions[i];
+						var pnl = CalculatePnL(
+								position.EntryPrice,
+								e.NewValue,
+								(decimal)position.Quantity!);
 						Positions[i] = position with
 						{
 							CurrentPrice = e.NewValue,
 							Size = CalculateSize(
 								e.NewValue,
 								(decimal)position.Quantity!),
-							PnL = CalculatePnL(
-								position.EntryPrice,
-								e.NewValue,
-								(decimal)position.Quantity!),
+							PnL = pnl,
 							PnLPercent = CalculateROE(
 								position.EntryPrice,
 								e.NewValue,
@@ -178,15 +180,12 @@ namespace Ligric.UI.ViewModels.Presentation
 			return Math.Round(pnl, 2);
 		}
 
-		private static decimal? CalculateROE(decimal entryPrice, decimal? currentPrice, byte? leverage, decimal quantity, sbyte direction)
+		private static decimal? CalculateROE(decimal entryPrice, decimal? currentPrice, byte? leverage, decimal quantity, sbyte side)
 		{
 			if (currentPrice == null || leverage == null) return null;
 
-			//decimal roe = (((decimal)currentPrice - entryPrice) * direction * quantity) / ((decimal)currentPrice * (byte)leverage * (decimal)currentPrice * (1/ (byte)leverage));
-
-			//decimal pnl = ((decimal)currentPrice! - entryPrice) - ((byte)leverage! * quantity - quantity);
-
-			decimal roe = (((decimal)currentPrice! * (byte)leverage!) - entryPrice) / entryPrice * 100;
+			decimal imr = (decimal)1 / (byte)leverage;
+			decimal roe = (side * (1 - entryPrice / (decimal)currentPrice) / imr) * 100;
 			return Math.Round(roe, 2);
 		}
 
