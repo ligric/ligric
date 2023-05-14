@@ -73,6 +73,8 @@ namespace Ligric.CryptoObserver.Binance
 			{
 				Side side = position.Quantity > 0 ? Side.Buy : Side.Sell;
 
+				FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
+
 				if (position.Quantity == 0)
 				{
 					if (existingItem != null && _positions.TryGetValue(existingItem.Id, out var removingPosition))
@@ -82,13 +84,18 @@ namespace Ligric.CryptoObserver.Binance
 					continue;
 				}
 
+				byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
+
 				if (existingItem == null)
 				{
-					OrderSide side = position.Quantity > 0 ? OrderSide.Buy : OrderSide.Sell;
-					byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
 					FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
 					_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
 					_leverages.UpdateLeveragesFromAddedPosition(positionDto);
+				}
+				else
+				{
+					FuturesPositionDto positionDto = position.ToFuturesPositionDto(existingItem.Id, side, leverage);
+					_positions.SetAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
 				}
 			}
 		}
