@@ -56,16 +56,16 @@ public class AuthService : Auth.AuthBase
 		if (user != null && user.UserName != null)
 		{
 			var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
-			var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
+			var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.UtcNow);
 
 			return new SignInResponse
 			{
 				Id = (long)user.Id,
 				JwtToken = new JwtToken
 				{
-					AccessToken = token.AccessToken,
+					AccessToken = token.AccessToken?.TokenString ?? throw new ArgumentNullException("Response AccessToken is null"),
 					RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
-					ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
+					ExpirationAt = Timestamp.FromDateTime(token.AccessToken.ExpireAt.SetKind(DateTimeKind.Utc))
 				},
 				Result = ResponseHelper.GetSuccessResponseResult()
 			};
@@ -86,16 +86,16 @@ public class AuthService : Auth.AuthBase
 		if (user != null && user.UserName != null)
 		{
 			var claims = new[] { new Claim(ClaimTypes.Name, user.UserName) };
-			var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.Now);
+			var token = _jwtAuthManager.GenerateTokens(user.UserName, claims, DateTime.UtcNow);
 
 			return new SignUpResponse
 			{
 				Id = (long)user.Id,
 				JwtToken = new JwtToken
 				{
-					AccessToken = token.AccessToken,
+					AccessToken = token.AccessToken?.TokenString ?? throw new ArgumentNullException("Response AccessToken is null"),
 					RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
-					ExpirationAt = Timestamp.FromDateTime(token.RefreshToken.ExpireAt.SetKind(DateTimeKind.Utc))
+					ExpirationAt = Timestamp.FromDateTime(token.AccessToken.ExpireAt.SetKind(DateTimeKind.Utc))
 				},
 				Result = ResponseHelper.GetSuccessResponseResult()
 			};
