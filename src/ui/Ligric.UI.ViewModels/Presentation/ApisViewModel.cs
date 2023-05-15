@@ -6,10 +6,8 @@ using Ligric.Business.Apies;
 using Ligric.Business.Futures;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.UI.ViewModels.Data;
-using Microsoft.VisualBasic;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Uno.Extensions;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
@@ -51,17 +49,19 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ApiDataViewModel AddingApi { get; } = new();
 
 		public ReactiveCommand<Unit, Unit> SaveApiCommand => ReactiveCommand.CreateFromTask(
-			execute: ct => ExecuteSaveApi(AddingApi, ct),
-			canExecute: this.WhenAnyValue(x => x.AddingApi, api => CanSaveApi(api)));
+			execute:
+				ct => ExecuteSaveApi(AddingApi, ct),
+			canExecute: this.AddingApi.WhenAnyValue(
+				x => x.Name, x => x.PublicKey, x => x.PrivateKey, CanSaveApi));
 
 		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
-			execute: (apiClient, ct) => ExecuteShareApi(apiClient, ct), outputScheduler: RxApp.TaskpoolScheduler);
+			execute: ExecuteShareApi, outputScheduler: RxApp.TaskpoolScheduler);
 
 		public ReactiveCommand<ApiClientDto, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteAttachApiStream);
 
 		#region Save API
-		private bool CanSaveApi(ApiDataViewModel api)
-			=> api is { Name.Length: >= 1 } and { PrivateKey.Length: > 5 } and { PublicKey.Length: > 5 };
+		private bool CanSaveApi(string? name, string? publicKey, string? privateKey)
+			=> name?.Length >= 1 && publicKey?.Length > 5 && privateKey?.Length > 5;
 
 		private async Task ExecuteSaveApi(ApiDataViewModel api, CancellationToken ct)
 		{

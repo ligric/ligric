@@ -1,8 +1,9 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Ligric.UI.ViewModels.Data
 {
-	public class ApiDataViewModel
+	public class ApiDataViewModel : ReactiveObject
 	{
 		[Reactive] public string? Name { get; set; } = "My test api key";
 		[Reactive] public string? PublicKey { get; set; } = "c58577a8b8d83617fb678838fa8e43c83e53384e88fef416c81658e51c6c48f3";
