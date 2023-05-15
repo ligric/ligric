@@ -22,7 +22,7 @@ namespace Ligric.Business.Clients.Authorization
 
 		public UserAuthorizationState CurrentConnectionState { get; private set; }
 
-		public UserDto CurrentUser { get; private set; } = null!;
+		public UserDto? CurrentUser { get; private set; }
 
 		public event EventHandler<UserAuthorizationState>? AuthorizationStateChanged;
 

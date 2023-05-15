@@ -41,7 +41,7 @@ namespace Ligric.Business.Clients.Futures
 			{
 				return Task.CompletedTask;
 			}
-			var userId = _authorizationService.CurrentUser.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
+			var userId = _authorizationService.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 			_futuresSubscribeCalcellationToken = new CancellationTokenSource();
 			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);
 		}

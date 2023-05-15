@@ -4,7 +4,7 @@ namespace Ligric.Business.Authorization;
 
 public interface IAuthorizationService : IDisposable
 {
-	UserDto CurrentUser { get; }
+	UserDto? CurrentUser { get; }
 
 	UserAuthorizationState CurrentConnectionState { get; }
 
