@@ -48,7 +48,12 @@ namespace Ligric.Business.Clients.Futures
 			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);
 		}
 
-		public void DetachStream() => throw new NotImplementedException();
+		public void DetachStream()
+		{
+			_futuresSubscribeCalcellationToken?.Cancel();
+			_futuresSubscribeCalcellationToken?.Dispose();
+		}
+
 		public void Dispose()
 		{
 
