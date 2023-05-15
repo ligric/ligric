@@ -8,6 +8,7 @@ using Ligric.Business.Futures;
 using Ligric.Protobuf;
 using static Ligric.Protobuf.Futures;
 using Ligric.Core.Types;
+using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -16,17 +17,17 @@ namespace Ligric.Business.Clients.Futures
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesPositionDto>> _positions = new Dictionary<long, ExchangedEntity<FuturesPositionDto>>();
 		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
-		private readonly IAuthorizationService _authorizationService;
+		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
 		internal PositionsService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
-			IAuthorizationService authorizationService)
+			ICurrentUser currentUser)
 		{
 			_metadataManager = metadataRepos;
-			_authorizationService = authorizationService;
+			_currentUser = currentUser;
 			_futuresClient = futuresClient;
 		}
 
@@ -42,7 +43,7 @@ namespace Ligric.Business.Clients.Futures
 				return Task.CompletedTask;
 			}
 
-			var userId = _authorizationService.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
+			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
 			_futuresSubscribeCalcellationToken = new CancellationTokenSource();
 			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);

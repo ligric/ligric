@@ -6,6 +6,7 @@ using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using static Ligric.Protobuf.Futures;
+using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -14,17 +15,17 @@ namespace Ligric.Business.Clients.Futures
 		private int syncValuesChanged = 0;
 		private readonly Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
 		private CancellationTokenSource? _valuesSubscribeCalcellationToken;
-		private readonly IAuthorizationService _authorizationService;
+		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
 		internal ValuesService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
-			IAuthorizationService authorizationService)
+			ICurrentUser currentUser)
 		{
 			_metadataManager = metadataRepos;
-			_authorizationService = authorizationService;
+			_currentUser = currentUser;
 			_futuresClient = futuresClient;
 		}
 
@@ -40,7 +41,7 @@ namespace Ligric.Business.Clients.Futures
 				return Task.CompletedTask;
 			}
 
-			var userId = _authorizationService.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
+			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
 			_valuesSubscribeCalcellationToken = new CancellationTokenSource();
 			return StreamValuesSubscribeCall(userId, userApiId, _valuesSubscribeCalcellationToken.Token);

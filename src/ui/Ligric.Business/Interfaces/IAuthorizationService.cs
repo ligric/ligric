@@ -1,13 +1,10 @@
-﻿using Ligric.Core.Types.User;
+﻿using Ligric.Business.Interfaces;
+using Ligric.Core.Types.User;
 
 namespace Ligric.Business.Authorization;
 
-public interface IAuthorizationService : IDisposable
+public interface IAuthorizationService : ICurrentUser, IDisposable
 {
-	UserDto? CurrentUser { get; }
-
-	UserAuthorizationState CurrentConnectionState { get; }
-
 	event EventHandler<UserAuthorizationState> AuthorizationStateChanged;
 
 	Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct);
