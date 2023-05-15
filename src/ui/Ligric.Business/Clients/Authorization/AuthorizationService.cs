@@ -81,6 +81,11 @@ namespace Ligric.Business.Clients.Authorization
 			return response.IsUnique;
 		}
 
+		public void Logout()
+		{
+			CleanUser();
+		}
+
 		public void Dispose()
 		{
 			throw new NotImplementedException();

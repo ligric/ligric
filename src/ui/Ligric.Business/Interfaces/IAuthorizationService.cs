@@ -15,4 +15,6 @@ public interface IAuthorizationService : IDisposable
 	Task SignUpAsync(string userName, string password, CancellationToken ct);
 
 	Task SignInAsync(string userName, string password, CancellationToken ct);
+
+	void Logout();
 }
