@@ -103,7 +103,8 @@
 
 					<Button Content="Add" Height="40" CornerRadius="10"
 							HorizontalAlignment="Stretch"
-							Background="#f2f5fa" Foreground="Black"
+							Style="{StaticResource ButtonRevealStyle}"
+							Background="#5946d2" Foreground="White"
 							Command="{Binding Api.SaveApiCommand}"/>
 				</StackPanel>
 			</Popup>
