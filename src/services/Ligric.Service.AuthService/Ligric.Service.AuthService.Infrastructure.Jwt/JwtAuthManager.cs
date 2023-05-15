@@ -59,7 +59,6 @@ namespace Ligric.Service.AuthService.Infrastructure.Jwt
 				expires: accessTokenExpairedAt,
 				signingCredentials: new SigningCredentials(new SymmetricSecurityKey(_secret), SecurityAlgorithms.HmacSha256Signature));
 			var accessTokenString = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-
 			var refreshToken = new RefreshToken
 			{
 				UserName = username,

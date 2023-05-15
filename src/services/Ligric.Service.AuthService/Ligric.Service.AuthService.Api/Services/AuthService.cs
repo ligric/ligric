@@ -107,34 +107,21 @@ public class AuthService : Auth.AuthBase
 		};
 	}
 
-	private UserResponseDto? GetUserFromMetadata(Metadata metadata)
+	[Authorize]
+	public override async Task<RefreshTokenResponse> RefreshToken(RefreshTokenRequest request, ServerCallContext context)
 	{
-		if (metadata == null)
-#pragma warning disable CS8604 // Possible null reference argument.
-			throw new RpcException(new Status(StatusCode.PermissionDenied, "Permission denied"), metadata);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-		var token = metadata.FirstOrDefault(x => x.Key == "authorization");
-
-		if (token?.Value == null)
-			throw new RpcException(new Status(StatusCode.NotFound, "Token is null"), metadata);
-
-		//return _usersService.GetUserFromToken(token.Value);
-		return null;
-	}
-
-	private string GetTokenFromMetadata(Metadata metadata)
-	{
-		if (metadata == null)
-#pragma warning disable CS8604 // Possible null reference argument.
-			throw new RpcException(new Status(StatusCode.PermissionDenied, "Permission denied"), metadata);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-		var token = metadata.FirstOrDefault(x => x.Key == "authorization");
-
-		if (token?.Value == null)
-			throw new RpcException(new Status(StatusCode.NotFound, "Token is null"), metadata);
-
-		return token.Value;
+		var headers = context.RequestHeaders;
+		var accessToken = headers.First(x => x.Key == "authorization").Value.Replace("Bearer ", string.Empty);
+		var token = _jwtAuthManager.Refresh(request.RefreshToken, accessToken, DateTime.UtcNow);
+		return new RefreshTokenResponse
+		{
+			JwtToken = new JwtToken
+			{
+				AccessToken = token.AccessToken?.TokenString ?? throw new ArgumentNullException("Response AccessToken is null"),
+				RefreshToken = token.RefreshToken?.TokenString ?? throw new ArgumentNullException("Response RefreshToken is null"),
+				ExpirationAt = Timestamp.FromDateTime(token.AccessToken.ExpireAt.SetKind(DateTimeKind.Utc))
+			},
+			Result = ResponseHelper.GetSuccessResponseResult()
+		};
 	}
 }

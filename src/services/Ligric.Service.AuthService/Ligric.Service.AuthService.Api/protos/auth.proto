@@ -25,7 +25,12 @@ service Auth {
 
 	rpc Logout(google.protobuf.Empty) returns (ResponseResult);
 
-	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenExpirationTime);
+	rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse){
+	  option (google.api.http) = {
+		  post: "/v1/auth/refreshToken"
+		  body: "*"
+	  };
+    }
 
 	rpc IsLoginUnique(CheckExistsRequest) returns (CheckExistsResponse);
 }
@@ -67,8 +72,8 @@ message RefreshTokenRequest
 	string refreshToken = 1;
 }
 
-message RefreshTokenExpirationTime
+message RefreshTokenResponse
 {
-	google.protobuf.Timestamp expirationAt = 1;
+	JwtToken jwtToken = 1;
 	ResponseResult result = 2;
 }
