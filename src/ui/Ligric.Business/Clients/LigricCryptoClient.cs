@@ -42,7 +42,15 @@ namespace Ligric.Business.Clients
 
 		public ILeveragesService Leverages { get; }
 
-		public void Dispose() => throw new NotImplementedException();
+		public void Dispose()
+		{
+			_authorization.AuthorizationStateChanged -= OnAuthorizationStateChanged;
+			Apis.Dispose();
+			Orders.Dispose();
+			Values.Dispose();
+			Positions.Dispose();
+			Leverages.Dispose();
+		}
 
 		private void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
 		{

@@ -12,7 +12,7 @@ using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class OrdersService : IOrdersService
+	public class OrdersService : IOrdersService, ISession
 	{
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesOrderDto>> _openOrders = new Dictionary<long, ExchangedEntity<FuturesOrderDto>>();
@@ -52,13 +52,27 @@ namespace Ligric.Business.Clients.Futures
 		public void DetachStream()
 		{
 			_futuresSubscribeCalcellationToken?.Cancel();
-			_futuresSubscribeCalcellationToken?.Dispose();
+		}
+
+		#region Session
+		public void InitializeSession()
+		{
+
+		}
+
+		public void ClearSession()
+		{
+			DetachStream();
+			_openOrders.Clear();
+			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
 		{
-
+			DetachStream();
+			_futuresSubscribeCalcellationToken?.Dispose();
 		}
+		#endregion
 
 		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
@@ -90,5 +104,6 @@ namespace Ligric.Business.Clients.Futures
 				case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
 			}
 		}
+
 	}
 }

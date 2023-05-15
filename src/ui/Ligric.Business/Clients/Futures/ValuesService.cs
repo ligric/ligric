@@ -10,7 +10,7 @@ using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class ValuesService : IValuesService
+	public class ValuesService : IValuesService, ISession
 	{
 		private int syncValuesChanged = 0;
 		private readonly Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
@@ -50,13 +50,27 @@ namespace Ligric.Business.Clients.Futures
 		public void DetachStream()
 		{
 			_valuesSubscribeCalcellationToken?.Cancel();
-			_valuesSubscribeCalcellationToken?.Dispose();
+		}
+
+		#region Session
+		public void InitializeSession()
+		{
+
+		}
+
+		public void ClearSession()
+		{
+			DetachStream();
+			syncValuesChanged = 0;
+			_values.Clear();
 		}
 
 		public void Dispose()
 		{
-
+			DetachStream();
+			_valuesSubscribeCalcellationToken?.Dispose();
 		}
+		#endregion
 
 		private Task StreamValuesSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{

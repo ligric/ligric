@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Ligric.Business.Authorization;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
@@ -13,7 +12,7 @@ using static Ligric.Protobuf.Futures;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class LeveragesService : ILeveragesService
+	public class LeveragesService : ILeveragesService, ISession
 	{
 		private readonly List<ExchangedEntity<LeverageDto>> _leverages = new List<ExchangedEntity<LeverageDto>>();
 		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
@@ -50,13 +49,23 @@ namespace Ligric.Business.Clients.Futures
 		public void DetachStream()
 		{
 			_futuresSubscribeCalcellationToken?.Cancel();
-			_futuresSubscribeCalcellationToken?.Dispose();
+		}
+
+		#region Session
+		public void InitializeSession() { }
+
+		public void ClearSession()
+		{
+			DetachStream();
+			_leverages.Clear();
 		}
 
 		public void Dispose()
 		{
-
+			DetachStream();
+			_futuresSubscribeCalcellationToken?.Dispose();
 		}
+		#endregion
 
 		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
@@ -83,5 +92,6 @@ namespace Ligric.Business.Clients.Futures
 					goto case Protobuf.Action.Added;
 			}
 		}
+
 	}
 }

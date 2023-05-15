@@ -12,7 +12,7 @@ using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class PositionsService : IPositionsService
+	public class PositionsService : IPositionsService, ISession
 	{
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesPositionDto>> _positions = new Dictionary<long, ExchangedEntity<FuturesPositionDto>>();
@@ -52,13 +52,27 @@ namespace Ligric.Business.Clients.Futures
 		public void DetachStream()
 		{
 			_futuresSubscribeCalcellationToken?.Cancel();
-			_futuresSubscribeCalcellationToken?.Dispose();
+		}
+
+		#region Session
+		public void InitializeSession()
+		{
+
+		}
+
+		public void ClearSession()
+		{
+			DetachStream();
+			_positions.Clear();
+			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
 		{
-
+			DetachStream();
+			_futuresSubscribeCalcellationToken?.Dispose();
 		}
+		#endregion
 
 		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
