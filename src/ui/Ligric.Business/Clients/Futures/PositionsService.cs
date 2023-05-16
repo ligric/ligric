@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Ligric.Core.Types.Future;
 using Utils;
-using Ligric.Business.Authorization;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
@@ -16,7 +15,7 @@ namespace Ligric.Business.Clients.Futures
 	{
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesPositionDto>> _positions = new Dictionary<long, ExchangedEntity<FuturesPositionDto>>();
-		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
+		private readonly Dictionary<long, CancellationTokenSource> attachedPositionsCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
@@ -37,21 +36,27 @@ namespace Ligric.Business.Clients.Futures
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (_futuresSubscribeCalcellationToken != null
-				&& !_futuresSubscribeCalcellationToken.IsCancellationRequested)
+			if (attachedPositionsCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
+				&& cts != null && !cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
-			_futuresSubscribeCalcellationToken = new CancellationTokenSource();
-			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);
+			var newPositionCancelationTokenSource = new CancellationTokenSource();
+			attachedPositionsCalcellationTokens.Add(userApiId, newPositionCancelationTokenSource);
+			return StreamApiSubscribeCall(userId, userApiId, newPositionCancelationTokenSource.Token);
 		}
 
-		public void DetachStream()
+		public void DetachStream(long userApiId)
 		{
-			_futuresSubscribeCalcellationToken?.Cancel();
+			if (attachedPositionsCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
+			{
+				cts?.Cancel();
+				cts?.Dispose();
+				attachedPositionsCalcellationTokens.Remove(userApiId);
+			}
 		}
 
 		#region Session
@@ -62,15 +67,19 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			DetachStream();
+			foreach (var item in attachedPositionsCalcellationTokens) item.Value?.Cancel();
+			attachedPositionsCalcellationTokens.Clear();
 			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncOrderChanged);
 			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
 		{
-			DetachStream();
-			_futuresSubscribeCalcellationToken?.Dispose();
+			foreach (var item in attachedPositionsCalcellationTokens)
+			{
+				item.Value?.Cancel();
+				item.Value?.Dispose();
+			}
 		}
 		#endregion
 

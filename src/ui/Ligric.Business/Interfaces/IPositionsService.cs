@@ -12,6 +12,6 @@ namespace Ligric.Business.Futures
 
 		Task AttachStreamAsync(long userApiId);
 
-		void DetachStream();
+		void DetachStream(long userApiId);
 	}
 }
