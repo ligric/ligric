@@ -1,4 +1,5 @@
 ﻿using System;
+using Grpc.Core;
 
 namespace Ligric.Business.Metadata
 {
@@ -6,7 +7,7 @@ namespace Ligric.Business.Metadata
 	{
 		public Grpc.Core.Metadata? CurrentMetadata { get; private set; }
 
-		public event EventHandler<Grpc.Core.Metadata>? MetadataChanged;
+		public event EventHandler<Grpc.Core.Metadata?>? MetadataChanged;
 
 		public void SetMetadata(Grpc.Core.Metadata metadata)
 		{
@@ -15,6 +16,12 @@ namespace Ligric.Business.Metadata
 
 			CurrentMetadata = metadata;
 			MetadataChanged?.Invoke(this, metadata);
+		}
+
+		public void CleanMetadata()
+		{
+			CurrentMetadata = null;
+			MetadataChanged?.Invoke(this, null);
 		}
 	}
 }

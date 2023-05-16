@@ -1,30 +1,30 @@
 ﻿using System.Collections.ObjectModel;
 using Utils;
-using Ligric.Business.Authorization;
 using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using static Ligric.Protobuf.Futures;
+using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class ValuesService : IValuesService
+	public class ValuesService : IValuesService, ISession
 	{
 		private int syncValuesChanged = 0;
 		private readonly Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
 		private CancellationTokenSource? _valuesSubscribeCalcellationToken;
-		private readonly IAuthorizationService _authorizationService;
+		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
 		internal ValuesService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
-			IAuthorizationService authorizationService)
+			ICurrentUser currentUser)
 		{
 			_metadataManager = metadataRepos;
-			_authorizationService = authorizationService;
+			_currentUser = currentUser;
 			_futuresClient = futuresClient;
 		}
 
@@ -40,18 +40,37 @@ namespace Ligric.Business.Clients.Futures
 				return Task.CompletedTask;
 			}
 
-			var userId = _authorizationService.CurrentUser.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
+			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
 			_valuesSubscribeCalcellationToken = new CancellationTokenSource();
 			return StreamValuesSubscribeCall(userId, userApiId, _valuesSubscribeCalcellationToken.Token);
 		}
 
-		public void DetachStream() => throw new NotImplementedException();
+		public void DetachStream()
+		{
+			_valuesSubscribeCalcellationToken?.Cancel();
+		}
 
-		public void Dispose()
+		#region Session
+		public void InitializeSession()
 		{
 
 		}
+
+		public void ClearSession()
+		{
+			DetachStream();
+			_values.ClearAndRiseEvent(this, ValuesChanged, ref syncValuesChanged);
+			syncValuesChanged = 0;
+
+		}
+
+		public void Dispose()
+		{
+			DetachStream();
+			_valuesSubscribeCalcellationToken?.Dispose();
+		}
+		#endregion
 
 		private Task StreamValuesSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{

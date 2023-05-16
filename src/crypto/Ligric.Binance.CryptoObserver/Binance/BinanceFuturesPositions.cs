@@ -72,15 +72,7 @@ namespace Ligric.CryptoObserver.Binance
 			var positions = account.Data.UpdateData.Positions;
 			foreach (var position in positions)
 			{
-				Side side;
-				if (position.PositionSide == global::Binance.Net.Enums.PositionSide.Both)
-				{
-					side = position.Quantity > 0 ? Side.Buy : Side.Sell;
-				}
-				else
-				{
-					side = position.PositionSide.ToSideDto();
-				}
+				Side side = position.PositionSide.ToSideDto(position.Quantity);
 
 				FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
 

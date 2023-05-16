@@ -151,7 +151,7 @@ namespace Utils
 		/// Возвращает false, если словарь был пустой.</summary>
 		public static bool ClearAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, ref int actionNumber)
         {
-            var isEmpty = currentEntities.Count == 0;
+            var isEmpty = currentEntities.Count != 0;
 
             if (isEmpty)
             {

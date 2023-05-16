@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -32,9 +29,9 @@ namespace Ligric.Service.AuthService.Infrastructure.Jwt
 		}
 
 		// optional: clean up expired refresh tokens
-		public void RemoveExpiredRefreshTokens(DateTime now)
+		public void RemoveExpiredRefreshTokens(DateTime utcNow)
 		{
-			var expiredTokens = _usersRefreshTokens.Where(x => x.Value.ExpireAt < now).ToList();
+			var expiredTokens = _usersRefreshTokens.Where(x => x.Value.ExpireAt < utcNow).ToList();
 			foreach (var expiredToken in expiredTokens)
 			{
 				_usersRefreshTokens.TryRemove(expiredToken.Key, out _);
@@ -51,22 +48,29 @@ namespace Ligric.Service.AuthService.Infrastructure.Jwt
 			}
 		}
 
-		public JwtAuthResult GenerateTokens(string? username, IEnumerable<Claim> claims, DateTime now)
+		public JwtAuthResult GenerateTokens(string? username, IEnumerable<Claim> claims, DateTime utcNow)
 		{
 			var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
+			var accessTokenExpairedAt = utcNow.AddMinutes(_jwtTokenConfig.AccessTokenExpiration);
 			var jwtToken = new JwtSecurityToken(
 				_jwtTokenConfig.Issuer,
 				shouldAddAudienceClaim ? _jwtTokenConfig.Audience : string.Empty,
 				claims,
-				expires: now.AddMinutes(_jwtTokenConfig.AccessTokenExpiration),
+				expires: accessTokenExpairedAt,
 				signingCredentials: new SigningCredentials(new SymmetricSecurityKey(_secret), SecurityAlgorithms.HmacSha256Signature));
-			var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-
+			var accessTokenString = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 			var refreshToken = new RefreshToken
 			{
 				UserName = username,
 				TokenString = GenerateRefreshTokenString(),
-				ExpireAt = now.AddMinutes(_jwtTokenConfig.RefreshTokenExpiration)
+				ExpireAt = utcNow.AddMinutes(_jwtTokenConfig.RefreshTokenExpiration)
+			};
+
+			var accessToken = new AccessToken
+			{
+				UserName = username,
+				TokenString = accessTokenString,
+				ExpireAt = accessTokenExpairedAt
 			};
 			_usersRefreshTokens.AddOrUpdate(refreshToken.TokenString, refreshToken, (_, _) => refreshToken);
 
@@ -77,7 +81,7 @@ namespace Ligric.Service.AuthService.Infrastructure.Jwt
 			};
 		}
 
-		public JwtAuthResult Refresh(string refreshToken, string accessToken, DateTime now)
+		public JwtAuthResult Refresh(string refreshToken, string accessToken, DateTime utcNow)
 		{
 			var (principal, jwtToken) = DecodeJwtToken(accessToken);
 			if (jwtToken == null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature))
@@ -90,12 +94,12 @@ namespace Ligric.Service.AuthService.Infrastructure.Jwt
 			{
 				throw new SecurityTokenException("Invalid token");
 			}
-			if (existingRefreshToken.UserName != userName || existingRefreshToken.ExpireAt < now)
+			if (existingRefreshToken.UserName != userName || existingRefreshToken.ExpireAt < utcNow)
 			{
 				throw new SecurityTokenException("Invalid token");
 			}
 
-			return GenerateTokens(userName, principal.Claims.ToArray(), now); // need to recover the original claims
+			return GenerateTokens(userName, principal.Claims.ToArray(), utcNow); // need to recover the original claims
 		}
 
 		public (ClaimsPrincipal, JwtSecurityToken) DecodeJwtToken(string token)

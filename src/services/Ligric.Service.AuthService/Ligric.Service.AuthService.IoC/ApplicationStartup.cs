@@ -53,7 +53,7 @@ namespace Ligric.Service.AuthService.IoC
             container.Populate(services);
 
             container.RegisterType<DefaultCryptoProvider>().As<ICryptoProvider>().InstancePerLifetimeScope();
-            container.RegisterType<JwtAuthManager>().As<IJwtAuthManager>().InstancePerLifetimeScope();
+            container.RegisterType<JwtAuthManager>().As<IJwtAuthManager>().SingleInstance();
 
 			container.RegisterType<QbDataInterceptor>().As<IInterceptor>().SingleInstance();
             container.RegisterType<ConnectionSettingsProvider>().As<IConnectionSettingsProvider>().SingleInstance();

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Ligric.Business.Authorization;
 using Ligric.UI.ViewModels.Data;
+using Splat.ModeDetection;
 using Uno.Extensions.Reactive;
 
 namespace Ligric.UI.ViewModels.Presentation
@@ -12,7 +13,9 @@ namespace Ligric.UI.ViewModels.Presentation
         public AuthorizationViewModel(IAuthorizationService authorizationService)
         {
 			_authorizationService = authorizationService;
+			_authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
+
 
 		public IState<AuthorizationCredentials> Credentials => State.Value(this, () => new AuthorizationCredentials());
 
@@ -64,6 +67,15 @@ namespace Ligric.UI.ViewModels.Presentation
 			else
 			{
 				await _authorizationService.SignUpAsync(credentials.UserName, credentials.Password, ct);
+			}
+		}
+
+		private async void OnAuthorizationStateChanged(object? sender, Core.Types.User.UserAuthorizationState e)
+		{
+			if (e == Core.Types.User.UserAuthorizationState.Connected)
+			{
+				CancellationToken cancellationToken = new CancellationToken();
+				await Credentials.Update(creds => new AuthorizationCredentials(), cancellationToken);
 			}
 		}
 	}

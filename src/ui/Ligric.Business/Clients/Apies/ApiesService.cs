@@ -8,27 +8,28 @@ using Utils;
 using Ligric.Core.Ligric.Core.Types.Api;
 using static Ligric.Protobuf.UserApis;
 using Ligric.Protobuf;
+using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Apies
 {
-	public class ApiesService : IApiesService
+	public class ApiesService : IApiesService, ISession
 	{
 		private bool disposed = false;
 		private UserApisClient _client;
 		private CancellationTokenSource? _apiPiplineSubscriveCancellationToken;
 
 		private readonly HashSet<ApiClientDto> _availableApies = new HashSet<ApiClientDto>();
-		private readonly IAuthorizationService _authorizationService;
+		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 
 		internal ApiesService(
 			GrpcChannel grpcChannel,
 			IMetadataManager metadataRepos,
-			IAuthorizationService authorizationService)
+			ICurrentUser currentUser)
 		{
 			_metadataManager = metadataRepos;
 			_client = new UserApisClient(grpcChannel);
-			_authorizationService = authorizationService;
+			_currentUser = currentUser;
 		}
 
 		public IReadOnlyCollection<ApiClientDto> AvailableApies => _availableApies;
@@ -37,7 +38,7 @@ namespace Ligric.Business.Clients.Apies
 
 		public async Task<long> SaveApiAsync(string name, string privateKey, string publicKey, CancellationToken ct)
 		{
-			var userId = _authorizationService.CurrentUser.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
+			var userId = _currentUser.CurrentUser?.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
 			var response = await _client.SaveAsync(new SaveApiRequest
 			{
 				Name = name,
@@ -55,7 +56,7 @@ namespace Ligric.Business.Clients.Apies
 
 		public async Task ShareApiAsync(ApiClientDto api, CancellationToken ct)
 		{
-			var userId = _authorizationService.CurrentUser.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
+			var userId = _currentUser.CurrentUser?.Id ?? throw new ArgumentNullException($"SaveApiAsync : UserId is null");
 			var response = await _client.ShareAsync(new ShareApiRequest
 			{
 				OwnerId = userId,
@@ -89,7 +90,18 @@ namespace Ligric.Business.Clients.Apies
 		public void ApiPiplineUnsubscribe()
 		{
 			_apiPiplineSubscriveCancellationToken?.Cancel();
-			_apiPiplineSubscriveCancellationToken?.Dispose();
+		}
+
+		#region Session
+		public void InitializeSession()
+		{
+
+		}
+
+		public void ClearSession()
+		{
+			ApiPiplineUnsubscribe();
+			_availableApies.ResetAndRiseEvent(this, ApiesChanged);
 		}
 
 		public void Dispose()
@@ -97,10 +109,11 @@ namespace Ligric.Business.Clients.Apies
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
 		}
+		#endregion
 
 		private Task StreamApiSubscribeCall(CancellationToken token)
 		{
-			var currentUserId = _authorizationService.CurrentUser.Id;
+			var currentUserId = _currentUser.CurrentUser?.Id;
 			var call = _client.ApisSubscribe(
 				request: new ApiSubscribeRequest { UserId = currentUserId ?? -1 },
 				headers: _metadataManager.CurrentMetadata,
@@ -141,10 +154,10 @@ namespace Ligric.Business.Clients.Apies
 			if (disposing)
 			{
 				ApiPiplineUnsubscribe();
+				_apiPiplineSubscriveCancellationToken?.Dispose();
 			}
 
 			disposed = true;
 		}
-
 	}
 }

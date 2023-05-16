@@ -97,6 +97,9 @@ namespace Ligric.UI.ViewModels.Presentation
 						}
 					}
 					break;
+				case NotifyDictionaryChangedAction.Cleared:
+					Positions.Clear();
+					break;
 			}
 		}
 
