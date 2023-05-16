@@ -67,7 +67,11 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			foreach (var item in attachedOrdersCalcellationTokens) item.Value?.Cancel();
+			foreach (var item in attachedOrdersCalcellationTokens)
+			{
+				item.Value?.Cancel();
+				item.Value?.Dispose();
+			}
 			attachedOrdersCalcellationTokens.Clear();
 			_openOrders.ClearAndRiseEvent(this, OpenOrdersChanged, ref syncOrderChanged);
 			syncOrderChanged = 0;
