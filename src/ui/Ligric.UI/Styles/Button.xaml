@@ -3,7 +3,19 @@
     <Style x:Key="EmptyButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-    </Style>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<ContentPresenter Content="{TemplateBinding Content}"
+									  ContentTemplate="{TemplateBinding ContentTemplate}"
+									  CornerRadius="{TemplateBinding CornerRadius}"
+									  Padding="{TemplateBinding Padding}"
+									  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+									  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
     
     <Style x:Key="TransparentPathIconButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
@@ -21,7 +33,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -64,7 +76,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Path x:Name="PathIcon" Margin="4" RenderTransformOrigin="0.5,0.5"
+                        <Path x:Name="PathIcon" RenderTransformOrigin="0.5,0.5"
                               Stretch="Uniform" Stroke="Transparent" StrokeThickness="1"
                               Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Height="25"
                               Data="{TemplateBinding Content}" Fill="{TemplateBinding Foreground}">
