@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Ligric.Core.Types.Future;
 using Utils;
-using Ligric.Business.Authorization;
 using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
@@ -9,7 +8,6 @@ using Ligric.Business.Futures;
 using Ligric.Core.Types;
 using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
-using Google.Protobuf.WellKnownTypes;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -17,7 +15,7 @@ namespace Ligric.Business.Clients.Futures
 	{
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesOrderDto>> _openOrders = new Dictionary<long, ExchangedEntity<FuturesOrderDto>>();
-		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
+		private readonly Dictionary<long, CancellationTokenSource> attachedOrdersCalcellationToken = new Dictionary<long, CancellationTokenSource>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
@@ -38,21 +36,27 @@ namespace Ligric.Business.Clients.Futures
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (_futuresSubscribeCalcellationToken != null
-				&& !_futuresSubscribeCalcellationToken.IsCancellationRequested)
+			if (attachedOrdersCalcellationToken.TryGetValue(userApiId, out CancellationTokenSource cts)
+				&& cts != null && !cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
-			_futuresSubscribeCalcellationToken = new CancellationTokenSource();
-			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);
+			var newOrdersCancelationTokenSource = new CancellationTokenSource();
+			attachedOrdersCalcellationToken.Add(userApiId, newOrdersCancelationTokenSource);
+			return StreamApiSubscribeCall(userId, userApiId, newOrdersCancelationTokenSource.Token);
 		}
 
-		public void DetachStream()
+		public void DetachStream(long userApiId)
 		{
-			_futuresSubscribeCalcellationToken?.Cancel();
+			if(attachedOrdersCalcellationToken.TryGetValue(userApiId, out CancellationTokenSource cts))
+			{
+				cts?.Cancel();
+				cts?.Dispose();
+				attachedOrdersCalcellationToken.Remove(userApiId);
+			}
 		}
 
 		#region Session
@@ -63,15 +67,19 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			DetachStream();
+			foreach (var item in attachedOrdersCalcellationToken) item.Value?.Cancel();
+			attachedOrdersCalcellationToken.Clear();
 			_openOrders.ClearAndRiseEvent(this, OpenOrdersChanged, ref syncOrderChanged);
 			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
 		{
-			DetachStream();
-			_futuresSubscribeCalcellationToken?.Dispose();
+			foreach (var item in attachedOrdersCalcellationToken)
+			{
+				item.Value?.Cancel();
+				item.Value?.Dispose();
+			}
 		}
 		#endregion
 
