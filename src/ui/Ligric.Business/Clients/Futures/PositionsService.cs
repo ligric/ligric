@@ -111,8 +111,6 @@ namespace Ligric.Business.Clients.Futures
 						var exchangedPositionDto = new ExchangedEntity<FuturesPositionDto>(
 							Guid.Parse(positionsChanged.ExchangeId),
 							positionsChanged.Position.ToFuturesPositionDto());
-
-
 						_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncPositionsChanged);
 						break;
 					case Protobuf.Action.Removed:

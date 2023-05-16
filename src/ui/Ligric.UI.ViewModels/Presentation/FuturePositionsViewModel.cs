@@ -65,6 +65,17 @@ namespace Ligric.UI.ViewModels.Presentation
 			{
 				case NotifyDictionaryChangedAction.Added:
 					var addedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
+					if (addedPosition.Leverage == null)
+					{
+						var leverage = _leverages.Leverages.FirstOrDefault(
+							x => x.ExchengedId == obj.NewValue.ExchengedId
+								 && x.Entity.Symbol == addedPosition.Symbol);
+
+						if (leverage != null)
+						{
+							addedPosition = addedPosition with { Leverage = leverage.Entity.Leverage };
+						}
+					}
 					Positions.Add(addedPosition.ToPositionViewModel(obj.NewValue.ExchengedId));
 					break;
 				case NotifyDictionaryChangedAction.Removed:
