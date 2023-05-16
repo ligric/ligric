@@ -13,7 +13,7 @@ namespace Ligric.Business.Clients.Futures
 {
 	public class PositionsService : IPositionsService, ISession
 	{
-		private int syncOrderChanged = 0;
+		private int syncPositionsChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesPositionDto>> _positions = new Dictionary<long, ExchangedEntity<FuturesPositionDto>>();
 		private readonly Dictionary<long, CancellationTokenSource> attachedPositionsCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
 		private readonly ICurrentUser _currentUser;
@@ -69,8 +69,8 @@ namespace Ligric.Business.Clients.Futures
 		{
 			foreach (var item in attachedPositionsCalcellationTokens) item.Value?.Cancel();
 			attachedPositionsCalcellationTokens.Clear();
-			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncOrderChanged);
-			syncOrderChanged = 0;
+			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
+			syncPositionsChanged = 0;
 		}
 
 		public void Dispose()
@@ -105,10 +105,10 @@ namespace Ligric.Business.Clients.Futures
 						Guid.Parse(positionsChanged.ExchangeId),
 						positionsChanged.Position.ToFuturesPositionDto());
 
-					_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncOrderChanged);
+					_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncPositionsChanged);
 					break;
 				case Protobuf.Action.Removed:
-					_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncOrderChanged);
+					_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncPositionsChanged);
 					break;
 				case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
 			}
