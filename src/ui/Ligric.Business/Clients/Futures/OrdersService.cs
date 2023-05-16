@@ -44,9 +44,9 @@ namespace Ligric.Business.Clients.Futures
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
-			var newOrdersCancelationTokenSource = new CancellationTokenSource();
-			attachedOrdersCalcellationTokens.Add(userApiId, newOrdersCancelationTokenSource);
-			return StreamApiSubscribeCall(userId, userApiId, newOrdersCancelationTokenSource.Token);
+			var newOrderCancelationTokenSource = new CancellationTokenSource();
+			attachedOrdersCalcellationTokens.Add(userApiId, newOrderCancelationTokenSource);
+			return StreamApiSubscribeCall(userId, userApiId, newOrderCancelationTokenSource.Token);
 		}
 
 		public void DetachStream(long userApiId)
