@@ -6,6 +6,7 @@ using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
+using System.Collections;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -101,17 +102,20 @@ namespace Ligric.Business.Clients.Futures
 
 		private void OnFuturesChanged(ValuesChanged valuesChanged)
 		{
-			var symbol = valuesChanged.Value.Symbol;
-			var value = decimal.Parse(valuesChanged.Value.Value);
-			switch (valuesChanged.Action)
+			lock (((ICollection)_values).SyncRoot)
 			{
-				case Protobuf.Action.Added:
-					_values.SetAndRiseEvent(this, ValuesChanged, symbol, value, ref syncValuesChanged);
-					break;
-				case Protobuf.Action.Removed:
-					_values.RemoveAndRiseEvent(this, ValuesChanged, symbol, ref syncValuesChanged);
-					break;
-				case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+				var symbol = valuesChanged.Value.Symbol;
+				var value = decimal.Parse(valuesChanged.Value.Value);
+				switch (valuesChanged.Action)
+				{
+					case Protobuf.Action.Added:
+						_values.SetAndRiseEvent(this, ValuesChanged, symbol, value, ref syncValuesChanged);
+						break;
+					case Protobuf.Action.Removed:
+						_values.RemoveAndRiseEvent(this, ValuesChanged, symbol, ref syncValuesChanged);
+						break;
+					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+				}
 			}
 		}
 	}

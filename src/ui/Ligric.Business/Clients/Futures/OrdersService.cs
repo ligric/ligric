@@ -8,6 +8,7 @@ using Ligric.Business.Futures;
 using Ligric.Core.Types;
 using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
+using System.Collections;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -102,21 +103,23 @@ namespace Ligric.Business.Clients.Futures
 
 		private void OnFuturesChanged(OrdersChanged api)
 		{
-			switch (api.Action)
+			lock (((ICollection)_openOrders).SyncRoot)
 			{
-				case Protobuf.Action.Added:
-					var exchangedOrderDto = new ExchangedEntity<FuturesOrderDto>(
-						Guid.Parse(api.ExchangeId),
-						api.Order.ToFuturesOrderDto());
+				switch (api.Action)
+				{
+					case Protobuf.Action.Added:
+						var exchangedOrderDto = new ExchangedEntity<FuturesOrderDto>(
+							Guid.Parse(api.ExchangeId),
+							api.Order.ToFuturesOrderDto());
 
-					_openOrders.SetAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, exchangedOrderDto, ref syncOrderChanged);
-					break;
-				case Protobuf.Action.Removed:
-					_openOrders.RemoveAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, ref syncOrderChanged);
-					break;
-				case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+						_openOrders.SetAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, exchangedOrderDto, ref syncOrderChanged);
+						break;
+					case Protobuf.Action.Removed:
+						_openOrders.RemoveAndRiseEvent(this, OpenOrdersChanged, api.Order.Id, ref syncOrderChanged);
+						break;
+					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+				}
 			}
 		}
-
 	}
 }

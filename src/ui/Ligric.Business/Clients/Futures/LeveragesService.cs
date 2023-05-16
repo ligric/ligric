@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Google.Protobuf.WellKnownTypes;
 using Ligric.Business.Extensions;
@@ -99,16 +100,18 @@ namespace Ligric.Business.Clients.Futures
 
 		private void OnLeveragesChanged(LeverageChanged changes)
 		{
-			switch (changes.Action)
+			lock (((ICollection)_leverages).SyncRoot)
 			{
-				case Protobuf.Action.Added:
-					var leverageDto = changes.Leverage.ToFuturesLeverageDto();
-					_leverages.AddAndRiseEvent(this, LeveragesChanged, new ExchangedEntity<LeverageDto>(Guid.Parse(changes.ExchangeId), leverageDto));
-					break;
-				case Protobuf.Action.Changed:
-					goto case Protobuf.Action.Added;
+				switch (changes.Action)
+				{
+					case Protobuf.Action.Added:
+						var leverageDto = changes.Leverage.ToFuturesLeverageDto();
+						_leverages.AddAndRiseEvent(this, LeveragesChanged, new ExchangedEntity<LeverageDto>(Guid.Parse(changes.ExchangeId), leverageDto));
+						break;
+					case Protobuf.Action.Changed:
+						goto case Protobuf.Action.Added;
+				}
 			}
 		}
-
 	}
 }

@@ -8,6 +8,7 @@ using Ligric.Protobuf;
 using static Ligric.Protobuf.Futures;
 using Ligric.Core.Types;
 using Ligric.Business.Interfaces;
+using System.Collections;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -102,19 +103,23 @@ namespace Ligric.Business.Clients.Futures
 
 		private void OnFuturesChanged(PositionsChanged positionsChanged)
 		{
-			switch (positionsChanged.Action)
+			lock (((ICollection)_positions).SyncRoot)
 			{
-				case Protobuf.Action.Added:
-					var exchangedPositionDto = new ExchangedEntity<FuturesPositionDto>(
-						Guid.Parse(positionsChanged.ExchangeId),
-						positionsChanged.Position.ToFuturesPositionDto());
+				switch (positionsChanged.Action)
+				{
+					case Protobuf.Action.Added:
+						var exchangedPositionDto = new ExchangedEntity<FuturesPositionDto>(
+							Guid.Parse(positionsChanged.ExchangeId),
+							positionsChanged.Position.ToFuturesPositionDto());
 
-					_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncPositionsChanged);
-					break;
-				case Protobuf.Action.Removed:
-					_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncPositionsChanged);
-					break;
-				case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+
+						_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncPositionsChanged);
+						break;
+					case Protobuf.Action.Removed:
+						_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncPositionsChanged);
+						break;
+					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+				}
 			}
 		}
 	}
