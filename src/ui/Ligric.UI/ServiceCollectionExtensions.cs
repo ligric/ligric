@@ -56,6 +56,8 @@ public static class ServiceCollectionExtensions
 
 			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
+		Session.SetSession(authorization, services);
+
 		if (useMocks)
 		{
 			// Comment out the USE_MOCKS definition (top of this file) to prevent using mocks in development
