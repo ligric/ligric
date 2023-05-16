@@ -9,6 +9,7 @@ using Ligric.Business.Futures;
 using Ligric.Core.Types;
 using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Ligric.Business.Clients.Futures
 {
@@ -63,7 +64,7 @@ namespace Ligric.Business.Clients.Futures
 		public void ClearSession()
 		{
 			DetachStream();
-			_openOrders.Clear();
+			_openOrders.ClearAndRiseEvent(this, OpenOrdersChanged, ref syncOrderChanged);
 			syncOrderChanged = 0;
 		}
 

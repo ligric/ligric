@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Grpc.Core;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
@@ -57,7 +58,7 @@ namespace Ligric.Business.Clients.Futures
 		public void ClearSession()
 		{
 			DetachStream();
-			_leverages.Clear();
+			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
 		}
 
 		public void Dispose()

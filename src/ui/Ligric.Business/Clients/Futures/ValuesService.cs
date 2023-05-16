@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Utils;
-using Ligric.Business.Authorization;
 using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
@@ -61,8 +60,9 @@ namespace Ligric.Business.Clients.Futures
 		public void ClearSession()
 		{
 			DetachStream();
+			_values.ClearAndRiseEvent(this, ValuesChanged, ref syncValuesChanged);
 			syncValuesChanged = 0;
-			_values.Clear();
+
 		}
 
 		public void Dispose()

@@ -63,7 +63,7 @@ namespace Ligric.Business.Clients.Futures
 		public void ClearSession()
 		{
 			DetachStream();
-			_positions.Clear();
+			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncOrderChanged);
 			syncOrderChanged = 0;
 		}
 

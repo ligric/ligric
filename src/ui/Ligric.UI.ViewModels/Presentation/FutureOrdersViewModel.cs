@@ -71,6 +71,9 @@ namespace Ligric.UI.ViewModels.Presentation
 						}
 					}
 					break;
+				case NotifyDictionaryChangedAction.Cleared:
+					Orders.Clear();
+					break;
 			}
 		}
 

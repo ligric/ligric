@@ -35,5 +35,12 @@ namespace Ligric.Business.Extensions
 			collection.Add(newElement);
 			handler?.Invoke(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldElement, newElement));
 		}
+
+		public static void ResetAndRiseEvent<T>(this ICollection<T> collection, object sender, NotifyCollectionChangedEventHandler? handler)
+			where T : notnull
+		{
+			collection.Clear();
+			handler?.Invoke(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+		}
 	}
 }
