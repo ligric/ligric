@@ -13,7 +13,8 @@ namespace Ligric.Business.Clients.Futures
 	{
 		private int syncValuesChanged = 0;
 		private readonly Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
-		private CancellationTokenSource? _valuesSubscribeCalcellationToken;
+		private readonly Dictionary<long, CancellationTokenSource> attachedTradesCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
+
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
@@ -34,21 +35,27 @@ namespace Ligric.Business.Clients.Futures
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (_valuesSubscribeCalcellationToken != null
-				&& !_valuesSubscribeCalcellationToken.IsCancellationRequested)
+			if (attachedTradesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
+			&& cts != null && !cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
-			_valuesSubscribeCalcellationToken = new CancellationTokenSource();
-			return StreamValuesSubscribeCall(userId, userApiId, _valuesSubscribeCalcellationToken.Token);
+			var newTradesCancelationTokenSource = new CancellationTokenSource();
+			attachedTradesCalcellationTokens.Add(userApiId, newTradesCancelationTokenSource);
+			return StreamValuesSubscribeCall(userId, userApiId, newTradesCancelationTokenSource.Token);
 		}
 
-		public void DetachStream()
+		public void DetachStream(long userApiId)
 		{
-			_valuesSubscribeCalcellationToken?.Cancel();
+			if (attachedTradesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
+			{
+				cts?.Cancel();
+				cts?.Dispose();
+				attachedTradesCalcellationTokens.Remove(userApiId);
+			}
 		}
 
 		#region Session
@@ -59,16 +66,19 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			DetachStream();
+			foreach (var item in attachedTradesCalcellationTokens) item.Value?.Cancel();
+			attachedTradesCalcellationTokens.Clear();
 			_values.ClearAndRiseEvent(this, ValuesChanged, ref syncValuesChanged);
 			syncValuesChanged = 0;
-
 		}
 
 		public void Dispose()
 		{
-			DetachStream();
-			_valuesSubscribeCalcellationToken?.Dispose();
+			foreach (var item in attachedTradesCalcellationTokens)
+			{
+				item.Value?.Cancel();
+				item.Value?.Dispose();
+			}
 		}
 		#endregion
 
