@@ -90,7 +90,6 @@ namespace Ligric.Business.Clients.Apies
 		public void ApiPiplineUnsubscribe()
 		{
 			_apiPiplineSubscriveCancellationToken?.Cancel();
-			_apiPiplineSubscriveCancellationToken?.Dispose();
 		}
 
 		public void Dispose()
