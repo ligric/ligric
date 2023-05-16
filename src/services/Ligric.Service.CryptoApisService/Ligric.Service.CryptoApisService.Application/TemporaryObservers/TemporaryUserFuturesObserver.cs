@@ -82,55 +82,72 @@ namespace Ligric.Service.CryptoApisService.Application
 
 		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
+			TemporaryApiSubscriptions? subscribedApi = null;
 			lock (subLock)
 			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				SubscribeUser(userId, api, out subscribtionId);
+				SubscribeUser(userId, api, out subscribtionId, out subscribedApi);
 			}
+
+			var oldOrders = subscribedApi.FuturesClient.Orders.Orders.Select(
+				x => (subscribedApi.ExchangeId, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(x.Key, x.Value, 0, 0))).ToObservable();
 
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>((x)
 				=> OrdersChanged += x, (x) => OrdersChanged -= x);
-			return updatedApiStateNotifications;
+
+			return oldOrders.Concat(updatedApiStateNotifications);
 		}
 
 		public IObservable<NotifyDictionaryChangedEventArgs<string, decimal>> GetValuesAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
+			TemporaryApiSubscriptions? subscribedApi = null;
 			lock (subLock)
 			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				SubscribeUser(userId, api, out subscribtionId);
+				SubscribeUser(userId, api, out subscribtionId, out subscribedApi);
 			}
+
+			var oldTrades = subscribedApi.FuturesClient.Trades.Values.Select(
+				x => (NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(x.Key, x.Value, 0, 0))).ToObservable();
 
 			var updatedApiStateNotifications = Observable.FromEvent<NotifyDictionaryChangedEventArgs<string, decimal>>((x)
 				=> ValuesChanged += x, (x) => ValuesChanged -= x);
-			return updatedApiStateNotifications;
+
+			return oldTrades.Concat(updatedApiStateNotifications);
 		}
 
 		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
+			TemporaryApiSubscriptions? subscribedApi = null;
 			lock (subLock)
 			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				SubscribeUser(userId, api, out subscribtionId);
+				SubscribeUser(userId, api, out subscribtionId, out subscribedApi);
 			}
-
+			
+			var oldPositions = subscribedApi.FuturesClient.Positions.Positions.Select(
+				x => (subscribedApi.ExchangeId, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(x.Key, x.Value, 0, 0))).ToObservable();
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)>((x)
 				=> PositionsChanged += x, (x) => PositionsChanged -= x);
 
-			return updatedApiStateNotifications;
+			return oldPositions.Concat(updatedApiStateNotifications);
 		}
 
 		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)> GetLeveragesAsObservable(long userId, long userApiId, out Guid subscribtionId)
 		{
+			TemporaryApiSubscriptions? subscribedApi = null;
 			lock (subLock)
 			{
 				var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-				SubscribeUser(userId, api, out subscribtionId);
+				SubscribeUser(userId, api, out subscribtionId, out subscribedApi);
 			}
+
+			var oldLeverages = subscribedApi.FuturesClient.Leverages.Leverages.Select(
+				x => (subscribedApi.ExchangeId, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(x.Key, x.Value, 0, 0))).ToObservable();
 
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<string, byte> EventArgs)>((x)
 				=> LaveragesChanged += x, (x) => LaveragesChanged -= x);
-			return updatedApiStateNotifications;
+			return oldLeverages.Concat(updatedApiStateNotifications);
 		}
 
 		public void UnsubscribeUser(Guid subscribtionId)
@@ -156,9 +173,9 @@ namespace Ligric.Service.CryptoApisService.Application
 			}
 		}
 
-		private void SubscribeUser(long userId, ApiDto api, out Guid subscribtionId)
+		private void SubscribeUser(long userId, ApiDto api, out Guid subscribtionId, out TemporaryApiSubscriptions subscribedApi)
 		{
-			TemporaryApiSubscriptions? subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
+			subscribedApi = subscribedApis.FirstOrDefault(x => x.Api == api);
 
 			if (subscribedApi != null)
 			{
