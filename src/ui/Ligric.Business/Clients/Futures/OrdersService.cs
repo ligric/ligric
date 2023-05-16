@@ -15,7 +15,7 @@ namespace Ligric.Business.Clients.Futures
 	{
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesOrderDto>> _openOrders = new Dictionary<long, ExchangedEntity<FuturesOrderDto>>();
-		private readonly Dictionary<long, CancellationTokenSource> attachedOrdersCalcellationToken = new Dictionary<long, CancellationTokenSource>();
+		private readonly Dictionary<long, CancellationTokenSource> attachedOrdersCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
@@ -36,7 +36,7 @@ namespace Ligric.Business.Clients.Futures
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (attachedOrdersCalcellationToken.TryGetValue(userApiId, out CancellationTokenSource cts)
+			if (attachedOrdersCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
 				&& cts != null && !cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
@@ -45,17 +45,17 @@ namespace Ligric.Business.Clients.Futures
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
 			var newOrdersCancelationTokenSource = new CancellationTokenSource();
-			attachedOrdersCalcellationToken.Add(userApiId, newOrdersCancelationTokenSource);
+			attachedOrdersCalcellationTokens.Add(userApiId, newOrdersCancelationTokenSource);
 			return StreamApiSubscribeCall(userId, userApiId, newOrdersCancelationTokenSource.Token);
 		}
 
 		public void DetachStream(long userApiId)
 		{
-			if(attachedOrdersCalcellationToken.TryGetValue(userApiId, out CancellationTokenSource cts))
+			if(attachedOrdersCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
 			{
 				cts?.Cancel();
 				cts?.Dispose();
-				attachedOrdersCalcellationToken.Remove(userApiId);
+				attachedOrdersCalcellationTokens.Remove(userApiId);
 			}
 		}
 
@@ -67,15 +67,15 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			foreach (var item in attachedOrdersCalcellationToken) item.Value?.Cancel();
-			attachedOrdersCalcellationToken.Clear();
+			foreach (var item in attachedOrdersCalcellationTokens) item.Value?.Cancel();
+			attachedOrdersCalcellationTokens.Clear();
 			_openOrders.ClearAndRiseEvent(this, OpenOrdersChanged, ref syncOrderChanged);
 			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
 		{
-			foreach (var item in attachedOrdersCalcellationToken)
+			foreach (var item in attachedOrdersCalcellationTokens)
 			{
 				item.Value?.Cancel();
 				item.Value?.Dispose();
