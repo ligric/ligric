@@ -39,6 +39,8 @@ namespace Ligric.Business.Extensions
 		public static void ResetAndRiseEvent<T>(this ICollection<T> collection, object sender, NotifyCollectionChangedEventHandler? handler)
 			where T : notnull
 		{
+			if (collection.Count == 0) return;
+
 			collection.Clear();
 			handler?.Invoke(sender, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}

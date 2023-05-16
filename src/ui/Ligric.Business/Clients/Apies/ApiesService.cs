@@ -12,7 +12,7 @@ using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Apies
 {
-	public class ApiesService : IApiesService
+	public class ApiesService : IApiesService, ISession
 	{
 		private bool disposed = false;
 		private UserApisClient _client;
@@ -92,11 +92,24 @@ namespace Ligric.Business.Clients.Apies
 			_apiPiplineSubscriveCancellationToken?.Cancel();
 		}
 
+		#region Session
+		public void InitializeSession()
+		{
+
+		}
+
+		public void ClearSession()
+		{
+			ApiPiplineUnsubscribe();
+			_availableApies.ResetAndRiseEvent(this, ApiesChanged);
+		}
+
 		public void Dispose()
 		{
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
 		}
+		#endregion
 
 		private Task StreamApiSubscribeCall(CancellationToken token)
 		{
@@ -141,10 +154,10 @@ namespace Ligric.Business.Clients.Apies
 			if (disposing)
 			{
 				ApiPiplineUnsubscribe();
+				_apiPiplineSubscriveCancellationToken?.Dispose();
 			}
 
 			disposed = true;
 		}
-
 	}
 }

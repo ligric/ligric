@@ -107,6 +107,9 @@ namespace Ligric.UI.ViewModels.Presentation
 				case NotifyCollectionChangedAction.Add:
 					Apis.AddRange(e.NewItems);
 					break;
+				case NotifyCollectionChangedAction.Reset:
+					Apis.Clear();
+					break;
 			}
 		}
 	}
