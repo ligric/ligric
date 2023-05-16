@@ -10,6 +10,6 @@ namespace Ligric.Business.Futures
 
 		event NotifyCollectionChangedEventHandler? LeveragesChanged;
 		Task AttachStreamAsync(long userApiId);
-		void DetachStream();
+		void DetachStream(long userApiId);
 	}
 }

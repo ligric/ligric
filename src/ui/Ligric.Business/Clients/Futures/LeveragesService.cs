@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Grpc.Core;
+using Google.Protobuf.WellKnownTypes;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
@@ -16,7 +16,8 @@ namespace Ligric.Business.Clients.Futures
 	public class LeveragesService : ILeveragesService, ISession
 	{
 		private readonly List<ExchangedEntity<LeverageDto>> _leverages = new List<ExchangedEntity<LeverageDto>>();
-		private CancellationTokenSource? _futuresSubscribeCalcellationToken;
+		private readonly Dictionary<long, CancellationTokenSource> attachedLeveragesCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
+
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
@@ -37,19 +38,26 @@ namespace Ligric.Business.Clients.Futures
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (_futuresSubscribeCalcellationToken != null
-			&& !_futuresSubscribeCalcellationToken.IsCancellationRequested)
+			if (attachedLeveragesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
+			&& cts != null && !cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
+
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
-			_futuresSubscribeCalcellationToken = new CancellationTokenSource();
-			return StreamApiSubscribeCall(userId, userApiId, _futuresSubscribeCalcellationToken.Token);
+			var newLeveragesCancelationTokenSource = new CancellationTokenSource();
+			attachedLeveragesCalcellationTokens.Add(userApiId, newLeveragesCancelationTokenSource);
+			return StreamApiSubscribeCall(userId, userApiId, newLeveragesCancelationTokenSource.Token);
 		}
 
-		public void DetachStream()
+		public void DetachStream(long userApiId)
 		{
-			_futuresSubscribeCalcellationToken?.Cancel();
+			if (attachedLeveragesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
+			{
+				cts?.Cancel();
+				cts?.Dispose();
+				attachedLeveragesCalcellationTokens.Remove(userApiId);
+			}
 		}
 
 		#region Session
@@ -57,14 +65,22 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			DetachStream();
+			foreach (var item in attachedLeveragesCalcellationTokens)
+			{
+				item.Value?.Cancel();
+				item.Value?.Dispose();
+			}
+			attachedLeveragesCalcellationTokens.Clear();
 			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
 		}
 
 		public void Dispose()
 		{
-			DetachStream();
-			_futuresSubscribeCalcellationToken?.Dispose();
+			foreach (var item in attachedLeveragesCalcellationTokens)
+			{
+				item.Value?.Cancel();
+				item.Value?.Dispose();
+			}
 		}
 		#endregion
 
