@@ -1,4 +1,5 @@
 using Ligric.Business.Authorization;
+using Uno.Extensions.Navigation;
 
 namespace Ligric.UI.ViewModels.Presentation;
 
@@ -25,7 +26,7 @@ public class ShellViewModel
 				await _navigator.NavigateViewModelAsync<FuturesViewModel>(this);
 				break;
 			case Core.Types.User.UserAuthorizationState.Disconnected:
-				await _navigator.NavigateViewModelAsync<AuthorizationViewModel>(this);
+				await _navigator.GoBack(this);
 				break;
 		}
 	}
