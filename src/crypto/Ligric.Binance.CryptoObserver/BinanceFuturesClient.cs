@@ -77,7 +77,7 @@ public class BinanceFuturesClient : IFuturesClient
 	public void StopStream()
 	{
 		_streamCancellationToken?.Cancel();
-		_streamCancellationToken?.Dispose();
+		//_streamCancellationToken?.Dispose();
 	}
 
 	private async Task StartFuturesStreamAsync(CancellationToken token)
