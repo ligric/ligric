@@ -121,7 +121,7 @@ namespace Ligric.Business.Clients.Authorization
 		}
 
 		private async void OnJwtTokenUptedTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
-		 {
+		{
 			var refreshResponse = await _client.RefreshTokenAsync(new RefreshTokenRequest
 			{
 				 RefreshToken = refreshToken
@@ -146,6 +146,8 @@ namespace Ligric.Business.Clients.Authorization
 
 		private void CleanUser()
 		{
+			_jwtTokenExpiredTimer?.Stop();
+			_jwtTokenUptedTimer?.Stop();
 			_metadata.CleanMetadata();
 			CurrentUser = null;
 			CurrentConnectionState = UserAuthorizationState.Disconnected;
