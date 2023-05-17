@@ -2,10 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reactive;
+using DynamicData;
 using Ligric.Business.Apies;
 using Ligric.Business.Futures;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.UI.ViewModels.Data;
+using Ligric.UI.ViewModels.Extensions;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -39,11 +41,14 @@ namespace Ligric.UI.ViewModels.Presentation
 
 			lock (((ICollection)Apis).SyncRoot)
 			{
-				Apis.AddRange(_apiService.AvailableApies);
+				foreach (var item in _apiService.AvailableApies)
+				{
+					Apis.Add(item.ToApiClientViewModel());
+				}
 			}
 		}
 
-		public ObservableCollection<ApiClientDto> Apis { get; init; } = new();
+		public ObservableCollection<ApiClientViewModel> Apis { get; init; } = new();
 
 		[Reactive]
 		public ApiDataViewModel AddingApi { get; } = new();
@@ -54,12 +59,12 @@ namespace Ligric.UI.ViewModels.Presentation
 			canExecute: this.AddingApi.WhenAnyValue(
 				x => x.Name, x => x.PublicKey, x => x.PrivateKey, CanSaveApi));
 
-		public ReactiveCommand<ApiClientDto, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(
+		public ReactiveCommand<ApiClientViewModel, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(
 			execute: ExecuteShareApi, outputScheduler: RxApp.TaskpoolScheduler);
 
-		public ReactiveCommand<ApiClientDto, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteAttachApiStream);
+		public ReactiveCommand<ApiClientViewModel, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteAttachApiStream);
 
-		public ReactiveCommand<ApiClientDto, Unit> DetachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteDetachApiStream);
+		public ReactiveCommand<ApiClientViewModel, Unit> DetachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteDetachApiStream);
 
 		#region Save API
 		private bool CanSaveApi(string? name, string? publicKey, string? privateKey)
@@ -74,7 +79,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		}
 		#endregion
 
-		private async Task ExecuteAttachApiStream(ApiClientDto apiClient)
+		private async Task ExecuteAttachApiStream(ApiClientViewModel apiClient)
 		{
 			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
 
@@ -86,7 +91,7 @@ namespace Ligric.UI.ViewModels.Presentation
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 		}
 
-		private async Task ExecuteDetachApiStream(ApiClientDto apiClient)
+		private async Task ExecuteDetachApiStream(ApiClientViewModel apiClient)
 		{
 			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
 
@@ -96,11 +101,11 @@ namespace Ligric.UI.ViewModels.Presentation
 			_leveragesService.DetachStream((long)apiClient.UserApiId);
 		}
 
-		public async Task ExecuteShareApi(ApiClientDto api, CancellationToken ct)
+		public async Task ExecuteShareApi(ApiClientViewModel api, CancellationToken ct)
 		{
 			if (api != null)
 			{
-				await _apiService.ShareApiAsync(api, ct);
+				await _apiService.ShareApiAsync(api.ToApiClientDto(), ct);
 			}
 		}
 
@@ -117,7 +122,11 @@ namespace Ligric.UI.ViewModels.Presentation
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
-					Apis.AddRange(e.NewItems);
+					foreach (var item in e.NewItems!)
+					{
+						var dto = item as ApiClientDto;
+						Apis.Add(dto!.ToApiClientViewModel());
+					}
 					break;
 				case NotifyCollectionChangedAction.Reset:
 					Apis.Clear();
