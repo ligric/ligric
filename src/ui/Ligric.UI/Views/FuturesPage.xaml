@@ -88,7 +88,8 @@
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
 								<ToggleButton Grid.Column="3" Width="30" Height="30" Padding="8" CornerRadius="10"
-											  Template="{StaticResource StartStopTemplate}"/>
+											  Template="{StaticResource StartStopTemplate}"
+											  Checked="OnApiToggleButtonChecked"/>
 							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
