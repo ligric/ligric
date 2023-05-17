@@ -38,11 +38,13 @@
     <None Remove="Styles\CheckBox.xaml" />
     <None Remove="Styles\ProgressRing.xaml" />
     <None Remove="Styles\TextBox.xaml" />
+    <None Remove="Styles\ToggleButton.xaml" />
     <None Remove="Views\FuturesPage.xaml" />
   </ItemGroup>
 	
   <ItemGroup>
     <UpToDateCheckInput Remove="Shell.xaml" />
+    <UpToDateCheckInput Remove="Styles\ToggleButton.xaml" />
     <UpToDateCheckInput Remove="Views\FuturesPage.xaml" />
   </ItemGroup>
 
@@ -100,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Shell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ToggleButton.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Button.xaml" />

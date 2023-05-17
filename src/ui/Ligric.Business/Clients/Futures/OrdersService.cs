@@ -58,6 +58,7 @@ namespace Ligric.Business.Clients.Futures
 				cts?.Dispose();
 				attachedOrdersCalcellationTokens.Remove(userApiId);
 			}
+			_openOrders.ClearAndRiseEvent(this, OpenOrdersChanged, ref syncOrderChanged);
 		}
 
 		#region Session

@@ -1,10 +1,26 @@
-﻿using Ligric.Core.Types.Future;
+﻿using Ligric.Core.Ligric.Core.Types.Api;
+using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 
 namespace Ligric.UI.ViewModels.Extensions
 {
 	public static class TypeExtensions
 	{
+		public static ApiClientViewModel ToApiClientViewModel(this ApiClientDto dto)
+		{
+			return new ApiClientViewModel
+			{
+				UserApiId = dto.UserApiId,
+				Name = dto.Name,
+				Permissions = dto.Permissions
+			};
+		}
+
+		public static ApiClientDto ToApiClientDto(this ApiClientViewModel vm)
+		{
+			return new ApiClientDto(vm.UserApiId, vm.Name!, vm.Permissions ?? throw new ArgumentNullException("[ApiClientViewModel] Permissions is null."));
+		}
+
 		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto, Guid exchangeId)
 		{
 			return new OrderViewModel
