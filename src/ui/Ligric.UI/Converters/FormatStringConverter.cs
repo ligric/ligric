@@ -7,19 +7,19 @@
 			if (parameter == null)
 				return value;
 
-			decimal? valueDecimal = value as decimal?;
-
-			if (valueDecimal == null)
+			if (value is decimal valueDecimal)
 			{
-				byte? valueByte = value as byte?;
-				if (valueByte != null)
-				{
-					return string.Format((string)parameter, valueByte);
-				}
-				return "Nan";
+				return string.Format((string)parameter, valueDecimal);
 			}
-
-			return string.Format((string)parameter, valueDecimal);
+			else if (value is byte valueByte)
+			{
+				return string.Format((string)parameter, valueByte);
+			}
+			else if (value is string valueString && decimal.TryParse(valueString, out valueDecimal))
+			{
+				return string.Format((string)parameter, valueDecimal);
+			}
+			return "Nan";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)
