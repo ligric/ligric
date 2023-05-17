@@ -1,5 +1,4 @@
 ﻿<Page x:Class="Ligric.UI.Views.FuturesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-      xmlns:controls="using:Microsoft.UI.Xaml.Controls"
 	  xmlns:vm="using:Ligric.UI.ViewModels.Data"
 	  xmlns:converters="using:Ligric.UI.Converters"
 	  xmlns:local="using:Ligric.UI.Views"
@@ -49,7 +48,7 @@
 			</Grid>
 
 			<!-- Menu content -->
-			<ItemsRepeaterScrollHost Grid.Row="1">
+			<ItemsRepeaterScrollHost Grid.Row="1" VerticalAnchorRatio="1.0">
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
 					<ItemsRepeater x:Name="ApisItemsRepeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 						<ItemsRepeater.ItemTemplate>
@@ -97,7 +96,7 @@
 							</DataTemplate>
 						</ItemsRepeater.ItemTemplate>
 						<ItemsRepeater.Layout>
-							<controls:StackLayout Orientation="Vertical" Spacing="10"/>
+							<StackLayout Orientation="Vertical" Spacing="10"/>
 						</ItemsRepeater.Layout>
 					</ItemsRepeater>
 				</ScrollViewer>
@@ -162,7 +161,7 @@
 			</Grid>
 
 			<!-- Orders -->
-			<ItemsRepeaterScrollHost Grid.Row="1" >
+			<ItemsRepeaterScrollHost Grid.Row="1" VerticalAnchorRatio="1.0">
 				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 					<ItemsRepeater ItemsSource="{Binding FuturesOrders.Orders}" Margin="10">
 						<ItemsRepeater.ItemTemplate>
@@ -181,7 +180,7 @@
 											   Fill="{x:Bind local:FuturesPage.SideRectangleBrushFromOrderViewModel((vm:OrderViewModel))}" />
 
 									<TextBlock Grid.Column="1" Foreground="White" Text="{x:Bind Symbol}" VerticalAlignment="Center"/>
-								
+
 									<StackPanel Grid.Column="2" VerticalAlignment="Center">
 										<TextBlock Foreground="White" Text="{x:Bind Type}"/>
 										<TextBlock x:Name="SideTextBlock"
@@ -194,13 +193,13 @@
 										<TextBlock Foreground="White" Text="{x:Bind local:FuturesPage.GetFormatedOrderStopPrice((vm:OrderViewModel))}" VerticalAlignment="Center"/>
 									</StackPanel>
 									<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind Price, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
-								
+
 									<TextBlock Grid.Column="5" Foreground="White" Text="{x:Bind CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 								</Grid>
 							</DataTemplate>
 						</ItemsRepeater.ItemTemplate>
 						<ItemsRepeater.Layout>
-							<controls:StackLayout Orientation="Vertical" Spacing="10"/>
+							<StackLayout Orientation="Vertical" Spacing="10"/>
 						</ItemsRepeater.Layout>
 					</ItemsRepeater>
 				</ScrollViewer>
@@ -225,7 +224,7 @@
 			</Grid>
 
 			<!-- Positions -->
-			<ItemsRepeaterScrollHost Grid.Row="3">
+			<ItemsRepeaterScrollHost Grid.Row="3" VerticalAnchorRatio="1.0">
 				<ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
 					<ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 						<ItemsRepeater.ItemTemplate>
@@ -329,7 +328,7 @@
 							</DataTemplate>
 						</ItemsRepeater.ItemTemplate>
 						<ItemsRepeater.Layout>
-							<controls:StackLayout Orientation="Vertical" Spacing="10"/>
+							<StackLayout Orientation="Vertical" Spacing="10"/>
 						</ItemsRepeater.Layout>
 					</ItemsRepeater>
 				</ScrollViewer>
