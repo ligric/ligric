@@ -153,7 +153,7 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Column="1" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="2" Text="Quantity" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Amount" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="3" Text="Price" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="4" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="5" Text="Type" Foreground="White" VerticalAlignment="Center"/>
@@ -179,7 +179,7 @@
 										   Fill="{x:Bind local:FuturesPage.SideRectangleBrushFromOrderViewModel((vm:OrderViewModel))}" />
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{x:Bind Symbol}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="2" Foreground="White" Text="{x:Bind Quantity, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00} USDT'}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="2" Foreground="White" Text="{x:Bind local:FuturesPage.CalculateAmount((vm:OrderViewModel))}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="3" Foreground="White" Text="{x:Bind Price, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 								<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 

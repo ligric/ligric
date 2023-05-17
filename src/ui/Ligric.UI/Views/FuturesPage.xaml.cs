@@ -58,6 +58,13 @@ namespace Ligric.UI.Views
 			};
 		}
 
+		public static string CalculateAmount(OrderViewModel orderVm)
+		{
+			decimal entryPrice = decimal.Parse(orderVm.Price!);
+			decimal quantity = decimal.Parse(orderVm.Quantity!);
+			return Math.Round(quantity * entryPrice, 2).ToString() + " USDT";
+		}
+
 		private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			ViewModel = args.NewValue as FuturesViewModel;
