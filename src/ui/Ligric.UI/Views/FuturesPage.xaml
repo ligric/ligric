@@ -216,9 +216,9 @@
 
 				<TextBlock Grid.Column="1" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
 				<TextBlock Grid.Column="2" Text="Quantity/Size" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="3" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="4" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="5" Text="PnL/ROE" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3" Text="PnL/ROE" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="5" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
 			</Grid>
 
 			<!-- Positions -->
@@ -279,10 +279,7 @@
 									</TextBlock>
 								</StackPanel>
 
-								<TextBlock Grid.Column="3" Foreground="White" Text="{Binding EntryPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
-
-								<StackPanel Grid.Column="5" VerticalAlignment="Center">
+								<StackPanel Grid.Column="3" VerticalAlignment="Center">
 									<TextBlock x:Name="PnLTextBlock" Foreground="White" Text="{Binding PnL, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:+0.00;-0.00;0.00} USDT'}">
 										<i:Interaction.Behaviors>
 											<core:DataTriggerBehavior Binding="{Binding PnL, Converter={StaticResource NullToEmptyStringConverter}}" ComparisonCondition="Equal" Value="">
@@ -322,6 +319,9 @@
 										</i:Interaction.Behaviors>
 									</TextBlock>
 								</StackPanel>
+								
+								<TextBlock Grid.Column="4" Foreground="White" Text="{Binding EntryPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="5" Foreground="White" Text="{Binding CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
