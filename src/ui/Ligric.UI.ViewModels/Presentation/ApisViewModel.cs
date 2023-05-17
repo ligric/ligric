@@ -59,6 +59,8 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		public ReactiveCommand<ApiClientDto, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteAttachApiStream);
 
+		public ReactiveCommand<ApiClientDto, Unit> DetachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientDto>(ExecuteDetachApiStream);
+
 		#region Save API
 		private bool CanSaveApi(string? name, string? publicKey, string? privateKey)
 			=> name?.Length >= 1 && publicKey?.Length > 5 && privateKey?.Length > 5;
@@ -82,6 +84,16 @@ namespace Ligric.UI.ViewModels.Presentation
 			_postionsService.AttachStreamAsync((long)apiClient.UserApiId);
 			_leveragesService.AttachStreamAsync((long)apiClient.UserApiId);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+		}
+
+		private async Task ExecuteDetachApiStream(ApiClientDto apiClient)
+		{
+			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
+
+			_ordersService.DetachStream((long)apiClient.UserApiId);
+			_valuesService.DetachStream((long)apiClient.UserApiId);
+			_postionsService.DetachStream((long)apiClient.UserApiId);
+			_leveragesService.DetachStream((long)apiClient.UserApiId);
 		}
 
 		public async Task ExecuteShareApi(ApiClientDto api, CancellationToken ct)

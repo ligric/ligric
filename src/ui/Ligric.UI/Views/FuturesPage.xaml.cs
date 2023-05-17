@@ -70,6 +70,14 @@ namespace Ligric.UI.Views
 			}
 		}
 
+		private void OnApiToggleButtonUnchecked(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel != null && e.OriginalSource is ToggleButton apiToggleButton && apiToggleButton.DataContext is ApiClientDto api)
+			{
+				ViewModel.Api.DetachApiStreamsCommand.Execute(api);
+			}
+		}
+
 		public static string GetOrderSideFromOrderViewModel(OrderViewModel orderVm)
 		{
 			const string closeShort = "Close Short", closeLong = "Close Long",
