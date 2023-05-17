@@ -59,6 +59,7 @@ namespace Ligric.Business.Clients.Futures
 				cts?.Dispose();
 				attachedLeveragesCalcellationTokens.Remove(userApiId);
 			}
+			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
 		}
 
 		#region Session

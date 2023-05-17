@@ -47,12 +47,13 @@ namespace Ligric.UI.Helpers
 			{
 				DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
 				if (current is FrameworkElement frameworkElement && frameworkElement.Name == name
-					&& (current.GetType()).Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
+					&& (current.GetType().Equals(typeof(T))
+					|| current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
 				{
 					T asType = (T)current;
 					results.Add(asType);
 				}
-				FindChildren<T>(results, current);
+				FindChildren<T>(results, current, name);
 			}
 		}
 

@@ -58,6 +58,7 @@ namespace Ligric.Business.Clients.Futures
 				cts?.Dispose();
 				attachedPositionsCalcellationTokens.Remove(userApiId);
 			}
+			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
 		}
 
 		#region Session
