@@ -153,10 +153,10 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Column="1" Text="Symbol" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="5" Text="Type" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="2" Text="Amount" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="3" Text="Price" Foreground="White" VerticalAlignment="Center"/>
-				<TextBlock Grid.Column="4" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="2" Text="Type" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="3" Text="Amount/Conditions" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="4" Text="Entry Price" Foreground="White" VerticalAlignment="Center"/>
+				<TextBlock Grid.Column="5" Text="Current Price" Foreground="White" VerticalAlignment="Center"/>
 			</Grid>
 
 			<!-- Orders -->
@@ -186,9 +186,13 @@
 											   Text="{x:Bind local:FuturesPage.GetOrderSideFromOrderViewModel((vm:OrderViewModel))}"
 											   Foreground="{x:Bind local:FuturesPage.SideTextBlockForegroundFromOrderViewModel((vm:OrderViewModel))}"/>
 								</StackPanel>
-								
-								<TextBlock Grid.Column="3" Foreground="White" Text="{x:Bind local:FuturesPage.CalculateAmount((vm:OrderViewModel))}" VerticalAlignment="Center"/>
+
+								<StackPanel Grid.Column="3" VerticalAlignment="Center">
+									<TextBlock Foreground="White" Text="{x:Bind local:FuturesPage.CalculateAmount((vm:OrderViewModel))}" VerticalAlignment="Center"/>
+									<TextBlock Foreground="White" Text="{x:Bind local:FuturesPage.GetFormatedOrderStopPrice((vm:OrderViewModel))}" VerticalAlignment="Center"/>
+								</StackPanel>
 								<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind Price, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
+								
 								<TextBlock Grid.Column="5" Foreground="White" Text="{x:Bind CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 							</Grid>
 						</DataTemplate>
