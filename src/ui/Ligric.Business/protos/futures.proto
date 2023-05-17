@@ -49,8 +49,9 @@ message FuturesOrder {
 	Side side = 3;
 	string quantity = 4;
 	string price = 5;
-	string currentPrice = 6;
-	string type = 7;
+	string StopPrice = 6;
+	string currentPrice = 7;
+	string type = 8;
 }
 
 message FuturesValue

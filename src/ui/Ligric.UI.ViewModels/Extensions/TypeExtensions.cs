@@ -33,6 +33,7 @@ namespace Ligric.UI.ViewModels.Extensions
 				Quantity = dto.Quantity.ToString(),
 				CurrentPrice = dto.CurrentPrice.ToString(),
 				Type = dto.Type.ToString(),
+				StopPrice = dto.StopPrice.ToString()
 			};
 		}
 

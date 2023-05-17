@@ -58,6 +58,30 @@ namespace Ligric.UI.Views
 			};
 		}
 
+		public static string CalculateAmount(OrderViewModel orderVm)
+		{
+			decimal entryPrice = decimal.Parse(orderVm.Price!);
+			decimal quantity = decimal.Parse(orderVm.Quantity!);
+
+			if (orderVm.Type == "TakeProfitMarket" || orderVm.Type == "StopMarket")
+			{
+				return Math.Round(quantity * decimal.Parse(orderVm.StopPrice!), 2).ToString() + " USDT";
+			}
+
+			return Math.Round(quantity * entryPrice, 2).ToString() + " USDT";
+		}
+
+		public static string GetFormatedOrderStopPrice(OrderViewModel orderVm)
+		{
+			bool isSell = orderVm.Side is "Sell";
+			return orderVm.Type switch
+			{
+				"TakeProfitMarket" => isSell ? "≤ " + orderVm.StopPrice! : "≥ " + orderVm.StopPrice!,
+				"StopMarket" => isSell ? "≥ " + orderVm.StopPrice! : "≤ " + orderVm.StopPrice!,
+				_ => orderVm.StopPrice!
+			};
+		}
+
 		private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			ViewModel = args.NewValue as FuturesViewModel;
@@ -75,7 +99,6 @@ namespace Ligric.UI.Views
 				await ViewModel.Api.ShareApiCommand.Execute(api);
 			}
 		}
-
 
 		private void OnCheckAllChecked(object sender, RoutedEventArgs e)
 		{
