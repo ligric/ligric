@@ -179,9 +179,9 @@
 										   Fill="{x:Bind local:FuturesPage.SideRectangleBrushFromOrderViewModel((vm:OrderViewModel))}" />
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{x:Bind Symbol}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="2" Foreground="White" Text="{x:Bind Quantity}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="3" Foreground="White" Text="{x:Bind Price}" VerticalAlignment="Center"/>
-								<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind CurrentPrice}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="2" Foreground="White" Text="{x:Bind Quantity, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00} USDT'}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="3" Foreground="White" Text="{x:Bind Price, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
+								<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 
 								<StackPanel Grid.Column="5" VerticalAlignment="Center">
 									<TextBlock Foreground="White" Text="{x:Bind Type}"/>
