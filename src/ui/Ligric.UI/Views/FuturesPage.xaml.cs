@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reactive.Linq;
 using Ligric.UI.Helpers;
 using Ligric.UI.ViewModels.Data;
@@ -20,9 +21,8 @@ namespace Ligric.UI.Views
 		{
 			this.InitializeComponent();
 			DataContextChanged += OnDataContextChanged;
+			((INotifyPropertyChanged)_selectedApis).PropertyChanged += OnSelectedApisPropertyChanged;
 		}
-
-		public ReadOnlyObservableCollection<ApiClientViewModel> SelectedApis => new ReadOnlyObservableCollection<ApiClientViewModel>(_selectedApis);
 
 		public FuturesViewModel? ViewModel { get; private set; }
 
@@ -76,6 +76,7 @@ namespace Ligric.UI.Views
 			}
 		}
 
+
 		private void OnCheckAllChecked(object sender, RoutedEventArgs e)
 		{
 			List<CheckBox> checkBoxes = new List<CheckBox>();
@@ -92,7 +93,7 @@ namespace Ligric.UI.Views
 
 		private void OnApiCheckBoxChecked(object sender, RoutedEventArgs e)
 		{
-			if (e.OriginalSource is ToggleButton apiToggleButton && apiToggleButton.DataContext is ApiClientViewModel api)
+			if (e.OriginalSource is CheckBox apiCHeckBox && apiCHeckBox.DataContext is ApiClientViewModel api)
 			{
 				_selectedApis.Add(api);
 			}
@@ -100,7 +101,7 @@ namespace Ligric.UI.Views
 
 		private void OnApiCheckBoxUnchecked(object sender, RoutedEventArgs e)
 		{
-			if (e.OriginalSource is ToggleButton apiToggleButton && apiToggleButton.DataContext is ApiClientViewModel api)
+			if (e.OriginalSource is CheckBox apiCheckBox && apiCheckBox.DataContext is ApiClientViewModel api)
 			{
 				_selectedApis.Remove(api);
 			}
@@ -122,6 +123,30 @@ namespace Ligric.UI.Views
 			}
 		}
 
+		private void OnApiHeaderStopButtonClicked(object sender, RoutedEventArgs e)
+		{
+			List<ToggleButton> apiToggleButtons = new List<ToggleButton>();
+			VisualTreeHelpers.FindChildren(apiToggleButtons, ApisItemsRepeater, "ApiToggleButton");
+
+			foreach (var selectedApi in _selectedApis)
+			{
+				var apiToggleButton = apiToggleButtons.First(x => x.DataContext == selectedApi);
+				apiToggleButton.IsChecked = false;
+			}
+		}
+
+		private void OnApiHeaderStartButtonClicked(object sender, RoutedEventArgs e)
+		{
+			List<ToggleButton> apiToggleButtons = new List<ToggleButton>();
+			VisualTreeHelpers.FindChildren(apiToggleButtons, ApisItemsRepeater, "ApiToggleButton");
+
+			foreach (var selectedApi in _selectedApis)
+			{
+				var apiToggleButton = apiToggleButtons.First(x => x.DataContext == selectedApi);
+				apiToggleButton.IsChecked = true;
+			}
+		}
+
 		private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
@@ -139,6 +164,24 @@ namespace Ligric.UI.Views
 				case NotifyCollectionChangedAction.Reset:
 					_selectedApis.Clear();
 					break;
+			}
+		}
+
+		private void OnSelectedApisPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Count")
+			{
+				if (_selectedApis.Count == 0)
+				{
+					ApisCheckBox.IsChecked = false;
+					ApisStartButton.IsEnabled = false;
+					ApisStopButton.IsEnabled = false;
+				}
+				else
+				{
+					ApisStartButton.IsEnabled = true;
+					ApisStopButton.IsEnabled = true;
+				}
 			}
 		}
 

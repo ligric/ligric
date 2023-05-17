@@ -34,15 +34,15 @@
 
 			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5"
 				  ColumnDefinitions="Auto, *, 30, 30" Padding="25,0,13,0">
-				<CheckBox Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"
+				<CheckBox x:Name="ApisCheckBox" Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"
 						  Checked="OnCheckAllChecked"/>
 
-				<Button Grid.Column="2" Width="30" Height="30" Padding="8"
-						Style="{StaticResource EmptyButtonStyle}">
+				<Button x:Name="ApisStartButton" Grid.Column="2" Width="30" Height="30" Padding="8"
+						Style="{StaticResource EmptyButtonStyle}" IsEnabled="False" Click="OnApiHeaderStartButtonClicked">
 					<Path Stretch="Uniform" Data="M8,5.14V19.14L19,12.14L8,5.14Z" Fill="#5CFF94"/>
 				</Button>
-				<Button Grid.Column="3" Width="30" Height="30" Padding="8"
-						Style="{StaticResource EmptyButtonStyle}">
+				<Button x:Name="ApisStopButton" Grid.Column="3" Width="30" Height="30" Padding="8"
+						Style="{StaticResource EmptyButtonStyle}" IsEnabled="False" Click="OnApiHeaderStopButtonClicked">
 					<Path Stretch="Uniform" Data="M18,18H6V6H18V18Z" Fill="#FF5C5C"/>
 				</Button>
 			</Grid>
@@ -87,7 +87,7 @@
 								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-								<ToggleButton Grid.Column="3" Width="30" Height="30" Padding="8" CornerRadius="10"
+								<ToggleButton Name="ApiToggleButton" Grid.Column="3" Width="30" Height="30" Padding="8" CornerRadius="10"
 											  Template="{StaticResource StartStopTemplate}"
 											  Checked="OnApiToggleButtonChecked" Unchecked="OnApiToggleButtonUnchecked"/>
 							</Grid>
