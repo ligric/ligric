@@ -20,7 +20,8 @@ namespace Ligric.Business.Extensions
 				futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToSideDto(),
 				decimal.Parse(futureOrder.Quantity), decimal.Parse(futureOrder.Price),
 				!string.IsNullOrEmpty(futureOrder.CurrentPrice) ? decimal.Parse(futureOrder.CurrentPrice) : null,
-				type);
+				type,
+				decimal.Parse(futureOrder.StopPrice));
 		}
 
 		public static LeverageDto ToFuturesLeverageDto(this FuturesLeverage futureLeverage)
