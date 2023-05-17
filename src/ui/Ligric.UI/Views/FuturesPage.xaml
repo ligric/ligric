@@ -32,9 +32,19 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
-			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5">
-				<CheckBox Style="{StaticResource AutoRunCheckBoxStyle}" Margin="25,0,0,0"
+			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5"
+				  ColumnDefinitions="Auto, *, 30, 30" Padding="25,0,13,0">
+				<CheckBox Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"
 						  Checked="OnCheckAllChecked"/>
+
+				<Button Grid.Column="2" Width="30" Height="30" Padding="8"
+						Style="{StaticResource EmptyButtonStyle}">
+					<Path Stretch="Uniform" Data="M8,5.14V19.14L19,12.14L8,5.14Z" Fill="#5CFF94"/>
+				</Button>
+				<Button Grid.Column="3" Width="30" Height="30" Padding="8"
+						Style="{StaticResource EmptyButtonStyle}">
+					<Path Stretch="Uniform" Data="M18,18H6V6H18V18Z" Fill="#FF5C5C"/>
+				</Button>
 			</Grid>
 
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -67,6 +77,8 @@
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="30"/>
 									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="30"/>
+									<ColumnDefinition Width="30"/>
 								</Grid.ColumnDefinitions>
 
 								<CheckBox Name="ApiCheckBox" Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"
@@ -74,6 +86,9 @@
 
 								<TextBlock Grid.Column="1" Foreground="White" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
 							     	       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+								<ToggleButton Grid.Column="3" Width="30" Height="30" Padding="8" CornerRadius="10"
+											  Template="{StaticResource StartStopTemplate}"/>
 							</Grid>
 						</DataTemplate>
 					</controls:ItemsRepeater.ItemTemplate>
