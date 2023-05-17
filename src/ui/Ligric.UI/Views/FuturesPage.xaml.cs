@@ -76,8 +76,8 @@ namespace Ligric.UI.Views
 			bool isSell = orderVm.Side is "Sell";
 			return orderVm.Type switch
 			{
-				"TakeProfitMarket" => isSell ? "≤" + orderVm.StopPrice! : "≥" + orderVm.StopPrice!,
-				"StopMarket" => isSell ? "≥" + orderVm.StopPrice! : "≤" + orderVm.StopPrice!,
+				"TakeProfitMarket" => isSell ? "≤ " + orderVm.StopPrice! : "≥ " + orderVm.StopPrice!,
+				"StopMarket" => isSell ? "≥ " + orderVm.StopPrice! : "≤ " + orderVm.StopPrice!,
 				_ => orderVm.StopPrice!
 			};
 		}
