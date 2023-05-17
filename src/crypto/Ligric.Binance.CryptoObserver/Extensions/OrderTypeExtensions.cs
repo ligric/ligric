@@ -23,7 +23,7 @@ namespace Ligric.CryptoObserver.Extensions
 				streamOrder.OrderId,
 				streamOrder.Symbol,
 				streamOrder.PositionSide.ToSideDto(streamOrder.Quantity),
-				streamOrder.BidNotional,
+				streamOrder.Quantity,
 				streamOrder.Price,
 				null,
 				streamOrder.Type.ToOrderTypeDto());
