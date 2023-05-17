@@ -9,5 +9,7 @@ namespace Ligric.Business.Futures
 		event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>> ValuesChanged;
 
 		Task AttachStreamAsync(long userApiId);
+
+		void DetachStream(long userApiId);
 	}
 }
