@@ -9,13 +9,6 @@
 					<Grid>
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Disabled">
-									<Storyboard>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
-										</ObjectAnimationUsingKeyFrames>
-									</Storyboard>
-								</VisualState>
 								<VisualState x:Name="Normal">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity">
@@ -23,15 +16,36 @@
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundBorder" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="#171925"/>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundBorder" Storyboard.TargetProperty="Opacity">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
+										</ObjectAnimationUsingKeyFrames>
+										<PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
+						
 						<ContentPresenter x:Name="ContentPresenter"
 										  Content="{TemplateBinding Content}"
 										  ContentTemplate="{TemplateBinding ContentTemplate}"
-										  CornerRadius="{TemplateBinding CornerRadius}"
 										  Padding="{TemplateBinding Padding}"
 										  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+						<Border Name="BackgroundBorder" Background="{TemplateBinding Background}"
+								CornerRadius="{TemplateBinding CornerRadius}"/>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

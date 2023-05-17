@@ -83,7 +83,7 @@
 
 				<Button x:Name="SignUpButton" Grid.Row="2" Style="{StaticResource EmptyButtonStyle}"
 						Command="{Binding SetAuthorizationMode}"
-						CommandParameter="SignUp"
+						CommandParameter="SignUp" CornerRadius="10"
 						Content="Create new" Foreground="Black"
 						VerticalAlignment="Top" HorizontalAlignment="Center"/>
 			</Grid>
