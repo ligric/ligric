@@ -32,11 +32,14 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
-			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5">
-				<CheckBox Style="{StaticResource AutoRunCheckBoxStyle}" Margin="25,0,0,0"
+			<!-- Menu header -->
+			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="5"
+				  ColumnDefinitions="Auto, *, 30, 30" Padding="25,0,13,0">
+				<CheckBox x:Name="ApisCheckBox" Grid.Column="0" Style="{StaticResource AutoRunCheckBoxStyle}"
 						  Checked="OnCheckAllChecked"/>
 			</Grid>
 
+			<!-- Menu content -->
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 				<controls:ItemsRepeater x:Name="ApisItemsRepeater" ItemsSource="{Binding Api.Apis}" Margin="10">
 					<controls:ItemsRepeater.ItemTemplate>
@@ -83,6 +86,7 @@
 				</controls:ItemsRepeater>
 			</ScrollViewer>
 
+			<!-- Add new Api-->
 			<Button x:Name="AddNewApiButton" Grid.Row="1" Content="New API" Height="40" Margin="20,10" CornerRadius="10" Background="#1f1f1f" Foreground="White"
                     VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
 				<i:Interaction.Behaviors>
@@ -92,6 +96,7 @@
 				</i:Interaction.Behaviors>
 			</Button>
 
+			<!-- Api adding popup -->
 			<Popup x:Name="AddingApiPopup" Grid.RowSpan="2" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=AddNewApiButton}" DesiredPlacement="RightEdgeAlignedBottom">
 				<StackPanel x:Name="AddingApiStackPanel" Width="200" CornerRadius="20" Background="#1f1f1f" Padding="20" Spacing="5">
 					<TextBox Text="{Binding Api.AddingApi.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Name" Background="#f2f5fa" CornerRadius="10"
@@ -122,7 +127,7 @@
 			<Border Grid.RowSpan="4" CornerRadius="20" Background="White" BorderBrush="#1f1f1f" BorderThickness="4"/>
 
 			<!-- Header Orders -->
-			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="10, 5" Padding="20,5,20,5">
+			<Grid Grid.Row="0" Height="40" Background="Black" CornerRadius="15" Margin="10, 10, 10, 5" Padding="20,5,20,5">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
 					<ColumnDefinition MinWidth="100"/>
