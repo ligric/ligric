@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Grpc.Net.Client;
 using Ligric.Business.Interfaces;
+using Ligric.Business.Interfaces.Futures;
 using Ligric.Business.Metadata;
 using Utils;
 
