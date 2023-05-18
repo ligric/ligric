@@ -27,7 +27,7 @@ namespace Ligric.Business.Clients
 			Orders = new FuturesOrdersService(futuresClient, metadata, _authorization);
 			Values = new FuturesTradesService(futuresClient, metadata, _authorization);
 			Positions = new PositionsService(futuresClient, metadata, _authorization);
-			Leverages = new LeveragesService(futuresClient, metadata, _authorization);
+			Leverages = new FuturesLeveragesService(futuresClient, metadata, _authorization);
 
 			_authorization.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
@@ -40,7 +40,7 @@ namespace Ligric.Business.Clients
 
 		public IPositionsService Positions { get; }
 
-		public ILeveragesService Leverages { get; }
+		public IFuturesLeveragesService Leverages { get; }
 
 		public void Dispose()
 		{

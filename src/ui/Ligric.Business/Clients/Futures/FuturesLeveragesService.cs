@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Google.Protobuf.WellKnownTypes;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;
-using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.Protobuf;
 using Utils;
@@ -14,16 +12,16 @@ using static Ligric.Protobuf.Futures;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class LeveragesService : ILeveragesService, ISession
+	public class FuturesLeveragesService : IFuturesLeveragesService, ISession
 	{
-		private readonly List<ExchangedEntity<LeverageDto>> _leverages = new List<ExchangedEntity<LeverageDto>>();
-		private readonly Dictionary<long, CancellationTokenSource> attachedLeveragesCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
+		private CancellationTokenSource? _cts;
+		private readonly List<LeverageDto> _leverages = new List<LeverageDto>();
 
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		internal LeveragesService(
+		internal FuturesLeveragesService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
@@ -33,32 +31,27 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyCollection<ExchangedEntity<LeverageDto>> Leverages => new ReadOnlyCollection<ExchangedEntity<LeverageDto>>(_leverages);
+		public IReadOnlyCollection<LeverageDto> Leverages => new ReadOnlyCollection<LeverageDto>(_leverages);
 
 		public event NotifyCollectionChangedEventHandler? LeveragesChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (attachedLeveragesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
-			&& cts != null && !cts.IsCancellationRequested)
+			if (_cts != null && !_cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
-			var newLeveragesCancelationTokenSource = new CancellationTokenSource();
-			attachedLeveragesCalcellationTokens.Add(userApiId, newLeveragesCancelationTokenSource);
-			return StreamApiSubscribeCall(userId, userApiId, newLeveragesCancelationTokenSource.Token);
+			var cts = new CancellationTokenSource();
+			_cts = cts;
+			return StreamApiSubscribeCall(userId, userApiId, cts.Token);
 		}
 
-		public void DetachStream(long userApiId)
+		public void DetachStream()
 		{
-			if (attachedLeveragesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
-			{
-				cts?.Cancel();
-				cts?.Dispose();
-				attachedLeveragesCalcellationTokens.Remove(userApiId);
-			}
+			_cts?.Cancel();
+			_cts?.Dispose();
 			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
 		}
 
@@ -67,22 +60,15 @@ namespace Ligric.Business.Clients.Futures
 
 		public void ClearSession()
 		{
-			foreach (var item in attachedLeveragesCalcellationTokens)
-			{
-				item.Value?.Cancel();
-				item.Value?.Dispose();
-			}
-			attachedLeveragesCalcellationTokens.Clear();
+			_cts?.Cancel();
+			_cts?.Dispose();
 			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
 		}
 
 		public void Dispose()
 		{
-			foreach (var item in attachedLeveragesCalcellationTokens)
-			{
-				item.Value?.Cancel();
-				item.Value?.Dispose();
-			}
+			_cts?.Cancel();
+			_cts?.Dispose();
 		}
 		#endregion
 
@@ -107,7 +93,7 @@ namespace Ligric.Business.Clients.Futures
 				{
 					case Protobuf.Action.Added:
 						var leverageDto = changes.Leverage.ToFuturesLeverageDto();
-						_leverages.AddAndRiseEvent(this, LeveragesChanged, new ExchangedEntity<LeverageDto>(Guid.Parse(changes.ExchangeId), leverageDto));
+						_leverages.AddAndRiseEvent(this, LeveragesChanged, leverageDto);
 						break;
 					case Protobuf.Action.Changed:
 						goto case Protobuf.Action.Added;
