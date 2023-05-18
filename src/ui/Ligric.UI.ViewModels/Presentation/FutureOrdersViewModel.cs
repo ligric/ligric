@@ -66,7 +66,8 @@ namespace Ligric.UI.ViewModels.Presentation
 					{
 						if (Orders[i].Id == stringId)
 						{
-							Orders[i] = changedOrder.ToOrderViewModel(obj.NewValue.ExchengedId);
+							var changingItem = Orders[i];
+							changingItem.CurrentPrice = changedOrder.CurrentPrice?.ToString();
 							break;
 						}
 					}
@@ -86,18 +87,8 @@ namespace Ligric.UI.ViewModels.Presentation
 				{
 					if (Orders[i].Symbol == e.Key)
 					{
-						var oldValue = Orders[i];
-						Orders[i] = new OrderViewModel
-						{
-							Id = oldValue.Id,
-							Symbol = oldValue.Symbol,
-							Type = oldValue.Type,
-							Price = oldValue.Price,
-							Quantity = oldValue.Quantity,
-							Side = oldValue.Side,
-							CurrentPrice = e.NewValue.ToString(),
-							StopPrice = oldValue.StopPrice
-						};
+						var changingItem = Orders[i];
+						changingItem.CurrentPrice = e.NewValue.ToString();
 					}
 				}
 			}

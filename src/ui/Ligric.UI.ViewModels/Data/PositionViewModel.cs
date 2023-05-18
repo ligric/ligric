@@ -1,9 +1,24 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Ligric.UI.ViewModels.Data
 {
-	public partial record PositionViewModel(long Id, Guid ExchangeId, string Symbol, string Side, decimal EntryPrice)
+	public class PositionViewModel : ReactiveObject
 	{
+		public PositionViewModel(long id, Guid exchangeId, string symbol, string side, decimal entryPrice)
+		{
+			Id = id;
+			ExchangeId = exchangeId;
+			Symbol = symbol;
+			Side = side;
+			EntryPrice = entryPrice;
+		}
+		public long Id { get; }
+		public Guid ExchangeId { get; }
+		public string Symbol { get; }
+		public string Side { get; }
+
+		[Reactive] public decimal EntryPrice { get; set; }
 		[Reactive] public decimal? CurrentPrice { get; set; }
 		[Reactive] public decimal? Quantity { get; set; }
 		[Reactive] public decimal? QuoteQuantity { get; set; }

@@ -1,8 +1,9 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Ligric.UI.ViewModels.Data
 {
-	public class OrderViewModel
+	public class OrderViewModel : ReactiveObject
 	{
 		[Reactive] public string? Id { get; set; }
 		[Reactive] public Guid? ExchangeId { get; set; }
