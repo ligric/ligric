@@ -11,6 +11,6 @@ namespace Ligric.Business.Interfaces
 
 		IFuturesTradesService Values { get; }
 
-		IPositionsService Positions { get; }
+		IFuturesPositionsService Positions { get; }
 	}
 }

@@ -6,22 +6,22 @@ using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Protobuf;
 using static Ligric.Protobuf.Futures;
-using Ligric.Core.Types;
 using Ligric.Business.Interfaces;
 using System.Collections;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class PositionsService : IPositionsService, ISession
+	public class FuturesPositionsService : IFuturesPositionsService, ISession
 	{
 		private int syncPositionsChanged = 0;
-		private readonly Dictionary<long, ExchangedEntity<FuturesPositionDto>> _positions = new Dictionary<long, ExchangedEntity<FuturesPositionDto>>();
-		private readonly Dictionary<long, CancellationTokenSource> attachedPositionsCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
+		private CancellationTokenSource? _cts;
+
+		private readonly Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		internal PositionsService(
+		internal FuturesPositionsService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
@@ -31,61 +31,46 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<long, ExchangedEntity<FuturesPositionDto>> Positions => new ReadOnlyDictionary<long, ExchangedEntity<FuturesPositionDto>>(_positions);
+		public IReadOnlyDictionary<long, FuturesPositionDto> Positions => new ReadOnlyDictionary<long, FuturesPositionDto>(_positions);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>>>? PositionsChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>? PositionsChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (attachedPositionsCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
-				&& cts != null && !cts.IsCancellationRequested)
+			if (_cts != null && !_cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
-			var newPositionCancelationTokenSource = new CancellationTokenSource();
-			attachedPositionsCalcellationTokens.Add(userApiId, newPositionCancelationTokenSource);
-			return StreamApiSubscribeCall(userId, userApiId, newPositionCancelationTokenSource.Token);
+			var cts = new CancellationTokenSource();
+			_cts = cts;
+			return StreamApiSubscribeCall(userId, userApiId, cts.Token);
 		}
 
-		public void DetachStream(long userApiId)
+		public void DetachStream()
 		{
-			if (attachedPositionsCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
-			{
-				cts?.Cancel();
-				cts?.Dispose();
-				attachedPositionsCalcellationTokens.Remove(userApiId);
-			}
+			_cts?.Cancel();
+			_cts?.Dispose();
 			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
 		}
 
 		#region Session
-		public void InitializeSession()
-		{
-
-		}
+		public void InitializeSession() { }
 
 		public void ClearSession()
 		{
-			foreach (var item in attachedPositionsCalcellationTokens)
-			{
-				item.Value?.Cancel();
-				item.Value?.Dispose();
-			}
-			attachedPositionsCalcellationTokens.Clear();
+			_cts?.Cancel();
+			_cts?.Dispose();
 			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
 			syncPositionsChanged = 0;
 		}
 
 		public void Dispose()
 		{
-			foreach (var item in attachedPositionsCalcellationTokens)
-			{
-				item.Value?.Cancel();
-				item.Value?.Dispose();
-			}
+			_cts?.Cancel();
+			_cts?.Dispose();
 		}
 		#endregion
 
@@ -109,9 +94,7 @@ namespace Ligric.Business.Clients.Futures
 				switch (positionsChanged.Action)
 				{
 					case Protobuf.Action.Added:
-						var exchangedPositionDto = new ExchangedEntity<FuturesPositionDto>(
-							Guid.Parse(positionsChanged.ExchangeId),
-							positionsChanged.Position.ToFuturesPositionDto());
+						var exchangedPositionDto = positionsChanged.Position.ToFuturesPositionDto();
 						_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncPositionsChanged);
 						break;
 					case Protobuf.Action.Removed:

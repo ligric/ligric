@@ -14,7 +14,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			IApiesService apiesService,
 			IFuturesOrdersService orderService,
 			IFuturesTradesService valuesService,
-			IPositionsService postionsService,
+			IFuturesPositionsService postionsService,
 			IFuturesLeveragesService leveragesService,
 			IAuthorizationService authorizationService)
 		{

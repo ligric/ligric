@@ -19,7 +19,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		private readonly IApiesService _apiService;
 		private readonly IFuturesOrdersService _ordersService;
 		private readonly IFuturesTradesService _valuesService;
-		private readonly IPositionsService _postionsService;
+		private readonly IFuturesPositionsService _postionsService;
 		private readonly IFuturesLeveragesService _leveragesService;
 
 		internal ApisViewModel(
@@ -27,7 +27,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			IApiesService apiesService,
 			IFuturesOrdersService ordersService,
 			IFuturesTradesService valuesService,
-			IPositionsService positionsService,
+			IFuturesPositionsService positionsService,
 			IFuturesLeveragesService leveragesService)
 		{
 			_dispatcher = dispatcher;

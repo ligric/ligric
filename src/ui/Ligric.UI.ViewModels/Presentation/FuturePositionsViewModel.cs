@@ -14,7 +14,7 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		private readonly IDispatcher _dispatcher;
 		private readonly IFuturesTradesService _valuesService;
-		private readonly IPositionsService _postionsService;
+		private readonly IFuturesPositionsService _postionsService;
 		private readonly IFuturesLeveragesService _leverages;
 
 		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
@@ -22,7 +22,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		internal FuturePositionsViewModel(
 			IDispatcher dispatcher,
 			IFuturesTradesService valuesService,
-			IPositionsService postionsService,
+			IFuturesPositionsService postionsService,
 			IFuturesLeveragesService leveragesService)
 		{
 			_dispatcher = dispatcher;
