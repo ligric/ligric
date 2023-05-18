@@ -24,7 +24,7 @@ namespace Ligric.Business.Clients
 			Apis = new ApiesService(channel, metadata, _authorization);
 
 		    FuturesClient futuresClient = new FuturesClient(channel); 
-			Orders = new OrdersService(futuresClient, metadata, _authorization);
+			Orders = new FuturesOrdersService(futuresClient, metadata, _authorization);
 			Values = new ValuesService(futuresClient, metadata, _authorization);
 			Positions = new PositionsService(futuresClient, metadata, _authorization);
 			Leverages = new LeveragesService(futuresClient, metadata, _authorization);

@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class OrdersService : IOrdersService, ISession
+	public class FuturesOrdersService : IOrdersService, ISession
 	{
 		private int syncOrderChanged = 0;
 		private readonly Dictionary<long, ExchangedEntity<FuturesOrderDto>> _openOrders = new Dictionary<long, ExchangedEntity<FuturesOrderDto>>();
@@ -21,7 +21,7 @@ namespace Ligric.Business.Clients.Futures
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		internal OrdersService(
+		internal FuturesOrdersService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
