@@ -194,7 +194,7 @@
 									</StackPanel>
 									<TextBlock Grid.Column="4" Foreground="White" Text="{x:Bind Price, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
 
-									<TextBlock Grid.Column="5" Foreground="White" Text="{x:Bind CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}'}" VerticalAlignment="Center"/>
+									<TextBlock Grid.Column="5" Foreground="White" Text="{x:Bind CurrentPrice, Converter={StaticResource FormatStringConverter}, ConverterParameter='{}{0:0.00}', Mode=OneWay}" VerticalAlignment="Center"/>
 								</Grid>
 							</DataTemplate>
 						</ItemsRepeater.ItemTemplate>
