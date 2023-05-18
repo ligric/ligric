@@ -13,11 +13,11 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		private readonly IDispatcher _dispatcher;
 		private readonly IValuesService _valuesService;
-		private readonly IOrdersService _ordersService;
+		private readonly IFuturesOrdersService _ordersService;
 
 		internal FutureOrdersViewModel(
 			IDispatcher dispatcher,
-			IOrdersService ordersService,
+			IFuturesOrdersService ordersService,
 			IValuesService valuesService)
 		{
 			_dispatcher = dispatcher;

@@ -12,7 +12,7 @@ namespace Ligric.UI.ViewModels.Presentation
 		public FuturesViewModel(
 			IDispatcher dispatcher,
 			IApiesService apiesService,
-			IOrdersService orderService,
+			IFuturesOrdersService orderService,
 			IValuesService valuesService,
 			IPositionsService postionsService,
 			ILeveragesService leveragesService,

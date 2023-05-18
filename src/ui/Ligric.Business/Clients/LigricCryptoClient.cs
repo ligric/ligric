@@ -34,7 +34,7 @@ namespace Ligric.Business.Clients
 
 		public IApiesService Apis { get; }
 
-		public IOrdersService Orders { get; }
+		public IFuturesOrdersService Orders { get; }
 
 		public IValuesService Values { get; }
 

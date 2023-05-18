@@ -7,7 +7,7 @@ namespace Ligric.Business.Interfaces
 	{
 		IApiesService Apis { get; }
 
-		IOrdersService Orders { get; }
+		IFuturesOrdersService Orders { get; }
 
 		IValuesService Values { get; }
 
