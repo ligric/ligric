@@ -89,21 +89,24 @@ namespace Ligric.UI.ViewModels.Presentation
 					{
 						if (Positions[i].Id == changedPosition.Id)
 						{
-							var changedItem = changedPosition.ToPositionViewModel(obj.NewValue.ExchengedId);
-							changedItem.Size = CalculateSize(
-								changedItem.CurrentPrice,
-								(decimal)changedItem.Quantity!);
-							changedItem.PnL = CalculatePnL(
-								changedItem.EntryPrice,
-								changedItem.CurrentPrice,
-								(decimal)changedItem.Quantity!);
-							changedItem.PnLPercent = CalculateROE(
-								changedItem.EntryPrice,
-								changedItem.CurrentPrice,
-								changedItem.Leverage,
-								(decimal)changedItem.Quantity!,
-								changedItem.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1);
-							Positions[i] = changedItem;
+							var changingPosition = Positions[i];
+							changingPosition.EntryPrice = changedPosition.EntryPrice;
+							changingPosition.Quantity = changedPosition.Quantity;
+							changingPosition.QuoteQuantity = changedPosition.EntryPrice * changedPosition.Quantity;
+							changingPosition.Leverage = changedPosition.Leverage;
+							changingPosition.Size = CalculateSize(
+								changingPosition.CurrentPrice,
+								(decimal)changingPosition.Quantity!);
+							changingPosition.PnL = CalculatePnL(
+								changingPosition.EntryPrice,
+								changingPosition.CurrentPrice,
+								(decimal)changingPosition.Quantity!);
+							changingPosition.PnLPercent = CalculateROE(
+								changingPosition.EntryPrice,
+								changingPosition.CurrentPrice,
+								changingPosition.Leverage,
+								(decimal)changingPosition.Quantity!,
+								changingPosition.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1);
 							break;
 						}
 					}
@@ -130,20 +133,17 @@ namespace Ligric.UI.ViewModels.Presentation
 									position.EntryPrice,
 									position.CurrentPrice,
 									(decimal)position.Quantity!);
-							Positions[i] = position with
-							{
-								Size = CalculateSize(
-									position.CurrentPrice,
-									(decimal)position.Quantity!),
-								Leverage = addedLeverage.Entity.Leverage,
-								PnL = pnl,
-								PnLPercent = CalculateROE(
-									position.EntryPrice,
-									position.CurrentPrice,
-									position.Leverage,
-									(decimal)position.Quantity!,
-									position.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1)
-							};
+							position.Size = CalculateSize(
+								position.CurrentPrice,
+								(decimal)position.Quantity!);
+							position.Leverage = addedLeverage.Entity.Leverage;
+							position.PnL = pnl;
+							position.PnLPercent = CalculateROE(
+								position.EntryPrice,
+								position.CurrentPrice,
+								position.Leverage,
+								(decimal)position.Quantity!,
+								position.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1);
 						}
 					}
 					break;
@@ -167,20 +167,17 @@ namespace Ligric.UI.ViewModels.Presentation
 								position.EntryPrice,
 								e.NewValue,
 								(decimal)position.Quantity!);
-						Positions[i] = position with
-						{
-							CurrentPrice = e.NewValue,
-							Size = CalculateSize(
-								e.NewValue,
-								(decimal)position.Quantity!),
-							PnL = pnl,
-							PnLPercent = CalculateROE(
-								position.EntryPrice,
-								e.NewValue,
-								position.Leverage,
-								(decimal)position.Quantity!,
-								position.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1),
-						};
+						position.CurrentPrice = e.NewValue;
+						position.Size = CalculateSize(
+							e.NewValue,
+							(decimal)position.Quantity!);
+						position.PnL = pnl;
+						position.PnLPercent = CalculateROE(
+							position.EntryPrice,
+							e.NewValue,
+							position.Leverage,
+							(decimal)position.Quantity!,
+							position.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1);
 					}
 				}
 			}
