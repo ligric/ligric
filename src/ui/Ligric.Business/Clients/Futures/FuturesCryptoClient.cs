@@ -2,28 +2,29 @@
 using Ligric.Business.Apies;
 using Ligric.Business.Authorization;
 using Ligric.Business.Clients.Apies;
-using Ligric.Business.Clients.Futures;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;
 using static Ligric.Protobuf.Futures;
 
-namespace Ligric.Business.Clients
+namespace Ligric.Business.Clients.Futures
 {
-	public class LigricCryptoClient : ILigricCryptoClient
+	public class FuturesCryptoClient : ILigricCryptoClient
 	{
+		private readonly long userApi;
+
 		private readonly IAuthorizationService _authorization;
 
-		public LigricCryptoClient(
+		public FuturesCryptoClient(
 			GrpcChannel channel,
 			IAuthorizationService authorization,
-		    IMetadataManager metadata)
+			IMetadataManager metadata)
 		{
 			_authorization = authorization;
 
 			Apis = new ApiesService(channel, metadata, _authorization);
 
-		    FuturesClient futuresClient = new FuturesClient(channel); 
+			var futuresClient = new FuturesClient(channel);
 			Orders = new FuturesOrdersService(futuresClient, metadata, _authorization);
 			Values = new FuturesTradesService(futuresClient, metadata, _authorization);
 			Positions = new FuturesPositionsService(futuresClient, metadata, _authorization);

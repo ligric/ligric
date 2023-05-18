@@ -42,7 +42,7 @@ public static class ServiceCollectionExtensions
 
 		var metadata = new MetadataManager();
 		var authorization = new AuthorizationService(grpcChannelEnvoy, metadata);
-		var cryptoClient = new LigricCryptoClient(grpcChannelEnvoy, authorization, metadata);
+		var cryptoClient = new FuturesCryptoClient(grpcChannelEnvoy, authorization, metadata);
 
 		_ = services
 			.AddSingleton<IMetadataManager>(metadata)
