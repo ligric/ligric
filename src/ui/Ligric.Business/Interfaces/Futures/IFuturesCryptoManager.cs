@@ -8,9 +8,5 @@ namespace Ligric.Business.Interfaces.Futures
 		public ReadOnlyDictionary<long, IFuturesCryptoClient> Clients { get; }
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<long, IFuturesCryptoClient>>? ClientsChanged;
-
-		void AddFuturesCryptoClient(long userApiId);
-
-		void RemoveFuturesCryptoClient(long userApiId);
 	}
 }
