@@ -1,9 +1,9 @@
 ﻿using Grpc.Net.Client;
 using Ligric.Core.Types.User;
 using Ligric.Business.Metadata;
-using Ligric.Business.Authorization;
 using static Ligric.Protobuf.Auth;
 using Ligric.Protobuf;
+using Ligric.Business.Interfaces;
 
 namespace Ligric.Business.Clients.Authorization
 {
