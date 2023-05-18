@@ -40,13 +40,4 @@ namespace Ligric.Business.Clients.Futures.Binance
 			_clients.RemoveAndRiseEvent(this, ClientsChanged, userApiId, ref sync);
 		}
 	}
-
-	public interface IFuturesCryptoManager
-	{ 
-		event EventHandler<NotifyDictionaryChangedEventArgs<long, IFuturesCryptoClient>>? ClientsChanged;
-
-		void AddFuturesCryptoClient(long userApiId);
-
-		void RemoveFuturesCryptoClient(long userApiId);
-	}
 }
