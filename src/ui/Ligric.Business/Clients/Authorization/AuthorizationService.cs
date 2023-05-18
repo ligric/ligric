@@ -7,7 +7,7 @@ using Ligric.Protobuf;
 
 namespace Ligric.Business.Clients.Authorization
 {
-	public sealed class AuthorizationService : IAuthorizationService
+	public sealed class AuthorizationService : ICurrentUser
 	{
 		private string? refreshToken;
 		private readonly IMetadataManager _metadata;

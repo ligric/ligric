@@ -10,7 +10,7 @@ using Ligric.Protobuf;
 using Utils;
 using static Ligric.Protobuf.Futures;
 
-namespace Ligric.Business.Clients.Futures
+namespace Ligric.Business.Clients.Futures.Binance
 {
 	public class FuturesLeveragesService : IFuturesLeveragesService, ISession
 	{

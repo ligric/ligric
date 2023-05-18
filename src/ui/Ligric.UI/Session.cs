@@ -5,11 +5,11 @@ namespace Ligric.UI
 {
 	internal static class Session
 	{
-		private static IAuthorizationService? _authorizationService;
+		private static Business.Authorization.ICurrentUser? _authorizationService;
 		private static IServiceCollection? _clientServices;
 
 		public static void SetSession(
-			IAuthorizationService authorizationService,
+			Business.Authorization.ICurrentUser authorizationService,
 			IServiceCollection clientServices)
 		{
 			_authorizationService = authorizationService;

@@ -46,8 +46,8 @@ public static class ServiceCollectionExtensions
 
 		_ = services
 			.AddSingleton<IMetadataManager>(metadata)
-			.AddSingleton<IAuthorizationService>(authorization)
-			.AddSingleton<ILigricCryptoClient>(cryptoClient)
+			.AddSingleton<ICurrentUser>(authorization)
+			.AddSingleton<IFuturesCryptoClient>(cryptoClient)
 			.AddSingleton(cryptoClient.Apis)
 			.AddSingleton(cryptoClient.Orders)
 			.AddSingleton(cryptoClient.Values)
@@ -61,7 +61,7 @@ public static class ServiceCollectionExtensions
 		if (useMocks)
 		{
 			// Comment out the USE_MOCKS definition (top of this file) to prevent using mocks in development
-			//_ = services.AddSingleton<IAuthorizationService, MockAuthorizationService>();
+			//_ = services.AddSingleton<ICurrentUser, MockAuthorizationService>();
 		}
 		return services;
 	}

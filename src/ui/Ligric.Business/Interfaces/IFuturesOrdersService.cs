@@ -8,9 +8,5 @@ namespace Ligric.Business.Futures
 		IReadOnlyDictionary<long, FuturesOrderDto> Orders { get; }
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>> OrdersChanged;
-
-		Task AttachStreamAsync(long userApiId);
-
-		void DetachStream();
 	}
 }

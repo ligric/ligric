@@ -8,7 +8,7 @@ namespace Ligric.UI.ViewModels.Presentation
 {
 	public class FuturesViewModel
 	{
-		private readonly IAuthorizationService _authorizationService;
+		private readonly ICurrentUser _authorizationService;
 		public FuturesViewModel(
 			IDispatcher dispatcher,
 			IApiesService apiesService,
@@ -16,7 +16,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			IFuturesTradesService valuesService,
 			IFuturesPositionsService postionsService,
 			IFuturesLeveragesService leveragesService,
-			IAuthorizationService authorizationService)
+			ICurrentUser authorizationService)
 		{
 			_authorizationService = authorizationService;
 			Api = new ApisViewModel(dispatcher, apiesService, orderService, valuesService, postionsService, leveragesService);

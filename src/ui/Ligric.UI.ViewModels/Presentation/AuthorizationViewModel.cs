@@ -8,9 +8,9 @@ namespace Ligric.UI.ViewModels.Presentation
 {
 	public partial class AuthorizationViewModel
     {
-        private readonly IAuthorizationService _authorizationService;
+        private readonly ICurrentUser _authorizationService;
 
-        public AuthorizationViewModel(IAuthorizationService authorizationService)
+        public AuthorizationViewModel(ICurrentUser authorizationService)
         {
 			_authorizationService = authorizationService;
 			_authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Ligric.Core.Types.Future;
 using Utils;
 using Ligric.Protobuf;
 using Ligric.Business.Metadata;
@@ -8,19 +9,18 @@ using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
 using System.Collections;
 
-namespace Ligric.Business.Clients.Futures
+namespace Ligric.Business.Clients.Futures.Binance
 {
-	public class FuturesTradesService : IFuturesTradesService, ISession
+	public class FuturesOrdersService : IFuturesOrdersService, ISession
 	{
-		private int syncValuesChanged = 0;
+		private int syncOrderChanged = 0;
 		private CancellationTokenSource? _cts;
-		private readonly Dictionary<string, decimal> _trades = new Dictionary<string, decimal>();
-
+		private readonly Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		internal FuturesTradesService(
+		internal FuturesOrdersService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
@@ -30,9 +30,9 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<string, decimal> Trades => new ReadOnlyDictionary<string, decimal>(_trades);
+		public IReadOnlyDictionary<long, FuturesOrderDto> Orders => new ReadOnlyDictionary<long, FuturesOrderDto>(_orders);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? TradesChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OrdersChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
@@ -45,14 +45,14 @@ namespace Ligric.Business.Clients.Futures
 
 			var cts = new CancellationTokenSource();
 			_cts = cts;
-			return StreamValuesSubscribeCall(userId, userApiId, cts.Token);
+			return StreamApiSubscribeCall(userId, userApiId, cts.Token);
 		}
 
 		public void DetachStream()
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_trades.ClearAndRiseEvent(this, TradesChanged, ref syncValuesChanged);
+			_orders.ClearAndRiseEvent(this, OrdersChanged, ref syncOrderChanged);
 		}
 
 		#region Session
@@ -62,8 +62,8 @@ namespace Ligric.Business.Clients.Futures
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_trades.ClearAndRiseEvent(this, TradesChanged, ref syncValuesChanged);
-			syncValuesChanged = 0;
+			_orders.ClearAndRiseEvent(this, OrdersChanged, ref syncOrderChanged);
+			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
@@ -73,9 +73,9 @@ namespace Ligric.Business.Clients.Futures
 		}
 		#endregion
 
-		private Task StreamValuesSubscribeCall(long userId, long userApiId, CancellationToken token)
+		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
-			var call = _futuresClient.ValuesSubscribe(
+			var call = _futuresClient.OrdersSubscribe(
 				request: new FuturesSubscribeRequest { UserId = userId, UserApiId = userApiId },
 				headers: _metadataManager.CurrentMetadata,
 				cancellationToken: token);
@@ -86,19 +86,18 @@ namespace Ligric.Business.Clients.Futures
 				.ForEachAsync(OnFuturesChanged, token);
 		}
 
-		private void OnFuturesChanged(ValuesChanged valuesChanged)
+		private void OnFuturesChanged(OrdersChanged api)
 		{
-			lock (((ICollection)_trades).SyncRoot)
+			lock (((ICollection)_orders).SyncRoot)
 			{
-				var symbol = valuesChanged.Value.Symbol;
-				var value = decimal.Parse(valuesChanged.Value.Value);
-				switch (valuesChanged.Action)
+				switch (api.Action)
 				{
 					case Protobuf.Action.Added:
-						_trades.SetAndRiseEvent(this, TradesChanged, symbol, value, ref syncValuesChanged);
+						var exchangedOrderDto = api.Order.ToFuturesOrderDto();
+						_orders.SetAndRiseEvent(this, OrdersChanged, api.Order.Id, exchangedOrderDto, ref syncOrderChanged);
 						break;
 					case Protobuf.Action.Removed:
-						_trades.RemoveAndRiseEvent(this, TradesChanged, symbol, ref syncValuesChanged);
+						_orders.RemoveAndRiseEvent(this, OrdersChanged, api.Order.Id, ref syncOrderChanged);
 						break;
 					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
 				}

@@ -7,9 +7,5 @@ namespace Ligric.Business.Futures
 		IReadOnlyDictionary<string, decimal> Trades { get; }
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>> TradesChanged;
-
-		Task AttachStreamAsync(long userApiId);
-
-		void DetachStream();
 	}
 }

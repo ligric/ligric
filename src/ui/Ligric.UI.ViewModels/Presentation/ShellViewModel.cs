@@ -6,11 +6,11 @@ namespace Ligric.UI.ViewModels.Presentation;
 public class ShellViewModel
 {
 	private readonly INavigator _navigator;
-	private readonly IAuthorizationService _authorizationService;
+	private readonly ICurrentUser _authorizationService;
 
 	public ShellViewModel(
 		INavigator navigator,
-		IAuthorizationService authorizationService)
+		ICurrentUser authorizationService)
 	{
 		_navigator = navigator;
 		_authorizationService = authorizationService;

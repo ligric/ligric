@@ -8,7 +8,5 @@ namespace Ligric.Business.Futures
 		IReadOnlyCollection<LeverageDto> Leverages { get; }
 
 		event NotifyCollectionChangedEventHandler? LeveragesChanged;
-		Task AttachStreamAsync(long userApiId);
-		void DetachStream();
 	}
 }

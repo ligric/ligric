@@ -1,26 +1,27 @@
 ﻿using System.Collections.ObjectModel;
 using Ligric.Core.Types.Future;
 using Utils;
-using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
+using Ligric.Protobuf;
 using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
 using System.Collections;
 
-namespace Ligric.Business.Clients.Futures
+namespace Ligric.Business.Clients.Futures.Binance
 {
-	public class FuturesOrdersService : IFuturesOrdersService, ISession
+	public class FuturesPositionsService : IFuturesPositionsService, ISession
 	{
-		private int syncOrderChanged = 0;
+		private int syncPositionsChanged = 0;
 		private CancellationTokenSource? _cts;
-		private readonly Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
+
+		private readonly Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		internal FuturesOrdersService(
+		internal FuturesPositionsService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
@@ -30,9 +31,9 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<long, FuturesOrderDto> Orders => new ReadOnlyDictionary<long, FuturesOrderDto>(_orders);
+		public IReadOnlyDictionary<long, FuturesPositionDto> Positions => new ReadOnlyDictionary<long, FuturesPositionDto>(_positions);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesOrderDto>>? OrdersChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<long, FuturesPositionDto>>? PositionsChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
@@ -52,7 +53,7 @@ namespace Ligric.Business.Clients.Futures
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_orders.ClearAndRiseEvent(this, OrdersChanged, ref syncOrderChanged);
+			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
 		}
 
 		#region Session
@@ -62,8 +63,8 @@ namespace Ligric.Business.Clients.Futures
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_orders.ClearAndRiseEvent(this, OrdersChanged, ref syncOrderChanged);
-			syncOrderChanged = 0;
+			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
+			syncPositionsChanged = 0;
 		}
 
 		public void Dispose()
@@ -75,7 +76,7 @@ namespace Ligric.Business.Clients.Futures
 
 		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
-			var call = _futuresClient.OrdersSubscribe(
+			var call = _futuresClient.PositionsSubscribe(
 				request: new FuturesSubscribeRequest { UserId = userId, UserApiId = userApiId },
 				headers: _metadataManager.CurrentMetadata,
 				cancellationToken: token);
@@ -86,18 +87,18 @@ namespace Ligric.Business.Clients.Futures
 				.ForEachAsync(OnFuturesChanged, token);
 		}
 
-		private void OnFuturesChanged(OrdersChanged api)
+		private void OnFuturesChanged(PositionsChanged positionsChanged)
 		{
-			lock (((ICollection)_orders).SyncRoot)
+			lock (((ICollection)_positions).SyncRoot)
 			{
-				switch (api.Action)
+				switch (positionsChanged.Action)
 				{
 					case Protobuf.Action.Added:
-						var exchangedOrderDto = api.Order.ToFuturesOrderDto();
-						_orders.SetAndRiseEvent(this, OrdersChanged, api.Order.Id, exchangedOrderDto, ref syncOrderChanged);
+						var exchangedPositionDto = positionsChanged.Position.ToFuturesPositionDto();
+						_positions.SetAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, exchangedPositionDto, ref syncPositionsChanged);
 						break;
 					case Protobuf.Action.Removed:
-						_orders.RemoveAndRiseEvent(this, OrdersChanged, api.Order.Id, ref syncOrderChanged);
+						_positions.RemoveAndRiseEvent(this, PositionsChanged, positionsChanged.Position.Id, ref syncPositionsChanged);
 						break;
 					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
 				}
