@@ -9,7 +9,7 @@ namespace Ligric.Business.Interfaces
 
 		IFuturesOrdersService Orders { get; }
 
-		IValuesService Values { get; }
+		IFuturesTradesService Values { get; }
 
 		IPositionsService Positions { get; }
 	}

@@ -13,7 +13,7 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FuturePositionsViewModel
 	{
 		private readonly IDispatcher _dispatcher;
-		private readonly IValuesService _valuesService;
+		private readonly IFuturesTradesService _valuesService;
 		private readonly IPositionsService _postionsService;
 		private readonly ILeveragesService _leverages;
 
@@ -21,7 +21,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		internal FuturePositionsViewModel(
 			IDispatcher dispatcher,
-			IValuesService valuesService,
+			IFuturesTradesService valuesService,
 			IPositionsService postionsService,
 			ILeveragesService leveragesService)
 		{
@@ -31,7 +31,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_leverages = leveragesService;
 
 			_postionsService.PositionsChanged += OnPositionsChanged;
-			_valuesService.ValuesChanged += OnValuesChanged;
+			_valuesService.TradesChanged += OnValuesChanged;
 			_leverages.LeveragesChanged += OnLeveragesChanged;
 		}
 

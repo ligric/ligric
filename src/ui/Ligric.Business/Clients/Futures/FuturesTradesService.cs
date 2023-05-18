@@ -10,17 +10,17 @@ using System.Collections;
 
 namespace Ligric.Business.Clients.Futures
 {
-	public class ValuesService : IValuesService, ISession
+	public class FuturesTradesService : IFuturesTradesService, ISession
 	{
 		private int syncValuesChanged = 0;
-		private readonly Dictionary<string, decimal> _values = new Dictionary<string, decimal>();
-		private readonly Dictionary<long, CancellationTokenSource> attachedTradesCalcellationTokens = new Dictionary<long, CancellationTokenSource>();
+		private CancellationTokenSource? _cts;
+		private readonly Dictionary<string, decimal> _trades = new Dictionary<string, decimal>();
 
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 		private readonly FuturesClient _futuresClient;
 
-		internal ValuesService(
+		internal FuturesTradesService(
 			FuturesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
@@ -30,61 +30,46 @@ namespace Ligric.Business.Clients.Futures
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyDictionary<string, decimal> Values => new ReadOnlyDictionary<string, decimal>(_values);
+		public IReadOnlyDictionary<string, decimal> Trades => new ReadOnlyDictionary<string, decimal>(_trades);
 
-		public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? ValuesChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<string, decimal>>? TradesChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
-			if (attachedTradesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts)
-			&& cts != null && !cts.IsCancellationRequested)
+			if (_cts != null && !_cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
 			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
 
-			var newTradesCancelationTokenSource = new CancellationTokenSource();
-			attachedTradesCalcellationTokens.Add(userApiId, newTradesCancelationTokenSource);
-			return StreamValuesSubscribeCall(userId, userApiId, newTradesCancelationTokenSource.Token);
+			var cts = new CancellationTokenSource();
+			_cts = cts;
+			return StreamValuesSubscribeCall(userId, userApiId, cts.Token);
 		}
 
-		public void DetachStream(long userApiId)
+		public void DetachStream()
 		{
-			if (attachedTradesCalcellationTokens.TryGetValue(userApiId, out CancellationTokenSource cts))
-			{
-				cts?.Cancel();
-				cts?.Dispose();
-				attachedTradesCalcellationTokens.Remove(userApiId);
-			}
-			_values.ClearAndRiseEvent(this, ValuesChanged, ref syncValuesChanged);
+			_cts?.Cancel();
+			_cts?.Dispose();
+			_trades.ClearAndRiseEvent(this, TradesChanged, ref syncValuesChanged);
 		}
 
 		#region Session
-		public void InitializeSession()
-		{
-
-		}
+		public void InitializeSession() { }
 
 		public void ClearSession()
 		{
-			foreach (var item in attachedTradesCalcellationTokens)
-			{
-				item.Value?.Cancel();
-				item.Value?.Dispose();
-			}
-			attachedTradesCalcellationTokens.Clear();
-			_values.ClearAndRiseEvent(this, ValuesChanged, ref syncValuesChanged);
+			_cts?.Cancel();
+			_cts?.Dispose();
+			_trades.ClearAndRiseEvent(this, TradesChanged, ref syncValuesChanged);
 			syncValuesChanged = 0;
 		}
 
 		public void Dispose()
 		{
-			foreach (var item in attachedTradesCalcellationTokens)
-			{
-				item.Value?.Cancel();
-				item.Value?.Dispose();
-			}
+			_cts?.Cancel();
+			_cts?.Dispose();
 		}
 		#endregion
 
@@ -103,17 +88,17 @@ namespace Ligric.Business.Clients.Futures
 
 		private void OnFuturesChanged(ValuesChanged valuesChanged)
 		{
-			lock (((ICollection)_values).SyncRoot)
+			lock (((ICollection)_trades).SyncRoot)
 			{
 				var symbol = valuesChanged.Value.Symbol;
 				var value = decimal.Parse(valuesChanged.Value.Value);
 				switch (valuesChanged.Action)
 				{
 					case Protobuf.Action.Added:
-						_values.SetAndRiseEvent(this, ValuesChanged, symbol, value, ref syncValuesChanged);
+						_trades.SetAndRiseEvent(this, TradesChanged, symbol, value, ref syncValuesChanged);
 						break;
 					case Protobuf.Action.Removed:
-						_values.RemoveAndRiseEvent(this, ValuesChanged, symbol, ref syncValuesChanged);
+						_trades.RemoveAndRiseEvent(this, TradesChanged, symbol, ref syncValuesChanged);
 						break;
 					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
 				}

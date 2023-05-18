@@ -12,20 +12,20 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FutureOrdersViewModel
 	{
 		private readonly IDispatcher _dispatcher;
-		private readonly IValuesService _valuesService;
+		private readonly IFuturesTradesService _valuesService;
 		private readonly IFuturesOrdersService _ordersService;
 
 		internal FutureOrdersViewModel(
 			IDispatcher dispatcher,
 			IFuturesOrdersService ordersService,
-			IValuesService valuesService)
+			IFuturesTradesService valuesService)
 		{
 			_dispatcher = dispatcher;
 			_ordersService = ordersService;
 			_valuesService = valuesService;
 
 			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
-			_valuesService.ValuesChanged += OnValuesChanged;
+			_valuesService.TradesChanged += OnValuesChanged;
 		}
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();

@@ -13,7 +13,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			IDispatcher dispatcher,
 			IApiesService apiesService,
 			IFuturesOrdersService orderService,
-			IValuesService valuesService,
+			IFuturesTradesService valuesService,
 			IPositionsService postionsService,
 			ILeveragesService leveragesService,
 			IAuthorizationService authorizationService)
