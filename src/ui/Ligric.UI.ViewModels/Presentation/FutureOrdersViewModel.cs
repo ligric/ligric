@@ -43,14 +43,6 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		private void SetCurrentPrice(IFuturesCryptoClient futuresClient, OrderViewModel orderVm)
-		{
-			if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
-			{
-				orderVm.CurrentPrice = value.ToString();
-			}
-		}
-
 		private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
 			=> _dispatcher.TryEnqueue(() => UpdateOrdersFromAction(sender!, obj));
 
@@ -96,6 +88,14 @@ namespace Ligric.UI.ViewModels.Presentation
 						changingItem.CurrentPrice = e.NewValue.ToString();
 					}
 				}
+			}
+		}
+
+		private void SetCurrentPrice(IFuturesCryptoClient futuresClient, OrderViewModel orderVm)
+		{
+			if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
+			{
+				orderVm.CurrentPrice = value.ToString();
 			}
 		}
 
