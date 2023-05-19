@@ -1,4 +1,4 @@
 ﻿namespace Ligric.Core.Types
 {
-	public record IdentityEntity<T>(Guid id, T? Entity); 
+	public record IdentityEntity<T>(Guid Id, T? Entity); 
 }
