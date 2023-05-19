@@ -36,9 +36,9 @@ namespace Ligric.UI.ViewModels.Extensions
 			};
 		}
 
-		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto, Guid exchangeId)
+		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto, Guid clientId)
 		{
-			return new PositionViewModel(dto.Id, exchangeId, dto.Symbol, dto.Side.ToString(), dto.EntryPrice)
+			return new PositionViewModel(dto.Id, clientId, dto.Symbol, dto.Side.ToString(), dto.EntryPrice)
 			{
 				Quantity = dto.Quantity,
 				QuoteQuantity = dto.EntryPrice * dto.Quantity,

@@ -5,16 +5,15 @@ namespace Ligric.UI.ViewModels.Data
 {
 	public class PositionViewModel : ReactiveObject
 	{
-		public PositionViewModel(long id, Guid exchangeId, string symbol, string side, decimal entryPrice)
+		public PositionViewModel(long id, Guid clientId, string symbol, string side, decimal entryPrice)
 		{
 			Id = id;
-			ExchangeId = exchangeId;
 			Symbol = symbol;
 			Side = side;
 			EntryPrice = entryPrice;
 		}
 		public long Id { get; }
-		public Guid ExchangeId { get; }
+		public Guid ClientId { get; } 
 		public string Symbol { get; }
 		public string Side { get; }
 
