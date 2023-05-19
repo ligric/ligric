@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Metadata;
@@ -14,8 +12,9 @@ namespace Ligric.Business.Clients.Futures.Binance
 {
 	public class FuturesLeveragesService : IFuturesLeveragesService, ISession
 	{
+		private int sync = 0;
 		private CancellationTokenSource? _cts;
-		private readonly List<LeverageDto> _leverages = new List<LeverageDto>();
+		private readonly Dictionary<string, LeverageDto> _leverages = new Dictionary<string, LeverageDto>();
 
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
@@ -31,9 +30,9 @@ namespace Ligric.Business.Clients.Futures.Binance
 			_futuresClient = futuresClient;
 		}
 
-		public IReadOnlyCollection<LeverageDto> Leverages => new ReadOnlyCollection<LeverageDto>(_leverages);
+		public IReadOnlyDictionary<string, LeverageDto> Leverages => new ReadOnlyDictionary<string, LeverageDto>(_leverages);
 
-		public event NotifyCollectionChangedEventHandler? LeveragesChanged;
+		public event EventHandler<NotifyDictionaryChangedEventArgs<string, LeverageDto>>? LeveragesChanged;
 
 		public Task AttachStreamAsync(long userApiId)
 		{
@@ -52,7 +51,8 @@ namespace Ligric.Business.Clients.Futures.Binance
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
+			_leverages.ClearAndRiseEvent(this, LeveragesChanged, ref sync);
+			sync = 0;
 		}
 
 		#region Session
@@ -62,7 +62,8 @@ namespace Ligric.Business.Clients.Futures.Binance
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_leverages.ResetAndRiseEvent(this, LeveragesChanged);
+			_leverages.ClearAndRiseEvent(this, LeveragesChanged, ref sync);
+			sync = 0;
 		}
 
 		public void Dispose()
@@ -92,8 +93,8 @@ namespace Ligric.Business.Clients.Futures.Binance
 				switch (changes.Action)
 				{
 					case Protobuf.Action.Added:
-						var leverageDto = changes.Leverage.ToFuturesLeverageDto();
-						_leverages.AddAndRiseEvent(this, LeveragesChanged, leverageDto);
+						var leverageDto = Extensions.TypeExtensions.ToFuturesLeverageDto(changes.Leverage);
+						_leverages.AddAndRiseEvent(this, LeveragesChanged, leverageDto.Symbol, leverageDto, ref sync);
 						break;
 					case Protobuf.Action.Changed:
 						goto case Protobuf.Action.Added;

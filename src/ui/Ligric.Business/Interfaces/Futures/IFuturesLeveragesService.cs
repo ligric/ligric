@@ -1,12 +1,12 @@
-﻿using System.Collections.Specialized;
-using Ligric.Core.Types.Future;
+﻿using Ligric.Core.Types.Future;
+using Utils;
 
 namespace Ligric.Business.Futures
 {
 	public interface IFuturesLeveragesService : IDisposable
 	{
-		IReadOnlyCollection<LeverageDto> Leverages { get; }
+		IReadOnlyDictionary<string, LeverageDto> Leverages { get; }
 
-		event NotifyCollectionChangedEventHandler? LeveragesChanged;
+		event EventHandler<NotifyDictionaryChangedEventArgs<string, LeverageDto>> LeveragesChanged;
 	}
 }
