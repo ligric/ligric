@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using Ligric.Business.Futures;
+using Ligric.Business.Interfaces;
+using Ligric.Business.Interfaces.Futures;
 using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
@@ -13,87 +14,80 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FuturePositionsViewModel
 	{
 		private readonly IDispatcher _dispatcher;
-		private readonly IFuturesTradesService _valuesService;
-		private readonly IFuturesPositionsService _postionsService;
-		private readonly IFuturesLeveragesService _leverages;
-
-		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
+		private readonly IFuturesCryptoManager _futuresCryptoManager;
 
 		internal FuturePositionsViewModel(
 			IDispatcher dispatcher,
-			IFuturesTradesService valuesService,
-			IFuturesPositionsService postionsService,
-			IFuturesLeveragesService leveragesService)
+			IFuturesCryptoManager futuresCryptoManager)
 		{
 			_dispatcher = dispatcher;
-			_valuesService = valuesService;
-			_postionsService = postionsService;
-			_leverages = leveragesService;
+			_futuresCryptoManager = futuresCryptoManager;
 
-			_postionsService.PositionsChanged += OnPositionsChanged;
-			_valuesService.TradesChanged += OnValuesChanged;
-			_leverages.LeveragesChanged += OnLeveragesChanged;
+			_futuresCryptoManager.Clients.Values.ForEach(InitializePrimaryPositions);
 		}
 
-		private void OnLeveragesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		public ObservableCollection<PositionViewModel> Positions { get; } = new ObservableCollection<PositionViewModel>();
+
+		private void InitializePrimaryPositions(IFuturesCryptoClient futuresClient)
 		{
-			_dispatcher.TryEnqueue(() =>
+			futuresClient.ClientPositionsChanged += OnPositionsChanged;
+			futuresClient.Trades.TradesChanged += OnTradesChanged;
+			futuresClient.ClientLeveragesChanged += OnLeveragesChanged;
+
+			lock (((ICollection)Positions).SyncRoot)
 			{
-				UpdatePostionsFromAction(e);
-			});
+				foreach (var position in futuresClient.Positions.Positions.Values)
+				{
+					var positionVm = position.ToPositionViewModel(futuresClient.ClientId);
+					SetCurrentPrice(futuresClient, positionVm);
+					SetLeverage(futuresClient, positionVm);
+					Positions.Add(positionVm);
+				}
+			}
 		}
 
-		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>> e)
-		{
-			_dispatcher.TryEnqueue(() =>
-			{
-				UpdatePostionsFromAction(e);
-			});
-		}
+		private void OnLeveragesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, IdentityEntity<LeverageDto>> e)
+			=> _dispatcher.TryEnqueue(() => UpdatePostionsFromAction(e));
 
-		private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> e)
-		{
-			_dispatcher.TryEnqueue(() =>
-			{
-				UpdatePostionsFromAction(e);
-			});
-		}
+		private void OnPositionsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, IdentityEntity<FuturesPositionDto>> e)
+			=> _dispatcher.TryEnqueue(() => UpdatePostionsFromAction(e));
 
-		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesPositionDto>> obj)
+		private void OnTradesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> e)
+			=> _dispatcher.TryEnqueue(() => UpdatePostionsFromAction(e));
+
+		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<long, IdentityEntity<FuturesPositionDto>> obj)
 		{
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
 					var addedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
-					if (addedPosition.Leverage == null)
-					{
-						var leverage = _leverages.Leverages.FirstOrDefault(
-							x => x.ExchengedId == obj.NewValue.ExchengedId
-								 && x.Entity.Symbol == addedPosition.Symbol);
-
-						if (leverage != null)
-						{
-							addedPosition = addedPosition with { Leverage = leverage.Entity.Leverage };
-						}
-					}
-					Positions.Add(addedPosition.ToPositionViewModel(obj.NewValue.ExchengedId));
+					var client = GetClientFromClientId(obj.NewValue.Id)!;
+					var positionVm = addedPosition.ToPositionViewModel(obj.NewValue.Id);
+					SetCurrentPrice(client, positionVm);
+					SetLeverage(client, positionVm);
+					Positions.Add(positionVm);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
 					var removedPosition = Positions.FirstOrDefault(x => x.Id == obj.Key);
-					if (removedPosition == null) break;
-					Positions.Remove(removedPosition);
+					if (removedPosition != null)
+					{
+						Positions.Remove(removedPosition);
+					}
 					break;
 				case NotifyDictionaryChangedAction.Changed:
 					var changedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
+					// _______________________
+					//
+					// TODO : need refactoring
+					// _______________________
 					for (int i = 0; i < Positions.Count; i++)
 					{
-						if (Positions[i].Id == changedPosition.Id)
+						if (Positions[i].Id == changedPosition!.Id)
 						{
 							var changingPosition = Positions[i];
 							changingPosition.EntryPrice = changedPosition.EntryPrice;
 							changingPosition.Quantity = changedPosition.Quantity;
 							changingPosition.QuoteQuantity = changedPosition.EntryPrice * changedPosition.Quantity;
-							changingPosition.Leverage = changedPosition.Leverage;
 							changingPosition.Size = CalculateSize(
 								changingPosition.CurrentPrice,
 								(decimal)changingPosition.Quantity!);
@@ -117,17 +111,18 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		private void UpdatePostionsFromAction(NotifyCollectionChangedEventArgs obj)
+		private void UpdatePostionsFromAction(NotifyDictionaryChangedEventArgs<string, IdentityEntity<LeverageDto>> obj)
 		{
-			switch (obj.Action)
+			switch(obj.Action)
 			{
-				case NotifyCollectionChangedAction.Add:
-					var addedLeverage = (ExchangedEntity<LeverageDto>)(obj.NewItems?[0] ?? throw new ArgumentException("Leverage is null"));
+				case NotifyDictionaryChangedAction.Added:
+					var addedLeverage = obj.NewValue?.Entity ?? throw new ArgumentException("Leverage is null");
+					var client = GetClientFromClientId(obj.NewValue!.Id);
 					for (int i = 0; i < Positions.Count; i++)
 					{
 						var position = Positions[i];
-						if (position.ExchangeId! == addedLeverage.ExchengedId
-							&& position.Symbol == addedLeverage.Entity.Symbol)
+						if (position!.ClientId == obj.NewValue.Id
+							&& position.Symbol == addedLeverage.Symbol)
 						{
 							var pnl = CalculatePnL(
 									position.EntryPrice,
@@ -136,7 +131,7 @@ namespace Ligric.UI.ViewModels.Presentation
 							position.Size = CalculateSize(
 								position.CurrentPrice,
 								(decimal)position.Quantity!);
-							position.Leverage = addedLeverage.Entity.Leverage;
+							position.Leverage = addedLeverage.Leverage;
 							position.PnL = pnl;
 							position.PnLPercent = CalculateROE(
 								position.EntryPrice,
@@ -147,9 +142,8 @@ namespace Ligric.UI.ViewModels.Presentation
 						}
 					}
 					break;
-
-				case NotifyCollectionChangedAction.Replace:
-					goto case NotifyCollectionChangedAction.Replace;
+				case NotifyDictionaryChangedAction.Changed:
+					goto case NotifyDictionaryChangedAction.Added;
 			}
 		}
 
@@ -181,6 +175,28 @@ namespace Ligric.UI.ViewModels.Presentation
 					}
 				}
 			}
+		}
+
+		private void SetCurrentPrice(IFuturesCryptoClient futuresClient, PositionViewModel positionVm)
+		{
+			if (futuresClient.Trades.Trades.TryGetValue(positionVm.Symbol!, out decimal value))
+			{
+				positionVm.CurrentPrice = value;
+			}
+		}
+
+		private void SetLeverage(IFuturesCryptoClient futuresClient, PositionViewModel positionVm)
+		{
+			var leverage = futuresClient.Leverages.Leverages.FirstOrDefault(x => x.Symbol == positionVm.Symbol!);
+			if (leverage != null)
+			{
+				positionVm.Leverage = leverage.Leverage;
+			}
+		}
+
+		private IFuturesCryptoClient? GetClientFromClientId(Guid clientId)
+		{
+			return _futuresCryptoManager.Clients.Values.FirstOrDefault(x => x.ClientId == clientId);
 		}
 
 		private static decimal? CalculatePnL(decimal entryPrice, decimal? currentPrice, decimal quantityUsdt)
