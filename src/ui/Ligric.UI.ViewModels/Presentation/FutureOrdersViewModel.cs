@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Ligric.Business.Interfaces;
 using Ligric.Business.Interfaces.Futures;
+using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
@@ -29,39 +30,39 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		private void InitializePrimaryOrders(IFuturesCryptoClient futuresClient)
 		{
-			futuresClient.Orders.OrdersChanged += OnOrdersChanged;
+			futuresClient.ClientOrdersChanged += OnOrdersChanged;
 			futuresClient.Trades.TradesChanged += OnTradesChanged;
 
 			lock (((ICollection)Orders).SyncRoot)
 			{
 				foreach (var order in futuresClient.Orders.Orders.Values)
 				{
-					var orderVm = order.ToOrderViewModel();
+					var orderVm = order.ToOrderViewModel(futuresClient.ClientId);
 					SetCurrentPrice(futuresClient, orderVm);
 					Orders.Add(orderVm);
 				}
 			}
 		}
 
-		private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
-			=> _dispatcher.TryEnqueue(() => UpdateOrdersFromAction(sender!, obj));
+		private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, IdentityEntity<FuturesOrderDto>> obj)
+			=> _dispatcher.TryEnqueue(() => UpdateOrdersFromAction(obj));
 
 		private void OnTradesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
 			=> _dispatcher.TryEnqueue(() => UpdateOrdersFromAction(obj));
 
-		private void UpdateOrdersFromAction(object sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
+		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, IdentityEntity<FuturesOrderDto>> obj)
 		{
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					var addedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
-					var orderVm = addedOrder.ToOrderViewModel();
-					var client = GetClientFromOrderSender(sender)!;
+					var addedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
+					var orderVm = addedOrder.ToOrderViewModel(obj.NewValue.Id!);
+					var client = GetClientFromOrderSender(obj.NewValue.Id!)!;
 					SetCurrentPrice(client, orderVm);
 					Orders.Add(orderVm);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
-					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key.ToString());
+					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key);
 					if (removedOrder != null)
 					{
 						Orders.Remove(removedOrder);
