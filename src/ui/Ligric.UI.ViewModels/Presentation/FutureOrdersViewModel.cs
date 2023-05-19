@@ -27,6 +27,25 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
+		private void InitializePrimaryOrders(IFuturesCryptoClient futuresClient)
+		{
+			futuresClient.Orders.OrdersChanged += OnOrdersChanged;
+			futuresClient.Trades.TradesChanged += OnTradesChanged;
+
+			lock (((ICollection)Orders).SyncRoot)
+			{
+				foreach (var order in futuresClient.Orders.Orders.Values)
+				{
+					var orderVm = order.ToOrderViewModel();
+					if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
+					{
+						orderVm.CurrentPrice = value.ToString();
+					}
+					Orders.Add(orderVm);
+				}
+			}
+		}
+
 		private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
 		{
 			_dispatcher.TryEnqueue(() =>
@@ -89,25 +108,5 @@ namespace Ligric.UI.ViewModels.Presentation
 				}
 			}
 		}
-
-		private void InitializePrimaryOrders(IFuturesCryptoClient futuresClient)
-		{
-			futuresClient.Orders.OrdersChanged += OnOrdersChanged;
-			futuresClient.Trades.TradesChanged += OnTradesChanged;
-
-			lock (((ICollection)Orders).SyncRoot)
-			{
-				foreach (var order in futuresClient.Orders.Orders.Values)
-				{
-					var orderVm = order.ToOrderViewModel();
-					if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
-					{
-						orderVm.CurrentPrice = value.ToString();
-					}
-					Orders.Add(orderVm);
-				}
-			}
-		}
 	}
-
 }
