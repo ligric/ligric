@@ -37,12 +37,17 @@ namespace Ligric.UI.ViewModels.Presentation
 				foreach (var order in futuresClient.Orders.Orders.Values)
 				{
 					var orderVm = order.ToOrderViewModel();
-					if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
-					{
-						orderVm.CurrentPrice = value.ToString();
-					}
+					SetCurrentPrice(futuresClient, orderVm);
 					Orders.Add(orderVm);
 				}
+			}
+		}
+
+		private void SetCurrentPrice(IFuturesCryptoClient futuresClient, OrderViewModel orderVm)
+		{
+			if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
+			{
+				orderVm.CurrentPrice = value.ToString();
 			}
 		}
 
@@ -60,10 +65,7 @@ namespace Ligric.UI.ViewModels.Presentation
 					var addedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
 					var orderVm = addedOrder.ToOrderViewModel();
 					var client = GetClientFromOrderSender(sender)!;
-					if (client.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
-					{
-						orderVm.CurrentPrice = value.ToString();
-					}
+					SetCurrentPrice(client, orderVm);
 					Orders.Add(orderVm);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
