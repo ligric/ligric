@@ -1,15 +1,14 @@
-﻿using Ligric.Business.Authorization;
-using Ligric.Business.Interfaces;
+﻿using Ligric.Business.Interfaces;
 
 namespace Ligric.UI
 {
 	internal static class Session
 	{
-		private static Business.Authorization.ICurrentUser? _authorizationService;
+		private static IAuthorizationService? _authorizationService;
 		private static IServiceCollection? _clientServices;
 
 		public static void SetSession(
-			Business.Authorization.ICurrentUser authorizationService,
+			IAuthorizationService authorizationService,
 			IServiceCollection clientServices)
 		{
 			_authorizationService = authorizationService;

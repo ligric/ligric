@@ -21,7 +21,7 @@ namespace Ligric.Business.Clients.Apies
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
 
-		internal ApiesService(
+		public ApiesService(
 			GrpcChannel grpcChannel,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
