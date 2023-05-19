@@ -187,7 +187,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 		private void SetLeverage(IFuturesCryptoClient futuresClient, PositionViewModel positionVm)
 		{
-			var leverage = futuresClient.Leverages.Leverages.FirstOrDefault(x => x.Symbol == positionVm.Symbol!);
+			var leverage = futuresClient.Leverages.Leverages.Values.FirstOrDefault(x => x.Symbol == positionVm.Symbol!);
 			if (leverage != null)
 			{
 				positionVm.Leverage = leverage.Leverage;
