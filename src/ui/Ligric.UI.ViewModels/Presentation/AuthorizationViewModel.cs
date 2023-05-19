@@ -1,21 +1,19 @@
 ﻿using System.Windows.Input;
-using Ligric.Business.Authorization;
+using Ligric.Business.Interfaces;
 using Ligric.UI.ViewModels.Data;
-using Splat.ModeDetection;
 using Uno.Extensions.Reactive;
 
 namespace Ligric.UI.ViewModels.Presentation
 {
 	public partial class AuthorizationViewModel
     {
-        private readonly ICurrentUser _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public AuthorizationViewModel(ICurrentUser authorizationService)
+        public AuthorizationViewModel(IAuthorizationService authorizationService)
         {
 			_authorizationService = authorizationService;
 			_authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
 		}
-
 
 		public IState<AuthorizationCredentials> Credentials => State.Value(this, () => new AuthorizationCredentials());
 

@@ -1,16 +1,15 @@
-using Ligric.Business.Authorization;
-using Uno.Extensions.Navigation;
+using Ligric.Business.Interfaces;
 
 namespace Ligric.UI.ViewModels.Presentation;
 
 public class ShellViewModel
 {
 	private readonly INavigator _navigator;
-	private readonly ICurrentUser _authorizationService;
+	private readonly IAuthorizationService _authorizationService;
 
 	public ShellViewModel(
 		INavigator navigator,
-		ICurrentUser authorizationService)
+		IAuthorizationService authorizationService)
 	{
 		_navigator = navigator;
 		_authorizationService = authorizationService;

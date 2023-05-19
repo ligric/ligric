@@ -8,7 +8,8 @@ namespace Ligric.UI.ViewModels.Presentation
 {
 	public class FuturesViewModel
 	{
-		private readonly ICurrentUser _authorizationService;
+		private readonly IAuthorizationService _authorizationService;
+
 		public FuturesViewModel(
 			IDispatcher dispatcher,
 			IApiesService apiesService,
