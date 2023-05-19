@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using Ligric.Business.Futures;
-using Ligric.Core.Types;
+using Ligric.Business.Interfaces;
+using Ligric.Business.Interfaces.Futures;
 using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
@@ -12,25 +13,21 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FutureOrdersViewModel
 	{
 		private readonly IDispatcher _dispatcher;
-		private readonly IFuturesTradesService _valuesService;
-		private readonly IFuturesOrdersService _ordersService;
+		private readonly IFuturesCryptoManager _futuresCryptoManager;
 
 		internal FutureOrdersViewModel(
 			IDispatcher dispatcher,
-			IFuturesOrdersService ordersService,
-			IFuturesTradesService valuesService)
+			IFuturesCryptoManager futuresCryptoManager)
 		{
 			_dispatcher = dispatcher;
-			_ordersService = ordersService;
-			_valuesService = valuesService;
+			_futuresCryptoManager = futuresCryptoManager;
 
-			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
-			_valuesService.TradesChanged += OnValuesChanged;
+			_futuresCryptoManager.Clients.Values.ForEach(InitializePrimaryOrders);
 		}
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
-		private void OnOpenOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>> obj)
+		private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
@@ -38,7 +35,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			});
 		}
 
-		private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
+		private void OnTradesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
 		{
 			_dispatcher.TryEnqueue(() =>
 			{
@@ -46,21 +43,20 @@ namespace Ligric.UI.ViewModels.Presentation
 			});
 		}
 
-		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>> obj)
+		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> obj)
 		{
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
-					var addedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
-					Orders.Add(addedOrder.ToOrderViewModel(obj.NewValue.ExchengedId));
+					var addedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
+					Orders.Add(addedOrder.ToOrderViewModel());
 					break;
 				case NotifyDictionaryChangedAction.Removed:
 					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key.ToString());
-					if (removedOrder == null) break;
-					Orders.Remove(removedOrder);
+					if (removedOrder != null) Orders.Remove(removedOrder);
 					break;
 				case NotifyDictionaryChangedAction.Changed:
-					var changedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
+					var changedOrder = obj.NewValue ?? throw new ArgumentException("Order is null");
 					var stringId = changedOrder.Id.ToString();
 					for (int i = 0; i < Orders.Count; i++)
 					{
@@ -90,6 +86,25 @@ namespace Ligric.UI.ViewModels.Presentation
 						var changingItem = Orders[i];
 						changingItem.CurrentPrice = e.NewValue.ToString();
 					}
+				}
+			}
+		}
+
+		private void InitializePrimaryOrders(IFuturesCryptoClient futuresClient)
+		{
+			futuresClient.Orders.OrdersChanged += OnOrdersChanged;
+			futuresClient.Trades.TradesChanged += OnTradesChanged;
+
+			lock (((ICollection)Orders).SyncRoot)
+			{
+				foreach (var order in futuresClient.Orders.Orders.Values)
+				{
+					var orderVm = order.ToOrderViewModel();
+					if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
+					{
+						orderVm.CurrentPrice = value.ToString();
+					}
+					Orders.Add(orderVm);
 				}
 			}
 		}

@@ -21,12 +21,11 @@ namespace Ligric.UI.ViewModels.Extensions
 			return new ApiClientDto(vm.UserApiId, vm.Name!, vm.Permissions ?? throw new ArgumentNullException("[ApiClientViewModel] Permissions is null."));
 		}
 
-		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto, Guid exchangeId)
+		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto)
 		{
 			return new OrderViewModel
 			{
 				Id = dto.Id.ToString(),
-				ExchangeId = exchangeId,
 				Symbol = dto.Symbol,
 				Price = dto.Price.ToString(),
 				Side = dto.Side.ToString(),
