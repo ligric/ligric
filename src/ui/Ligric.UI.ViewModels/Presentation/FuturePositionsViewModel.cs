@@ -62,6 +62,8 @@ namespace Ligric.UI.ViewModels.Presentation
 			{
 				case NotifyDictionaryChangedAction.Added:
 					var addedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
+					if (Positions.FirstOrDefault(x => x.Id == addedPosition.Id) != null) break;
+
 					var client = GetClientFromClientId(obj.NewValue.Id)!;
 					var positionVm = addedPosition.ToPositionViewModel(obj.NewValue.Id);
 					SetCurrentPrice(client, positionVm);

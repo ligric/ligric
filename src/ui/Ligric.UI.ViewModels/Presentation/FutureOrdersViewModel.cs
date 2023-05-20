@@ -57,6 +57,8 @@ namespace Ligric.UI.ViewModels.Presentation
 			{
 				case NotifyDictionaryChangedAction.Added:
 					var addedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
+					if (Orders.FirstOrDefault(x => x.Id == addedOrder.Id) != null) break;
+
 					var orderVm = addedOrder.ToOrderViewModel(obj.NewValue.Id!);
 					var client = GetClientFromClientId(obj.NewValue.Id!)!;
 					SetCurrentPrice(client, orderVm);
