@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Utils
+﻿namespace Utils.CollectionExtensions
 {
-    public static class CollectionExtensions
+	public static class CollectionExtensions
     {
         public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
@@ -157,5 +154,18 @@ namespace Utils
 
             return count;
         }
-    }
+
+		public static IEnumerable<T> ForEach<T>(this IEnumerable<T> items, Action<T> action)
+		{
+			if (items != null)
+			{
+				foreach (T item in items)
+				{
+					action(item);
+				}
+			}
+
+			return items!;
+		}
+	}
 }
