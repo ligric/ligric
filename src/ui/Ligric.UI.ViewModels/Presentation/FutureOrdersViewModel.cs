@@ -23,6 +23,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_dispatcher = dispatcher;
 			_futuresCryptoManager = futuresCryptoManager;
 
+			_futuresCryptoManager.ClientsChanged += OnFuturesClientsChanged;
 			_futuresCryptoManager.Clients.Values.ForEach(InitializePrimaryOrders);
 		}
 
@@ -57,7 +58,7 @@ namespace Ligric.UI.ViewModels.Presentation
 				case NotifyDictionaryChangedAction.Added:
 					var addedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
 					var orderVm = addedOrder.ToOrderViewModel(obj.NewValue.Id!);
-					var client = GetClientFromOrderSender(obj.NewValue.Id!)!;
+					var client = GetClientFromClientId(obj.NewValue.Id!)!;
 					SetCurrentPrice(client, orderVm);
 					Orders.Add(orderVm);
 					break;
@@ -92,6 +93,22 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
+		private void OnFuturesClientsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, IFuturesCryptoClient> e)
+		{
+			switch (e.Action)
+			{
+				case NotifyDictionaryChangedAction.Added:
+					InitializePrimaryOrders(e.NewValue!);
+					break;
+				case NotifyDictionaryChangedAction.Removed:
+					var removedClient = e.OldValue!;
+					removedClient.ClientOrdersChanged -= OnOrdersChanged;
+					removedClient.Trades.TradesChanged -= OnTradesChanged;
+					break;
+				default: throw new NotImplementedException();
+			}
+		}
+
 		private void SetCurrentPrice(IFuturesCryptoClient futuresClient, OrderViewModel orderVm)
 		{
 			if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
@@ -100,9 +117,9 @@ namespace Ligric.UI.ViewModels.Presentation
 			}
 		}
 
-		private IFuturesCryptoClient? GetClientFromOrderSender(object sender)
+		private IFuturesCryptoClient? GetClientFromClientId(Guid clientId)
 		{
-			return _futuresCryptoManager.Clients.Values.FirstOrDefault(x => x.Orders == sender);
+			return _futuresCryptoManager.Clients.Values.FirstOrDefault(x => x.ClientId == clientId);
 		}
 	}
 }

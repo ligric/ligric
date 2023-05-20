@@ -23,6 +23,7 @@ namespace Ligric.UI.ViewModels.Presentation
 			_dispatcher = dispatcher;
 			_futuresCryptoManager = futuresCryptoManager;
 
+			_futuresCryptoManager.ClientsChanged += OnFuturesClientsChanged;
 			_futuresCryptoManager.Clients.Values.ForEach(InitializePrimaryPositions);
 		}
 
@@ -174,6 +175,23 @@ namespace Ligric.UI.ViewModels.Presentation
 							position.Side.Equals("Sell") ? (sbyte)-1 : (sbyte)1);
 					}
 				}
+			}
+		}
+
+		private void OnFuturesClientsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, IFuturesCryptoClient> e)
+		{
+			switch (e.Action)
+			{
+				case NotifyDictionaryChangedAction.Added:
+					InitializePrimaryPositions(e.NewValue!);
+					break;
+				case NotifyDictionaryChangedAction.Removed:
+					var removedClient = e.OldValue!;
+					removedClient.ClientPositionsChanged -= OnPositionsChanged;
+					removedClient.Trades.TradesChanged -= OnTradesChanged;
+					removedClient.ClientLeveragesChanged -= OnLeveragesChanged;
+					break;
+				default: throw new NotImplementedException();
 			}
 		}
 
