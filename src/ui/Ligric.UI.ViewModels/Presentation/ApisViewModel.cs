@@ -52,8 +52,9 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ReactiveCommand<ApiClientViewModel, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(
 			execute: ExecuteShareApi, outputScheduler: RxApp.TaskpoolScheduler);
 
-		public ReactiveCommand<ApiClientViewModel, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteAttachApiStreamAsync);
-
+		// TODO : Should be ReactiveCommand.Create but Executing doesnt work
+		public ReactiveCommand<ApiClientViewModel, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteAttachApiStream);
+		// TODO : Should be ReactiveCommand.Create but Executing doesnt work
 		public ReactiveCommand<ApiClientViewModel, Unit> DetachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteDetachApiStream);
 
 		#region Save API
@@ -69,18 +70,24 @@ namespace Ligric.UI.ViewModels.Presentation
 		}
 		#endregion
 
-		private async Task ExecuteAttachApiStreamAsync(ApiClientViewModel apiClient)
+		// TODO : Should be void
+		private Task ExecuteAttachApiStream(ApiClientViewModel apiClient)
 		{
 			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
 			var client = _futuresCryptoManager.Clients[(long)apiClient.UserApiId];
-			await client.AttachStreamAsync();
+			client.AttachStream();
+
+			return Task.CompletedTask;
 		}
 
-		private async Task ExecuteDetachApiStream(ApiClientViewModel apiClient)
+		// TODO : Should be void
+		private Task ExecuteDetachApiStream(ApiClientViewModel apiClient)
 		{
 			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
 			var client = _futuresCryptoManager.Clients[(long)apiClient.UserApiId];
 			client.DetachStream();
+
+			return Task.CompletedTask;
 		}
 
 		public async Task ExecuteShareApi(ApiClientViewModel api, CancellationToken ct)
