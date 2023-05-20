@@ -11,6 +11,7 @@ namespace Ligric.UI.ViewModels.Data
 			Symbol = symbol;
 			Side = side;
 			EntryPrice = entryPrice;
+			ClientId = clientId;
 		}
 		public long Id { get; }
 		public Guid ClientId { get; } 
