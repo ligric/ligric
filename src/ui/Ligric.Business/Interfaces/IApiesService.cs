@@ -34,8 +34,8 @@ namespace Ligric.Business.Apies
 		/// <remarks>Wors if user has permissions or users is owner.</remarks>
 		Task SetStateAsync(IReadOnlyDictionary<long, ApiActivityStateFilter> multiChangesInfo, CancellationToken ct);
 
-		Task ApiPiplineSubscribeAsync();
+		Task AttachStreamAsync();
 
-		void ApiPiplineUnsubscribe();
+		void DetachStream();
 	}
 }

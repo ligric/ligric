@@ -74,7 +74,7 @@ namespace Ligric.Business.Clients.Apies
 			throw new NotImplementedException();
 		}
 
-		public Task ApiPiplineSubscribeAsync()
+		public Task AttachStreamAsync()
 		{
 			if (_apiPiplineSubscriveCancellationToken != null
 				&& !_apiPiplineSubscriveCancellationToken.IsCancellationRequested)
@@ -86,7 +86,7 @@ namespace Ligric.Business.Clients.Apies
 			return StreamApiSubscribeCall(_apiPiplineSubscriveCancellationToken.Token);
 		}
 
-		public void ApiPiplineUnsubscribe()
+		public void DetachStream()
 		{
 			_apiPiplineSubscriveCancellationToken?.Cancel();
 		}
@@ -99,7 +99,7 @@ namespace Ligric.Business.Clients.Apies
 
 		public void ClearSession()
 		{
-			ApiPiplineUnsubscribe();
+			DetachStream();
 			_availableApies.ResetAndRiseEvent(this, ApiesChanged);
 		}
 
@@ -152,7 +152,7 @@ namespace Ligric.Business.Clients.Apies
 
 			if (disposing)
 			{
-				ApiPiplineUnsubscribe();
+				DetachStream();
 				_apiPiplineSubscriveCancellationToken?.Dispose();
 			}
 
