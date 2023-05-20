@@ -63,12 +63,12 @@ namespace Ligric.Business.Clients.Futures.Binance
 		private void OnLeveragesChanged(object sender, NotifyDictionaryChangedEventArgs<string, LeverageDto> e)
 			=> ClientLeveragesChanged?.Invoke(this, e.ToIdentityNotifyDictionaryChangedEventArgs(ClientId));
 
-		public async Task AttachStreamAsync()
+		public void AttachStream()
 		{
-			await _orders.AttachStreamAsync(userApi);
-			await _trades.AttachStreamAsync(userApi);
-			await _positions.AttachStreamAsync(userApi);
-			await _leverages.AttachStreamAsync(userApi);
+			_orders.AttachStreamAsync(userApi);
+			_trades.AttachStreamAsync(userApi);
+			_positions.AttachStreamAsync(userApi);
+			_leverages.AttachStreamAsync(userApi);
 		}
 
 		public void DetachStream()

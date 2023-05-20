@@ -6,6 +6,7 @@ using Ligric.Business.Interfaces.Futures;
 using Ligric.Business.Metadata;
 using Utils;
 using Ligric.Core.Ligric.Core.Types.Api;
+using Ligric.Business.Clients.Authorization;
 
 namespace Ligric.Business.Clients.Futures.Binance
 {
@@ -13,7 +14,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 	{
 		private int sync = 0;
 		private readonly GrpcChannel _channel;
-		private readonly ICurrentUser _currentUser;
+		private readonly IAuthorizationService _authorizationService;
 		private readonly IMetadataManager _metadata;
 		private readonly IApiesService _apisService;
 
@@ -21,14 +22,16 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		public FuturesCryptoManager(
 			GrpcChannel channel,
-			ICurrentUser currentUser, // Temporary
+			IAuthorizationService authorizationService, // Temporary
 			IMetadataManager metadata,
 			IApiesService apisService)
 		{
 			_channel = channel;
-			_currentUser = currentUser;
+			_authorizationService = authorizationService;
 			_metadata = metadata;
 			_apisService = apisService;
+
+			_authorizationService.AuthorizationStateChanged += OnAuthorizationStateChanged;
 			_apisService.ApiesChanged += OnApiesChanged;
 		}
 
@@ -61,9 +64,22 @@ namespace Ligric.Business.Clients.Futures.Binance
 			}
 		}
 
+		private async void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
+		{
+			switch (e)
+			{
+				case Core.Types.User.UserAuthorizationState.Connected:
+					await _apisService.AttachStreamAsync();
+					break;
+				case Core.Types.User.UserAuthorizationState.Disconnected:
+					_apisService.DetachStream();
+					break;
+			}
+		}
+
 		private void AddFuturesCryptoClient(long userApiId)
 		{
-			var client = new FuturesCryptoClient(_channel, _currentUser, _metadata, userApiId);
+			var client = new FuturesCryptoClient(_channel, _authorizationService, _metadata, userApiId);
 			_clients.AddAndRiseEvent(this, ClientsChanged, userApiId, client, ref sync);
 		}
 
