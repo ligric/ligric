@@ -23,7 +23,7 @@ namespace Ligric.Business.Interfaces
 
 		event EventHandler<NotifyDictionaryChangedEventArgs<string, IdentityEntity<LeverageDto>>>? ClientLeveragesChanged;
 
-		Task AttachStreamAsync();
+		void AttachStream();
 
 		void DetachStream();
 	}

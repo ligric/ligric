@@ -42,7 +42,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 				return Task.CompletedTask;
 			}
 
-			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStreamAsync] UserId is null");
+			var userId = _currentUser.CurrentUser?.Id ?? throw new NullReferenceException("[AttachStream] UserId is null");
 
 			var cts = new CancellationTokenSource();
 			_cts = cts;
