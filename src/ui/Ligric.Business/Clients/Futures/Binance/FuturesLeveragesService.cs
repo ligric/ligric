@@ -94,7 +94,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 				{
 					case Protobuf.Action.Added:
 						var leverageDto = Extensions.TypeExtensions.ToFuturesLeverageDto(changes.Leverage);
-						_leverages.AddAndRiseEvent(this, LeveragesChanged, leverageDto.Symbol, leverageDto, ref sync);
+						_leverages.SetAndRiseEvent(this, LeveragesChanged, leverageDto.Symbol, leverageDto, ref sync);
 						break;
 					case Protobuf.Action.Changed:
 						goto case Protobuf.Action.Added;
