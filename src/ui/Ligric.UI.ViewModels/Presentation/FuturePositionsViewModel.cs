@@ -86,6 +86,7 @@ namespace Ligric.UI.ViewModels.Presentation
 						if (Positions[i].Id == changedPosition!.Id)
 						{
 							var changingPosition = Positions[i];
+							changingPosition.Side = changedPosition.Side.ToString();
 							changingPosition.EntryPrice = changedPosition.EntryPrice;
 							changingPosition.Quantity = changedPosition.Quantity;
 							changingPosition.QuoteQuantity = changedPosition.EntryPrice * changedPosition.Quantity;
