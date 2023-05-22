@@ -1,5 +1,4 @@
-﻿using System;
-using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
+﻿using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
 using Utils;
 
 namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers

@@ -1,14 +1,11 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Impl;
 using Serilog;
 using NHibernate;
 using Ligric.Service.CryptoApisService.Infrastructure.Logging;
-using Ligric.Service.CryptoApisService.Infrastructure.Processing;
 using Ligric.Infrastructure.Domain;
-using Ligric.Infrastructure.Processing;
 using CommonServiceLocator;
 using Autofac.Extras.CommonServiceLocator;
 using Ligric.Service.CryptoApisService.Infrastructure.Quartz;
@@ -18,6 +15,7 @@ using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database;
 using Ligric.Service.CryptoApisService.Infrastructure;
 using Ligric.Service.CryptoApisService.Application.TemporaryObservers;
+using Ligric.Service.CryptoApisService.Application.Subscribtions.Futures;
 
 namespace Ligric.Service.CryptoApisService.IoC
 {
@@ -69,7 +67,7 @@ namespace Ligric.Service.CryptoApisService.IoC
 			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().SingleInstance();
 
 			// #TEMPORARY
-			container.RegisterType<TemporaryUserFuturesObserver>().As<ITemporaryUserFuturesObserver>().SingleInstance();
+			container.RegisterType<FuturesApiSubscribtionsObserverManager>().As<IFuturesApiSubscribtionsObserverManager>().InstancePerLifetimeScope();
 
 			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));

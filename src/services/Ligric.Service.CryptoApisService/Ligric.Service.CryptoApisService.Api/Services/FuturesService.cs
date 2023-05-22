@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ligric.Service.CryptoApisService.Api.Extensions;
 using Ligric.Service.CryptoApisService.Api.Helpers;
-using Ligric.Service.CryptoApisService.Application;
+using Ligric.Service.CryptoApisService.Application.Subscribtions.Futures;
 
 namespace Ligric.Service.CryptoApisService.Api.Services
 {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class FuturesService : Futures.FuturesBase
 	{
-		private ITemporaryUserFuturesObserver _futuresObserver;
+		private IFuturesApiSubscribtionsObserverManager _futuresObserver;
 
 		public FuturesService(
-			ITemporaryUserFuturesObserver futuresObserver)
+			IFuturesApiSubscribtionsObserverManager futuresObserver)
 		{
 			_futuresObserver = futuresObserver;
 		}
@@ -23,10 +23,9 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		public override async Task OrdersSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
 		{
 			Guid subscribedId = Guid.Empty;
-
 			try
 			{
-				await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId, out subscribedId)
+				await _futuresObserver.GetOrdersAsObservable(request.UserId, request.UserApiId, out var exchangedId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -49,18 +48,17 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					};
 
 					await responseStream.WriteAsync(orderChanged);
-
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 			}
 			catch (TaskCanceledException)
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} was canceled.");
 			}
 			catch
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
@@ -72,32 +70,31 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			Guid subscribedId = Guid.Empty;
 			try
 			{
-				await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId, out subscribedId)
+				await _futuresObserver.GetValuesAsObservable(request.UserId, request.UserApiId, out var exchangedId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
 					var orderChanged = new ValuesChanged
 					{
-						Action = x.Action.ToProtosAction(),
+						Action = x.EventArgs.Action.ToProtosAction(),
 						Value = new FuturesValue
 						{
-							Symbol = x.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
-							Value = x.NewValue.ToString()
+							Symbol = x.EventArgs.Key ?? throw new ArgumentException("[ValuesSubscribe] Key is null."),
+							Value = x.EventArgs.NewValue.ToString()
 						}
 					};
 					await responseStream.WriteAsync(orderChanged);
-
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 			}
 			catch (TaskCanceledException)
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} was canceled.");
 			}
 			catch
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
@@ -109,7 +106,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			Guid subscribedId = Guid.Empty;
 			try
 			{
-				await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId, out subscribedId)
+				await _futuresObserver.GetPositionsAsObservable(request.UserId, request.UserApiId, out var exchangedId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -132,18 +129,17 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					};
 
 					await responseStream.WriteAsync(positionsChanged);
-
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 			}
 			catch (TaskCanceledException)
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} was canceled.");
 			}
 			catch
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
@@ -155,7 +151,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 			Guid subscribedId = Guid.Empty;
 			try
 			{
-				await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId, out subscribedId)
+				await _futuresObserver.GetLeveragesAsObservable(request.UserId, request.UserApiId, out var exchangedId, out subscribedId)
 				.ToAsyncEnumerable()
 				.ForEachAwaitAsync(async (x) =>
 				{
@@ -171,18 +167,17 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					};
 
 					await responseStream.WriteAsync(orderChanged);
-
 				}, context.CancellationToken)
 				.ConfigureAwait(false);
 			}
 			catch (TaskCanceledException)
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} was canceled.");
 			}
 			catch
 			{
-				_futuresObserver.UnsubscribeUser(subscribedId);
+				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
