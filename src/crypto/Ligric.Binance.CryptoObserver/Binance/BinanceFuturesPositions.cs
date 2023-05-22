@@ -72,33 +72,43 @@ namespace Ligric.CryptoObserver.Binance
 			var positions = account.Data.UpdateData.Positions;
 			foreach (var position in positions)
 			{
-				Side side = position.PositionSide.ToSideDto(position.Quantity);
-
-				FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
-
 				if (position.Quantity == 0)
 				{
-					if (existingItem != null && _positions.TryGetValue(existingItem.Id, out var removingPosition))
-					{
-						_positions.RemoveAndRiseEvent(this, PositionsChanged, removingPosition.Id, removingPosition, ref eventSync);
-						System.Diagnostics.Debug.WriteLine($"Removed {removingPosition.Symbol}");
-					}
+					RemovePosition(position.Symbol);
 					continue;
 				}
+				AddOrSetPosition(position);
+			}
+		}
 
-				byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
+		private void RemovePosition(string symbol)
+		{
+			FuturesPositionDto? remodingItem = _positions.Values.FirstOrDefault(x => x.Symbol == symbol);
 
-				if (existingItem == null)
-				{
-					FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
-					_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
-					_leverages.UpdateLeveragesFromAddedPosition(positionDto);
-				}
-				else
-				{
-					FuturesPositionDto positionDto = position.ToFuturesPositionDto(existingItem.Id, side, leverage);
-					_positions.SetAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
-				}
+			if (remodingItem != null && _positions.TryGetValue(remodingItem.Id, out var removingPosition))
+			{
+				_positions.RemoveAndRiseEvent(this, PositionsChanged, removingPosition.Id, removingPosition, ref eventSync);
+				System.Diagnostics.Debug.WriteLine($"Removed {removingPosition.Symbol}");
+			}
+		}
+
+		private void AddOrSetPosition(BinanceFuturesStreamPosition position)
+		{
+			Side side = position.PositionSide.ToSideDto(position.Quantity);
+
+			byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
+			FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
+
+			if (existingItem == null)
+			{
+				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
+				_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+				_leverages.UpdateLeveragesFromAddedPosition(positionDto);
+			}
+			else
+			{
+				FuturesPositionDto positionDto = position.ToFuturesPositionDto(existingItem.Id, side, leverage);
+				_positions.SetAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
 			}
 		}
 	}
