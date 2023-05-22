@@ -130,6 +130,7 @@ namespace Ligric.Service.CryptoApisService.Application.Subscribtions.Futures
 								{
 									subscribedApis.Remove(userId);
 									subscribedApi.Dispose();
+									System.Diagnostics.Debug.WriteLine($"Api {userId} was fully removed.");
 								}
 							}
 						}
