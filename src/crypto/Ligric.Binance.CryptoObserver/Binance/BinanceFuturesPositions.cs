@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Binance.Net.Clients;
-using Binance.Net.Enums;
 using Binance.Net.Objects.Models.Futures.Socket;
 using CryptoExchange.Net.Sockets;
 using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
-using Ligric.CryptoObserver.Binance.Types;
 using Ligric.CryptoObserver.Extensions;
 using Ligric.CryptoObserver.Interfaces;
 using Utils;
+using Utils.CollectionExtensions;
 using Utils.Extensions;
 
 namespace Ligric.CryptoObserver.Binance
@@ -44,27 +42,29 @@ namespace Ligric.CryptoObserver.Binance
 			var positionssResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
 
 			var openPositions = positionssResponse.Data
-				.Where(x => x.EntryPrice > 0)
-				.ToAsyncEnumerable()
-				.SelectAwaitWithCancellation(async (binancePosition, token) =>
-				{
-					Side side = binancePosition.Quantity > 0 ? Side.Buy : Side.Sell;
-					byte? leverage = _leverages.Leverages.TryGetValue(binancePosition.Symbol, out byte leverageOut) ? leverageOut : null;
+				.Where(x => x.EntryPrice > 0);
 
-					return binancePosition.ToFuturesPositionDto(
-						(long)RandomHelper.GetRandomUlong(),
-						side,
-						leverage,
-						binancePosition.Quantity);
+			var positionDto = openPositions.Select(binancePosition =>
+			{
+				 Side side = binancePosition.Quantity > 0 ? Side.Buy : Side.Sell;
+				 byte? leverage = _leverages.Leverages.TryGetValue(binancePosition.Symbol, out byte leverageOut) ? leverageOut : null;
 
-				}).ForEachAwaitAsync(async position =>
+				 return binancePosition.ToFuturesPositionDto(
+					 (long)RandomHelper.GetRandomUlong(),
+					 side,
+					 leverage,
+					 binancePosition.Quantity);
+
+			});
+
+			lock (((ICollection)_positions).SyncRoot)
+			{
+				positionDto.ForEach(position =>
 				{
-					lock (((ICollection)_positions).SyncRoot)
-					{
-						_positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
-						_leverages.UpdateLeveragesFromAddedPosition(position);
-					}
-				}, token);
+					 _positions.AddAndRiseEvent(this, PositionsChanged, position.Id, position, ref eventSync);
+					 _leverages.UpdateLeveragesFromAddedPosition(position);
+				});
+			}
 		}
 
 		internal void OnAccountUpdated(DataEvent<BinanceFuturesStreamAccountUpdate> account)
@@ -72,135 +72,44 @@ namespace Ligric.CryptoObserver.Binance
 			var positions = account.Data.UpdateData.Positions;
 			foreach (var position in positions)
 			{
-				Side side = position.PositionSide.ToSideDto(position.Quantity);
-
-				FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
-
 				if (position.Quantity == 0)
 				{
-					if (existingItem != null && _positions.TryGetValue(existingItem.Id, out var removingPosition))
-					{
-						_positions.RemoveAndRiseEvent(this, PositionsChanged, removingPosition.Id, removingPosition, ref eventSync);
-						System.Diagnostics.Debug.WriteLine($"Removed {removingPosition.Symbol}");
-					}
+					RemovePosition(position.Symbol);
 					continue;
 				}
-
-				byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
-
-				if (existingItem == null)
-				{
-					FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
-					_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
-					_leverages.UpdateLeveragesFromAddedPosition(positionDto);
-				}
-				else
-				{
-					FuturesPositionDto positionDto = position.ToFuturesPositionDto(existingItem.Id, side, leverage);
-					_positions.SetAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
-				}
+				AddOrSetPosition(position);
 			}
 		}
 
-		private async Task<decimal> GetFilledOrdersQuoteQuantity(
-			string symbol,
-			decimal quantity,
-			DateTime positionUpdated,
-			CancellationToken token)
+		private void RemovePosition(string symbol)
 		{
-			var orders = await GetFilledOrdersWithQuoteQuantity(symbol, quantity, positionUpdated, token);
+			FuturesPositionDto? remodingItem = _positions.Values.FirstOrDefault(x => x.Symbol == symbol);
 
-			return orders.Sum(x => x.QuoteQuantity);
-		}
-
-		private async Task<IEnumerable<BinanceFuturesFilledOrder>> GetFilledOrdersWithQuoteQuantity(
-			string symbol,
-			decimal quantity,
-			DateTime positionUpdated,
-			CancellationToken token)
-		{
-			var cashedOrders = TryGetOrdersFromCash(symbol, quantity, positionUpdated, out decimal quantitySum);
-
-			if (quantitySum == quantity)
+			if (remodingItem != null && _positions.TryGetValue(remodingItem.Id, out var removingPosition))
 			{
-			    return cashedOrders;
-			}
-
-			var ordersCollectingResult = await GetOrdersFromBinanceAsync(
-				symbol, quantity, cashedOrders.LastOrDefault()?.UpdatedTime ?? positionUpdated,
-				token, quantitySum, cashedOrders);
-
-			if (ordersCollectingResult.QuantitySum != quantity)
-			{
-				throw new InvalidOperationException("Position quote quantity was not finded");
-			}
-
-			return ordersCollectingResult.Orders;
-		}
-
-		private async Task<(IEnumerable<BinanceFuturesFilledOrder> Orders, decimal QuantitySum)> GetOrdersFromBinanceAsync(
-			string symbol,
-			decimal quantity,
-			DateTime lastOrderUpdatedTime,
-			CancellationToken token,
-			decimal quantitySum,
-			List<BinanceFuturesFilledOrder> lastFilledOrders)
-		{
-			while (true)
-			{
-				var newTime = lastOrderUpdatedTime.AddHours(-1);
-
-				var nextFilledOrdersResponse = await _client.UsdFuturesApi.Trading.GetOrdersAsync(
-					 symbol, startTime: newTime, endTime: lastOrderUpdatedTime, ct: token);
-
-				var nextFilledOrders = nextFilledOrdersResponse.Data;
-
-				foreach (var order in nextFilledOrders.Reverse())
-				{
-					if (lastFilledOrders.FirstOrDefault(x => x.Id == order.Id) != null)
-					{
-						continue;
-					}
-
-					if (order.Status == OrderStatus.Filled)
-					{
-						lastFilledOrders.Add(order.ToBinanceFuturesFilledOrder());
-						quantitySum += order.LastFilledQuantity;
-						if (quantity == quantitySum)
-						{
-							return new(lastFilledOrders, quantitySum);
-						}
-					}
-				}
-				lastOrderUpdatedTime = newTime;
+				_positions.RemoveAndRiseEvent(this, PositionsChanged, removingPosition.Id, removingPosition, ref eventSync);
+				System.Diagnostics.Debug.WriteLine($"Removed {removingPosition.Symbol}");
 			}
 		}
 
-		private List<BinanceFuturesFilledOrder> TryGetOrdersFromCash(string symbol, decimal quantity, DateTime positionUpdatedTime, out decimal quantitySum)
+		private void AddOrSetPosition(BinanceFuturesStreamPosition position)
 		{
-			var cashedOrders = new List<BinanceFuturesFilledOrder>(0);
-			quantitySum = 0m;
+			Side side = position.PositionSide.ToSideDto(position.Quantity);
 
-			foreach (var cashedOrder in _cashedOrders.LastFilledOrders)
+			byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
+			FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
+
+			if (existingItem == null)
 			{
-				if (cashedOrder.Symbol.Equals(symbol))
-				{
-					if (cashedOrder.UpdatedTime > positionUpdatedTime)
-					{
-						return cashedOrders;
-					}
-
-					quantitySum += cashedOrder.Quantity;
-					cashedOrders.Add(cashedOrder);
-
-					if (quantitySum == quantity)
-					{
-						break;
-					}
-				}
+				FuturesPositionDto positionDto = position.ToFuturesPositionDto((long)RandomHelper.GetRandomUlong(), side, leverage);
+				_positions.AddAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+				_leverages.UpdateLeveragesFromAddedPosition(positionDto);
 			}
-
-			return cashedOrders;
+			else
+			{
+				FuturesPositionDto positionDto = position.ToFuturesPositionDto(existingItem.Id, side, leverage);
+				_positions.SetAndRiseEvent(this, PositionsChanged, positionDto.Id, positionDto, ref eventSync);
+			}
 		}
 	}
 }

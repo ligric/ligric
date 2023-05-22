@@ -5,9 +5,17 @@ namespace Ligric.UI.ViewModels.Data
 {
 	public class OrderViewModel : ReactiveObject
 	{
-		[Reactive] public string? Id { get; set; }
-		[Reactive] public Guid? ExchangeId { get; set; }
-		[Reactive] public string? Symbol { get; set; }
+		public long Id { get; }
+		public string Symbol { get; }
+		public Guid ClientId { get; }
+
+		public OrderViewModel(long id, Guid clientId, string symbol)
+		{
+			Id = id;
+			ClientId = clientId;
+			Symbol = symbol;
+		}
+
 		[Reactive] public string? Side { get; set; }
 		[Reactive] public string? Quantity { get; set; }
 		[Reactive] public string? Price { get; set; }

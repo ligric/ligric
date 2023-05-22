@@ -1,7 +1,7 @@
 ﻿using System.Reactive;
 using Ligric.Business.Apies;
-using Ligric.Business.Authorization;
-using Ligric.Business.Futures;
+using Ligric.Business.Interfaces;
+using Ligric.Business.Interfaces.Futures;
 using ReactiveUI;
 
 namespace Ligric.UI.ViewModels.Presentation
@@ -9,19 +9,17 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FuturesViewModel
 	{
 		private readonly IAuthorizationService _authorizationService;
+
 		public FuturesViewModel(
 			IDispatcher dispatcher,
 			IApiesService apiesService,
-			IOrdersService orderService,
-			IValuesService valuesService,
-			IPositionsService postionsService,
-			ILeveragesService leveragesService,
+			IFuturesCryptoManager futuresCryptoManager,
 			IAuthorizationService authorizationService)
 		{
 			_authorizationService = authorizationService;
-			Api = new ApisViewModel(dispatcher, apiesService, orderService, valuesService, postionsService, leveragesService);
-			FuturesOrders = new FutureOrdersViewModel(dispatcher, orderService, valuesService);
-			FuturePositions = new FuturePositionsViewModel(dispatcher, valuesService, postionsService, leveragesService);
+			Api = new ApisViewModel(dispatcher, apiesService, futuresCryptoManager);
+			FuturesOrders = new FutureOrdersViewModel(dispatcher, futuresCryptoManager);
+			FuturePositions = new FuturePositionsViewModel(dispatcher, futuresCryptoManager);
 		}
 
 		public ApisViewModel Api { get; }

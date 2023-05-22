@@ -1,10 +1,10 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using CommunityToolkit.Mvvm.Messaging;
-using Ligric.Business.Authorization;
-using Ligric.Business.Clients;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Ligric.Business.Apies;
+using Ligric.Business.Clients.Apies;
 using Ligric.Business.Clients.Authorization;
+using Ligric.Business.Clients.Futures.Binance;
 using Ligric.Business.Interfaces;
+using Ligric.Business.Interfaces.Futures;
 using Ligric.Business.Metadata;
 //using CommunityToolkit.Mvvm.Messaging;
 //using Ligric.Business.Apies;
@@ -14,7 +14,6 @@ using Ligric.Business.Metadata;
 //using Ligric.Business.Futures;
 //using Ligric.Business.Interfaces;
 //using Ligric.Business.Metadata;
-using Refit;
 
 namespace Ligric.UI.ViewModels.Helpers;
 
@@ -42,17 +41,14 @@ public static class ServiceCollectionExtensions
 
 		var metadata = new MetadataManager();
 		var authorization = new AuthorizationService(grpcChannelEnvoy, metadata);
-		var cryptoClient = new LigricCryptoClient(grpcChannelEnvoy, authorization, metadata);
+		var apis = new ApiesService(grpcChannelEnvoy, metadata, authorization);
+		var cryptoManager = new FuturesCryptoManager(grpcChannelEnvoy, authorization, metadata, apis);
 
 		_ = services
 			.AddSingleton<IMetadataManager>(metadata)
 			.AddSingleton<IAuthorizationService>(authorization)
-			.AddSingleton<ILigricCryptoClient>(cryptoClient)
-			.AddSingleton(cryptoClient.Apis)
-			.AddSingleton(cryptoClient.Orders)
-			.AddSingleton(cryptoClient.Values)
-			.AddSingleton(cryptoClient.Positions)
-			.AddSingleton(cryptoClient.Leverages)
+			.AddSingleton<IApiesService>(apis)
+			.AddSingleton<IFuturesCryptoManager>(cryptoManager)
 
 			.AddSingleton<IMessenger, WeakReferenceMessenger>();
 
@@ -61,7 +57,7 @@ public static class ServiceCollectionExtensions
 		if (useMocks)
 		{
 			// Comment out the USE_MOCKS definition (top of this file) to prevent using mocks in development
-			//_ = services.AddSingleton<IAuthorizationService, MockAuthorizationService>();
+			//_ = services.AddSingleton<ICurrentUser, MockAuthorizationService>();
 		}
 		return services;
 	}

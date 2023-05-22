@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using Ligric.Business.Futures;
+using Ligric.Business.Interfaces;
+using Ligric.Business.Interfaces.Futures;
 using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
 using Ligric.UI.ViewModels.Data;
@@ -12,66 +14,65 @@ namespace Ligric.UI.ViewModels.Presentation
 	public class FutureOrdersViewModel
 	{
 		private readonly IDispatcher _dispatcher;
-		private readonly IValuesService _valuesService;
-		private readonly IOrdersService _ordersService;
+		private readonly IFuturesCryptoManager _futuresCryptoManager;
 
 		internal FutureOrdersViewModel(
 			IDispatcher dispatcher,
-			IOrdersService ordersService,
-			IValuesService valuesService)
+			IFuturesCryptoManager futuresCryptoManager)
 		{
 			_dispatcher = dispatcher;
-			_ordersService = ordersService;
-			_valuesService = valuesService;
+			_futuresCryptoManager = futuresCryptoManager;
 
-			_ordersService.OpenOrdersChanged += OnOpenOrdersChanged;
-			_valuesService.ValuesChanged += OnValuesChanged;
+			_futuresCryptoManager.ClientsChanged += OnFuturesClientsChanged;
+			_futuresCryptoManager.Clients.Values.ForEach(InitializePrimaryOrders);
 		}
 
 		public ObservableCollection<OrderViewModel> Orders { get; } = new ObservableCollection<OrderViewModel>();
 
-		private void OnOpenOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>> obj)
+		private void InitializePrimaryOrders(IFuturesCryptoClient futuresClient)
 		{
-			_dispatcher.TryEnqueue(() =>
+			futuresClient.ClientOrdersChanged += OnOrdersChanged;
+			futuresClient.Trades.TradesChanged += OnTradesChanged;
+
+			lock (((ICollection)Orders).SyncRoot)
 			{
-				UpdateOrdersFromAction(obj);
-			});
+				foreach (var order in futuresClient.Orders.Orders.Values)
+				{
+					var orderVm = order.ToOrderViewModel(futuresClient.ClientId);
+					SetCurrentPrice(futuresClient, orderVm);
+					Orders.Add(orderVm);
+				}
+			}
 		}
 
-		private void OnValuesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
-		{
-			_dispatcher.TryEnqueue(() =>
-			{
-				UpdateOrdersFromAction(obj);
-			});
-		}
+		private void OnOrdersChanged(object? sender, NotifyDictionaryChangedEventArgs<long, IdentityEntity<FuturesOrderDto>> obj)
+			=> _dispatcher.TryEnqueue(() => UpdateOrdersFromAction(obj));
 
-		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, ExchangedEntity<FuturesOrderDto>> obj)
+		private void OnTradesChanged(object? sender, NotifyDictionaryChangedEventArgs<string, decimal> obj)
+			=> _dispatcher.TryEnqueue(() => UpdateOrdersFromAction(obj));
+
+		private void UpdateOrdersFromAction(NotifyDictionaryChangedEventArgs<long, IdentityEntity<FuturesOrderDto>> obj)
 		{
 			switch (obj.Action)
 			{
 				case NotifyDictionaryChangedAction.Added:
 					var addedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
-					Orders.Add(addedOrder.ToOrderViewModel(obj.NewValue.ExchengedId));
+					if (Orders.FirstOrDefault(x => x.Id == addedOrder.Id) != null) break;
+
+					var orderVm = addedOrder.ToOrderViewModel(obj.NewValue.Id!);
+					var client = GetClientFromClientId(obj.NewValue.Id!)!;
+					SetCurrentPrice(client, orderVm);
+					Orders.Add(orderVm);
 					break;
 				case NotifyDictionaryChangedAction.Removed:
-					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key.ToString());
-					if (removedOrder == null) break;
-					Orders.Remove(removedOrder);
-					break;
-				case NotifyDictionaryChangedAction.Changed:
-					var changedOrder = obj.NewValue?.Entity ?? throw new ArgumentException("Order is null");
-					var stringId = changedOrder.Id.ToString();
-					for (int i = 0; i < Orders.Count; i++)
+					var removedOrder = Orders.FirstOrDefault(x => x.Id == obj.Key);
+					if (removedOrder != null)
 					{
-						if (Orders[i].Id == stringId)
-						{
-							var changingItem = Orders[i];
-							changingItem.CurrentPrice = changedOrder.CurrentPrice?.ToString();
-							break;
-						}
+						Orders.Remove(removedOrder);
 					}
 					break;
+				case NotifyDictionaryChangedAction.Changed:
+					throw new NotImplementedException();
 				case NotifyDictionaryChangedAction.Cleared:
 					Orders.Clear();
 					break;
@@ -93,6 +94,34 @@ namespace Ligric.UI.ViewModels.Presentation
 				}
 			}
 		}
-	}
 
+		private void OnFuturesClientsChanged(object? sender, NotifyDictionaryChangedEventArgs<long, IFuturesCryptoClient> e)
+		{
+			switch (e.Action)
+			{
+				case NotifyDictionaryChangedAction.Added:
+					InitializePrimaryOrders(e.NewValue!);
+					break;
+				case NotifyDictionaryChangedAction.Removed:
+					var removedClient = e.OldValue!;
+					removedClient.ClientOrdersChanged -= OnOrdersChanged;
+					removedClient.Trades.TradesChanged -= OnTradesChanged;
+					break;
+				default: throw new NotImplementedException();
+			}
+		}
+
+		private void SetCurrentPrice(IFuturesCryptoClient futuresClient, OrderViewModel orderVm)
+		{
+			if (futuresClient.Trades.Trades.TryGetValue(orderVm.Symbol!, out decimal value))
+			{
+				orderVm.CurrentPrice = value.ToString();
+			}
+		}
+
+		private IFuturesCryptoClient? GetClientFromClientId(Guid clientId)
+		{
+			return _futuresCryptoManager.Clients.Values.FirstOrDefault(x => x.ClientId == clientId);
+		}
+	}
 }

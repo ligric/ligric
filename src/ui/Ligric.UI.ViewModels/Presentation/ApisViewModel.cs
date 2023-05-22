@@ -2,9 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reactive;
-using DynamicData;
 using Ligric.Business.Apies;
-using Ligric.Business.Futures;
+using Ligric.Business.Interfaces.Futures;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.UI.ViewModels.Data;
 using Ligric.UI.ViewModels.Extensions;
@@ -17,25 +16,16 @@ namespace Ligric.UI.ViewModels.Presentation
 	{
 		private readonly IDispatcher _dispatcher;
 		private readonly IApiesService _apiService;
-		private readonly IOrdersService _ordersService;
-		private readonly IValuesService _valuesService;
-		private readonly IPositionsService _postionsService;
-		private readonly ILeveragesService _leveragesService;
+		private readonly IFuturesCryptoManager _futuresCryptoManager;
 
 		internal ApisViewModel(
 			IDispatcher dispatcher,
 			IApiesService apiesService,
-			IOrdersService ordersService,
-			IValuesService valuesService,
-			IPositionsService positionsService,
-			ILeveragesService leveragesService)
+			IFuturesCryptoManager futuresCryptoManager)
 		{
 			_dispatcher = dispatcher;
 			_apiService = apiesService;
-			_ordersService = ordersService;
-			_valuesService = valuesService;
-			_postionsService = positionsService;
-			_leveragesService = leveragesService;
+			_futuresCryptoManager = futuresCryptoManager;
 
 			_apiService.ApiesChanged += OnApiesChanged;
 
@@ -62,8 +52,9 @@ namespace Ligric.UI.ViewModels.Presentation
 		public ReactiveCommand<ApiClientViewModel, Unit> ShareApiCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(
 			execute: ExecuteShareApi, outputScheduler: RxApp.TaskpoolScheduler);
 
+		// TODO : Should be ReactiveCommand.Create but Executing doesnt work
 		public ReactiveCommand<ApiClientViewModel, Unit> AttachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteAttachApiStream);
-
+		// TODO : Should be ReactiveCommand.Create but Executing doesnt work
 		public ReactiveCommand<ApiClientViewModel, Unit> DetachApiStreamsCommand => ReactiveCommand.CreateFromTask<ApiClientViewModel>(ExecuteDetachApiStream);
 
 		#region Save API
@@ -79,26 +70,24 @@ namespace Ligric.UI.ViewModels.Presentation
 		}
 		#endregion
 
-		private async Task ExecuteAttachApiStream(ApiClientViewModel apiClient)
+		// TODO : Should be void
+		private Task ExecuteAttachApiStream(ApiClientViewModel apiClient)
 		{
 			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
+			var client = _futuresCryptoManager.Clients[(long)apiClient.UserApiId];
+			client.AttachStream();
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-			_ordersService.AttachStreamAsync((long)apiClient.UserApiId);
-			_valuesService.AttachStreamAsync((long)apiClient.UserApiId);
-			_postionsService.AttachStreamAsync((long)apiClient.UserApiId);
-			_leveragesService.AttachStreamAsync((long)apiClient.UserApiId);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+			return Task.CompletedTask;
 		}
 
-		private async Task ExecuteDetachApiStream(ApiClientViewModel apiClient)
+		// TODO : Should be void
+		private Task ExecuteDetachApiStream(ApiClientViewModel apiClient)
 		{
 			if (apiClient.UserApiId == null) throw new ArgumentNullException("UserId is null");
+			var client = _futuresCryptoManager.Clients[(long)apiClient.UserApiId];
+			client.DetachStream();
 
-			_ordersService.DetachStream((long)apiClient.UserApiId);
-			_valuesService.DetachStream((long)apiClient.UserApiId);
-			_postionsService.DetachStream((long)apiClient.UserApiId);
-			_leveragesService.DetachStream((long)apiClient.UserApiId);
+			return Task.CompletedTask;
 		}
 
 		public async Task ExecuteShareApi(ApiClientViewModel api, CancellationToken ct)

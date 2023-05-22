@@ -21,13 +21,10 @@ namespace Ligric.UI.ViewModels.Extensions
 			return new ApiClientDto(vm.UserApiId, vm.Name!, vm.Permissions ?? throw new ArgumentNullException("[ApiClientViewModel] Permissions is null."));
 		}
 
-		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto, Guid exchangeId)
+		public static OrderViewModel ToOrderViewModel(this FuturesOrderDto dto, Guid clientId)
 		{
-			return new OrderViewModel
+			return new OrderViewModel(dto.Id, clientId, dto.Symbol)
 			{
-				Id = dto.Id.ToString(),
-				ExchangeId = exchangeId,
-				Symbol = dto.Symbol,
 				Price = dto.Price.ToString(),
 				Side = dto.Side.ToString(),
 				Quantity = dto.Quantity.ToString(),
@@ -37,9 +34,9 @@ namespace Ligric.UI.ViewModels.Extensions
 			};
 		}
 
-		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto, Guid exchangeId)
+		public static PositionViewModel ToPositionViewModel(this FuturesPositionDto dto, Guid clientId)
 		{
-			return new PositionViewModel(dto.Id, exchangeId, dto.Symbol, dto.Side.ToString(), dto.EntryPrice)
+			return new PositionViewModel(dto.Id, clientId, dto.Symbol, dto.Side.ToString(), dto.EntryPrice)
 			{
 				Quantity = dto.Quantity,
 				QuoteQuantity = dto.EntryPrice * dto.Quantity,

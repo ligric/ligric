@@ -5,19 +5,19 @@ namespace Ligric.UI.ViewModels.Data
 {
 	public class PositionViewModel : ReactiveObject
 	{
-		public PositionViewModel(long id, Guid exchangeId, string symbol, string side, decimal entryPrice)
+		public PositionViewModel(long id, Guid clientId, string symbol, string side, decimal entryPrice)
 		{
 			Id = id;
-			ExchangeId = exchangeId;
 			Symbol = symbol;
 			Side = side;
 			EntryPrice = entryPrice;
+			ClientId = clientId;
 		}
 		public long Id { get; }
-		public Guid ExchangeId { get; }
+		public Guid ClientId { get; } 
 		public string Symbol { get; }
-		public string Side { get; }
 
+		[Reactive] public string Side { get; set; }
 		[Reactive] public decimal EntryPrice { get; set; }
 		[Reactive] public decimal? CurrentPrice { get; set; }
 		[Reactive] public decimal? Quantity { get; set; }
