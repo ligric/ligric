@@ -38,6 +38,8 @@ namespace Utils
 
         public IDictionary<TKey, TValue>? NewDictionary { get; }
 
+        public IDictionary<TKey, TValue>? OldDictionary { get; }
+
         public NotifyDictionaryChangedEventArgs(
             NotifyDictionaryChangedAction action, 
             TKey? key, 
@@ -58,11 +60,13 @@ namespace Utils
         public NotifyDictionaryChangedEventArgs(
             NotifyDictionaryChangedAction action, 
             IDictionary<TKey, TValue>? newDictionary, 
+            IDictionary<TKey, TValue>? oldDictionary, 
             int number, 
             long senderTime)
             : base(action)
         {
             NewDictionary = newDictionary;
+            OldDictionary = oldDictionary;
 
             Number = number;
             SenderTime = senderTime;
@@ -97,10 +101,13 @@ namespace Utils
 
         // Создание аргумента для события извещения о полной замене всех элементов словаря.
         public static NotifyDictionaryChangedEventArgs<TKey, TValue> InitializeKeyValuePairs<TKey, TValue>(IDictionary<TKey, TValue> values, int number, long senderTime)
-            => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Initialized, values, number, senderTime);
+            => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Initialized, values, default, number, senderTime);
 
         // Создание аргумента для события извещения об очистке словаря (то есть удалении всех пар ключ-значение).
         public static NotifyDictionaryChangedEventArgs<TKey, TValue> ClearKeyValuePairs<TKey, TValue>(int number, long senderTime)
             => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Cleared, default, default, default, number, senderTime);
+
+		public static NotifyDictionaryChangedEventArgs<TKey, TValue> ClearKeyValuePairs<TKey, TValue>(int number, IDictionary<TKey, TValue> oldValues, long senderTime)
+            => new NotifyDictionaryChangedEventArgs<TKey, TValue>(NotifyDictionaryChangedAction.Cleared, default, oldValues, number, senderTime);
     }
 }

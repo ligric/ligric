@@ -51,7 +51,8 @@ namespace Ligric.Business.Clients.Futures.Binance
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_leverages.ClearAndRiseEvent(this, LeveragesChanged, ref sync);
+			_leverages.ClearAndRiseEvent(this, LeveragesChanged, new Dictionary<string, LeverageDto>(_leverages), ref sync);
+
 			sync = 0;
 		}
 

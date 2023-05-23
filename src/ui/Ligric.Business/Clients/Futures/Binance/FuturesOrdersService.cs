@@ -52,7 +52,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_orders.ClearAndRiseEvent(this, OrdersChanged, ref syncOrderChanged);
+			_orders.ClearAndRiseEvent(this, OrdersChanged, new Dictionary<long, FuturesOrderDto>(_orders), ref syncOrderChanged);
 		}
 
 		#region Session

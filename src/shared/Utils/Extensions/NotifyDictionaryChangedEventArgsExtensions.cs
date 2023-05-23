@@ -161,5 +161,18 @@ namespace Utils
             }
             return false;
         }
+
+		public static bool ClearAndRiseEvent<TKey, TValue>(this IDictionary<TKey, TValue> currentEntities, object sender, EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>>? action, IDictionary<TKey, TValue> oldItems, ref int actionNumber)
+        {
+            var isEmpty = currentEntities.Count != 0;
+
+            if (isEmpty)
+            {
+                currentEntities.Clear();
+                action?.Invoke(sender, NotifyActionDictionaryChangedEventArgs.ClearKeyValuePairs<TKey, TValue>(actionNumber++, oldItems, DateTimeOffset.Now.ToUnixTimeMilliseconds()));
+                return true;
+            }
+            return false;
+        }
     }
 }

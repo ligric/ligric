@@ -7,6 +7,7 @@ using Ligric.Business.Futures;
 using static Ligric.Protobuf.Futures;
 using Ligric.Business.Interfaces;
 using System.Collections;
+using Ligric.Core.Types.Future;
 
 namespace Ligric.Business.Clients.Futures.Binance
 {
@@ -52,7 +53,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_trades.ClearAndRiseEvent(this, TradesChanged, ref syncValuesChanged);
+			_trades.ClearAndRiseEvent(this, TradesChanged, new Dictionary<string, decimal>(_trades), ref syncValuesChanged);
 		}
 
 		#region Session

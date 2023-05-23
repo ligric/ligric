@@ -53,7 +53,8 @@ namespace Ligric.Business.Clients.Futures.Binance
 		{
 			_cts?.Cancel();
 			_cts?.Dispose();
-			_positions.ClearAndRiseEvent(this, PositionsChanged, ref syncPositionsChanged);
+			var test = _positions.Select(x => x);
+			_positions.ClearAndRiseEvent(this, PositionsChanged, new Dictionary<long, FuturesPositionDto>(_positions), ref syncPositionsChanged);
 		}
 
 		#region Session
