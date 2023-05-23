@@ -15,7 +15,7 @@ namespace Ligric.Business.Clients.Apies
 	{
 		private bool disposed = false;
 		private UserApisClient _client;
-		private CancellationTokenSource? _apiPiplineSubscriveCancellationToken;
+		private CancellationTokenSource? _cts;
 
 		private readonly HashSet<ApiClientDto> _availableApies = new HashSet<ApiClientDto>();
 		private readonly ICurrentUser _currentUser;
@@ -31,7 +31,7 @@ namespace Ligric.Business.Clients.Apies
 			_currentUser = currentUser;
 		}
 
-		public IReadOnlyCollection<ApiClientDto> AvailableApies => _availableApies;
+		public IReadOnlyCollection<ApiClientDto> AvailableApies =>  _availableApies;
 
 		public event NotifyCollectionChangedEventHandler? ApiesChanged;
 
@@ -76,19 +76,19 @@ namespace Ligric.Business.Clients.Apies
 
 		public Task AttachStreamAsync()
 		{
-			if (_apiPiplineSubscriveCancellationToken != null
-				&& !_apiPiplineSubscriveCancellationToken.IsCancellationRequested)
+			if (_cts != null
+				&& !_cts.IsCancellationRequested)
 			{
 				return Task.CompletedTask;
 			}
 
-			_apiPiplineSubscriveCancellationToken = new CancellationTokenSource();
-			return StreamApiSubscribeCall(_apiPiplineSubscriveCancellationToken.Token);
+			_cts = new CancellationTokenSource();
+			return StreamApiSubscribeCall(_cts.Token);
 		}
 
 		public void DetachStream()
 		{
-			_apiPiplineSubscriveCancellationToken?.Cancel();
+			StopStream();
 		}
 
 		#region Session
@@ -99,7 +99,7 @@ namespace Ligric.Business.Clients.Apies
 
 		public void ClearSession()
 		{
-			DetachStream();
+			StopStream();
 			_availableApies.ResetAndRiseEvent(this, ApiesChanged);
 		}
 
@@ -120,11 +120,8 @@ namespace Ligric.Business.Clients.Apies
 
 			return call.ResponseStream
 				.ToAsyncEnumerable()
-				.Finally(() => call.Dispose())
-				.ForEachAsync((api) =>
-				{
-					OnServerApisChanged(api);
-				}, token);
+				.Finally(call.Dispose)
+				.ForEachAsync(OnServerApisChanged, token);
 		}
 
 		private void OnServerApisChanged(ApisChanged changedInfo)
@@ -152,11 +149,20 @@ namespace Ligric.Business.Clients.Apies
 
 			if (disposing)
 			{
-				DetachStream();
-				_apiPiplineSubscriveCancellationToken?.Dispose();
+				StopStream();
 			}
 
 			disposed = true;
+		}
+
+		private void StopStream()
+		{
+			if (_cts != null)
+			{
+				_cts.Cancel();
+				_cts.Dispose();
+				_cts = null;
+			}
 		}
 	}
 }

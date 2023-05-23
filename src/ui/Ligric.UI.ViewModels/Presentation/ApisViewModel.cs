@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Reactive;
 using Ligric.Business.Apies;
 using Ligric.Business.Interfaces.Futures;
@@ -31,7 +32,7 @@ namespace Ligric.UI.ViewModels.Presentation
 
 			lock (((ICollection)Apis).SyncRoot)
 			{
-				foreach (var item in _apiService.AvailableApies)
+				foreach (var item in _apiService.AvailableApies.AsEnumerable())
 				{
 					Apis.Add(item.ToApiClientViewModel());
 				}

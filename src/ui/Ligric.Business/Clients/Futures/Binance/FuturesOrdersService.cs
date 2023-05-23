@@ -50,8 +50,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		public void DetachStream()
 		{
-			_cts?.Cancel();
-			_cts?.Dispose();
+			StopStream();
 			_orders.ClearAndRiseEvent(this, OrdersChanged, new Dictionary<long, FuturesOrderDto>(_orders), ref syncOrderChanged);
 		}
 
@@ -60,16 +59,14 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		public void ClearSession()
 		{
-			_cts?.Cancel();
-			_cts?.Dispose();
-			_orders.ClearAndRiseEvent(this, OrdersChanged, ref syncOrderChanged);
+			StopStream();
+			_orders.ClearAndRiseEvent(this, OrdersChanged, new Dictionary<long, FuturesOrderDto>(_orders), ref syncOrderChanged);
 			syncOrderChanged = 0;
 		}
 
 		public void Dispose()
 		{
-			_cts?.Cancel();
-			_cts?.Dispose();
+			StopStream();
 		}
 		#endregion
 
@@ -101,6 +98,16 @@ namespace Ligric.Business.Clients.Futures.Binance
 						break;
 					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
 				}
+			}
+		}
+
+		private void StopStream()
+		{
+			if (_cts != null)
+			{
+				_cts.Cancel();
+				_cts.Dispose();
+				_cts = null;
 			}
 		}
 	}

@@ -201,6 +201,9 @@ namespace Ligric.UI.ViewModels.Presentation
 					removedClient.Trades.TradesChanged -= OnTradesChanged;
 					removedClient.ClientLeveragesChanged -= OnLeveragesChanged;
 					break;
+				case NotifyDictionaryChangedAction.Cleared:
+					// TODO : Not implemented.
+					break;
 				default: throw new NotImplementedException();
 			}
 		}

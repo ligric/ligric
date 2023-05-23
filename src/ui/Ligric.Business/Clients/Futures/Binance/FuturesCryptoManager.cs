@@ -64,12 +64,12 @@ namespace Ligric.Business.Clients.Futures.Binance
 			}
 		}
 
-		private async void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
+		private void OnAuthorizationStateChanged(object sender, Core.Types.User.UserAuthorizationState e)
 		{
 			switch (e)
 			{
 				case Core.Types.User.UserAuthorizationState.Connected:
-					await _apisService.AttachStreamAsync();
+					_apisService.AttachStreamAsync();
 					break;
 				case Core.Types.User.UserAuthorizationState.Disconnected:
 					_apisService.DetachStream();
