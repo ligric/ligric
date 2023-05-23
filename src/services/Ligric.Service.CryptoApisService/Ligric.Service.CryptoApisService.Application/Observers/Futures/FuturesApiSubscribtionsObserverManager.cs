@@ -6,6 +6,7 @@ using Utils;
 using Binance.Net.Objects;
 using Ligric.Core.Ligric.Core.Types.Api;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 {
@@ -117,24 +118,33 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 		{
 			try
 			{
-				foreach (var subscribedApi in subscribedApis.Values)
+				long? removedUserId = null;
+				FuturesApiSubscribtionsObserver? removedApiObserver = null;
+
+				lock (((ICollection)subscribedApis).SyncRoot)
 				{
-					if (subscribedApi.UsersSubscribtions.ContainsKey(subscribtionId))
+					foreach (var subscribedApi in subscribedApis.Values)
 					{
-						lock (((ICollection)subscribedApi.UsersSubscribtions).SyncRoot)
+						if (subscribedApi.UsersSubscribtions.ContainsKey(subscribtionId))
 						{
-							subscribedApi.TryRemoveUserSubscribtion(subscribtionId, out long userId);
-							if (subscribedApi.UsersSubscribtions.Count == 0)
+							lock (((ICollection)subscribedApi.UsersSubscribtions).SyncRoot)
 							{
-								lock (((ICollection)subscribedApis).SyncRoot)
+								subscribedApi.TryRemoveUserSubscribtion(subscribtionId, out long userId);
+								if (subscribedApi.UsersSubscribtions.Count == 0)
 								{
-									subscribedApis.Remove(userId);
-									subscribedApi.Dispose();
-									System.Diagnostics.Debug.WriteLine($"Api {userId} was fully removed.");
+									removedApiObserver = subscribedApi;
+									removedUserId = userId;
 								}
+								break;
 							}
 						}
-						return;
+					}
+
+					if (removedUserId != null)
+					{
+						subscribedApis.Remove((long)removedUserId);
+						removedApiObserver!.Dispose();
+						System.Diagnostics.Debug.WriteLine($"Api was fully removed.");
 					}
 				}
 			}
@@ -142,7 +152,6 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 			{
 				var test = ex;
 			}
-
 		}
 
 		private void CreateSubscritionsClientIfNotExitstsAndAddToSharedCollection(long userId, ApiDto api, out Guid subscribtionId, out FuturesApiSubscribtionsObserver subscribedApi)
