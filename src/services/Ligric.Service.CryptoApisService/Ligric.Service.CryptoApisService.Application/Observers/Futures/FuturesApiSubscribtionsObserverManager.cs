@@ -116,41 +116,46 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 		/// </summary>
 		public void UnsubscribeIdAndTryToRemoveApiSubscribtionObject(Guid subscribtionId)
 		{
-			try
-			{
-				long? removedUserId = null;
-				FuturesApiSubscribtionsObserver? removedApiObserver = null;
+			long? removedUserId = null;
+			FuturesApiSubscribtionsObserver? removedApiObserver = null;
 
-				lock (((ICollection)subscribedApis).SyncRoot)
+			lock (((ICollection)subscribedApis).SyncRoot)
+			{
+				foreach (var subscribedApi in subscribedApis.Values)
 				{
-					foreach (var subscribedApi in subscribedApis.Values)
+					if (subscribedApi.UsersSubscribtions.ContainsKey(subscribtionId))
 					{
-						if (subscribedApi.UsersSubscribtions.ContainsKey(subscribtionId))
+						lock (((ICollection)subscribedApi.UsersSubscribtions).SyncRoot)
 						{
-							lock (((ICollection)subscribedApi.UsersSubscribtions).SyncRoot)
+							subscribedApi.TryRemoveUserSubscribtion(subscribtionId, out long userId);
+							if (subscribedApi.UsersSubscribtions.Count == 0)
 							{
-								subscribedApi.TryRemoveUserSubscribtion(subscribtionId, out long userId);
-								if (subscribedApi.UsersSubscribtions.Count == 0)
-								{
-									removedApiObserver = subscribedApi;
-									removedUserId = userId;
-								}
-								break;
+								removedApiObserver = subscribedApi;
+								removedUserId = userId;
 							}
+							break;
 						}
 					}
-
-					if (removedUserId != null)
-					{
-						subscribedApis.Remove((long)removedUserId);
-						removedApiObserver!.Dispose();
-						System.Diagnostics.Debug.WriteLine($"Api was fully removed.");
-					}
 				}
-			}
-			catch(Exception ex)
-			{
-				var test = ex;
+
+				if (removedUserId != null)
+				{
+					subscribedApis.Remove((long)removedUserId);
+					try
+					{
+						removedApiObserver!.Dispose();
+					}
+					catch (ObjectDisposedException ex)
+					{
+						var aaaa = ex;
+						System.Diagnostics.Debug.WriteLine("Subscribtion already disposed.");
+					}
+					catch
+					{
+						throw;
+					}
+					System.Diagnostics.Debug.WriteLine($"Api was fully removed.");
+				}
 			}
 		}
 
