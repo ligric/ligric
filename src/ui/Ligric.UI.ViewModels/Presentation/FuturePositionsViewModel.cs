@@ -78,7 +78,7 @@ namespace Ligric.UI.ViewModels.Presentation
 					}
 					break;
 				case NotifyDictionaryChangedAction.Changed:
-					var changedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null");
+					var changedPosition = obj.NewValue?.Entity ?? throw new ArgumentException("Position is null"); 
 					// _______________________
 					//
 					// TODO : need refactoring
@@ -110,7 +110,14 @@ namespace Ligric.UI.ViewModels.Presentation
 					}
 					break;
 				case NotifyDictionaryChangedAction.Cleared:
-					Positions.Clear();
+					foreach (var item in obj.OldDictionary!)
+					{
+						var clearedPosition = Positions.FirstOrDefault(x => x.ClientId == item.Value.Id);
+						if (clearedPosition != null)
+						{
+							Positions.Remove(clearedPosition);
+						}
+					}
 					break;
 			}
 		}
