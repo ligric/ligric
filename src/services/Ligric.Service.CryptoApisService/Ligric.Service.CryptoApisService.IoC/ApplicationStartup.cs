@@ -14,8 +14,8 @@ using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Repositories;
 using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database;
 using Ligric.Service.CryptoApisService.Infrastructure;
-using Ligric.Service.CryptoApisService.Application.TemporaryObservers;
-using Ligric.Service.CryptoApisService.Application.Subscribtions.Futures;
+using Ligric.Service.CryptoApisService.Application.Observers.Futures;
+using Ligric.Service.CryptoApisService.Application.Observers.UserApi;
 
 namespace Ligric.Service.CryptoApisService.IoC
 {

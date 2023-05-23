@@ -5,7 +5,7 @@ using Ligric.Service.CryptoApisService.Domain.Extensions;
 using Ligric.Service.CryptoApisService.Application.Repositories;
 using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
 
-namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
+namespace Ligric.Service.CryptoApisService.Application.Observers.UserApi
 {
 	public class UserApiObserver : IUserApiObserver
 	{
@@ -20,7 +20,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 		/// <returns>UserApiId</returns>
 		public long Save(long apiId, string apiName, long userId, int permissions)
 		{
-			UserApiEntity userApiSaveEntity = new UserApiEntity
+			var userApiSaveEntity = new UserApiEntity
 			{
 				ApiId = apiId,
 				UserId = userId,
@@ -28,7 +28,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 				Permissions = permissions
 			};
 
-			long userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
+			var userApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 
 			userApiSaveEntity.Id = userApiId;
 			ApiChanged?.Invoke((EventAction.Added, userId, userApiSaveEntity.ToApiClientResponseDto()));
@@ -59,7 +59,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 
 		public long Share(long userApiId, long sharedUserId, int permissions)
 		{
-			UserApiEntity userApiSaveEntity = new UserApiEntity
+			var userApiSaveEntity = new UserApiEntity
 			{
 				UserId = sharedUserId,
 				Permissions = permissions
@@ -72,7 +72,7 @@ namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
 			}
 			userApiSaveEntity.ApiId = userApi.ApiId;
 
-			long newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
+			var newUserApiId = (long)_userApiRepository.Save(userApiSaveEntity);
 			userApiSaveEntity.Id = newUserApiId;
 
 			ApiChanged?.Invoke((EventAction.Added, sharedUserId, userApiSaveEntity.ToApiClientResponseDto()));

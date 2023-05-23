@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ligric.Service.CryptoApisService.Application.Observers.UserApi;
 using Ligric.Service.CryptoApisService.Application.Repositories;
-using Ligric.Service.CryptoApisService.Application.TemporaryObservers;
 using Ligric.Service.CryptoApisService.Domain.Entities;
 using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Commands;
 

@@ -1,7 +1,7 @@
 ﻿using Ligric.Service.CryptoApisService.Domain.Model.Dtos.Response;
 using Utils;
 
-namespace Ligric.Service.CryptoApisService.Application.TemporaryObservers
+namespace Ligric.Service.CryptoApisService.Application.Observers.UserApi
 {
 	public interface IUserApiObserver
 	{

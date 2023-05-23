@@ -6,7 +6,7 @@ using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver;
 using Utils;
 
-namespace Ligric.Service.CryptoApisService.Application.Subscribtions.Futures
+namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 {
 	public class FuturesApiSubscribtionsObserver
 	{

@@ -7,7 +7,7 @@ using Binance.Net.Objects;
 using Ligric.Core.Ligric.Core.Types.Api;
 using System.Collections;
 
-namespace Ligric.Service.CryptoApisService.Application.Subscribtions.Futures
+namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 {
 	public class FuturesApiSubscribtionsObserverManager : IFuturesApiSubscribtionsObserverManager
 	{

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ligric.Service.CryptoApisService.Api.Extensions;
 using Ligric.Service.CryptoApisService.Api.Helpers;
-using Ligric.Service.CryptoApisService.Application.Subscribtions.Futures;
+using Ligric.Service.CryptoApisService.Application.Observers.Futures;
 
 namespace Ligric.Service.CryptoApisService.Api.Services
 {

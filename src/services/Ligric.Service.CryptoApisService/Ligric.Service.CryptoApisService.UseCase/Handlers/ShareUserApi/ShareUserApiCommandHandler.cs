@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Ligric.Service.CryptoApisService.Application.TemporaryObservers;
+using Ligric.Service.CryptoApisService.Application.Observers.UserApi;
 using Ligric.Service.CryptoApisService.Infrastructure.Persistence.Commands;
 
 namespace Ligric.Service.CryptoApisService.UseCase.Handlers.ShareUserApi

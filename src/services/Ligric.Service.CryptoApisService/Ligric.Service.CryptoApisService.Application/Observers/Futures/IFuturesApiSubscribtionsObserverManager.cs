@@ -1,7 +1,7 @@
 ﻿using Ligric.Core.Types.Future;
 using Utils;
 
-namespace Ligric.Service.CryptoApisService.Application.Subscribtions.Futures
+namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 {
 	public interface IFuturesApiSubscribtionsObserverManager
 	{

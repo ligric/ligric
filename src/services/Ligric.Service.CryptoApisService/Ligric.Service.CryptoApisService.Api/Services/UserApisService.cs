@@ -1,7 +1,7 @@
 ﻿using Grpc.Core;
 using Ligric.Protobuf;
 using Ligric.Service.CryptoApisService.Api.Helpers;
-using Ligric.Service.CryptoApisService.Application.TemporaryObservers;
+using Ligric.Service.CryptoApisService.Application.Observers.UserApi;
 using Ligric.Service.CryptoApisService.UseCase.Handlers.CreateUserApi;
 using Ligric.Service.CryptoApisService.UseCase.Handlers.ShareUserApi;
 using MediatR;
