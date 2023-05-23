@@ -116,7 +116,6 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 		/// </summary>
 		public void UnsubscribeIdAndTryToRemoveApiSubscribtionObject(Guid subscribtionId)
 		{
-			long? removedUserId = null;
 			FuturesApiSubscribtionsObserver? removedApiObserver = null;
 
 			lock (((ICollection)subscribedApis).SyncRoot)
@@ -127,20 +126,19 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 					{
 						lock (((ICollection)subscribedApi.UsersSubscribtions).SyncRoot)
 						{
-							subscribedApi.TryRemoveUserSubscribtion(subscribtionId, out long userId);
+							subscribedApi.TryRemoveUserSubscribtion(subscribtionId);
 							if (subscribedApi.UsersSubscribtions.Count == 0)
 							{
 								removedApiObserver = subscribedApi;
-								removedUserId = userId;
 							}
 							break;
 						}
 					}
 				}
 
-				if (removedUserId != null)
+				if (removedApiObserver?.Api != null)
 				{
-					subscribedApis.Remove((long)removedUserId);
+					subscribedApis.Remove((long)removedApiObserver?.Api.Id!);
 					try
 					{
 						removedApiObserver!.Dispose();

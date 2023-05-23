@@ -52,9 +52,9 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures
 			return subscribtionid;
 		}
 
-		public bool TryRemoveUserSubscribtion(Guid userSubscribtion, out long userId)
+		public bool TryRemoveUserSubscribtion(Guid userSubscribtion)
 		{
-			return _usersSubscribtions.Remove(userSubscribtion, out userId);
+			return _usersSubscribtions.Remove(userSubscribtion);
 		}
 
 		public void RemoveUserSubscribtions(long userId)
