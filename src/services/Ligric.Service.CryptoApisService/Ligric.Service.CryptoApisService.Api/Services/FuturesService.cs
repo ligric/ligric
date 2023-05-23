@@ -56,10 +56,10 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} was canceled.");
 			}
-			catch
+			catch(Exception ex)
 			{
+				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} thrown an error: \n{ex}.");
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
-				System.Diagnostics.Debug.WriteLine($"Orders subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
 		}
@@ -92,10 +92,10 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} was canceled.");
 			}
-			catch
+			catch(Exception ex)
 			{
+				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} thrown an error: \n{ex}.");
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
-				System.Diagnostics.Debug.WriteLine($"Trades subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
 		}
@@ -137,10 +137,10 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} was canceled.");
 			}
-			catch
+			catch(Exception ex)
 			{
+				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} thrown an error: \n{ex}.");
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
-				System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
 		}
@@ -175,10 +175,10 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} was canceled.");
 			}
-			catch
+			catch(Exception ex)
 			{
+				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} thrown an error: \n{ex}.");
 				_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
-				System.Diagnostics.Debug.WriteLine($"Leverages subscribtion {subscribedId} thrown an error.");
 				throw;
 			}
 		}
