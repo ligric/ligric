@@ -29,9 +29,21 @@ namespace Ligric.UI.Views
 		public static string GetOrderSideFromOrderViewModel(OrderViewModel orderVm)
 		{
 			const string closeShort = "Close Short", closeLong = "Close Long",
-						 openShort = "Open Short", openLong = "Open Long";
+						 openShort = "Open Short", openLong = "Open Long",
+						 sell = "Sell", buy = "Buy";
 
 			bool isSell = orderVm.Side is "Sell";
+
+			if (string.Equals(orderVm.PositionSide, "Both"))
+			{
+				return orderVm.Type switch
+				{
+					"TakeProfitMarket" => isSell ? buy : sell,
+					"StopMarket" => isSell ? buy : sell,
+					"Limit" => isSell ? sell : buy,
+					_ => "-"
+				};
+			}
 
 			return orderVm.Type switch
 			{
@@ -48,6 +60,17 @@ namespace Ligric.UI.Views
 		public static Brush SideTextBlockForegroundFromOrderViewModel(OrderViewModel orderVm)
 		{
 			bool isSell = orderVm.Side is "Sell";
+
+			if (string.Equals(orderVm.PositionSide, "Both"))
+			{
+				return orderVm.Type switch
+				{
+					"TakeProfitMarket" => isSell ? GREEN_COLOR : RED_COLOR,
+					"StopMarket" => isSell ? GREEN_COLOR : RED_COLOR,
+					"Limit" => isSell ? RED_COLOR : GREEN_COLOR,
+					_ => SIMPLE_COLOR
+				};
+			}
 
 			return orderVm.Type switch
 			{

@@ -17,7 +17,7 @@ namespace Ligric.Business.Extensions
 		{
 			if (!Enum.TryParse(futureOrder.Type, true, out OrderType type)) throw new InvalidEnumArgumentException(futureOrder.Type);
 			return new FuturesOrderDto(
-				futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToSideDto(),
+				futureOrder.Id, futureOrder.Symbol, futureOrder.Side.ToSideDto(), futureOrder.PositionSide.ToPositionSideDto(),
 				decimal.Parse(futureOrder.Quantity), decimal.Parse(futureOrder.Price),
 				!string.IsNullOrEmpty(futureOrder.CurrentPrice) ? decimal.Parse(futureOrder.CurrentPrice) : null,
 				type,
@@ -38,15 +38,20 @@ namespace Ligric.Business.Extensions
 		}
 
 		public static Core.Types.Side ToSideDto(this Protobuf.Side sideInput)
-		{
-			switch (sideInput)
+			 => sideInput switch
+			 {
+				 Protobuf.Side.Sell => Core.Types.Side.Sell,
+				 Protobuf.Side.Buy => Core.Types.Side.Buy,
+				 _ => throw new NotImplementedException()
+			 };
+
+		public static Core.Types.PositionSide ToPositionSideDto(this Protobuf.PositionSide sideInput)
+			=> sideInput switch
 			{
-				case Protobuf.Side.Sell:
-					return Core.Types.Side.Sell;
-				case Protobuf.Side.Buy:
-					return Core.Types.Side.Buy;
-			}
-			throw new NotImplementedException();
-		}
+				Protobuf.PositionSide.Short => Core.Types.PositionSide.Short,
+				Protobuf.PositionSide.Long => Core.Types.PositionSide.Long,
+				Protobuf.PositionSide.Both => Core.Types.PositionSide.Both,
+				_ => throw new NotImplementedException()
+			};
 	}
 }

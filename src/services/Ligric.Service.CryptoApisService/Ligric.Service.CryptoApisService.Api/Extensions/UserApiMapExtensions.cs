@@ -15,6 +15,7 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 				Price = dto.Price.ToString(),
 				Quantity = dto.Quantity.ToString(),
 				Side = dto.Side.ToSideProto(),
+				PositionSide = dto.PositionSide.ToPositionSideProto(),
 				Symbol = dto.Symbol,
 				CurrentPrice = dto.CurrentPrice.ToString(),
 				Type = dto.Type.ToString(),
@@ -62,6 +63,15 @@ namespace Ligric.Service.CryptoApisService.Api.Extensions
 			}
 			throw new NotImplementedException();
 		}
+
+		public static Ligric.Protobuf.PositionSide ToPositionSideProto(this Ligric.Core.Types.PositionSide sideInput)
+		 => sideInput switch
+		 {
+			 Ligric.Core.Types.PositionSide.Short => Ligric.Protobuf.PositionSide.Short,
+			 Ligric.Core.Types.PositionSide.Long => Ligric.Protobuf.PositionSide.Long,
+			 Ligric.Core.Types.PositionSide.Both => Ligric.Protobuf.PositionSide.Both,
+			 _ => throw new NotImplementedException()
+		 };
 
 		public static Ligric.Protobuf.Side ToSide(this Ligric.Core.Types.Side sideInput)
 		{

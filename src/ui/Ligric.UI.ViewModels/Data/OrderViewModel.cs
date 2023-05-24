@@ -17,6 +17,7 @@ namespace Ligric.UI.ViewModels.Data
 		}
 
 		[Reactive] public string? Side { get; set; }
+		[Reactive] public string? PositionSide { get; set; }
 		[Reactive] public string? Quantity { get; set; }
 		[Reactive] public string? Price { get; set; }
 		[Reactive] public string? CurrentPrice { get; set; }
