@@ -43,11 +43,7 @@ namespace Ligric.Business.Clients.Authorization
 				throw new NotImplementedException();
 			}
 
-			SetJwtToken(authReply.JwtToken);
-
-			CurrentUser = new UserDto(authReply.Id, login);
-			CurrentConnectionState = UserAuthorizationState.Connected;
-			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+			SetAuthorizedState(authReply.JwtToken, new UserDto(authReply.Id, login));
 		}
 
 		public async Task SignUpAsync(string login, string password, CancellationToken ct)
@@ -63,16 +59,7 @@ namespace Ligric.Business.Clients.Authorization
 				throw new NotImplementedException();
 			}
 
-			var metadata = new Grpc.Core.Metadata
-			{
-				{ "Authorization", $"Bearer {authReply.JwtToken.AccessToken}" }
-			};
-
-			_metadata.SetMetadata(metadata);
-
-			CurrentUser = new UserDto(authReply.Id, login);
-			CurrentConnectionState = UserAuthorizationState.Connected;
-			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
+			SetAuthorizedState(authReply.JwtToken, new UserDto(authReply.Id, login));
 		}
 
 		public async Task<bool> IsUserNameUniqueAsync(string userName, CancellationToken ct)
@@ -89,6 +76,15 @@ namespace Ligric.Business.Clients.Authorization
 		public void Dispose()
 		{
 			throw new NotImplementedException();
+		}
+
+		private void SetAuthorizedState(JwtToken jwt, UserDto user)
+		{
+			SetJwtToken(jwt);
+
+			CurrentUser = user;
+			CurrentConnectionState = UserAuthorizationState.Connected;
+			AuthorizationStateChanged?.Invoke(this, UserAuthorizationState.Connected);
 		}
 
 		private void SetJwtToken(JwtToken jwtToken)
