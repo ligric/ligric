@@ -13,6 +13,7 @@ namespace Ligric.CryptoObserver.Extensions
 				binanceOrder.Id,
 				binanceOrder.Symbol,
 				binanceOrder.PositionSide.ToSideDto(binanceOrder.Quantity),
+				binanceOrder.PositionSide.ToPositionSideDto(),
 				binanceOrder.Quantity,
 				binanceOrder.Price,
 				null,
@@ -24,6 +25,7 @@ namespace Ligric.CryptoObserver.Extensions
 				streamOrder.OrderId,
 				streamOrder.Symbol,
 				streamOrder.PositionSide.ToSideDto(streamOrder.Quantity),
+				streamOrder.PositionSide.ToPositionSideDto(),
 				streamOrder.Quantity,
 				streamOrder.Price,
 				null,
@@ -61,6 +63,15 @@ namespace Ligric.CryptoObserver.Extensions
 				PositionSide.Short => Core.Types.Side.Sell,
 				PositionSide.Long => Core.Types.Side.Buy,
 				_ => quantity > 0 ? Core.Types.Side.Buy : Core.Types.Side.Sell
+			};
+
+		public static Core.Types.PositionSide ToPositionSideDto(this PositionSide positionSide)
+			=> positionSide switch
+			{
+				PositionSide.Short => Core.Types.PositionSide.Short,
+				PositionSide.Long => Core.Types.PositionSide.Long,
+				PositionSide.Both => Core.Types.PositionSide.Both,
+				_ => throw new NotImplementedException()
 			};
 
 		public static Core.Types.OrderType ToOrderTypeDto(this FuturesOrderType type)
