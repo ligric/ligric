@@ -23,4 +23,5 @@ enum Action
 	ADDED = 0;
 	REMOVED = 1;
 	CHANGED = 2;
+	CLEARED = 3;
 }

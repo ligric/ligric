@@ -39,6 +39,12 @@ namespace Ligric.CryptoObserver.Binance
 
 		internal async Task SetupPrimaryPositionsAsync(CancellationToken token)
 		{
+			// TODO : Temporary
+			if (_positions.Count > 0)
+			{
+				_positions.ClearAndRiseEvent(this, PositionsChanged, ref eventSync);
+			}
+
 			var positionssResponse = await _client.UsdFuturesApi.Account.GetPositionInformationAsync(ct: token);
 
 			var openPositions = positionssResponse.Data

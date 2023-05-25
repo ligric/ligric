@@ -70,6 +70,12 @@ namespace Ligric.CryptoObserver.Binance
 
 		internal async Task SetupPrimaryOrdersAsync(CancellationToken token)
 		{
+			// TODO : Temporary
+			if (_orders.Count > 0)
+			{
+				_orders.ClearAndRiseEvent(this, OrdersChanged, ref eventSync);
+			}
+
 			var ordersResponse = await _client.UsdFuturesApi.Trading.GetOpenOrdersAsync(ct: token);
 			var orders = ordersResponse.Data;
 

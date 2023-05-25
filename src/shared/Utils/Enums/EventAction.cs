@@ -4,6 +4,7 @@
     {
         Added,
         Removed,
-        Changed
+        Changed,
+		Cleared
     }
 }

@@ -96,7 +96,11 @@ namespace Ligric.Business.Clients.Futures.Binance
 					case Protobuf.Action.Removed:
 						_orders.RemoveAndRiseEvent(this, OrdersChanged, api.Order.Id, ref syncOrderChanged);
 						break;
-					case Protobuf.Action.Changed: goto case Protobuf.Action.Added;
+					case Protobuf.Action.Changed:
+						goto case Protobuf.Action.Added;
+					case Protobuf.Action.Cleared:
+						_orders.ClearAndRiseEvent(this, OrdersChanged, new Dictionary<long, FuturesOrderDto>(_orders), ref syncOrderChanged);
+						break;
 				}
 			}
 		}

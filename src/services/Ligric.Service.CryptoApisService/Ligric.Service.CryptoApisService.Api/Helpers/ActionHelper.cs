@@ -15,6 +15,8 @@ namespace Ligric.Service.CryptoApisService.Api.Helpers
                     return Action.Removed;
                 case EventAction.Changed:
                     return Action.Changed;
+				case EventAction.Cleared:
+					return Action.Cleared;
             }
             throw new NotImplementedException();
         }
@@ -29,6 +31,8 @@ namespace Ligric.Service.CryptoApisService.Api.Helpers
                     return Action.Removed;
                 case NotifyDictionaryChangedAction.Changed:
                     return Action.Changed;
+				case NotifyDictionaryChangedAction.Cleared:
+					return Action.Cleared;
             }
             throw new NotImplementedException();
         }
@@ -43,6 +47,8 @@ namespace Ligric.Service.CryptoApisService.Api.Helpers
                     return EventAction.Removed;
                 case Action.Changed:
                     return EventAction.Changed;
+				case Action.Cleared:
+					return EventAction.Cleared;
             }
             throw new NotImplementedException();
         }
