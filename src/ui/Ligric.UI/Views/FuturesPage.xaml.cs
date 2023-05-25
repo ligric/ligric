@@ -38,8 +38,8 @@ namespace Ligric.UI.Views
 			{
 				return orderVm.Type switch
 				{
-					"TakeProfitMarket" => isSell ? buy : sell,
-					"StopMarket" => isSell ? buy : sell,
+					"TakeProfitMarket" => isSell ? sell : buy,
+					"StopMarket" => isSell ? sell : buy,
 					"Limit" => isSell ? sell : buy,
 					_ => "-"
 				};
@@ -65,8 +65,8 @@ namespace Ligric.UI.Views
 			{
 				return orderVm.Type switch
 				{
-					"TakeProfitMarket" => isSell ? GREEN_COLOR : RED_COLOR,
-					"StopMarket" => isSell ? GREEN_COLOR : RED_COLOR,
+					"TakeProfitMarket" => isSell ? RED_COLOR : GREEN_COLOR,
+					"StopMarket" => isSell ? RED_COLOR : GREEN_COLOR,
 					"Limit" => isSell ? RED_COLOR : GREEN_COLOR,
 					_ => SIMPLE_COLOR
 				};

@@ -12,7 +12,7 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				binanceOrder.Id,
 				binanceOrder.Symbol,
-				binanceOrder.PositionSide.ToSideDto(binanceOrder.Quantity),
+				binanceOrder.Side.ToSideDto(),
 				binanceOrder.PositionSide.ToPositionSideDto(),
 				binanceOrder.Quantity,
 				binanceOrder.Price,
@@ -24,7 +24,7 @@ namespace Ligric.CryptoObserver.Extensions
 			=> new FuturesOrderDto(
 				streamOrder.OrderId,
 				streamOrder.Symbol,
-				streamOrder.PositionSide.ToSideDto(streamOrder.Quantity),
+				streamOrder.Side.ToSideDto(),
 				streamOrder.PositionSide.ToPositionSideDto(),
 				streamOrder.Quantity,
 				streamOrder.Price,
