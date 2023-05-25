@@ -230,15 +230,6 @@
 						<ItemsRepeater.ItemTemplate>
 							<DataTemplate x:DataType="vm:PositionViewModel">
 								<Grid Background="#222833" CornerRadius="20" Padding="20" ColumnSpacing="5">
-									<i:Interaction.Behaviors>
-										<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
-											<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#5CFF94"/>
-										</core:DataTriggerBehavior>
-										<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
-											<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#FF5C5C"/>
-										</core:DataTriggerBehavior>
-									</i:Interaction.Behaviors>
-
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="{Binding Source={StaticResource SideColumnWidth}}"/>
 										<ColumnDefinition MinWidth="100"/>
@@ -248,7 +239,16 @@
 										<ColumnDefinition MinWidth="100"/>
 									</Grid.ColumnDefinitions>
 
-									<Rectangle x:Name="SideRectangle" Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+									<Rectangle x:Name="SideRectangle" Grid.Column="0" Margin="1,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+										<i:Interaction.Behaviors>
+											<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Buy">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#5CFF94"/>
+											</core:DataTriggerBehavior>
+											<core:DataTriggerBehavior Binding="{Binding Side}" ComparisonCondition="Equal" Value="Sell">
+												<core:ChangePropertyAction TargetObject="{Binding ElementName=SideRectangle}" PropertyName="Fill" Value="#FF5C5C"/>
+											</core:DataTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</Rectangle>
 
 									<StackPanel Grid.Column="1" Orientation="Horizontal">
 										<TextBlock Foreground="White" Text="{Binding Symbol}" VerticalAlignment="Center"/>
