@@ -1,4 +1,5 @@
-﻿using Binance.Net.Clients;
+﻿using System.Timers;
+using Binance.Net.Clients;
 using Binance.Net.Objects;
 using Binance.Net.Objects.Models;
 using CryptoExchange.Net.Sockets;
@@ -16,6 +17,8 @@ public class BinanceFuturesClient : IFuturesClient
 	private readonly BinanceFuturesPositions _positions;
 	private readonly BinanceFuturesTrades _trades;
 	private readonly BinanceFuturesLeverages _leverages;
+
+	private readonly System.Timers.Timer _listenKeyExpiredTimer = new System.Timers.Timer();
 
 	private CancellationTokenSource? _streamCancellationToken;
 
@@ -67,7 +70,6 @@ public class BinanceFuturesClient : IFuturesClient
 #pragma warning disable CS4014 // Should be async because it is a request race.
 							   // All data is sync later.
 		StartFuturesStreamAsync(token);
-
 		_orders.SetupPrimaryOrdersAsync(token);
 
 		_positions.SetupPrimaryPositionsAsync(token);
@@ -77,7 +79,24 @@ public class BinanceFuturesClient : IFuturesClient
 	public void StopStream()
 	{
 		_streamCancellationToken?.Cancel();
-		//_streamCancellationToken?.Dispose();
+		_streamCancellationToken?.Dispose();
+		_streamCancellationToken = null;
+	}
+
+	private void ListenKeyTimerUpdate(DateTime expirationDateTime)
+	{
+		_listenKeyExpiredTimer.Stop();
+		_listenKeyExpiredTimer.AutoReset = false;
+		_listenKeyExpiredTimer.Interval = (double)(expirationDateTime.AddMinutes(-3) - DateTime.UtcNow).TotalMilliseconds;
+		_listenKeyExpiredTimer.Elapsed -= OnListenKeyUptedTimerElapsed;
+		_listenKeyExpiredTimer.Elapsed += OnListenKeyUptedTimerElapsed;
+		_listenKeyExpiredTimer.Start();
+	}
+
+	private async void OnListenKeyUptedTimerElapsed(object sender, ElapsedEventArgs e)
+	{
+		StopStream();
+		await StartStreamAsync();
 	}
 
 	private async Task StartFuturesStreamAsync(CancellationToken token)
@@ -89,6 +108,9 @@ public class BinanceFuturesClient : IFuturesClient
 			listenKey, _leverages.OnLeveragesUpdated, null,
 			_positions.OnAccountUpdated, _orders.OnOrdersUpdated, OnListenKeyExpired,
 			null, null, token);
+		System.Diagnostics.Debug.WriteLine("Listen key updated.");
+
+		ListenKeyTimerUpdate(DateTime.UtcNow.AddHours(1));
 	}
 
 	private void OnListenKeyExpired(DataEvent<BinanceStreamEvent> obj)
