@@ -44,7 +44,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					{
 						ExchangeId = x.ExchangeId.ToString(),
 						Action = x.EventArgs.Action.ToProtosAction(),
-						Order = order ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+						Order = order ?? (x.EventArgs.Action == Utils.NotifyDictionaryChangedAction.Cleared ? null : throw new NullReferenceException("[ForEachAwaitAsync] order is null"))
 					};
 
 					await responseStream.WriteAsync(orderChanged);
@@ -125,7 +125,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					{
 						ExchangeId = x.ExchangeId.ToString(),
 						Action = x.EventArgs.Action.ToProtosAction(),
-						Position = position ?? throw new NullReferenceException("[ForEachAwaitAsync] order is null")
+						Position = position ?? (x.EventArgs.Action == Utils.NotifyDictionaryChangedAction.Cleared ? null : throw new NullReferenceException("[ForEachAwaitAsync] order is null"))
 					};
 
 					await responseStream.WriteAsync(positionsChanged);
