@@ -101,9 +101,19 @@ namespace Ligric.CryptoObserver.Binance
 		private void AddOrSetPosition(BinanceFuturesStreamPosition position)
 		{
 			Side side = position.PositionSide.ToSideDto(position.Quantity);
+			PositionSide positionSide = position.PositionSide.ToPositionSideDto();
 
 			byte? leverage = _leverages.Leverages.TryGetValue(position.Symbol, out byte leverageOut) ? leverageOut : null;
-			FuturesPositionDto? existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
+			FuturesPositionDto? existingItem = null;
+
+			if(positionSide == PositionSide.Both)
+			{
+				existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol);
+			}
+			else
+			{
+				existingItem = _positions.Values.FirstOrDefault(x => x.Symbol == position.Symbol && x.Side == side);
+			}
 
 			if (existingItem == null)
 			{
