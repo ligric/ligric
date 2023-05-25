@@ -162,7 +162,7 @@
 
 			<!-- Orders -->
 			<ItemsRepeaterScrollHost Grid.Row="1" VerticalAnchorRatio="1.0">
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 					<ItemsRepeater ItemsSource="{Binding FuturesOrders.Orders}" Margin="10">
 						<ItemsRepeater.ItemTemplate>
 							<DataTemplate x:DataType="vm:OrderViewModel">
@@ -225,7 +225,7 @@
 
 			<!-- Positions -->
 			<ItemsRepeaterScrollHost Grid.Row="3" VerticalAnchorRatio="1.0">
-				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 					<ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 						<ItemsRepeater.ItemTemplate>
 							<DataTemplate x:DataType="vm:PositionViewModel">
