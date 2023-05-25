@@ -225,7 +225,7 @@
 
 			<!-- Positions -->
 			<ItemsRepeaterScrollHost Grid.Row="3" VerticalAnchorRatio="1.0">
-				<ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 					<ItemsRepeater ItemsSource="{Binding FuturePositions.Positions}" Margin="10">
 						<ItemsRepeater.ItemTemplate>
 							<DataTemplate x:DataType="vm:PositionViewModel">
