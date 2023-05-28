@@ -30,7 +30,7 @@ services:
       - ligric.service.authservice.api
     ports:
       - "8080:8080"
-      - "9902:9902"
+      - "9901:9901"
     networks:
       - ligric-network
 
