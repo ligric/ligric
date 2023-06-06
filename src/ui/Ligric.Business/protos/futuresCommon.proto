@@ -1,0 +1,44 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Ligric.Protobuf";
+
+package ligric.protobuf;
+
+message FuturesSubscribeRequest
+{
+	int64 userId = 1;
+	int64 UserApiId = 2;
+}
+
+message AddStreamingApiRequest
+{
+	int64 userId = 1;
+	int64 UserApiId = 2;
+}
+
+message RemoveStreamingApiRequest
+{
+	string StreamSubscribedId = 1;
+}
+
+message AddStreamingApiResponse
+{
+	ResponseResult Result = 1;
+	string StreamSubscriptionId = 2;
+}
+
+enum Side
+{
+	Sell = 0;
+	Buy = 1;
+}
+
+enum PositionSide
+{
+	Short = 0;
+	Long = 1;
+	Both = 2;
+}

@@ -5,8 +5,12 @@ using Ligric.Business.Metadata;
 using Ligric.Core.Extensions;
 using Ligric.Core.Types;
 using Ligric.Core.Types.Future;
+using Ligric.Protobuf;
 using Utils;
-using static Ligric.Protobuf.Futures;
+using static Ligric.Protobuf.BinanceFuturesLeverages;
+using static Ligric.Protobuf.BinanceFuturesOrders;
+using static Ligric.Protobuf.BinanceFuturesPositions;
+using static Ligric.Protobuf.BinanceFuturesTrades;
 
 namespace Ligric.Business.Clients.Futures.Binance
 {
@@ -29,11 +33,10 @@ namespace Ligric.Business.Clients.Futures.Binance
 			this.userApi = userApi;
 			this.ClientId = Guid.NewGuid();
 
-			var futuresClient = new FuturesClient(channel);
-			_orders = new FuturesOrdersService(futuresClient, metadata, currentUser);
-			_trades = new FuturesTradesService(futuresClient, metadata, currentUser);
-			_positions = new FuturesPositionsService(futuresClient, metadata, currentUser);
-			_leverages = new FuturesLeveragesService(futuresClient, metadata, currentUser);
+			_orders = new FuturesOrdersService(new BinanceFuturesOrdersClient(channel), metadata, currentUser);
+			_trades = new FuturesTradesService(new BinanceFuturesTradesClient(channel), metadata, currentUser);
+			_positions = new FuturesPositionsService(new BinanceFuturesPositionsClient(channel), metadata, currentUser);
+			_leverages = new FuturesLeveragesService(new BinanceFuturesLeveragesClient(channel), metadata, currentUser);
 
 			_orders.OrdersChanged += OnOrdersChanged;
 			_positions.PositionsChanged += OnPositionsChanged;

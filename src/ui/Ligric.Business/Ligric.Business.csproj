@@ -25,10 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <Protobuf Include="protos\auth.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
-	  <Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
-	  <Protobuf Include="protos\futures.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
 		<Protobuf Include="..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Client" />
+		<Protobuf Include="protos\futuresCommon.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+
+		<Protobuf Include="protos\auth.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+	  <Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+		
+	  <Protobuf Include="protos\binanceFuturesOrders.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+	  <Protobuf Include="protos\binanceFuturesTrades.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+	  <Protobuf Include="protos\binanceFuturesPositions.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
+	  <Protobuf Include="protos\binanceFuturesLeverages.proto" AdditionalImportDirs="..\..\protos\" GrpcServices="Client" />
   </ItemGroup>
 	
 </Project>

@@ -4,7 +4,7 @@ using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
-using static Ligric.Protobuf.Futures;
+using static Ligric.Protobuf.BinanceFuturesTrades;
 using Ligric.Business.Interfaces;
 using System.Collections;
 using Ligric.Core.Types.Future;
@@ -19,10 +19,10 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
-		private readonly FuturesClient _futuresClient;
+		private readonly BinanceFuturesTradesClient _futuresClient;
 
 		internal FuturesTradesService(
-			FuturesClient futuresClient,
+			BinanceFuturesTradesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
 		{
@@ -73,7 +73,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		private Task StreamValuesSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
-			var call = _futuresClient.ValuesSubscribe(
+			var call = _futuresClient.TradesSubscribe(
 				request: new FuturesSubscribeRequest { UserId = userId, UserApiId = userApiId },
 				headers: _metadataManager.CurrentMetadata,
 				cancellationToken: token);
@@ -84,12 +84,12 @@ namespace Ligric.Business.Clients.Futures.Binance
 				.ForEachAsync(OnFuturesChanged, token);
 		}
 
-		private void OnFuturesChanged(ValuesChanged valuesChanged)
+		private void OnFuturesChanged(TradesChanged valuesChanged)
 		{
 			lock (((ICollection)_trades).SyncRoot)
 			{
-				var symbol = valuesChanged.Value.Symbol;
-				var value = decimal.Parse(valuesChanged.Value.Value);
+				var symbol = valuesChanged.Trade.Symbol;
+				var value = decimal.Parse(valuesChanged.Trade.Value);
 				switch (valuesChanged.Action)
 				{
 					case Protobuf.Action.Added:

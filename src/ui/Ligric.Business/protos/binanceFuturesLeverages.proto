@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+import "protos/futuresCommon.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Ligric.Protobuf";
+
+package ligric.protobuf;
+
+service BinanceFuturesLeverages {
+	rpc LeveragesSubscribe(FuturesSubscribeRequest) returns (stream LeveragesChanged);
+
+	rpc AddLeveragesStreamingApi(AddStreamingApiRequest) returns (AddStreamingApiResponse);
+
+	rpc RemoveLeveragesStreamingApi(RemoveStreamingApiRequest) returns (ResponseResult);
+}
+
+message LeveragesChanged {
+	string ExchangeId = 1;
+	FuturesLeverage Leverage = 2;
+	Action action = 3;
+}
+
+message FuturesLeverage {
+	string Symbol = 1;
+	string Value = 3;
+}

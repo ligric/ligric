@@ -5,7 +5,7 @@ using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
 using Ligric.Protobuf;
-using static Ligric.Protobuf.Futures;
+using static Ligric.Protobuf.BinanceFuturesPositions;
 using Ligric.Business.Interfaces;
 using System.Collections;
 
@@ -19,10 +19,10 @@ namespace Ligric.Business.Clients.Futures.Binance
 		private readonly Dictionary<long, FuturesPositionDto> _positions = new Dictionary<long, FuturesPositionDto>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
-		private readonly FuturesClient _futuresClient;
+		private readonly BinanceFuturesPositionsClient _futuresClient;
 
 		internal FuturesPositionsService(
-			FuturesClient futuresClient,
+			BinanceFuturesPositionsClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
 		{

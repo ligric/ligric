@@ -5,7 +5,7 @@ using Ligric.Protobuf;
 using Ligric.Business.Metadata;
 using Ligric.Business.Extensions;
 using Ligric.Business.Futures;
-using static Ligric.Protobuf.Futures;
+using static Ligric.Protobuf.BinanceFuturesOrders;
 using Ligric.Business.Interfaces;
 using System.Collections;
 
@@ -18,10 +18,10 @@ namespace Ligric.Business.Clients.Futures.Binance
 		private readonly Dictionary<long, FuturesOrderDto> _orders = new Dictionary<long, FuturesOrderDto>();
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
-		private readonly FuturesClient _futuresClient;
+		private readonly BinanceFuturesOrdersClient _futuresClient;
 
 		internal FuturesOrdersService(
-			FuturesClient futuresClient,
+			BinanceFuturesOrdersClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
 		{

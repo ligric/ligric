@@ -6,7 +6,7 @@ using Ligric.Business.Metadata;
 using Ligric.Core.Types.Future;
 using Ligric.Protobuf;
 using Utils;
-using static Ligric.Protobuf.Futures;
+using static Ligric.Protobuf.BinanceFuturesLeverages;
 
 namespace Ligric.Business.Clients.Futures.Binance
 {
@@ -18,10 +18,10 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		private readonly ICurrentUser _currentUser;
 		private readonly IMetadataManager _metadataManager;
-		private readonly FuturesClient _futuresClient;
+		private readonly BinanceFuturesLeveragesClient _futuresClient;
 
 		internal FuturesLeveragesService(
-			FuturesClient futuresClient,
+			BinanceFuturesLeveragesClient futuresClient,
 			IMetadataManager metadataRepos,
 			ICurrentUser currentUser)
 		{
@@ -71,7 +71,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 
 		private Task StreamApiSubscribeCall(long userId, long userApiId, CancellationToken token)
 		{
-			var call = _futuresClient.LeverageSubscribe(
+			var call = _futuresClient.LeveragesSubscribe(
 				request: new FuturesSubscribeRequest { UserId = userId, UserApiId = userApiId },
 				headers: _metadataManager.CurrentMetadata,
 				cancellationToken: token);
@@ -82,7 +82,7 @@ namespace Ligric.Business.Clients.Futures.Binance
 				.ForEachAsync(OnLeveragesChanged, token);
 		}
 
-		private void OnLeveragesChanged(LeverageChanged changes)
+		private void OnLeveragesChanged(LeveragesChanged changes)
 		{
 			lock (((ICollection)_leverages).SyncRoot)
 			{
