@@ -20,6 +20,13 @@ service BinanceFuturesPositions {
 		  body: "*"
 	  };
     }
+
+	rpc RemovePositionsStreamingApi(RemoveStreamingApiRequest) returns (ResponseResult){
+	  option (google.api.http) = {
+		  post: "/v1/futures/stream/remove_positions_streaming_api"
+		  body: "*"
+	  };
+    }
 }
 
 message PositionsChanged {

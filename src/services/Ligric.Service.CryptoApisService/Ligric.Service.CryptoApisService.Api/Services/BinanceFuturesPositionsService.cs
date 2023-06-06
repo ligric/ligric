@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ligric.Service.CryptoApisService.Api.Extensions;
 using Ligric.Service.CryptoApisService.Api.Helpers;
 using Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.Binance;
+using Ligric.Service.CryptoApisService.Application.Observers.Futures.Interfaces;
 
 namespace Ligric.Service.CryptoApisService.Api.Services
 {
@@ -73,6 +74,20 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				Result = ResponseHelper.GetSuccessResponseResult(),
 				StreamSubscriptionId = streamSubscriptionId.ToString()
 			};
+		}
+
+		[Authorize]
+		public override async Task<ResponseResult> RemovePositionsStreamingApi(RemoveStreamingApiRequest request, ServerCallContext context)
+		{
+			if (Guid.TryParse(request.StreamSubscribedId, out var streamSubscribedId))
+			{
+				_positionSubscriptions.UnsubscribeStream(streamSubscribedId);
+				return ResponseHelper.GetSuccessResponseResult();
+			}
+			else
+			{
+				return ResponseHelper.GetFailedResponseResult();
+			}
 		}
 	}
 }
