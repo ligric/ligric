@@ -23,7 +23,7 @@ message AddStreamingApiRequest
 message AddStreamingApiResponse
 {
 	ResponseResult Result = 1;
-	string ExchangedId = 2;
+	string StreamSubscriptionId = 2;
 }
 
 enum Side
