@@ -20,6 +20,11 @@ message AddStreamingApiRequest
 	int64 UserApiId = 2;
 }
 
+message RemoveStreamingApiRequest
+{
+	string StreamSubscribedId = 1;
+}
+
 message AddStreamingApiResponse
 {
 	ResponseResult Result = 1;
