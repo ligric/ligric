@@ -74,5 +74,19 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				StreamSubscriptionId = streamSubscriptionId.ToString()
 			};
 		}
+
+		[Authorize]
+		public override async Task<ResponseResult> RemoveOrdersStreamingApi(RemoveStreamingApiRequest request, ServerCallContext context)
+		{
+			if (Guid.TryParse(request.StreamSubscribedId, out var streamSubscribedId))
+			{
+				_ordersSubscriptions.UnsubscribeStream(streamSubscribedId);
+				return ResponseHelper.GetSuccessResponseResult();
+			}
+			else
+			{
+				return ResponseHelper.GetFailedResponseResult();
+			}
+		}
 	}
 }
