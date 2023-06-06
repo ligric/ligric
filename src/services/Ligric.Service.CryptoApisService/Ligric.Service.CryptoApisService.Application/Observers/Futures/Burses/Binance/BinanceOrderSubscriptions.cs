@@ -39,7 +39,7 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.
 
 		public void UnsubscribeStream(Guid subscribedStreamId)
 		{
-			_futuresApiSubscriptions.DetachSubscribtionAndTryToRemoveApiSubscribtionObject(subscribedStreamId);
+			_futuresApiSubscriptions.DetachSubscriptionAndTryToRemoveApiSubscriptionObject(subscribedStreamId);
 		}
 
 		private void OnOrdersChanged((Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs) obj)

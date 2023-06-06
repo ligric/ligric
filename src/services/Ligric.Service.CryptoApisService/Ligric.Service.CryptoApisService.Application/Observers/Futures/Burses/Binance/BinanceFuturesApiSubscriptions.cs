@@ -31,7 +31,7 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.
 		/// Will unsubscribe subscribtion from his Id.
 		/// Will remove the <see cref="BinanceFuturesApiSubscriptionsBurseSessionWrapper"/> if noone subscribed to this API/>
 		/// </summary>
-		public void DetachSubscribtionAndTryToRemoveApiSubscribtionObject(Guid subscribtionId)
+		public void DetachSubscriptionAndTryToRemoveApiSubscriptionObject(Guid subscribtionId)
 		{
 			BinanceFuturesApiSubscriptionsInfo? removedApi = null;
 

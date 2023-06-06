@@ -6,6 +6,6 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Interfa
 	{
 		void AttachSubscriptionIdToApi(ApiDto api, long userId, out Guid subscriptionId, out IFuturesApiSubscriptionsBurseSessionWrapper bursSession);
 
-		void DetachSubscribtionAndTryToRemoveApiSubscribtionObject(Guid subscribtionId);
+		void DetachSubscriptionAndTryToRemoveApiSubscriptionObject(Guid subscribtionId);
 	}
 }
