@@ -1,19 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using Binance.Net.Objects;
+﻿using Binance.Net.Objects;
 using Ligric.Core.Ligric.Core.Types.Api;
 using Ligric.Core.Types.Future;
 using Ligric.CryptoObserver;
+using Ligric.Service.CryptoApisService.Application.Observers.Futures.Interfaces;
 using Utils;
 
 namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.Binance
 {
-	public class BinanceFuturesApiSubscriptionsBurseSessionWrapper
+	public class BinanceFuturesApiSubscriptionsBurseSessionWrapper : IFuturesApiSubscriptionsBurseSessionWrapper
 	{
-		public Guid BurseSessionId { get; init; }
+		public Guid BurseSessionId { get; }
 
-		public ApiDto Api { get; init; }
+		public ApiDto Api { get; }
 
-		public IFuturesClient FuturesClient { get; init; }
+		public IFuturesClient FuturesClient { get; }
 
 		public BinanceFuturesApiSubscriptionsBurseSessionWrapper(ApiDto api, BinanceApiCredentials credentials, bool isTest = true)
 		{
