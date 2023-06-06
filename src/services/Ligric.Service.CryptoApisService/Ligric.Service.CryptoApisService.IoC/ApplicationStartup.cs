@@ -16,6 +16,8 @@ using Ligric.Service.CryptoApisService.Infrastructure.NHibernate.Database;
 using Ligric.Service.CryptoApisService.Infrastructure;
 using Ligric.Service.CryptoApisService.Application.Observers.Futures;
 using Ligric.Service.CryptoApisService.Application.Observers.UserApi;
+using Ligric.Service.CryptoApisService.Application.Observers.Futures.Interfaces;
+using Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.Binance;
 
 namespace Ligric.Service.CryptoApisService.IoC
 {
@@ -66,8 +68,8 @@ namespace Ligric.Service.CryptoApisService.IoC
 			// # OBSERVERS
 			container.RegisterType<UserApiObserver>().As<IUserApiObserver>().SingleInstance();
 
-			// #TEMPORARY
-			container.RegisterType<FuturesApiSubscribtionsObserverManager>().As<IFuturesApiSubscribtionsObserverManager>().InstancePerLifetimeScope();
+			// #Binance
+			container.RegisterType<BinanceFuturesApiSubscriptions>().As<IFuturesApiSubscriptions>().SingleInstance();
 
 			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
