@@ -3,7 +3,7 @@ using Utils;
 
 namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Interfaces
 {
-	public interface IOrderSubscribtions
+	public interface IOrderSubscriptions
 	{
 		IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable();
 

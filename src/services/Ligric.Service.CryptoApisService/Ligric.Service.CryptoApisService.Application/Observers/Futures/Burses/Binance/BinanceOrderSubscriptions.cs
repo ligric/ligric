@@ -7,7 +7,7 @@ using Utils;
 
 namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.Binance
 {
-	public class BinanceOrderSubscriptions : IOrderSubscribtions
+	public class BinanceOrderSubscriptions : IOrderSubscriptions
 	{
 		private readonly IApiRepository _apiRepository;
 		private readonly BinanceFuturesApiSubscriptions _futuresApiSubscriptions;
