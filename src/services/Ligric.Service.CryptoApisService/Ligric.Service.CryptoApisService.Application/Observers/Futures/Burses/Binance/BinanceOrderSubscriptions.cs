@@ -11,6 +11,7 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.
 	{
 		private readonly IApiRepository _apiRepository;
 		private readonly BinanceFuturesApiSubscriptions _futuresApiSubscriptions;
+		private event Action<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>? ordersChanged;
 
 		public BinanceOrderSubscriptions(
 			BinanceFuturesApiSubscriptions futuresApiSubscriptions,
@@ -19,27 +20,13 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.
 			_apiRepository = apiRepository;
 			_futuresApiSubscriptions = futuresApiSubscriptions;
 		}
-		private event Action<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> OrderEventArgs)>? OrdersChanged;
+
 		public IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)> GetOrdersAsObservable()
 		{
-			//subscribtionId = Guid.NewGuid();
-			//FuturesApiSubscribtionsObserver? subscribedApi = null;
-			//lock (subLock)
-			//{
-			//	var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-			//	CreateSubscritionsClientIfNotExitstsAndAddToSharedCollection(userId, api, out subscribtionId, out subscribedApi);
-			//	subscribedApi.OrdersChanged += OnOrdersChanged;
-			//}
-
-			//exchangedId = subscribedApi.ExchangeId;
-
-			//var oldOrders = subscribedApi.FuturesClient.Orders.Orders.Select(
-			//	x => (subscribedApi.ExchangeId, NotifyActionDictionaryChangedEventArgs.AddKeyValuePair(x.Key, x.Value, 0, 0))).ToObservable();
-
 			var updatedApiStateNotifications = Observable.FromEvent<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs)>((x)
-				=> OrdersChanged += x, (x) => OrdersChanged -= x);
+				=> ordersChanged += x, (x) => ordersChanged -= x);
 
-			return /*oldOrders.Concat(updatedApiStateNotifications)*/updatedApiStateNotifications;
+			return updatedApiStateNotifications;
 		}
 
 		public void SetSubscribedStream(long userApiId, long userId, out Guid subscribedStreamId)
@@ -55,7 +42,7 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.
 			_futuresApiSubscriptions.DetachSubscribtionAndTryToRemoveApiSubscribtionObject(subscribedStreamId);
 		}
 
-		private void OnOrdersChanged((Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> OrderEventArgs) obj)
-			=> OrdersChanged?.Invoke(obj);
+		private void OnOrdersChanged((Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesOrderDto> EventArgs) obj)
+			=> ordersChanged?.Invoke(obj);
 	}
 }
