@@ -26,13 +26,14 @@ static_resources:
                 route: { cluster: auth_service, timeout: 0s}
               - match: { prefix: "/ligric.protobuf.UserApis" }
                 route: { cluster: userapis_service, timeout: 0s }
-              - match: { prefix: "/ligric.protobuf.Futures" }
+              - match: { prefix: "/ligric.protobuf.BinanceFuturesOrders" }
                 route: { cluster: userapis_service, timeout: 0s }
-              #- match: { prefix: "/" }
-              #  route:
-              #    cluster: greeter-grpc-service
-              #    max_stream_duration:
-              #      grpc_timeout_header_max: 0s
+              - match: { prefix: "/ligric.protobuf.BinanceFuturesTrades" }
+                route: { cluster: userapis_service, timeout: 0s }
+              - match: { prefix: "/ligric.protobuf.BinanceFuturesPositions" }
+                route: { cluster: userapis_service, timeout: 0s }
+              - match: { prefix: "/ligric.protobuf.BinanceFuturesLeverages" }
+                route: { cluster: userapis_service, timeout: 0s }
               cors:
                 allow_origin_string_match:
                     - exact: http://127.0.0.1:5000
