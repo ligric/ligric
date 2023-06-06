@@ -56,7 +56,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 				//_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
 				//System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} was canceled.");
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				//System.Diagnostics.Debug.WriteLine($"Positions subscribtion {subscribedId} thrown an error: \n{ex}.");
 				//_futuresObserver.UnsubscribeIdAndTryToRemoveApiSubscribtionObject(subscribedId);
