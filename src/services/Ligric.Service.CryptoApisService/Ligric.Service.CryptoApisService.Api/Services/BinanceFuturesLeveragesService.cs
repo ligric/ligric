@@ -18,7 +18,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		}
 
 		[Authorize]
-		public override async Task LeverageSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<LeveragesChanged> responseStream, ServerCallContext context)
+		public override async Task LeveragesSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<LeveragesChanged> responseStream, ServerCallContext context)
 		{
 			Guid subscribedId = Guid.Empty;
 			try
