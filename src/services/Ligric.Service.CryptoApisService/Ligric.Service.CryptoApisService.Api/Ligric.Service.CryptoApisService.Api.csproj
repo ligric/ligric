@@ -17,7 +17,7 @@
     <None Remove="logs\**" />
   </ItemGroup>
 
-	<ItemGroup>
+  <ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
 		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.51.0" />
 		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
@@ -49,9 +49,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="protos\futures.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
-		<Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
 		<Protobuf Include="..\..\..\protos\common.proto" Link="protos\common.proto" GrpcServices="Server" />
+		<Protobuf Include="protos\futuresCommon.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
+		<Protobuf Include="protos\userApis.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
+		
+		<Protobuf Include="protos\binanceFuturesOrders.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
+		<Protobuf Include="protos\binanceFuturesTrades.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
+		<Protobuf Include="protos\binanceFuturesPositions.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
+		<Protobuf Include="protos\binanceFuturesLeverages.proto" AdditionalImportDirs="..\..\..\protos\" GrpcServices="Server" />
 	</ItemGroup>
 	
 </Project>

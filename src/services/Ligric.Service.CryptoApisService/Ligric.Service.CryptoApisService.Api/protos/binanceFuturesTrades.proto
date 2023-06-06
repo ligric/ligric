@@ -1,0 +1,34 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+import "protos/futuresCommon.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option csharp_namespace = "Ligric.Protobuf";
+
+package ligric.protobuf;
+
+service BinanceFuturesTrades {
+    rpc TradesSubscribe(FuturesSubscribeRequest) returns (stream TradesChanged){
+      option (google.api.http).get = "/v1/binance/futures/stream/trades";
+	}
+
+	rpc AddTradesStreamingApi(AddStreamingApiRequest) returns (AddStreamingApiResponse){
+	  option (google.api.http) = {
+		  post: "/v1/futures/stream/add_trades_streaming_api"
+		  body: "*"
+	  };
+    }
+}
+
+message TradesChanged {
+	FuturesTrade Trade = 1;
+	Action action = 2;
+}
+
+message FuturesTrade
+{
+	string Symbol = 1;
+	string Value = 2;
+}
