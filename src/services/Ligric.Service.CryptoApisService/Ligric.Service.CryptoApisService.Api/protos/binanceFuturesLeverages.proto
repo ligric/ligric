@@ -20,6 +20,13 @@ service BinanceFuturesLeverages {
 		  body: "*"
 	  };
     }
+
+	rpc RemoveLeveragesStreamingApi(RemoveStreamingApiRequest) returns (ResponseResult){
+	  option (google.api.http) = {
+		  post: "/v1/futures/stream/remove_leverages_streaming_api"
+		  body: "*"
+	  };
+    }
 }
 
 message LeveragesChanged {
