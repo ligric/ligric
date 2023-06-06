@@ -71,6 +71,11 @@ namespace Ligric.Service.CryptoApisService.IoC
 			// #Binance
 			container.RegisterType<BinanceFuturesApiSubscriptions>().As<IFuturesApiSubscriptions>().SingleInstance();
 
+			container.RegisterType<BinanceOrderSubscriptions>().As<IOrderSubscriptions>().InstancePerLifetimeScope();
+			container.RegisterType<BinanceTradeSubscriptions>().As<ITradeSubscriptions>().InstancePerLifetimeScope();
+			container.RegisterType<BinancePositionSubscriptions>().As<IPositionSubscriptions>().InstancePerLifetimeScope();
+			container.RegisterType<BinanceLeverageSubscriptions>().As<ILeverageSubscriptions>().InstancePerLifetimeScope();
+
 			container.RegisterModule(new LoggingModule(logger));
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
