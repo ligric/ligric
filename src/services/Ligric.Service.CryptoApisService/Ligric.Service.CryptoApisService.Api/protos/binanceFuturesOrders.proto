@@ -10,7 +10,7 @@ option csharp_namespace = "Ligric.Protobuf";
 package ligric.protobuf;
 
 service BinanceFuturesOrders {
-    rpc OrdersSubscribe(FuturesSubscribeRequest) returns (stream OrdersChanged){
+    rpc OrdersSubscribe(google.protobuf.Empty) returns (stream OrdersChanged){
       option (google.api.http).get = "/v1/binance/futures/stream/orders";
 	}
 

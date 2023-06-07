@@ -8,12 +8,6 @@ option csharp_namespace = "Ligric.Protobuf";
 
 package ligric.protobuf;
 
-message FuturesSubscribeRequest
-{
-	int64 userId = 1;
-	int64 UserApiId = 2;
-}
-
 message AddStreamingApiRequest
 {
 	int64 userId = 1;

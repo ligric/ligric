@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ligric.Service.CryptoApisService.Api.Extensions;
 using Ligric.Service.CryptoApisService.Api.Helpers;
 using Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.Binance;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Ligric.Service.CryptoApisService.Api.Services
 {
@@ -19,7 +20,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		}
 
 		[Authorize]
-		public override async Task OrdersSubscribe(FuturesSubscribeRequest request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
+		public override async Task OrdersSubscribe(Empty request, IServerStreamWriter<OrdersChanged> responseStream, ServerCallContext context)
 		{
 			//Guid subscribedStreamId = Guid.Empty;
 			try

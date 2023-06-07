@@ -9,7 +9,7 @@ option csharp_namespace = "Ligric.Protobuf";
 package ligric.protobuf;
 
 service BinanceFuturesLeverages {
-	rpc LeveragesSubscribe(FuturesSubscribeRequest) returns (stream LeveragesChanged);
+	rpc LeveragesSubscribe(google.protobuf.Empty) returns (stream LeveragesChanged);
 
 	rpc AddLeveragesStreamingApi(AddStreamingApiRequest) returns (AddStreamingApiResponse);
 
