@@ -29,11 +29,12 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Burses.
 			return updatedApiStateNotifications;
 		}
 
-		public void SetSubscribedStream(long userApiId, long userId, out Guid subscribedStreamId)
+		public void SetSubscribedStream(long userApiId, long userId, out Guid subscribedStreamId, out Guid chainId)
 		{
 			var api = _apiRepository.GetEntityByUserApiId(userApiId).ToApiDto();
-
 			_futuresApiSubscriptions.AttachSubscriptionIdToApi(api, userId, out subscribedStreamId, out var burseSession);
+			chainId = burseSession.BurseSessionId;
+
 			burseSession.OrdersChanged += OnOrdersChanged;
 		}
 

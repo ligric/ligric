@@ -7,7 +7,7 @@ namespace Ligric.Service.CryptoApisService.Application.Observers.Futures.Interfa
 	{
 		IObservable<(Guid ExchangeId, NotifyDictionaryChangedEventArgs<long, FuturesPositionDto> EventArgs)> GetPositionsAsObservable();
 
-		void SetSubscribedStream(long userApiId, long userId, out Guid subscribedStreamId);
+		void SetSubscribedStream(long userApiId, long userId, out Guid subscribedStreamId, out Guid chainSessionId);
 
 		void UnsubscribeStream(Guid subscribedStreamId);
 	}
