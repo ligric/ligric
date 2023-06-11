@@ -31,7 +31,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 					{
 						var orderChanged = new LeveragesChanged
 						{
-							ExchangeId = x.ExchangeId.ToString(),
+							ChainSessionId = x.ExchangeId.ToString(),
 							Action = x.EventArgs.Action.ToProtosAction(),
 							Leverage = new FuturesLeverage
 							{

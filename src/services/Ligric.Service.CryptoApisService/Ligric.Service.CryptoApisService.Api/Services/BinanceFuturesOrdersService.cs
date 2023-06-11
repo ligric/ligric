@@ -43,7 +43,7 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 
 						var orderChanged = new OrdersChanged
 						{
-							ExchangeId = x.ExchangeId.ToString(),
+							ChainSessionId = x.ExchangeId.ToString(),
 							Action = x.EventArgs.Action.ToProtosAction(),
 							Order = order ?? (x.EventArgs.Action == Utils.NotifyDictionaryChangedAction.Cleared ? null : throw new NullReferenceException("[ForEachAwaitAsync] order is null"))
 						};

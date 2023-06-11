@@ -30,9 +30,9 @@ service BinanceFuturesOrders {
 }
 
 message OrdersChanged {
-	string ExchangeId = 1;
+	string ChainSessionId = 1;
 	FuturesOrder Order = 2;
-	Action action = 3;
+	Action Action = 3;
 }
 
 message FuturesOrder {
