@@ -23,6 +23,7 @@ message AddStreamingApiResponse
 {
 	ResponseResult Result = 1;
 	string StreamSubscriptionId = 2;
+	string ChainSessionId = 3;
 }
 
 enum Side

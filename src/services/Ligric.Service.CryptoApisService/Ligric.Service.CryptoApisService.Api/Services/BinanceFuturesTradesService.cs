@@ -58,11 +58,12 @@ namespace Ligric.Service.CryptoApisService.Api.Services
 		[Authorize]
 		public override async Task<AddStreamingApiResponse> AddTradesStreamingApi(AddStreamingApiRequest request, ServerCallContext context)
 		{
-			_tradeSubscriptions.SetSubscribedStream(request.UserId, request.UserApiId, out var streamSubscriptionId);
+			_tradeSubscriptions.SetSubscribedStream(request.UserId, request.UserApiId, out var streamSubscriptionId, out var chainSessionId);
 			return new AddStreamingApiResponse
 			{
 				Result = ResponseHelper.GetSuccessResponseResult(),
-				StreamSubscriptionId = streamSubscriptionId.ToString()
+				StreamSubscriptionId = streamSubscriptionId.ToString(),
+				ChainSessionId = chainSessionId.ToString()
 			};
 		}
 
