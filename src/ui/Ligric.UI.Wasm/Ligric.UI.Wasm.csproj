@@ -52,7 +52,7 @@
 	<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
 	<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 	<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
-	<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
+	<PackageReference Include="Microsoft.Identity.Client" Version="4.54.1" />
 	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 	<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />

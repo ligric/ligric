@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.18362.0</TargetFrameworks>
 		<TargetFrameworks>$(TargetFrameworks);net7.0</TargetFrameworks>
@@ -22,7 +22,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.54.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
 		<PackageReference Include="ReactiveUI.Fody" Version="18.4.26" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
